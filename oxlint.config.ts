@@ -1,0 +1,56 @@
+import { react } from '@chiastack/oxlint/react';
+import { defineConfig } from 'oxlint';
+
+export default defineConfig({
+  extends: [react],
+  ignorePatterns: [
+    'patches/**',
+    'android/**',
+    'ios/**',
+    'coverage/**',
+    'pnpm-workspace.yaml',
+    'pnpm-lock.yaml',
+    'legacy',
+    'turbo/generators/templates',
+    'node_modules',
+    '.pnp',
+    '.pnp.js',
+    'coverage',
+    'cypress/videos',
+    'cypress/screenshots',
+    'cypress/downloads',
+    '.next/',
+    'out/',
+    'build',
+    '.DS_Store',
+    '*.pem',
+    'npm-debug.log*',
+    'yarn-debug.log*',
+    'yarn-error.log*',
+    '.pnpm-debug.log*',
+    '.env',
+    '.env.local',
+    '.env.development.local',
+    '.env.test.local',
+    '.env.production.local',
+    '.turbo',
+    'dist',
+    '.dist',
+    'vscode',
+    '.vscode',
+    '.idea',
+    '.map.ts',
+  ],
+  rules: {
+    'typescript/no-require-imports': 'off',
+    // 'typescript-eslint/no-require-imports': 'off',
+  },
+  overrides: [
+    {
+      files: ['*.ts', '*.tsx', '*.js', '*.jsx'],
+      rules: {
+        'typescript/no-require-imports': 'off',
+      },
+    },
+  ],
+});
