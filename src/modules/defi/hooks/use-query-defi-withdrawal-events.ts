@@ -1,4 +1,4 @@
-import type { QueryOptions } from '@tanstack/react-query';
+import type { UseQueryOptions } from '@tanstack/react-query';
 import { queryOptions, useQuery } from '@tanstack/react-query';
 
 import type {
@@ -8,7 +8,7 @@ import type {
 import { getDefiWithdrawalEvents } from '../services/withdrawals.service';
 
 type UseQueryDefiWithdrawalEventsOptions = Omit<
-  QueryOptions<DefiWithdrawalEventsResponse, Error>,
+  UseQueryOptions<DefiWithdrawalEventsResponse, Error>,
   'queryKey' | 'queryFn'
 >;
 

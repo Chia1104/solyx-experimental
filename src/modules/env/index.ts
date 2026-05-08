@@ -17,9 +17,9 @@ export const env = createEnv({
     EXPO_PUBLIC_WALLET_CEFI_TOKEN_SERVICE: z.string(),
     EXPO_PUBLIC_WALLET_CEFI_REFRESH_TOKEN_SERVICE: z.string(),
 
-    EXPO_PUBLIC_APP_ENV: z.string().optional(),
+    EXPO_PUBLIC_APP_ENV: z.string(),
     EXPO_PUBLIC_APP_VERSION: z.string().optional(),
-    EXPO_PUBLIC_DEEP_LINK_SCHEME: z.string().optional(),
+    EXPO_PUBLIC_DEEP_LINK_SCHEME: z.string(),
 
     EXPO_PUBLIC_EVM_RPC_URL: z.url(),
     EXPO_PUBLIC_TRON_RPC_URL: z.url(),

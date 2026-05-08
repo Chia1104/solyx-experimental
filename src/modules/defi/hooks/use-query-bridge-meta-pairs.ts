@@ -1,11 +1,11 @@
-import type { QueryOptions } from '@tanstack/react-query';
+import type { UseQueryOptions } from '@tanstack/react-query';
 import { queryOptions, useQuery } from '@tanstack/react-query';
 
 import type { BridgeMetaPairs } from '../pipes/bridges.pipe';
 import { getBridgeMetaPairs } from '../services/bridges.service';
 
 type UseQueryBridgeMetaPairsOptions = Omit<
-  QueryOptions<BridgeMetaPairs, Error>,
+  UseQueryOptions<BridgeMetaPairs, Error>,
   'queryKey' | 'queryFn'
 >;
 

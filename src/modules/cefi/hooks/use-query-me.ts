@@ -1,10 +1,10 @@
-import type { QueryOptions } from '@tanstack/react-query';
+import type { UseQueryOptions } from '@tanstack/react-query';
 import { queryOptions, useQuery } from '@tanstack/react-query';
 
 import type { User } from '../pipes/users.pipe';
 import { getMe } from '../services/users.service';
 
-type UseQueryMeOptions = Omit<QueryOptions<User, Error>, 'queryKey' | 'queryFn'>;
+type UseQueryMeOptions = Omit<UseQueryOptions<User, Error>, 'queryKey' | 'queryFn'>;
 
 export const queryMeOptions = (options?: UseQueryMeOptions) => {
   return queryOptions({

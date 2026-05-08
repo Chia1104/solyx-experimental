@@ -1,11 +1,11 @@
-import type { QueryOptions } from '@tanstack/react-query';
+import type { UseQueryOptions } from '@tanstack/react-query';
 import { queryOptions, useQuery } from '@tanstack/react-query';
 
 import type { GetTransactionsRequest, TransactionsResponse } from '../pipes/wallets.pipe';
 import { getTransactions } from '../services/wallets.service';
 
 type UseQueryTransactionsOptions = Omit<
-  QueryOptions<TransactionsResponse, Error>,
+  UseQueryOptions<TransactionsResponse, Error>,
   'queryKey' | 'queryFn'
 >;
 

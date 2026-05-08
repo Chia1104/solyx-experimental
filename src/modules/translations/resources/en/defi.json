@@ -1,0 +1,1033 @@
+{
+  "title": {
+    "setting": "Settings",
+    "receive": "Receive",
+    "select.a.network": "Select a network",
+    "select.a.token": "Select a token",
+    "web.3.wallet": "Web3 wallet",
+    "seed.phrase.import": "Import seed phrase",
+    "congrats": "Congrats!",
+    "signature.request": "Signature request",
+    "back.up.seed.phrase": " Back up seed phrase",
+    "seed.phrase.confirm": "Confirm seed phrase",
+    "activity": "Activity",
+    "accounts": "Accounts",
+    "selectToken": "Select Token",
+    "sendTo": "Send to",
+    "amount": "Amount",
+    "confirm": "Confirm",
+    "submitted.successfully": "Submitted successfully",
+    "dapp": "Dapp",
+    "scan.QR.Code": "Scan QR Code",
+    "walletConnect": "WalletConnect",
+    "manage.accounts": "Manage accounts",
+    "add.an.account": "Add an account",
+    "success!": "Success!",
+    "account.info": "Account info",
+    "account.setting": "Account settings",
+    "delete.account": "Confirm to delete",
+    "export.private.key": "Export private key",
+    "import": "Import",
+    "input.the.password": "Input the password",
+    "reset.the.password": "Reset the password",
+    "connect.request": "Connect request",
+    "choose.network.and.wallet": "Choose network and wallet",
+    "bridge.create.order": "Swap",
+    "bridge.confirm.order": "Confirm Swap",
+    "enter.transaction.password": "Enter transaction password",
+    "wallet.not.imported": "You have a wallet that hasn't been imported.",
+    "kyc.verification": "KYC Verification",
+    "address.book": "Address Book",
+    "withdraw": "Withdraw"
+  },
+  "caption": {
+    "welcome.to.web3": "Ｗelcome to \nWeb3",
+    "public.explorer": "Public Explorer",
+    "confidential.secured": "Confidential & Secured",
+    "tooltip": {
+      "publicExplorer": "Standard public mode. Transactions and balances are fully visible to everyone.",
+      "confidentialSecured": "Your assets are shielded on Liquid. Only you can see your balance and transaction history."
+    },
+    "dont.show.again": "Don't show this notice anymore",
+    "private.mode": {
+      "what.is": "What is Private Mode?",
+      "description": "When you switch to Private, you'll see your assets on Liquid Network — a Bitcoin sidechain built for privacy. Your balances and every transaction are encrypted, visible only to you — not even blockchain explorers can see them.",
+      "feature.encrypted": "Encrypted balances",
+      "feature.untraceable": "Untraceable",
+      "feature.only.you": "Only you can access"
+    },
+    "home": {
+      "my.assets": "My Assets"
+    },
+    "phraseBrowse": {
+      "tips": "Tips"
+    },
+    "transactionModal": {
+      "gas.setting": "Gas settings",
+      "approve.token": "Approve token",
+      "contract.interaction": "Contract interaction"
+    }
+  },
+  "label": {
+    "avatar": "Avatar",
+    "contract": "Contract",
+    "to": "To",
+    "account": "Account",
+    "from": "From",
+    "network": "Network",
+    "gas.fee": "Gas fee",
+    "interact.with": "Interact with",
+    "unpredictable": "Unpredictable",
+    "setting": {
+      "current.account": "Current Account",
+      "walletConnect": "WalletConnect",
+      "switch.accounts": "Switch accounts",
+      "manage.accounts": "Manage accounts",
+      "get.notifications": "Get notifications",
+      "back.up.seed.phrase": "Back up seed phrase",
+      "kyc.verification": "KYC Verification",
+      "kyc.verification-description": "Access all features of the service.",
+      "contact.us": "Contact Us",
+      "faq": "FAQ",
+      "referrals": "Referrals"
+    },
+    "contact.methods": "Contact Methods",
+    "website": "Website",
+    "no.available.address": "No available addresses",
+    "support.hours": "Support Hours",
+    "contactus": {
+      "welcome": "Welcome, how can we help?",
+      "description": "If you'd like to connect with Bridgefy, please feel free to reach out using the methods listed below.",
+      "service": {
+        "time": "Service time : 9:00 - 18:00"
+      },
+      "find": {
+        "us": {
+          "here": "Find us here"
+        }
+      },
+      "security": {
+        "reminder": "Security reminder",
+        "line1": "Do not disclose sensitive personal information",
+        "line2": "We will never ask for your password",
+        "line3": "Beware of scam messages"
+      }
+    },
+    "password.manager": "Save in a password manager",
+    "deposit.box": "Store in a safe deposit box",
+    "secret.places": "Write down and store in multiple secret places",
+    "phraseConfirm": {
+      "seed.phrase": "Seed phrase #{{index}}"
+    },
+    "sendTo": {
+      "input.the.address": "Input the address"
+    },
+    "sendAmount": {
+      "balance": "Balance"
+    },
+    "accountName": "Account name",
+    "back.up": "Back up",
+    "slow": "Slow",
+    "average": "Average",
+    "fast": "Fast",
+    "transaction": {
+      "status": "Status"
+    },
+    "message": "Message",
+    "bookmark": "bookmark",
+    "history": "history",
+    "new.page": "New page",
+    "private.key": {
+      "wallet": "Private Key Wallet"
+    },
+    "transaction.password": "交易密碼",
+    "wallet.password": "錢包密碼"
+  },
+  "default": {},
+  "unit": {},
+  "status": {
+    "success": "Success",
+    "sent": "Sent",
+    "swapped": "Swapped",
+    "received": "Received",
+    "approved": "Approved",
+    "pending": "Pending",
+    "fail": "Fail",
+    "reverted": "Reverted",
+    "dropped": "Dropped",
+    "contract.interaction": "Contract interaction",
+    "others": "Others",
+    "dropped.replaced": "Dropped & Replaced",
+    "max": "Max",
+    "disconnected": "Disconnected"
+  },
+  "relation": {},
+  "placeholder": {
+    "seed.phrase": "your seed phrase",
+    "address": "{{chain}} address",
+    "e.g.address": "e.g. gdfg13s5f13d21f3sd5g3df3d21f3sd5g3df3d21f3sd5g3df54g23vb13h...",
+    "transaction.password": "Transaction Password",
+    "wallet.password": "Wallet Password"
+  },
+  "description": {
+    "import.seed.phrase": " Typically, 12 or 24 words are separated by single spaces.",
+    "wallet.is.ready": "Your wallet is ready.\nNow you can start to use it!",
+    "successfully.signed": "Successfully signed",
+    "phraseBackup": {
+      "back.up.seed.phrase": "Your wallet is now set up. Your seed phrase is a 12 or 24 word phrase that is the “master key” to your wallet and your funds. We will guide you on how to back it up."
+    },
+    "phraseIntroduce": {
+      "back.up.seed.phrase": "Your seed phrase is a 12 or 24 word phrase that is the “master key” to your wallet and your funds.",
+      "should.i.share": "Should I share my seed phrase?",
+      "never.share": "Never, ever share your seed phrase, not even with Bridgefy wallet.",
+      "i.have.learned": "I have learned what‘s seed phrase",
+      "i.know": "I know Bridgefy wallet can't retrieve the seed phrase"
+    },
+    "phraseBrowse": {
+      "back.up.seed.phrase": "Write down these {{count}} words and save them where you trust and only you can access",
+      "saved.seed": "I saved my seed phrase"
+    },
+    "no.activity": "There is currently no activity",
+    "this.account.no.activity": "There is currently no activity on this account",
+    "showing.recent.days": "Showing the most recent {{days}} days only",
+    "showing.recent.records": "Showing the most recent {{count}} records only",
+    "bridgefy.supported.transfers.only": "Only transfer records for Bridgefy-supported tokens are shown.",
+    "recent.records.limit.only": "Only the latest {{count}} transactions are displayed.",
+    "tap.scan.view.more": "Tap Scan to view more in the explorer.",
+    "recent.records.tap.scan": "Only the latest {{count}} transactions are displayed. Tap Scan to view more in the explorer.",
+    "only.accept.ethereum": "Only accept funds on the {{network}} network",
+    "liquid.receive.address.notice": "For security reasons, a new LIQUID receiving address is generated each time you click receive. All previously generated addresses remain permanently valid.",
+    "selectToken": {
+      "not.assets": "You don't own any assets yet."
+    },
+    "transactionModal": {
+      "requests.permission.use": "{{dapp}} requests permission to use {{symbol}}",
+      "you.will.grant.access": "You will grant {{dapp}} access to your funds.",
+      "transaction.not.be.parsed": "The content of this transaction request could not be parsed."
+    },
+    "scanner": {
+      "select.walletConnect": "Select WalletConnect and",
+      "scan.QR.Code": "scan the QR code"
+    },
+    "walletConnect": {
+      "no.connect": "No DApp is connecting",
+      "has.connected": "{{accountName}} has connected to",
+      "is.connecting": "{{dapp}} is connecting"
+    },
+    "addAccount": {
+      "has.been.create": "{{name}} has been created!",
+      "still.modify.info.later": "You can modify this info later."
+    },
+    "import.private.key": {
+      "enter.private.key": "Please enter a private key."
+    },
+    "verify.password": {
+      "resetting.password.enter.original": "Before resetting the password, please enter the original password."
+    },
+    "back.up.to.use": "Back up seed phrase to use",
+    "not.own.any.assets": "You don't own any assets yet.",
+    "pair": {
+      "would.like.to.connect": "{{dapp}} would like to connect account {{accountName}}",
+      "successfully.connected": "Successfully connected to {{dapp}}",
+      "view.activity": "View your vault balance and activity",
+      "request.approval": "Request approval for transactions",
+      "network.not.supported": "The network that the DApp requires to be switched is not supported"
+    },
+    "sign": {
+      "ask.signature": "{{dapp}} asks for signature"
+    },
+    "explore.your.world": "Explore your Web3 world",
+    "confirm.delete.all": "confirm delete All records?",
+    "not.support.tron": "The DApp browser does not support TRON. Please return and switch to another network.",
+    "importWallets": {
+      "import.existing.wallets": "Import existing wallets",
+      "one.at.a.time": "You need to import your wallets individually, one at a time.",
+      "migration.intro.title": "Select Wallet to Back Up",
+      "migration.intro.body1": "Welcome back! The new version of the Bridgefy app now supports the Liquid privacy chain and enhances the protection of your recovery phrase.",
+      "migration.intro.body2": "Bridgefy will create a new wallet and recovery phrase for you. Once completed, we recommend transferring your assets from your old wallet to the new app.",
+      "backup.legacy.title": "Back up previous wallets",
+      "backup.list.hint": "To ensure security, please back up each wallet individually.",
+      "backup.legacy.body": "Enter each wallet's transaction password to view its seed phrase and write it down. You can create a new wallet anytime—you don't need to back up every wallet first.",
+      "enter.password": "Enter your transaction password of this wallet.",
+      "enterPasswordForSeedBackup": "Enter this wallet's transaction password to show its seed phrase so you can back it up yourself.",
+      "action.continue.to.seed": "Continue",
+      "confirm.backup.done": "I've backed it up",
+      "backed.up.a11y": "Marked as backed up",
+      "no.mnemonic.title": "Can't show seed phrase",
+      "no.mnemonic.message": "No recoverable seed phrase was found for this wallet.",
+      "migration.new.wallet.title": "Create New Wallet",
+      "migration.new.wallet.body": "A new wallet will be automatically generated for you. Once confirmed, you will proceed to set up your recovery phrase.",
+      "migration.new.wallet.cta": "Create Now",
+      "migration.skip.title": "You still have wallets to back up.",
+      "migration.skip.alert.p1": "Please make sure you have backed up all wallet recovery phrases before proceeding to the next step.",
+      "migration.skip.alert.p2": "If the recovery phrase is lost, you will not be able to access your wallet assets.",
+      "migration.skip.alert.once": "This reminder will only be shown once.",
+      "migration.skip.footer": "If you choose to skip the backup for your other wallets, you can proceed now to generate a new wallet.",
+      "migration.skip.cta": "Create New Wallet",
+      "migration.skip.ctaCountdown": "Create New Wallet ({{seconds}})",
+      "migration.skip.ctaA11yWait": "Available in {{seconds}} seconds",
+      "empty": "There are no previous wallets to show.",
+      "proceed.to.homepage": "If you continue, we won't show this migration screen again for this account. Save any seed phrases you still need before skipping.",
+      "import.failed.title": "Something went wrong",
+      "import.failed.message": "Please try again.",
+      "incorrect.password.title": "Incorrect password",
+      "incorrect.password.message": "Please enter the correct password."
+    }
+  },
+  "notice": {
+    "back.up.now": "Do you want to back up now?",
+    "what.seed.phrase": "What’s the seed phrase?",
+    "how.save.my.seed": "How do I save my seed phrase?",
+    "transaction.expected.fail": "This transaction is expected to fail, or your gas fee is insufficient. It will likely be expensive and fail when executed. We do not recommend it.",
+    "transaction.is.pending": "The transaction has been submitted to the blockchain and is pending. Please check the status on the activity page later.",
+    "approval.is.pending": "The token approval has been submitted to the blockchain and is pending. Please check the status on the activity page later.",
+    "saved.successfully": "Saved successfully",
+    "delete.account": "If you delete it, you need to import the private key again to use it, and the records will also be cleared.",
+    "export.private.key": {
+      "keep.it.safe": "Please keep it safe. Anyone who gets the private key can get your funds."
+    },
+    "nobody.looking": "Make sure nobody is looking",
+    "reveal.seed": "Tap to reveal the seed phrase",
+    "reveal.private.key": "Tap to reveal the private key",
+    "password.been.reset": "The password has been reset.",
+    "migrate.wallet.success": "Wallet migrated successfully",
+    "legacy.backup.recorded": "Marked as backed up"
+  },
+  "action": {
+    "save": "Save",
+    "connect": "Connect",
+    "send": "Send",
+    "scan": "Scan",
+    "swap": "Swap",
+    "sign": "Sign",
+    "receive": "Receive",
+    "buy": "Buy",
+    "shield": "Shield",
+    "unshield": "Unshield",
+    "withdraw": "Withdraw",
+    "got.it": "Got It",
+    "create.new.wallet": "Create a new wallet",
+    "already.have.wallet": "I already have a wallet",
+    "go.back.up": "Go back up",
+    "later": "Later",
+    "hide.seed.phrase": "Hide seed phrase",
+    "need.more": "Need more?",
+    "manage.accounts": "Manage accounts",
+    "add.an.account": "Add an account",
+    "click.to.back.up": " You have not backed up your seed phrase. \nClick to back up.",
+    "go.to.activity": "Activity",
+    "go.to.home": "Home",
+    "album": "Album",
+    "create.from.seed.phrase": "Create from seed phrase",
+    "import.private.key": "Import private key",
+    "back.to.account.list": "Back to the account list",
+    "create.an.account": "Create an account",
+    "delete.this.account": "Delete this account",
+    "export.private.key": "Export private key",
+    "hide.private.key": " Hide private key",
+    "disconnect": "Disconnect",
+    "close.all": "Close all",
+    "delete.all": "delete all",
+    "view.all": "view all",
+    "import.wallet": "Import Wallet"
+  },
+  "buyModal": {
+    "title": "Buy crypto",
+    "titleCoinbase": "You will be redirected to Coinbase to purchase {{currencies}}.",
+    "description": "You will be redirected to our partner to complete your purchase. Your current wallet address will be used to receive the assets.",
+    "assetToPurchase": "Asset to Purchase",
+    "selectCurrency": "Select Currency",
+    "receivingInformation": "Receiving Information",
+    "accountDefault": "Account 01",
+    "ethereumOnlyTooltip": "Currently only supports purchasing assets on Ethereum network",
+    "verifyAddressWarning": "Please verify the address on Coinbase matches your wallet address",
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "close": "Close",
+    "error": {
+      "noAddress": "No wallet address available",
+      "noUrl": "Could not get checkout URL",
+      "failed": "Failed to create order"
+    },
+    "warningText": "Third-Party Service Notice: This service is provided by a third-party provider. Bridgefy Wallet may assist with order-related inquiries; however, transaction execution, review, order approval or completion, refunds, and all other service outcomes are handled by the third-party provider in accordance with its own policies and procedures."
+  },
+  "error": {
+    "seed.phrase": {
+      "invalid": "Invalid seed phrase",
+      "wrong.answers": "Wrong answers"
+    },
+    "address": {
+      "invalid": "Invalid address"
+    },
+    "amount": {
+      "required": "Required",
+      "greater.than": "Must be greater than {{value}}",
+      "insufficient.balance": "Insufficient balance",
+      "calculate.gas.fee": "Failed to calculate gas fee, please try again later",
+      "maximum.is.deducting.gas": "The maximum amount is {{balance}} {{symbol}} after deducting the gas fee"
+    },
+    "scanner": {
+      "unavailable": "unavailable content"
+    },
+    "name": {
+      "max": "The maximum is {{number}} letters.",
+      "existing": "Existing account name"
+    },
+    "private.key": {
+      "has.imported": "This private key has been imported",
+      "required": "Required",
+      "invalid": "Invalid private key"
+    },
+    "wrong.sign": "Sign failed",
+    "insufficient.funds.for.fees": "Insufficient funds for gas fee",
+    "insertData": "Unable to display this transaction record.",
+    "send.transaction": "Transaction failed",
+    "transaction.not.ready": "Transaction is not ready",
+    "get.receive.address.error": "Failed to get receive address",
+    "unknown.error": "Unknown error",
+    "tron.resource.insufficient": "Insufficient bandwidth or energy. Stake TRX or wait for daily resource reset and try again."
+  },
+  "amount.below.minimum.transaction": "Amount is below the minimum transaction amount",
+  "tab": {
+    "home": "Home",
+    "browser": "Browser",
+    "activity": "Activity",
+    "setting": "Settings",
+    "recommend": "Recommend",
+    "bookmark": "Bookmark",
+    "transaction": "Transaction",
+    "bridge": "Swap",
+    "buy": "Buy"
+  },
+  "buy": {
+    "orderDetail": {
+      "title": "Order details",
+      "status": "Status",
+      "orderNo": "Order no.",
+      "coinbaseFee": "Coinbase fee",
+      "networkFee": "Network fee",
+      "paid": "Paid",
+      "created": "Created",
+      "updated": "Updated",
+      "txid": "Txid",
+      "contactSupport": "Contact customer service",
+      "tooltipCoinbaseFee": "Coinbase charges a fee at the time you place your order based on a combination of factors such as market conditions, payment method, and size of order.",
+      "tooltipNetworkFee": "Sending to a wallet address incurs a network fee that is charged by the miners of crypto networks and can vary based on user demand.",
+      "statusSuccess": "Success",
+      "statusNew": "New",
+      "statusInProgress": "In progress",
+      "listTitle": "Buy {{symbol}}"
+    }
+  },
+  "bridge": {
+    "only.usdt.on.liquid.warning": "Currently only supports USDT on Liquid",
+    "feeInfo": {
+      "platformFee": "Platform fee",
+      "receivedAmount": "Received amount"
+    },
+    "errors": {
+      "invalid.amount": "Invalid amount",
+      "amount.must.be.greater.than.0": "Amount must be greater than 0",
+      "not.enough.balance": "Not enough balance",
+      "invalid.evm.address": "Invalid EVM address",
+      "invalid.tron.address": "Invalid TRON address",
+      "amount.below.minimum": "Amount must be at least {{min}}",
+      "amount.above.maximum": "Amount cannot exceed {{max}}",
+      "get-bridge-order-meta.error": "Failed to get swap order data, please try again later.",
+      "get.unspent.outputs": "Failed to get unspent outputs, please try again later",
+      "create.transaction": "Failed to create transaction, please try again later",
+      "get-bridge-estimated-fee.error": "Failed to get swap estimated fee, please try again later.",
+      "rate-expired": "Rate expired. Please enter amount again to get a new rate.",
+      "kya-validation-failed": "The receiving address has a high risk level and cannot be used for this transaction. Please use a different address.",
+      "create-order-failed": "Failed to create swap order, please try again later.",
+      "please-create-order-from-bridge": "Please create an order from the Swap page first, then confirm."
+    },
+    "swapForm": {
+      "from": {
+        "label": "From"
+      },
+      "to": {
+        "label": "To"
+      },
+      "takerAddress": {
+        "label": "Receiving Address",
+        "placeholder": "Address"
+      },
+      "amount": {
+        "label": "Amount",
+        "placeholder": "Amount",
+        "info": "Available: {{value}}",
+        "max.amount": "Maximum amount",
+        "min.amount": "Minimum amount",
+        "min.send.amount": "Minimum send amount",
+        "received.below.min.hint": "Received amount is below the minimum for this order. Please increase the send amount."
+      },
+      "network": {
+        "label": "Network",
+        "placeholder": "Select network"
+      }
+    },
+    "confirmOrder": {
+      "to": "To",
+      "from": "From",
+      "network": "Network",
+      "gas.fee": "Gas fee",
+      "bridge.order": "Swap order",
+      "platform.fee": "Platform fee",
+      "more": "More",
+      "bridge.route": "Swap route",
+      "address": "Address",
+      "invalid.params": "Invalid params",
+      "expired": "Expired",
+      "orderExpired": "Swap order has expired.",
+      "orderExpiredHint": "Tap Cancel or go back to refetch rate and create a new order.",
+      "createNewOrder": "ReNew",
+      "refetchRate": "Get rate again"
+    },
+    "orderDetail": {
+      "title": "Swap order details",
+      "bridgeInfo": "Swap info",
+      "status": "Status",
+      "orderDate": "Order date",
+      "from": "From",
+      "orderNo": "Order no.",
+      "platformFee": "Platform fee",
+      "more": "More",
+      "bridgeRoute": "Swap route",
+      "to": "To",
+      "address": "Address",
+      "gasFee": "Gas fee",
+      "sendTxid": "Send Txid",
+      "receiveTxid": "Receive Txid",
+      "note": "Note",
+      "orderExpired": "The order expired.",
+      "failedToLoad": "Failed to load order details",
+      "contactCustomerService": "Contact customer service",
+      "errorMessage": "There is an issue with your order status.\nPlease contact customer service for help."
+    },
+    "status": {
+      "success": "Success",
+      "pending": "Pending",
+      "processing": "Processing",
+      "fail": "Fail",
+      "canceled": "Canceled"
+    }
+  },
+  "liquid": {
+    "fgs": {
+      "channel-name": "Bridgefy wallet connection",
+      "title": "Bridgefy wallet",
+      "body": "Wallet connecting",
+      "body-locked": "Wallet locked"
+    }
+  },
+  "kyc": {
+    "status": {
+      "NEW": "Unverified",
+      "PENDING_VERIFY": "Pending",
+      "PASS": "Verified",
+      "FAIL": "Failed",
+      "SUSPECTED": "Suspect"
+    },
+    "displayStatus": {
+      "not_verified": "Not Verified",
+      "under_review": "Under Review",
+      "verified": "Verified",
+      "verified_plus": "Verified Plus",
+      "rejected": "Rejected"
+    },
+    "overview": {
+      "subtitle": "Identity Verification Required",
+      "subtitleAllSet": "Great job! You're all set.",
+      "basic": "Basic",
+      "plus": "Plus",
+      "rejectionTitle": "Verification Rejected",
+      "rejectionBody": "Your application was rejected. Please address the following issue(s) and resubmit:",
+      "rejectionReasonsLabel": "Rejected reasons",
+      "rejectionUpdatedSuffix": "updated",
+      "startVerification": "Start Verification",
+      "resubmit": "Resubmit",
+      "benefitTitle": "Unlock these features with {{level}}:",
+      "benefitWithdraw": "Withdraw",
+      "benefitWithdrawDesc": "USDT → USD bank withdrawal service",
+      "contactPrefix": "For questions, please contact",
+      "contactLink": "Our service",
+      "fullLegalName": "Full legal name",
+      "documents": "Documents",
+      "passportName": "Passport name",
+      "clickToExpandDetails": "... click to expand details",
+      "clickToCollapseDetails": "... click to collapse details",
+      "selectVerificationLevel": "Select Verification Level",
+      "basicVerification": "Basic Verification",
+      "verificationPlus": "Verification Plus",
+      "needToProvide": "Need to provide:",
+      "additionalInfoRequired": "Additional information required:",
+      "levelBasicBullet1": "Name",
+      "levelBasicBullet2": "Nationality",
+      "levelBasicBullet3": "ID card",
+      "levelPlusBullet1": "Passport",
+      "levelPlusBullet2": "Bank transaction record"
+    },
+    "step-of": "Step {{current}} of {{total}}",
+    "step1": {
+      "title": "Personal Information",
+      "subtitle": "Please fill in your personal information",
+      "personalInfoShort": "Personal info"
+    },
+    "step2": {
+      "title": "Documents upload",
+      "subtitle": "Please upload your identity document"
+    },
+    "step3": {
+      "title": "Selfie with the proof",
+      "subtitle": "Please take a selfie showing your face & document clearly."
+    },
+    "step4": {
+      "title": "Bank transaction record",
+      "subtitle": "Upload your bank transaction record"
+    },
+    "step2PassportTitle": "Passport",
+    "name": "Full legal name",
+    "name-match-passport-hint": "Please ensure your name matches the name on your passport",
+    "passport-data-signature-photo": "Data & Signature page photo",
+    "name-placeholder": "e.g. John Doe",
+    "gender": "Gender",
+    "gender-placeholder": "Select your gender",
+    "gender-male": "Male",
+    "gender-female": "Female",
+    "address": "Residential Address",
+    "address-placeholder": "Enter your full address",
+    "email": "Email",
+    "email-placeholder": "Enter your email",
+    "dateOfBirth": "Date of Birth",
+    "dateOfBirth-placeholder": "Select your date",
+    "nationality": "Nationality",
+    "nationality-placeholder": "Select nationality",
+    "phoneNumber": "Phone Number",
+    "phoneNumber-placeholder": "Enter phone number",
+    "documentType": "Select document type",
+    "documentType-passport": "Passport",
+    "documentType-idCard": "ID Card",
+    "documentType-drivingLicense": "Driving License",
+    "documentFront": "Front page",
+    "documentBack": "Back page",
+    "passport-documentFront": "Data page",
+    "passport-documentBack": "Signature page photo",
+    "optional": "Optional",
+    "upload-image": "Click to upload",
+    "document-upload-warning": "Supports .jpg and .png. Keep the image clear and under 5MB.",
+    "document-upload-warning-basic": "Supports .jpg and .png. Keep the image clean and clear. (Max: 5MB)",
+    "pdf-upload-warning": "Supports .pdf. Keep the file under 5MB.",
+    "upload-passport-title": "Upload your passport",
+    "upload-bank-record-title": "Upload your bank transaction record",
+    "bank-record-requirement1": "Must cover the most recent 3 months.",
+    "bank-record-requirement2": "Official document downloaded directly from your bank or banking app.",
+    "bank-record-requirement3": "Must include account holder name and transaction history.",
+    "bank-record-requirement4": "PDF format only.",
+    "bank-record-requirement5": "File must not be password-protected.",
+    "bank-record-label": "Bank transaction record",
+    "select-image-source": "Select Image Source",
+    "camera-permission-required": "Camera Permission Required",
+    "camera-permission-message": "Please allow camera permission in settings",
+    "gallery-permission-required": "Gallery Permission Required",
+    "gallery-permission-message": "Please allow gallery permission in settings",
+    "agree-to-terms-prefix": "I have read and agree to the",
+    "agree-to-terms-suffix": "",
+    "terms-and-conditions": "Terms and Conditions",
+    "warning-message": "Please confirm all information is correct. You will not be able to modify it after submission.",
+    "submit": "Submit",
+    "error": {
+      "must-agree-to-terms": "You must agree to the terms and conditions"
+    },
+    "select-country": "Select Country",
+    "search-country": "Search country...",
+    "no-country-found": "No country found",
+    "click-to-upload": "Click to upload",
+    "selfie": {
+      "title": "Please take a selfie showing your face & document clearly.",
+      "sample": "Sample",
+      "instruction1": "Find a well-lit location, avoid glare or obstructions on the document.",
+      "instruction2": "Hold the camera with your upper body visible, holding your document so both your face and the document can be seen clearly."
+    },
+    "uploading": "Uploading...",
+    "uploaded": "Uploaded",
+    "upload-failed": "Upload Failed",
+    "upload-failed-message": "Failed to upload image. Please try again.",
+    "submit-success": "KYC profile submitted successfully",
+    "submit-failed": "Failed to submit KYC profile",
+    "validation-failed-title": "Please check your information",
+    "validation-failed-message": "Some required fields are missing or invalid. Please go back to the relevant step and complete them.",
+    "guard": {
+      "pending": {
+        "title": "Your document has been submitted.",
+        "description": "Please be patient as we review your information. This process typically takes 1 to 2 business days, and we will notify you once it's complete.",
+        "guidelines-title": "Review Guidelines",
+        "guideline1": "Ensure your phone is powered on to receive verification notifications.",
+        "guideline2": "If additional documents are needed, we will notify you via app notifications and email.",
+        "check-progress": "Check Progress",
+        "home": "Home"
+      },
+      "failed": {
+        "title": "Verification failed.",
+        "description": "We're sorry, but your submission didn't pass review. Please resubmit your information following the suggestions below.",
+        "reasons-title": "Common Reasons",
+        "reason1": "Documents lack clarity or completeness.",
+        "reason2": "Expired IDs or don't belong to you.",
+        "reason3": "The files are in the wrong format.",
+        "contact-prefix": "For questions, please contact",
+        "contact-link": "Our service",
+        "resubmit": "Resubmit",
+        "reason-title": "Reason for verification failure"
+      }
+    }
+  },
+  "withdraw": {
+    "agreement": {
+      "title": "Withdraw agreement",
+      "content": "USDT to USD Off-Ramp Service Agreement\n\n1. Service Scope\nParty A provides services, through its platform or authorized third-party providers, to convert USDT into USD and remit funds to Party B's designated bank account.\n\n2. Settlement (T+3)\nThe standard processing period is T+3 business days (excluding weekends and public holidays), commencing from the time the USDT transfer reaches blockchain finality.\n\n3. Third-Party Provider\nParty B acknowledges that remittances may be executed by third-party processors or banking partners. Party A shall not be liable for delays or losses caused by banking systems or intermediary banks.\n\n4. Accuracy of Info\nThe recipient bank account name must match Party B's KYC identity. Party A is not liable for any fund loss caused by inaccurate information provided by Party B.\n\n5. Rejection Fees\nIn case of a refund due to incorrect info, bank rejection, or policy limits, Party B shall bear all intermediary fees, return fees, and Party A's administrative charges.\n\n6. FX & Volatility Risk\nIn case of a refund, funds will be returned in USDT at the prevailing market rate. Party B shall bear all risks and losses arising from price volatility during this period.\n\n7. Tax Obligations\nParty B is solely responsible for all tax reporting and payments related to this transaction. Party A provides no tax advice and assumes no withholding liabilities.\n\n8. Restricted Regions\nParty A does not serve jurisdictions subject to international sanctions (e.g., OFAC) or local prohibitions. Party B bears all losses if funds are seized due to local regulatory restrictions.\n\n9. Jurisdiction\nThis Agreement is governed by the laws of Poland. In case of any discrepancy, the English version shall prevail.",
+      "checkbox": "I have read and agree to all terms and conditions above",
+      "confirm": "Confirm and continue"
+    },
+    "enterAmount": {
+      "title": "Enter Amount",
+      "availableBalance": "{{account}} Available balance",
+      "address": "Address",
+      "chainAddress": "{{chain}} address",
+      "inputLabel": "Withdrawal amount",
+      "limits": "Min: {{min}} | Max: {{max}}",
+      "estimating": "Calculating estimate…"
+    },
+    "gas": {
+      "insufficient": {
+        "title": "You need {{symbol}}",
+        "description": "You need a small amount of {{symbol}} for transaction fees.",
+        "back": {
+          "home": "Back to home"
+        },
+        "liquid": {
+          "title": "You need a small amount of L-BTC for transaction fees.",
+          "description": "You need a small amount of L-BTC for transaction fees. L-BTC is required to pay gas fees when making blockchain transactions. Please purchase L-BTC using USDT on the Tron or Ethereum network."
+        }
+      }
+    },
+    "flow": {
+      "step": {
+        "amount": "Enter amount",
+        "bank": "Bank information",
+        "review": "Review",
+        "send": "Confirm send",
+        "submitted": "Submitted"
+      },
+      "meta": {
+        "missing": "Withdrawal is not available for this network in the app right now.",
+        "missingBadge": "Coming soon",
+        "missingTitle": "Withdrawals on this network aren’t available yet",
+        "missingBody": "We’re expanding in-app withdrawals to more networks, and the one you selected will be enabled in a future update.",
+        "missingHint": "Try switching to a supported network, or watch for news in app updates.",
+        "missingSupportedTitle": "Networks supported for in-app withdrawal",
+        "missingSupportedEmpty": "No network list is available right now. Please try again later."
+      },
+      "amount": {
+        "hint": "Enter a whole number ({{min}} - {{max}}) in {{symbol}}.",
+        "error": {
+          "required": "Amount is required",
+          "integer": "Amount must be a whole number",
+          "invalidNumber": "Enter a valid positive whole number",
+          "min": "Must be at least {{min}}",
+          "max": "Must be no more than {{max}}",
+          "insufficientBalance": "Insufficient balance",
+          "insufficientForTotal": "Available balance must cover the estimated total ({{total}})."
+        }
+      },
+      "estimate": {
+        "error": "Failed to estimate fees"
+      },
+      "fees": {
+        "title": "Estimate",
+        "loading": "Calculating…",
+        "empty": "Enter an amount to see the estimate",
+        "toAmount": "Estimated receive",
+        "service": "Service fee ({{percent}}%)",
+        "bank": "Bank fee",
+        "total": "Estimated total"
+      },
+      "bank": {
+        "screenTitle": "Bank account info",
+        "warningBanner": "Please ensure bank account information is correct to avoid fund loss.",
+        "subtitle": "Make sure the bank details match your KYC records.",
+        "loading": "Loading saved bank information…",
+        "save": "Save this bank account for future use",
+        "accountName": "Account name",
+        "accountNameHelper": "Must match the name on your passport",
+        "accountNumber": "Account number / IBAN",
+        "bankName": "Bank name",
+        "swift": "SWIFT code",
+        "bankCode": "Bank code",
+        "branchCode": "Branch code",
+        "bankAddress": "Bank address",
+        "beneficiaryAddress": "Beneficiary address",
+        "placeholder": {
+          "bankName": "e.g. Chase Bank",
+          "bankCode": "e.g. 0025",
+          "swift": "e.g. CHASUS33XXX",
+          "branchCode": "e.g. 0112",
+          "bankAddress": "e.g. 270 Park Avenue, New York, NY 10017, USA",
+          "accountName": "e.g. James R. Mitchell",
+          "accountNumber": "e.g. 4839201756",
+          "beneficiaryAddress": "e.g. 84 Maple Street, Austin, TX 78701, USA"
+        },
+        "validation": {
+          "bankCodeDigitsOnly": "Bank code must contain only numbers",
+          "branchCodeDigitsOnly": "Branch code must contain only numbers",
+          "accountNumberFormat": "Account number may only contain letters and numbers (at least 4 characters)",
+          "swiftFormat": "Enter a valid SWIFT or BIC code (8 or 11 characters)"
+        },
+        "error": "Failed to load bank information"
+      },
+      "review": {
+        "title": "Review your withdrawal",
+        "confirmTitle": "Confirm Withdraw",
+        "orderSummary": "Order Summary",
+        "recipient": "Recipient information",
+        "cryptoReceipt": "Crypto Receipt",
+        "fromChainAccount": "From {{chain}} Account",
+        "serviceFeePercent": "Service Fee ({{percent}}%)",
+        "totalPayment": "Total Payment",
+        "confirmSend": "Confirm and Send {{symbol}}",
+        "amount": "You send: {{amount}} {{symbol}}",
+        "receive": "Estimated receive: {{amount}} {{currency}}",
+        "toAddress": "Send to address",
+        "noEstimate": "Please wait for fee estimation to finish",
+        "create": "Create withdrawal"
+      },
+      "create": {
+        "error": "Failed to create withdrawal",
+        "missingReceiveAddress": "Order created but receiving address is missing. Please contact support."
+      },
+      "send": {
+        "title": "Send USDT on-chain",
+        "body": "Confirm the transaction in your wallet. After it succeeds, we will link the transaction to your withdrawal.",
+        "to": "Receiving address",
+        "retryPatch": "Retry linking transaction",
+        "cancelOrder": "Cancel withdrawal (mark failed)"
+      },
+      "patch": {
+        "error": "Failed to update withdrawal with your transaction",
+        "markFailed": "Withdrawal marked as failed"
+      },
+      "submitted": {
+        "title": "Withdrawal submitted",
+        "body": "Your on-chain transfer was submitted. You can track progress in Activity.",
+        "successTitle": "Application submitted",
+        "successBody": "Your withdrawal request has been submitted successfully. Funds will be disbursed within 3–5 business days. You will be notified of status updates via email.",
+        "orderSummary": "Order Summary",
+        "orderNo": "Order number",
+        "orderPending": "—",
+        "withdrawalAmount": "Withdrawal amount",
+        "viewDetail": "View order details",
+        "viewActivity": "View in Activity",
+        "backHome": "Back to home"
+      }
+    }
+  },
+  "withdrawal": {
+    "status": {
+      "NEW": "Awaiting Deposit",
+      "PENDING": "Under Review",
+      "FAILED": "Transaction Failed",
+      "APPROVED": "Awaiting Withdrawal",
+      "REJECTED": "Awaiting Refund",
+      "REFUNDED": "Refunded",
+      "REQUIRES_ACTION": "Action Required",
+      "COMPLETED": "Completed",
+      "CANCELLED": "Cancelled",
+      "AWAITING_WITHDRAW": "Awaiting Withdrawal",
+      "UNKNOWN": "Unknown"
+    },
+    "activity": {
+      "empty": "No withdrawal records yet",
+      "section": {
+        "today": "Today",
+        "yesterday": "Yesterday"
+      }
+    },
+    "orderModal": {
+      "title": "Order details",
+      "loadError": "Could not load this withdrawal. Please try again.",
+      "infoHeading": "Info",
+      "recipientHeading": "Recipient information",
+      "expandRecipient": "… tap to expand details",
+      "collapseRecipient": "Tap to hide details",
+      "sentTxid": "Transfer TxID",
+      "refundedTxid": "Refunded TxID",
+      "txNotInLocalHistory": "This on-chain transaction was not found in this wallet’s local history. The record may be syncing. If you have any questions, please contact customer service.",
+      "txDetailLoadError": "Could not load the transaction record. Please try again.",
+      "contactCta": "Contact customer service",
+      "updateInfo": "Update information",
+      "actionRequiredTitle": "Action required",
+      "actionRequiredIntro": "Your application was returned. Please address the following issue(s) and resubmit:",
+      "actionRequiredRejectedReasons": "Rejected reasons",
+      "serviceFee": "Service fee",
+      "bankFee": "Bank fee",
+      "withdrawalAmount": "Withdrawal amount",
+      "withdrawalAmountHint": "Additional fees may be charged by your receiving bank. Please refer to your bank statement for the final amount received.",
+      "created": "Created",
+      "updated": "Updated",
+      "statusHint": "This is the current stage of your withdrawal request. You will be notified when the status changes.",
+      "statusTooltip": {
+        "NEW": "USDT transfer is in progress.",
+        "PENDING": "USDT has been sent successfully. Your withdrawal is under review. Please note: on-chain transactions on Ethereum or Tron may still fail after reaching this state.",
+        "FAILED": "Transaction failed. USDT was not sent successfully.",
+        "APPROVED": "Bridgefy has completed review and is preparing the bank payout.",
+        "COMPLETED": "The withdrawal has been submitted to the bank. Note: this does not guarantee success; the institution may request more information or reject the application and issue a refund.",
+        "REJECTED": "Withdrawal review failed. Bridgefy will refund to your sending address. Please note that operational fees and similar charges may be deducted from the refund.",
+        "REFUNDED": "Bridgefy has refunded to your sending wallet or address.",
+        "REQUIRES_ACTION": "Please follow the return reasons and provide the corresponding information in this order. After you upload the information, Bridgefy will continue reviewing your withdrawal application.",
+        "CANCELLED": "This withdrawal has been cancelled.",
+        "AWAITING_WITHDRAW": "Review is complete; your withdrawal is being sent to the bank.",
+        "UNKNOWN": "No description is available for this status."
+      },
+      "historyModal": {
+        "title": "History",
+        "empty": "No events yet",
+        "loadError": "Could not load history. Tap Refresh to try again.",
+        "upToDate": "Up to date",
+        "refresh": "Refresh",
+        "admin": "Admin",
+        "userFallback": "You",
+        "system": "Bridgefy",
+        "reasonPrefix": "Reason:",
+        "headline": {
+          "applicationCreated": "Withdrawal request created",
+          "applicationSubmitted": "Application submitted",
+          "applicationResubmitted": "Application resubmitted",
+          "applicationReturnedResubmit": "This application has been returned. Please resubmit after making corrections.",
+          "applicationApproved": "Application Approved",
+          "completedWithdrawal": "Completed withdrawal",
+          "refundProcessingContactSupport": "Your withdrawal application could not be approved. A refund is being processed. Please contact support if you have any questions.",
+          "additionalInfoResubmit": "Additional information is required to process your withdrawal. Please update the details and resubmit.",
+          "refundCompleted": "Refund completed",
+          "withdrawalFailed": "Withdrawal could not be completed",
+          "withdrawalCancelled": "Withdrawal cancelled",
+          "statusUpdatedFallback": "Status update"
+        },
+        "reason": {
+          "invalidBankAccount": "Invalid bank account information.",
+          "invalidBankReenter": "Invalid bank account information. Please re-enter your details."
+        },
+        "statusUpdated": "Status updated:",
+        "additionalInfoLabel": "Additional Information:"
+      }
+    },
+    "detail": {
+      "title": "Withdrawal details",
+      "loading": "Loading…",
+      "contactSupport": "Contact support",
+      "section": {
+        "summary": "Summary",
+        "transfer": "Blockchain transfer",
+        "bank": "Bank details",
+        "history": "History"
+      },
+      "field": {
+        "status": "Status",
+        "orderNo": "Order no.",
+        "chain": "Chain",
+        "token": "Token",
+        "amount": "Amount",
+        "total": "Total",
+        "sentTx": "Transfer TxID",
+        "refundTx": "Refunded TxID"
+      },
+      "bank": {
+        "bankName": "Bank name",
+        "accountName": "Account name",
+        "accountNumber": "Account number / IBAN",
+        "swift": "Swift code",
+        "bankCode": "Bank code",
+        "branchCode": "Branch code",
+        "bankAddress": "Bank address",
+        "beneficiaryAddress": "Beneficiary address"
+      },
+      "history": {
+        "empty": "No history yet",
+        "attachment": "Open attachment"
+      },
+      "actionRequired": {
+        "title": "Action required",
+        "body": "We need more information to continue processing your withdrawal.",
+        "cta": "Update information"
+      }
+    },
+    "resubmit": {
+      "title": "Update information",
+      "subtitle": "Provide additional details and/or upload documents.",
+      "message": "Additional Information",
+      "messagePlaceholder": "Please enter",
+      "attachments": "Upload your document",
+      "addFile": "Click to upload",
+      "fileTypesHint": "Supports .pdf, .jpg and .png. Keep the image clear and under 5MB.",
+      "removeFile": "Remove file",
+      "uploading": "Uploading…",
+      "uploaded": "Uploaded",
+      "submit": "Submit",
+      "success": "Submitted",
+      "successNavTitle": "Submitted",
+      "successTitle": "Application resubmitted",
+      "successBody": "Your withdrawal request has been resubmitted successfully. We will review your application again. You will be notified of the result within 3-5 business days via email.",
+      "viewDetail": "View order Details",
+      "backHome": "Back to home",
+      "pick": {
+        "title": "Choose file type",
+        "image": "Image"
+      },
+      "alert": {
+        "title": "Upload"
+      },
+      "error": {
+        "upload": "Upload failed",
+        "submit": "Submit failed",
+        "state": "This withdrawal is not in an actionable state. Please refresh.",
+        "size": "Each file must be {{mb}}MB or smaller.",
+        "permission": "Photo library permission is required."
+      }
+    }
+  },
+  "withdrawKycGate": {
+    "cardTitle": "Get Ready for Verification Plus",
+    "needToProvide": "Need to provide:",
+    "completeKyc": "Complete KYC",
+    "goBack": "Go Back",
+    "fullyUnverifiedHeadline": "You need to complete KYC verification to use the Withdraw service",
+    "basicOnlyHeadline": "You need to complete advanced identity verification to use the Withdraw service",
+    "underReviewHeadline": "Withdraw feature is currently unavailable. Your identity verification is under review.",
+    "bulletName": "Name",
+    "bulletNationality": "Nationality",
+    "bulletPassport": "Passport",
+    "bulletBankRecord": "Bank transaction record"
+  },
+  "user.terms": "User Terms",
+  "privacy.policy": "Privacy Policy",
+  "campaign": {
+    "liquid_usdt": {
+      "title": "Limited Free LIQUID Transfer Fees!",
+      "step1": "Step 1 | Hold 200 USDT in LIQUID wallet and complete KYC",
+      "step2": "Step 2 | Go to LIQUID chain and click \"Receive\"",
+      "step3": "Step 3 | Generate receive address",
+      "reward": "Complete to receive LBTC fee subsidy (approx. 5 Liquid transfers)",
+      "notice1": "* Limited quota, while supplies last",
+      "notice2": "* Fee arrival time depends on blockchain speed",
+      "never_show_again": "Don't show again",
+      "got_it": "Got it"
+    }
+  },
+  "chain": {
+    "type": {
+      "public": "Public",
+      "private": "Private"
+    }
+  },
+  "faq": {
+    "transaction.types": "What type of transaction is this?"
+  }
+}

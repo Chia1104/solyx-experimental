@@ -1,11 +1,11 @@
-import type { QueryOptions } from '@tanstack/react-query';
+import type { UseQueryOptions } from '@tanstack/react-query';
 import { queryOptions, useQuery } from '@tanstack/react-query';
 
 import type { DefiWithdrawalsMeta } from '../pipes/withdrawals.pipe';
 import { getDefiWithdrawalsMeta } from '../services/withdrawals.service';
 
 type UseQueryDefiWithdrawalsMetaOptions = Omit<
-  QueryOptions<DefiWithdrawalsMeta, Error>,
+  UseQueryOptions<DefiWithdrawalsMeta, Error>,
   'queryKey' | 'queryFn'
 >;
 

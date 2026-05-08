@@ -1,10 +1,10 @@
-import type { QueryOptions } from '@tanstack/react-query';
+import type { UseQueryOptions } from '@tanstack/react-query';
 import { queryOptions, useQuery } from '@tanstack/react-query';
 
 import type { Prices } from '../pipes/meta.pipe';
 import { getPrices } from '../services/meta.service';
 
-type UseQueryPricesOptions = Omit<QueryOptions<Prices, Error>, 'queryKey' | 'queryFn'>;
+type UseQueryPricesOptions = Omit<UseQueryOptions<Prices, Error>, 'queryKey' | 'queryFn'>;
 
 export const queryPricesOptions = (options?: UseQueryPricesOptions) => {
   return queryOptions({

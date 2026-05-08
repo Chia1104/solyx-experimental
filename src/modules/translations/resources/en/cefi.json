@@ -1,0 +1,165 @@
+{
+  "title": {
+    "setting": "Settings",
+    "swap": "Swap",
+    "confirm": "Confirm",
+    "done": "Done!",
+    "history": "History",
+    "details": "Details",
+    "deposit.address": "Deposit address",
+    "select.network": "Select network",
+    "upgrade.to.continue": "Upgrade to continue",
+    "selectToken": "Select token",
+    "withdrawal.info": "Withdrawal info",
+    "security.verification": "Security verification",
+    "request.submitted": "Request submitted",
+    "delete.account": "Delete account",
+    "logout": "Log out"
+  },
+  "caption": {
+    "preparing.fortuna.service": "Preparing Bridgefy wallet service..."
+  },
+  "label": {
+    "announcement": "Announcement",
+    "security": "Security",
+    "identity.verification": "Identity verification",
+    "customer.service": "Customer service",
+    "authenticator": "Authenticator",
+    "rate": "Rate",
+    "swap": {
+      "from": "From",
+      "to": "To",
+      "receive": "Receive"
+    },
+    "available": "Available: {{value}}",
+    "max": "Max",
+    "fee": "Fee",
+    "expiration.time": "Expiration time",
+    "status": "Status",
+    "deposit.from": "Deposit from",
+    "network": "Network",
+    "time": "Time",
+    "latest.update": "Latest update: {{value}}",
+    "withdraw.to": "Withdraw to",
+    "note": "Note",
+    "balance": "Balance",
+    "market": "Market",
+    "assets": "Assets",
+    "address": "Address",
+    "minimum.deposit": "Minimum deposit",
+    "amount": "Amount",
+    "minimum.amount": "Minimum amount",
+    "maximum.amount": "Maximum amount",
+    "received.amount": "Received amount",
+    "verification.code": {
+      "email": "Email verification code",
+      "sms": "SMS verification code"
+    },
+    "code.authenticator": "Authenticator code"
+  },
+  "default": {},
+  "unit": {},
+  "status": {
+    "kyc": {
+      "unverified": "Unverified",
+      "pending": "Pending",
+      "verified": "Verified",
+      "failed": "Failed",
+      "suspect": "Suspect"
+    },
+    "not.setup": "Not setup",
+    "completed": "Completed",
+    "pending": "Pending",
+    "cancelled": "Cancelled",
+    "failed": "Failed",
+    "error": "Error"
+  },
+  "relation": {},
+  "placeholder": {
+    "min": "Min: {{value}}",
+    "eth.address": "ETH address(0x)"
+  },
+  "description": {
+    "disabling.authenticator": "To ensure the security of your account, the withdrawal function will not be available after disabling the authenticator.",
+    "contact.customer.service": "Contact customer service",
+    "need.re.verify": "If you need to supplement or re-verify, please contact customer service.",
+    "unbinding.or.replacement": "If you have any requests for unbinding or replacing, please contact customer service.",
+    "no.fee": "No fee",
+    "you.received": "You received {{value}} {{currency}}.",
+    "no.records.found": "No records found.",
+    "no.more.records": "There are no more records to display.",
+    "user.canceled.order": "The user canceled the order.",
+    "order.has.canceled": "The order has been canceled.",
+    "login.access.full.functions": "Log in to access full functions.",
+    "system.is.busy": "The system is busy. Please check back later.",
+    "must.upgrade.account.to.level.one": "Your account must be level 1 to deposit. Complete identity verification to upgrade!",
+    "must.upgrade.account.to.level.two": "To withdraw funds, your account must be upgraded to level 2. You can upgrade by completing identity verification and setting up an authenticator.",
+    "no.assets": "No assets are available for withdrawal.",
+    "verification.will.sent.to": "A verification code will be sent to {{value}}",
+    "enter.code.from.authenticator": "Enter the code from the authenticator",
+    "request.sent.wait.patiently": "Withdrawal request sent. Please wait patiently for the transfer to be processed."
+  },
+  "notice": {
+    "issue.with.order.contact.customer.service": "There is an issue with your order status. Please contact customer service for help.",
+    "smart.contracts.not.accepted": "Note: Tokens from the smart contracts are not accepted.",
+    "deleteAccountModalBody": "Your Bridgefy Wallet registration and order data will be permanently deleted and cannot be recovered.\n\nTo use Bridgefy Wallet again, please register again and choose to import the same recovery phrase wallet or create a new wallet.",
+    "deleteAccountModalConfirm": "Are you sure you want to delete?",
+    "logoutModalBody": "You will be logged out of Bridgefy Wallet.\n\nTo sign in again, you will need to enter your email and password again, and choose to import the same recovery phrase wallet.",
+    "logoutModalConfirm": "Are you sure you want to log out?",
+    "backup.before.logout": "Please back up your recovery phrase before logging out so you can sign in again next time.",
+    "backup.before.delete.account": "Please back up your recovery phrase before deleting your account data.",
+    "logoutMnemonicWarn": "Please confirm again that you have personally backed up your recovery phrase. If you lose it, you will not be able to use this wallet or your assets."
+  },
+  "action": {
+    "login": "Log in",
+    "signUp": "Sign up",
+    "logout": "Log out",
+    "understood": "Understood",
+    "swap": "Swap",
+    "ok": "Ok",
+    "contact.customer.service": "Contact customer service",
+    "check": "Check",
+    "verify.identity": "Verify identity",
+    "set.up.authenticator": "Set up authenticator",
+    "all": "All",
+    "send": "Send",
+    "delete.account": "Delete account",
+    "Resend": "Resend",
+    "go.to": {
+      "home": "Go to home",
+      "history": "Go to history"
+    }
+  },
+  "error": {
+    "swap": {
+      "balance.insufficient": "The available balance is insufficient.",
+      "minimum": "Minimum amount: {{value}}",
+      "maximum": "Maximum amount: {{value}}",
+      "failed": "Swap failed"
+    },
+    "only.number": "Numbers only",
+    "required": "Required",
+    "invalid.address": "Invalid address",
+    "below.minimum.amount": "Below minimum amount.",
+    "above.available.amount": "Above the available amount.",
+    "above.maximum.amount": "Above the maximum amount.",
+    "incorrect.or.expired": "Incorrect or expired verification code",
+    "incorrect.code.try.again": "Incorrect code. Please try again",
+    "too.many.request": "Too many sent requests. Please retry after {{min}}:{{sec}}",
+    "tried.multiple.times": "You tried multiple times. Please retry after {{min}}:{{sec}}.",
+    "security.user2fa.unbound.limit": "Because you disabled your authenticator within 24 hours, the withdrawal function is temporarily unavailable."
+  },
+  "tab": {
+    "home": "Home",
+    "swap": "Swap",
+    "settings": "Settings",
+    "deposit": "Deposit",
+    "withdraw": "Withdraw"
+  },
+  "login": {
+    "login.failed.email.not.found.title": "Login failed",
+    "login.failed.email.not.found.message": "Email not found. Please contact customer service.",
+    "login.failed.title": "Login failed",
+    "login.failed.message": "Please try again."
+  }
+}

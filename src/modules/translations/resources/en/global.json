@@ -1,0 +1,185 @@
+{
+  "title": {
+    "set.app.lock": "Set app lock",
+    "set.a.password": "Set a password",
+    "setup.complete": "Setup complete",
+    "welcome.back": "Welcome back",
+    "welcome.to": "Welcome to",
+    "start.with": "Start with",
+    "what.different": "What's different?",
+    "language": "Language",
+    "notice": "Notice",
+    "change.app.lock": "Change app lock"
+  },
+  "caption": {
+    "start.with": "Start with",
+    "fortuna.wallet": "Bridgefy wallet",
+    "web3.wallet": "Web3 wallet"
+  },
+  "label": {
+    "address": "Address",
+    "status": "Status",
+    "password": "Password",
+    "new.password": "New password",
+    "confirmPassword": "Confirm password",
+    "turn.on.auto.lock": "Turn on the auto lock",
+    "switch.to.Fortuna.wallet": "Switch to Bridgefy wallet",
+    "create.a.wallet": "Create a Web3 wallet",
+    "switch.to.wallet": "Switch to Web3 wallet",
+    "language": "Language",
+    "auto.lock": "Auto lock",
+    "app.lock": "App lock",
+    "change.password": "Change password",
+    "phone.number": "Phone number",
+    "email": "Email",
+    "passkey": "Passkey",
+    "biometry": {
+      "face": {
+        "id": "Face ID",
+        "unlock": "Face unlock"
+      },
+      "touch": {
+        "id": "Touch ID"
+      },
+      "fingerprint": {
+        "unlock": "Fingerprint unlock"
+      }
+    }
+  },
+  "default": {
+    "version": "Version {{version}}"
+  },
+  "unit": {
+    "date": "Date",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "sec": "sec",
+    "min": "min"
+  },
+  "status": {},
+  "relation": {
+    "fortuna.wallet": "Make crypto easy and fast.",
+    "web3.wallet": "Your portal to Web3"
+  },
+  "placeholder": {},
+  "description": {
+    "set.app.lock": {
+      "1": "Start owning your crypto assets and enter the Web3 world.",
+      "2": "Please set up an app lock to protect your funds."
+    },
+    "set.a.password": "Keep your password in a safe place. We cannot help you retrieve it. If you lose your password, you can only uninstall and reinstall the app.",
+    "reset.password": "The password used to lock your wallet on this device, and Bridgefy wallet cannot recover the password. ",
+    "setup.complete": "The next time you restart the app, you must unlock it again.",
+    "change.app.lock": "Choose how you want to unlock this app.",
+    "verify.app.lock": "Verify your current app lock before changing it.",
+    "biometry.reset.password.multiple.verify": "Because your wallet data is protected by biometrics, you may need to verify biometrics multiple times during reset.",
+    "lock.app.leave": "Lock the app when you leave for a short time.",
+    "make.sure.owner": "To make sure your identity",
+    "liquid.required.verify": "Liquid Network Requires Verification",
+    "for.liquid.security.reasons": "For security reasons, verification is required each time you open the app or switch to Liquid Network.",
+    "input.password.to.process": "Input password to process",
+    "what.different": "Bridgefy wallet & Web3 wallet are both crypto wallets. You can store cryptocurrency in them.",
+    "fortuna.wallet": "Create one address with email & password. Bridgefy wallet will keep the private key. Once you lose your password, we will send you an email to reset your password. You can only use this wallet in the Bridgefy wallet application.",
+    "web3.wallet": "Generate addresses from seed phrase. You can also access your funds in another wallet service.",
+    "switch": {
+      "fortuna.wallet": "Bridgefy wallet is a custodial wallet service provided by Bridgefy wallet.",
+      "web3.wallet": "In the Web3 wallet, you can create multiple accounts. And have complete funds permissions."
+    },
+    "check.on.scanner": "Check on {{scanner}}",
+    "check.detail.on.scanner": "Check details on {{scanner}}",
+    "setting": {
+      "lock.when.leave": "Lock the app when you leave.",
+      "reset.password.for.lock": "Reset the password for the lock.",
+      "change.app.lock": "Change the unlock method for this app."
+    }
+  },
+  "notice": {
+    "copied.to.clipboard": "Copied to clipboard",
+    "physical.keyboard.connected": "You are currently using a physical keyboard. For security, please do not use it to type during SSO login or registration.",
+    "do.not.show.again": "Don't show this notice anymore",
+    "maintenance.title": "Under Maintenance",
+    "maintenance.description": "The system is currently under maintenance. Please try again later.",
+    "force.update.title": "Update Required",
+    "force.update.description": "Please update to the latest version to continue using the app.",
+    "update.title": "Update Available",
+    "update.description": "A new version is available. Update now for the best experience.",
+    "no-network.title": "No Internet Connection",
+    "no-network.description": "Please check your network connection and try again.",
+    "failed.title": "Service Unavailable",
+    "failed.description": "Unable to reach our servers. Please try again.",
+    "retry.after.app.lock.verify": "Please complete app lock verification, then try again.",
+    "app.lock.changed": "App lock has been updated."
+  },
+  "action": {
+    "set.app.lock": {
+      "biometry": "Set using {{biometryLabel}}",
+      "password": "Set a password"
+    },
+    "verify.with.biometry": "Verify with {{biometryLabel}}",
+    "yes": "Yes",
+    "no": "No",
+    "close": "Close",
+    "check": "Check",
+    "reset": "Reset",
+    "enter": "Enter",
+    "back": "Back",
+    "copy": "Copy",
+    "paste": "Paste",
+    "confirm": "Confirm",
+    "finish": "Finish",
+    "next": "Next",
+    "submit": "Submit",
+    "ok": "OK",
+    "pause": "Pause",
+    "cancel": "Cancel",
+    "approve": "Approve",
+    "create": "Create",
+    "switch": "Switch",
+    "fortuna.enter": "Enter Bridgefy wallet",
+    "what.different": "What's different?",
+    "go.to.setting": "Go to settings",
+    "stay.in.here": "Stay in here",
+    "manage": "Manage",
+    "skip": "Skip",
+    "done": "Done",
+    "home": "Home",
+    "camera": "Camera",
+    "gallery": "Gallery",
+    "update": "Update Now",
+    "later": "Later",
+    "update-now": "Update Now",
+    "retry": "Retry"
+  },
+  "validation": {
+    "minimum": "Minimum {{number}} characters",
+    "letter": "{{number}} letter",
+    "number": "{{number}} number",
+    "required": "This field is required",
+    "invalid-type": "Invalid type"
+  },
+  "error": {
+    "confirmPassword": {
+      "required": "Password confirmation is required",
+      "not.match": "The password doesn't match"
+    },
+    "password": {
+      "required": "required",
+      "wrong": "Wrong password"
+    },
+    "keychain": {
+      "incorrect": "The password you entered is incorrect.",
+      "canceled": "Operation canceled.",
+      "verify": {
+        "failed": "Couldn't verify. Please try again.",
+        "canceled": "Tap to try again anytime."
+      }
+    },
+    "scanner": {
+      "camera.not.access": "Please allow the app to access your camera in your privacy settings.",
+      "album.not.access": "Please allow the app to access your album in your privacy settings."
+    }
+  },
+  "utils": {
+    "all": "All"
+  }
+}

@@ -1,0 +1,1033 @@
+{
+  "title": {
+    "setting": "設定",
+    "receive": "接收",
+    "select.a.network": "選擇網路",
+    "select.a.token": "選擇幣種",
+    "web.3.wallet": "Web3 錢包",
+    "seed.phrase.import": "匯入助記詞",
+    "congrats": "恭喜！",
+    "signature.request": "簽名請求",
+    "back.up.seed.phrase": "備份助記詞",
+    "seed.phrase.confirm": "確認助記詞",
+    "activity": "活動紀錄",
+    "accounts": "帳戶",
+    "selectToken": "選擇幣種",
+    "sendTo": "轉至",
+    "amount": "數量",
+    "confirm": "確認",
+    "submitted.successfully": "已送出交易請求",
+    "dapp": "Dapp",
+    "scan.QR.Code": "掃描 QR code",
+    "walletConnect": "WalletConnect",
+    "manage.accounts": "管理帳戶",
+    "add.an.account": "新增帳戶",
+    "success!": "成功",
+    "account.info": "帳戶資訊",
+    "account.setting": "帳戶設定",
+    "delete.account": "確認刪除",
+    "export.private.key": "匯出私鑰",
+    "import": "匯入",
+    "input.the.password": "輸入密碼",
+    "reset.the.password": "重設密碼",
+    "connect.request": "連接請求",
+    "choose.network.and.wallet": "選擇網路和錢包",
+    "bridge.create.order": "閃兌",
+    "bridge.confirm.order": "確認閃兌",
+    "enter.transaction.password": "輸入交易密碼",
+    "wallet.not.imported": "您有一個尚未匯入的錢包",
+    "kyc.verification": "KYC 身份驗證",
+    "address.book": "地址簿",
+    "withdraw": "提領"
+  },
+  "caption": {
+    "welcome.to.web3": "歡迎來到 \nWeb3",
+    "public.explorer": "公開可查",
+    "confidential.secured": "隱私保護",
+    "tooltip": {
+      "publicExplorer": "標準公開模式。交易和餘額對所有人完全可見。",
+      "confidentialSecured": "您的資產在 Liquid 上受到保護。只有您可以查看您的餘額和交易記錄。"
+    },
+    "dont.show.again": "不再顯示此說明",
+    "private.mode": {
+      "what.is": "什麼是私密模式？",
+      "description": "切換至私密模式後，您將在 Liquid Network（一個注重隱私的比特幣側鏈）上看到您的資產。您的餘額和每一筆交易都將被加密，只有您能查看——連區塊鏈瀏覽器都無法看到。",
+      "feature.encrypted": "加密餘額",
+      "feature.untraceable": "無法追蹤",
+      "feature.only.you": "僅您可存取"
+    },
+    "home": {
+      "my.assets": "我的資產"
+    },
+    "phraseBrowse": {
+      "tips": "小技巧"
+    },
+    "transactionModal": {
+      "gas.setting": "礦工費設定",
+      "approve.token": "授權請求",
+      "contract.interaction": "合約交互"
+    }
+  },
+  "label": {
+    "avatar": "頭像",
+    "contract": "合約地址",
+    "to": "轉到",
+    "account": "帳戶",
+    "from": "從",
+    "network": "網路",
+    "gas.fee": "礦工費",
+    "interact.with": "交互地址",
+    "unpredictable": "無法預測",
+    "setting": {
+      "current.account": "當前帳戶",
+      "walletConnect": "WalletConnect",
+      "switch.accounts": "切換帳戶",
+      "manage.accounts": "管理帳戶",
+      "get.notifications": "接收通知",
+      "back.up.seed.phrase": "備份助記詞",
+      "kyc.verification": "KYC 身份驗證",
+      "kyc.verification-description": "驗證您的身份以存取進階功能。",
+      "contact.us": "聯絡我們",
+      "faq": "常見問題",
+      "referrals": "推薦"
+    },
+    "contact.methods": "聯絡方式",
+    "website": "官方網站",
+    "no.available.address": "無可用的地址",
+    "support.hours": "客服時間",
+    "contactus": {
+      "welcome": "歡迎,我們能為您提供什麼協助?",
+      "description": "如果您想與 Bridgefy 聯繫,請隨時使用以下列出的方式與我們聯絡。",
+      "service": {
+        "time": "服務時間：9:00 - 18:00"
+      },
+      "find": {
+        "us": {
+          "here": "在這裡找到我們"
+        }
+      },
+      "security": {
+        "reminder": "安全提醒",
+        "line1": "請勿洩露敏感的個人資訊",
+        "line2": "我們絕不會要求您提供密碼",
+        "line3": "請小心詐騙訊息"
+      }
+    },
+    "password.manager": "保存在密碼管理器中",
+    "deposit.box": "存放在保險箱中",
+    "secret.places": "寫下並存放在多個秘密位置",
+    "phraseConfirm": {
+      "seed.phrase": "第 {{index}} 個助記詞"
+    },
+    "sendTo": {
+      "input.the.address": "輸入地址"
+    },
+    "sendAmount": {
+      "balance": "餘額"
+    },
+    "accountName": "帳戶名稱",
+    "back.up": "備份",
+    "slow": "慢",
+    "average": "普通",
+    "fast": "快",
+    "transaction": {
+      "status": "交易狀態"
+    },
+    "message": "來自網站的訊息",
+    "bookmark": "書籤列",
+    "history": "歷史記錄",
+    "new.page": "新分頁",
+    "private.key": {
+      "wallet": "私鑰錢包"
+    },
+    "transaction.password": "交易密碼",
+    "wallet.password": "錢包密碼"
+  },
+  "default": {},
+  "unit": {},
+  "status": {
+    "success": "成功",
+    "sent": "已轉出",
+    "swapped": "已兌換",
+    "received": "接收",
+    "approved": "已授權",
+    "pending": "待處理",
+    "fail": "失敗",
+    "reverted": "合約互動失敗",
+    "dropped": "已被拋棄",
+    "contract.interaction": "合約交互",
+    "others": "其他",
+    "dropped.replaced": "已被拋棄及取代",
+    "max": "最大",
+    "disconnected": "斷開連結"
+  },
+  "relation": {},
+  "placeholder": {
+    "seed.phrase": "您的助記詞",
+    "address": "{{chain}} 地址",
+    "e.g.address": "例如：gdfg13s5f13d21f3sd5g3df3d21f3sd5g3df3d21f3sd5g3df54g23vb13h...",
+    "transaction.password": "交易密碼",
+    "wallet.password": "錢包密碼"
+  },
+  "description": {
+    "import.seed.phrase": "通常由12 或 24 個單字以半形空格隔開",
+    "wallet.is.ready": "您的錢包已建立完成，您可以開始使用！",
+    "successfully.signed": "簽名成功",
+    "phraseBackup": {
+      "back.up.seed.phrase": "您的錢包已建立。您的助記詞由 12 或 24 個單字組成，它是錢包與資產的“萬能鑰匙”。接下來我們將協助您備份它。"
+    },
+    "phraseIntroduce": {
+      "back.up.seed.phrase": "您的助記詞由 12 或 24 個單字組成，它是錢包與資產的“萬能鑰匙”。",
+      "should.i.share": "我該分享我的助記詞嗎？",
+      "never.share": "即使是 Bridgefy wallet 人員，也永遠不要分享你的助記詞。",
+      "i.have.learned": "我已經了解什麼是助記詞",
+      "i.know": "我知道 Bridgefy wallet 無法找回助記詞"
+    },
+    "phraseBrowse": {
+      "back.up.seed.phrase": "寫下這 {{count}} 個單字，存放在您信任並且只有您能取得的位置",
+      "saved.seed": "我記好助記詞了"
+    },
+    "no.activity": "目前沒有任何活動",
+    "this.account.no.activity": "此帳戶目前沒有活動紀錄",
+    "showing.recent.days": "僅顯示最近 {{days}} 天的紀錄",
+    "showing.recent.records": "僅顯示最近 {{count}} 筆紀錄",
+    "bridgefy.supported.transfers.only": "僅顯示 Bridgefy 支援幣種的轉帳紀錄",
+    "recent.records.limit.only": "僅顯示最近 {{count}} 筆交易。",
+    "tap.scan.view.more": "更多紀錄請點選 Scan 查看",
+    "recent.records.tap.scan": "僅顯示最近 {{count}} 筆交易，更多紀錄請點選 Scan 查看",
+    "only.accept.ethereum": "僅接受{{network}}上的資產",
+    "liquid.receive.address.notice": "因安全性考量，每次點擊 LIQUID 接收產生的地址皆會異動，已產生的地址永久有效。",
+    "selectToken": {
+      "not.assets": "您還未擁有任何資產"
+    },
+    "transactionModal": {
+      "requests.permission.use": "{{dapp}} 請求取得 {{symbol}} 使用權限",
+      "you.will.grant.access": "您將同意 {{dapp}} 可以使用您的資金",
+      "transaction.not.be.parsed": "無法分析該交易請求的內容"
+    },
+    "scanner": {
+      "select.walletConnect": "選擇 WalletConnect 並",
+      "scan.QR.Code": "掃描 QR code"
+    },
+    "walletConnect": {
+      "no.connect": "沒有連接中的 DApp",
+      "has.connected": "{{accountName}} 已和以下 DApp 連結",
+      "is.connecting": "正在連接 {{dapp}}"
+    },
+    "addAccount": {
+      "has.been.create": "已建立 {{name}}",
+      "still.modify.info.later": "之後可以在帳戶設定再次編輯"
+    },
+    "import.private.key": {
+      "enter.private.key": "請輸入私鑰"
+    },
+    "verify.password": {
+      "resetting.password.enter.original": "重設密碼前，請先輸入原密碼"
+    },
+    "back.up.to.use": "備份助記詞以使用功能",
+    "not.own.any.assets": "您還未擁有任何資產",
+    "pair": {
+      "would.like.to.connect": "{{dapp}} 想與帳號 {{accountName}} 連接",
+      "successfully.connected": "成功連接 {{dapp}}",
+      "view.activity": "可查看您的鏈上活動",
+      "request.approval": "可提出交易授權請求",
+      "network.not.supported": "不支援 DApp 請求切換的網路"
+    },
+    "sign": {
+      "ask.signature": "{{dapp}} 請求簽名"
+    },
+    "explore.your.world": "盡情探索你的 Web3 世界",
+    "confirm.delete.all": "確定刪除所有紀錄？",
+    "not.support.tron": "DApp瀏覽器不支持TRON，請返回並切換到其他網路",
+    "importWallets": {
+      "import.existing.wallets": "匯入現有錢包",
+      "one.at.a.time": "您需要逐一匯入您的錢包，一次匯入一個。",
+      "migration.intro.title": "選擇要備份的錢包",
+      "migration.intro.body1": "歡迎回來！新版的 Bridgefy 已支援 Liquid 隱私鏈，並加強了恢復詞（recovery phrase）的保護。",
+      "migration.intro.body2": "Bridgefy 會為您建立新的錢包與恢復詞。完成後，建議您將舊錢包中的資產轉移到新應用程式中的錢包。",
+      "backup.legacy.title": "備份先前的錢包",
+      "backup.list.hint": "為確保安全，請逐一備份每個錢包。",
+      "backup.legacy.body": "請對每個錢包輸入交易密碼以查看註記詞並自行抄寫保存。您可隨時建立新錢包，不必先備份完所有舊錢包。",
+      "enter.password": "請輸入此錢包的交易密碼。",
+      "enterPasswordForSeedBackup": "請輸入此錢包的交易密碼，以顯示註記詞供您自行備份。",
+      "action.continue.to.seed": "繼續",
+      "confirm.backup.done": "我已備份完成",
+      "backed.up.a11y": "已標示備份",
+      "no.mnemonic.title": "無法顯示註記詞",
+      "no.mnemonic.message": "此錢包在備份資料中找不到可還原的註記詞。",
+      "migration.new.wallet.title": "建立新錢包",
+      "migration.new.wallet.body": "系統將為您自動產生新錢包。確認後，您將進一步設定恢復詞（recovery phrase）。",
+      "migration.new.wallet.cta": "立即建立",
+      "migration.skip.title": "您仍有尚未備份的錢包。",
+      "migration.skip.alert.p1": "請在進行下一步前，確認已備份所有錢包的恢復詞（recovery phrase）。",
+      "migration.skip.alert.p2": "若遺失恢復詞，您將無法存取錢包中的資產。",
+      "migration.skip.alert.once": "此提醒僅會顯示一次。",
+      "migration.skip.footer": "若您選擇略過其他錢包的備份，現在可以繼續建立新錢包。",
+      "migration.skip.cta": "建立新錢包",
+      "migration.skip.ctaCountdown": "建立新錢包({{seconds}})",
+      "migration.skip.ctaA11yWait": "將於 {{seconds}} 秒後可點擊",
+      "empty": "目前沒有可顯示的舊錢包。",
+      "proceed.to.homepage": "若繼續，此帳號之後將不再顯示遷移畫面。略過前請確認已保存仍需要的註記詞。",
+      "import.failed.title": "發生錯誤",
+      "import.failed.message": "請稍後再試。",
+      "incorrect.password.title": "密碼錯誤",
+      "incorrect.password.message": "請重新輸入密碼。"
+    }
+  },
+  "notice": {
+    "back.up.now": "現在備份嗎？",
+    "what.seed.phrase": "什麼是助記詞？",
+    "how.save.my.seed": "如何保存我的助記詞？",
+    "transaction.expected.fail": "這筆交易預期會失敗，或是您的礦工費不足。它的礦工費可能很高而且在執行時會失敗，我們並不推薦您執行。",
+    "transaction.is.pending": "此交易已提交至區塊鏈上等候處理，請稍後在活動紀錄查看交易狀態。",
+    "approval.is.pending": "此授權已提交至區塊鏈上等候處理，請稍後在活動紀錄查看交易狀態。",
+    "saved.successfully": "儲存成功",
+    "delete.account": "如果刪除帳戶，您需要重新匯入私鑰才能使用帳戶，同時活動紀錄會被清除。",
+    "export.private.key": {
+      "keep.it.safe": " 請妥善保管私鑰，任何取得私鑰的人都可使用您的資產"
+    },
+    "nobody.looking": "確認沒有人看著您的螢幕",
+    "reveal.seed": "點擊以顯示助記詞",
+    "reveal.private.key": "點擊以顯示私鑰",
+    "password.been.reset": "已重設密碼",
+    "migrate.wallet.success": "錢包遷移成功",
+    "legacy.backup.recorded": "已標示為已備份"
+  },
+  "action": {
+    "save": "儲存",
+    "connect": "連接",
+    "send": "轉出",
+    "scan": "掃描",
+    "swap": "閃兌",
+    "sign": "簽名",
+    "receive": "接收",
+    "buy": "購買",
+    "shield": "轉入私密",
+    "unshield": "解除私密",
+    "withdraw": "提款",
+    "got.it": "我知道了",
+    "create.new.wallet": "建立新錢包",
+    "already.have.wallet": "匯入助記詞",
+    "go.back.up": "前往備份",
+    "later": "稍後",
+    "hide.seed.phrase": "隱藏助記詞",
+    "need.more": "想看更多？",
+    "manage.accounts": "管理帳戶",
+    "add.an.account": "新增帳戶",
+    "click.to.back.up": "您尚未備份助記詞，點擊以進行備份。",
+    "go.to.activity": "活動紀錄",
+    "go.to.home": "首頁",
+    "album": "相簿",
+    "create.from.seed.phrase": "使用助記詞建立",
+    "import.private.key": "匯入私鑰",
+    "back.to.account.list": "返回帳戶列表",
+    "create.an.account": "建立帳戶",
+    "delete.this.account": "刪除帳戶",
+    "export.private.key": "匯出私鑰",
+    "hide.private.key": "隱藏私鑰",
+    "disconnect": "斷開連結",
+    "close.all": "關閉所有",
+    "delete.all": "全部刪除",
+    "view.all": "查看全部",
+    "import.wallet": "匯入錢包"
+  },
+  "buyModal": {
+    "title": "買幣",
+    "titleCoinbase": "您將被導向 Coinbase 購買 {{currencies}}。",
+    "description": "將跳轉至合作夥伴頁面完成購買，資產將匯入目前錢包地址。",
+    "assetToPurchase": "購買資產",
+    "selectCurrency": "選擇幣種",
+    "receivingInformation": "收款資訊",
+    "accountDefault": "帳戶 01",
+    "ethereumOnlyTooltip": "目前僅支援購買 Ethereum 網路上的資產",
+    "verifyAddressWarning": "請確認 Coinbase 上的地址與您的錢包地址一致",
+    "cancel": "取消",
+    "continue": "繼續",
+    "close": "關閉",
+    "error": {
+      "noAddress": "無法取得錢包地址",
+      "noUrl": "無法取得結帳連結",
+      "failed": "建立訂單失敗"
+    },
+    "warningText": "第三方服務須知：本服務由第三方服務商提供。Bridgefy Wallet 可協助查詢訂單相關問題，但交易執行、審核、訂單成功與否、退款及其他服務結果，均由第三方服務商依其規則處理。"
+  },
+  "error": {
+    "seed.phrase": {
+      "invalid": "助記詞無效",
+      "wrong.answers": "答案錯誤"
+    },
+    "address": {
+      "invalid": "地址無效"
+    },
+    "amount": {
+      "required": "此欄位必填",
+      "greater.than": "必須大於 {{value}}",
+      "insufficient.balance": "餘額不足",
+      "maximum.is.deducting.gas": "扣除礦工費後，最大金額為 {{balance}} {{symbol}}"
+    },
+    "scanner": {
+      "unavailable": "無法使用"
+    },
+    "name": {
+      "max": "最多 {{number}} 個字母",
+      "existing": "已有此帳戶名稱"
+    },
+    "private.key": {
+      "has.imported": "已匯入該私鑰",
+      "required": "此欄位必填",
+      "invalid": "私鑰無效"
+    },
+    "wrong.sign": "簽名失敗",
+    "insufficient.funds.for.fees": "餘額不足以支付礦工費",
+    "calculate.gas.fee": "計算礦工費異常，請稍後再試",
+    "insertData": "無法顯示該交易紀錄",
+    "send.transaction": "交易失敗",
+    "transaction.not.ready": "交易尚未準備好",
+    "get.receive.address.error": "無法取得接收地址",
+    "unknown.error": "未知錯誤",
+    "tron.resource.insufficient": "帳戶資源不足（頻寬/能量）。請質押 TRX 或等待每日額度重置後再試。"
+  },
+  "amount.below.minimum.transaction": "數量小於最低交易金額",
+  "tab": {
+    "home": "主頁",
+    "browser": "瀏覽器",
+    "activity": "活動紀錄",
+    "setting": "設定",
+    "recommend": "推薦",
+    "bookmark": "書籤",
+    "transaction": "交易",
+    "bridge": "閃兌",
+    "buy": "買幣"
+  },
+  "buy": {
+    "orderDetail": {
+      "title": "訂單詳情",
+      "status": "狀態",
+      "orderNo": "訂單編號",
+      "coinbaseFee": "Coinbase 手續費",
+      "networkFee": "網路手續費",
+      "paid": "已支付",
+      "created": "建立時間",
+      "updated": "更新時間",
+      "txid": "交易哈希",
+      "contactSupport": "聯絡客服",
+      "tooltipCoinbaseFee": "Coinbase 會根據市場狀況、付款方式與訂單大小等因素，在您下單時收取手續費。",
+      "tooltipNetworkFee": "發送至錢包地址會產生由區塊鏈礦工收取的網路手續費，並可能因用戶需求而變動。",
+      "statusSuccess": "成功",
+      "statusNew": "新建",
+      "statusInProgress": "處理中",
+      "listTitle": "購買 {{symbol}}"
+    }
+  },
+  "bridge": {
+    "only.usdt.on.liquid.warning": "目前只支援 Liquid 上的 USDT",
+    "feeInfo": {
+      "platformFee": "平台手續費",
+      "receivedAmount": "實際到帳金額"
+    },
+    "errors": {
+      "invalid.amount": "無效的數量",
+      "amount.must.be.greater.than.0": "數量必須大於 0",
+      "not.enough.balance": "餘額不足",
+      "invalid.evm.address": "無效的 EVM 地址",
+      "invalid.tron.address": "無效的 TRON 地址",
+      "amount.below.minimum": "數量不得低於 {{min}}",
+      "amount.above.maximum": "數量不得超過 {{max}}",
+      "get-bridge-order-meta.error": "無法取得閃兌訂單資料，請稍後再試。",
+      "get.unspent.outputs": "取得未花費輸出失敗，請稍後再試",
+      "create.transaction": "建立交易失敗，請稍後再試",
+      "get-bridge-estimated-fee.error": "無法取得閃兌估計費用，請稍後再試。",
+      "rate-expired": "匯率已過期，請重新輸入金額取得新匯率。",
+      "kya-validation-failed": "收款地址風險等級過高，無法進行此交易。請使用其他地址。",
+      "create-order-failed": "無法建立閃兌訂單，請稍後再試。",
+      "please-create-order-from-bridge": "請先從閃兌頁面建立訂單後再確認。"
+    },
+    "swapForm": {
+      "from": {
+        "label": "從"
+      },
+      "to": {
+        "label": "至"
+      },
+      "takerAddress": {
+        "label": "接收地址",
+        "placeholder": "地址"
+      },
+      "amount": {
+        "label": "數量",
+        "placeholder": "數量",
+        "info": "可用數量： {{value}}",
+        "max.amount": "最大數量",
+        "min.amount": "最小數量",
+        "min.send.amount": "最低發送數量",
+        "received.below.min.hint": "實際到帳金額低於本筆最低要求，請提高發送數量後再提交。"
+      },
+      "network": {
+        "label": "網路",
+        "placeholder": "選擇網路"
+      }
+    },
+    "confirmOrder": {
+      "network": "網路",
+      "to": "轉到",
+      "from": "從",
+      "gas.fee": "礦工費",
+      "bridge.order": "閃兌訂單",
+      "platform.fee": "平台手續費",
+      "more": "更多",
+      "bridge.route": "閃兌路由",
+      "address": "地址",
+      "invalid.params": "無效的參數",
+      "expired": "已過期",
+      "orderExpired": "閃兌訂單已過期。",
+      "orderExpiredHint": "請點擊取消或上一頁返回，重新取得匯率並建立訂單。",
+      "createNewOrder": "重新建立",
+      "refetchRate": "重新取得匯率"
+    },
+    "orderDetail": {
+      "title": "閃兌訂單詳情",
+      "bridgeInfo": "閃兌資訊",
+      "status": "狀態",
+      "orderDate": "訂單日期",
+      "from": "來源",
+      "orderNo": "訂單編號",
+      "platformFee": "平台手續費",
+      "more": "更多",
+      "bridgeRoute": "閃兌路由",
+      "to": "目標",
+      "address": "地址",
+      "gasFee": "礦工費",
+      "sendTxid": "發送 Txid",
+      "receiveTxid": "接收 Txid",
+      "note": "備註",
+      "orderExpired": "訂單已過期。",
+      "failedToLoad": "無法載入訂單詳情",
+      "contactCustomerService": "聯繫客服",
+      "errorMessage": "您的訂單狀態有問題。\n請聯繫客服尋求協助。"
+    },
+    "status": {
+      "success": "成功",
+      "pending": "處理中",
+      "processing": "處理中",
+      "fail": "失敗",
+      "canceled": "已取消"
+    }
+  },
+  "liquid": {
+    "fgs": {
+      "channel-name": "Bridgefy 錢包連線",
+      "title": "Bridgefy 錢包",
+      "body": "錢包連線中",
+      "body-locked": "錢包鎖定"
+    }
+  },
+  "kyc": {
+    "status": {
+      "NEW": "未驗證",
+      "PENDING_VERIFY": "待審核",
+      "PASS": "已驗證",
+      "FAIL": "失敗",
+      "SUSPECTED": "疑似"
+    },
+    "displayStatus": {
+      "not_verified": "尚未驗證",
+      "under_review": "審核中",
+      "verified": "已驗證",
+      "verified_plus": "已驗證 Plus",
+      "rejected": "已退回"
+    },
+    "overview": {
+      "subtitle": "需要完成身份驗證",
+      "subtitleAllSet": "太棒了！您已完成所有驗證。",
+      "basic": "基本",
+      "plus": "進階",
+      "rejectionTitle": "驗證未通過",
+      "rejectionBody": "您的申請未通過。請根據以下說明修正後重新提交：",
+      "rejectionReasonsLabel": "退回原因",
+      "rejectionUpdatedSuffix": "已更新",
+      "startVerification": "開始驗證",
+      "resubmit": "重新提交",
+      "benefitTitle": "完成 {{level}} 解鎖以下功能：",
+      "benefitWithdraw": "提領",
+      "benefitWithdrawDesc": "USDT → 銀行帳戶 USD 提領服務",
+      "contactPrefix": "如有疑問請聯繫",
+      "contactLink": "客服",
+      "fullLegalName": "法定全名",
+      "documents": "證件類型",
+      "passportName": "護照姓名",
+      "clickToExpandDetails": "... 點擊展開詳情",
+      "clickToCollapseDetails": "... 點擊收合詳情",
+      "selectVerificationLevel": "選擇驗證等級",
+      "basicVerification": "基本驗證",
+      "verificationPlus": "進階驗證",
+      "needToProvide": "需提供：",
+      "additionalInfoRequired": "另需提供：",
+      "levelBasicBullet1": "姓名",
+      "levelBasicBullet2": "國籍",
+      "levelBasicBullet3": "身分證明",
+      "levelPlusBullet1": "護照",
+      "levelPlusBullet2": "銀行交易紀錄"
+    },
+    "step-of": "步驟 {{current}} / {{total}}",
+    "step1": {
+      "title": "基本資訊",
+      "subtitle": "請填寫您的基本資訊",
+      "personalInfoShort": "個人資料"
+    },
+    "step2": {
+      "title": "身份證明文件",
+      "subtitle": "請上傳您的身份證明文件"
+    },
+    "step3": {
+      "title": "自拍證明文件",
+      "subtitle": "請拍攝一張能清楚顯示您的臉部和證件的自拍照。"
+    },
+    "step4": {
+      "title": "銀行交易紀錄",
+      "subtitle": "上傳您的銀行交易紀錄"
+    },
+    "step2PassportTitle": "護照",
+    "name": "全名",
+    "name-match-passport-hint": "請確保姓名與護照上的姓名一致",
+    "passport-data-signature-photo": "資料頁與簽名頁照片",
+    "name-placeholder": "例如：張三",
+    "gender": "性別",
+    "gender-placeholder": "請選擇性別",
+    "gender-male": "男",
+    "gender-female": "女",
+    "address": "居住地址",
+    "address-placeholder": "請輸入居住地址",
+    "email": "電子郵件",
+    "email-placeholder": "請輸入電子郵件",
+    "dateOfBirth": "出生日期",
+    "dateOfBirth-placeholder": "請選擇出生日期",
+    "nationality": "國籍",
+    "nationality-placeholder": "請選擇國籍",
+    "phoneNumber": "電話號碼",
+    "phoneNumber-placeholder": "請輸入電話號碼",
+    "documentType": "選擇文件類型",
+    "documentType-passport": "護照",
+    "documentType-idCard": "身份證",
+    "documentType-drivingLicense": "駕駛執照",
+    "documentFront": "正面頁",
+    "documentBack": "背面頁",
+    "passport-documentFront": "資料頁",
+    "passport-documentBack": "照片頁",
+    "optional": "選填",
+    "upload-image": "點擊上傳",
+    "document-upload-warning": "支援 .jpg 和 .png。請保持圖片清晰且小於 5MB。",
+    "document-upload-warning-basic": "支援 .jpg 和 .png。請保持畫面乾淨清晰。（上限 5MB）",
+    "pdf-upload-warning": "支援 .pdf。檔案請小於 5MB。",
+    "upload-passport-title": "上傳護照",
+    "upload-bank-record-title": "上傳銀行交易紀錄",
+    "bank-record-requirement1": "須涵蓋最近 3 個月。",
+    "bank-record-requirement2": "須為從銀行或銀行 App 下載的正式文件。",
+    "bank-record-requirement3": "須包含戶名與交易明細。",
+    "bank-record-requirement4": "僅接受 PDF 格式。",
+    "bank-record-requirement5": "檔案不得設密碼保護。",
+    "bank-record-label": "銀行交易紀錄",
+    "select-image-source": "選擇圖片來源",
+    "camera-permission-required": "需要相機權限",
+    "camera-permission-message": "請在設定中允許相機權限",
+    "gallery-permission-required": "需要相簿權限",
+    "gallery-permission-message": "請在設定中允許相簿權限",
+    "agree-to-terms-prefix": "我已閱讀並同意",
+    "agree-to-terms-suffix": "的條款",
+    "terms-and-conditions": "服務條款",
+    "warning-message": "請確認所有資訊正確無誤，提交後將無法修改。",
+    "submit": "提交",
+    "error": {
+      "must-agree-to-terms": "必須同意服務條款"
+    },
+    "select-country": "選擇國家",
+    "search-country": "搜尋國家...",
+    "no-country-found": "找不到符合的國家",
+    "click-to-upload": "點擊上傳",
+    "selfie": {
+      "title": "請拍攝一張能清楚顯示您的臉部和證件的自拍照。",
+      "sample": "範例",
+      "instruction1": "找一個光線充足的地方，避免證件上出現眩光或遮擋。",
+      "instruction2": "手持裝置拍攝，上半身入鏡，手持證件，確保臉部與證件皆清楚可見。"
+    },
+    "uploading": "上傳中...",
+    "uploaded": "已上傳",
+    "upload-failed": "上傳失敗",
+    "upload-failed-message": "圖片上傳失敗，請重試。",
+    "submit-success": "KYC 身份驗證成功",
+    "submit-failed": "KYC 身份驗證失敗",
+    "validation-failed-title": "請檢查填寫內容",
+    "validation-failed-message": "尚有必填欄位未完成或格式不正確，請返回對應步驟補齊。",
+    "guard": {
+      "pending": {
+        "title": "您的文件已提交。",
+        "description": "請耐心等待我們審核您的資訊。此過程通常需要 1 至 2 個工作天，審核完成後我們會通知您。",
+        "guidelines-title": "審核指南",
+        "guideline1": "請確保您的手機開機以接收驗證通知。",
+        "guideline2": "如需補充文件，我們會透過 App 通知和電子郵件通知您。",
+        "check-progress": "查看進度",
+        "home": "主頁"
+      },
+      "failed": {
+        "title": "驗證失敗。",
+        "description": "很抱歉，您的提交未通過審核。請依據以下建議重新提交您的資料。",
+        "reasons-title": "常見原因",
+        "reason1": "文件不夠清晰或不完整。",
+        "reason2": "證件已過期或不屬於您本人。",
+        "reason3": "文件格式不正確。",
+        "contact-prefix": "如有疑問，請聯繫",
+        "contact-link": "客服中心",
+        "resubmit": "重新提交",
+        "reason-title": "審核失敗原因"
+      }
+    }
+  },
+  "withdraw": {
+    "agreement": {
+      "title": "出金條款",
+      "content": "USDT 兌換美金 (USD) 出金服務協議\n\n1. 服務說明\n甲方透過其平台或授權之第三方供應商，為乙方提供將 USDT 兌換為美金 (USD) 並匯入乙方指定銀行帳戶之服務。\n\n2. 到帳時間\n本服務標準處理週期為 T+3 個工作天（不含週六、日及法定假日）。起算點為該筆 USDT 轉帳獲得區塊鏈網路完全確認之時。\n\n3. 第三方聲明\n乙方理解匯款可能由第三方支付處理商或銀行夥伴執行。對於因銀行系統故障或中間行操作延遲導致的損失，甲方不承擔連帶責任。\n\n4. 資訊準確性\n收款帳戶名必須與乙方實名認證 (KYC) 姓名完全一致。若因乙方提供資訊錯誤導致匯款失敗，甲方不對任何資金損失負責。\n\n5. 退匯與行政費\n若因資訊錯誤、收款行拒收或政策限制導致退匯，乙方須承擔所有中間行費用、退匯費及甲方行政處理費。\n\n6. 匯率與價差風險\n若發生退匯，甲方將以「退回當時」之市場匯率折算回 USDT 返還乙方。期間產生的市場價格波動損失由乙方全權承擔。\n\n7. 稅務責任\n乙方需自行負責所有與本交易相關之稅務申報與繳納義務。甲方不提供稅務諮詢，亦不承擔任何代扣代繳責任。\n\n8. 受限制管轄區\n甲方不向受國際制裁（如 OFAC）或當地法律禁止之地區提供服務。如因乙方所在地法律限制導致資金被攔截，損失由乙方承擔。\n\n9. 法律管轄\n本協議受波蘭法律管轄。如中英文版本有歧義，應以英文版為準。",
+      "checkbox": "我已閱讀並同意以上所有條款與條件",
+      "confirm": "確認並繼續"
+    },
+    "enterAmount": {
+      "title": "輸入金額",
+      "availableBalance": "{{account}} 可用餘額",
+      "address": "地址",
+      "chainAddress": "{{chain}} 地址",
+      "inputLabel": "出金金額",
+      "limits": "最低 {{min}}｜最高 {{max}}",
+      "estimating": "正在試算…"
+    },
+    "gas": {
+      "insufficient": {
+        "title": "您需要 {{symbol}}",
+        "description": "您需要少量 {{symbol}} 作為交易手續費。",
+        "back": {
+          "home": "返回首頁"
+        },
+        "liquid": {
+          "title": "您需要少量 L-BTC 作為交易手續費。",
+          "description": "進行區塊鏈交易時須以 L-BTC 支付 Gas 手續費。請於 Tron 或以太坊網路使用 USDT 購買 L-BTC。"
+        }
+      }
+    },
+    "flow": {
+      "step": {
+        "amount": "輸入金額",
+        "bank": "銀行資料",
+        "review": "確認",
+        "send": "確認送出",
+        "submitted": "已送出"
+      },
+      "meta": {
+        "missing": "此網路目前無法在 App 內進行出金。",
+        "missingBadge": "即將開放",
+        "missingTitle": "此網路暫不支援 App 內出金",
+        "missingBody": "我們正在擴充可出金的區塊鏈網路，您選擇的網路將於後續版本開放，敬請期待。",
+        "missingHint": "建議先切換至已支援的網路，或留意 App 更新與公告。",
+        "missingSupportedTitle": "目前可在 App 內出金的網路",
+        "missingSupportedEmpty": "暫時無法取得清單，請稍後再試。"
+      },
+      "amount": {
+        "hint": "請輸入整數金額（{{min}} - {{max}}），單位：{{symbol}}。",
+        "error": {
+          "required": "請輸入金額",
+          "integer": "金額必須為整數",
+          "invalidNumber": "請輸入有效的正整數金額",
+          "min": "金額至少須為 {{min}}",
+          "max": "金額不得超過 {{max}}",
+          "insufficientBalance": "餘額不足",
+          "insufficientForTotal": "可用餘額須足以支付預估應付總額（{{total}}）。"
+        }
+      },
+      "estimate": {
+        "error": "試算手續費失敗"
+      },
+      "fees": {
+        "title": "費用試算",
+        "loading": "計算中…",
+        "empty": "輸入金額後顯示試算",
+        "toAmount": "預估入帳",
+        "service": "服務費（{{percent}}%）",
+        "bank": "銀行手續費",
+        "total": "預估應付總額"
+      },
+      "bank": {
+        "screenTitle": "銀行帳戶資料",
+        "warningBanner": "請確認銀行帳戶資料正確，以免造成資金損失。",
+        "subtitle": "請確認銀行資料與您的 KYC 資料一致。",
+        "loading": "載入已存銀行資料…",
+        "save": "儲存此銀行帳戶供日後使用",
+        "accountName": "帳戶姓名",
+        "accountNameHelper": "須與護照姓名一致",
+        "accountNumber": "帳號／IBAN",
+        "bankName": "銀行名稱",
+        "swift": "SWIFT 代碼",
+        "bankCode": "銀行代碼",
+        "branchCode": "分行代碼",
+        "bankAddress": "銀行地址",
+        "beneficiaryAddress": "受益人地址",
+        "placeholder": {
+          "bankName": "例如：Chase Bank",
+          "bankCode": "例如：0025",
+          "swift": "例如：CHASUS33XXX",
+          "branchCode": "例如：0112",
+          "bankAddress": "例如：270 Park Avenue, New York, NY 10017, USA",
+          "accountName": "例如：James R. Mitchell",
+          "accountNumber": "例如：4839201756",
+          "beneficiaryAddress": "例如：84 Maple Street, Austin, TX 78701, USA"
+        },
+        "validation": {
+          "bankCodeDigitsOnly": "銀行代碼僅可填數字",
+          "branchCodeDigitsOnly": "分行代碼僅可填數字",
+          "accountNumberFormat": "帳號僅可填英文字母與數字，至少 4 碼",
+          "swiftFormat": "請輸入有效的 SWIFT／BIC（8 或 11 碼英數字）"
+        },
+        "error": "載入銀行資料失敗"
+      },
+      "review": {
+        "title": "確認出金資訊",
+        "confirmTitle": "確認提款",
+        "orderSummary": "訂單摘要",
+        "recipient": "收款人資訊",
+        "cryptoReceipt": "加密貨幣收款",
+        "fromChainAccount": "自 {{chain}} 帳戶",
+        "serviceFeePercent": "手續費（{{percent}}%）",
+        "totalPayment": "應付總額",
+        "confirmSend": "確認並送出 {{symbol}}",
+        "amount": "您將送出：{{amount}} {{symbol}}",
+        "receive": "預估入帳：{{amount}} {{currency}}",
+        "toAddress": "鏈上收款地址",
+        "noEstimate": "請等待費用試算完成",
+        "create": "建立出金訂單"
+      },
+      "create": {
+        "error": "建立出金訂單失敗",
+        "missingReceiveAddress": "訂單已建立，但缺少鏈上收款地址。請聯絡客服。"
+      },
+      "send": {
+        "title": "鏈上轉出 USDT",
+        "body": "請在錢包中確認交易；成功後我們會把交易與訂單關聯。",
+        "to": "收款地址",
+        "retryPatch": "重試關聯交易",
+        "cancelOrder": "取消出金（標記失敗）"
+      },
+      "patch": {
+        "error": "無法以您的交易更新訂單",
+        "markFailed": "已將出金標記為失敗"
+      },
+      "submitted": {
+        "title": "出金已送出",
+        "body": "您的鏈上轉帳已送出，可於活動頁追蹤進度。",
+        "successTitle": "申請已送出",
+        "successBody": "您的出金申請已成功送出。款項將於約 3～5 個工作天內撥付。後續狀態將以電子郵件通知您。",
+        "orderSummary": "訂單摘要",
+        "orderNo": "訂單編號",
+        "orderPending": "—",
+        "withdrawalAmount": "出金金額",
+        "viewDetail": "查看訂單詳情",
+        "viewActivity": "前往活動",
+        "backHome": "返回首頁"
+      }
+    }
+  },
+  "withdrawal": {
+    "status": {
+      "NEW": "交易進行中",
+      "PENDING": "申請中",
+      "FAILED": "交易失敗",
+      "APPROVED": "等待出金",
+      "REJECTED": "等待退款",
+      "REFUNDED": "已退款",
+      "REQUIRES_ACTION": "待補件",
+      "COMPLETED": "完成",
+      "CANCELLED": "已取消",
+      "AWAITING_WITHDRAW": "等待出金",
+      "UNKNOWN": "未知"
+    },
+    "activity": {
+      "empty": "尚無出金紀錄",
+      "section": {
+        "today": "今天",
+        "yesterday": "昨天"
+      }
+    },
+    "orderModal": {
+      "title": "訂單詳情",
+      "loadError": "無法載入此出金訂單，請稍後再試。",
+      "infoHeading": "資訊",
+      "recipientHeading": "收款資訊",
+      "expandRecipient": "… 點選展開詳情",
+      "collapseRecipient": "點選收合詳情",
+      "sentTxid": "轉帳 TxID",
+      "refundedTxid": "退款 TxID",
+      "txNotInLocalHistory": "找不到本機錢包內的這筆鏈上紀錄。紀錄可能正在同步中，如有任何疑問，請聯繫客服。",
+      "txDetailLoadError": "無法讀取交易紀錄，請稍後再試。",
+      "contactCta": "聯絡客服",
+      "updateInfo": "更新資料",
+      "actionRequiredTitle": "需要補件",
+      "actionRequiredIntro": "您的申請已被退回，請依下列說明修正並重新送出：",
+      "actionRequiredRejectedReasons": "退件原因",
+      "serviceFee": "服務費",
+      "bankFee": "銀行手續費",
+      "withdrawalAmount": "出金金額",
+      "withdrawalAmountHint": "收款銀行可能會另收手續費，實際入帳金額請以銀行對帳單為準。",
+      "created": "建立時間",
+      "updated": "更新時間",
+      "statusHint": "此為您出金申請目前的處理階段，狀態變更時我們會另行通知。",
+      "statusTooltip": {
+        "NEW": "USDT 交易進行中。",
+        "PENDING": "USDT 已成功發送，出金審核中。請注意，Ethereum 與 Tron 的鏈上交易，可能從此狀態再變為交易失敗。",
+        "FAILED": "交易失敗，USDT 未成功發送。",
+        "APPROVED": "Bridgefy 完成審核，等待向銀行辦理出金。",
+        "COMPLETED": "已向銀行辦理出金。請注意，此狀態並不保證將會出金成功，可能會有金融機構需要更多資訊，或拒絕出金申請並退款的情形發生。",
+        "REJECTED": "出金審核失敗，Bridgefy 將退款至您的發款地址。請注意，退款可能扣除操作手續費等費用。",
+        "REFUNDED": "Bridgefy 已退款至您的發款錢包/地址。",
+        "REQUIRES_ACTION": "請依照退件原因，在訂單中提供對應資訊。上傳資訊後，Bridgefy 將接續審核您的出金申請。",
+        "CANCELLED": "此出金申請已取消。",
+        "AWAITING_WITHDRAW": "審核已完成，出金正送往銀行處理。",
+        "UNKNOWN": "此狀態暫無說明。"
+      },
+      "historyModal": {
+        "title": "歷程",
+        "empty": "尚無紀錄",
+        "loadError": "無法載入歷程，請稍後再試。",
+        "upToDate": "已為最新",
+        "refresh": "重新整理",
+        "admin": "管理員",
+        "userFallback": "您",
+        "system": "Bridgefy",
+        "reasonPrefix": "原因：",
+        "headline": {
+          "applicationCreated": "已建立出金申請",
+          "applicationSubmitted": "申請已送出",
+          "applicationResubmitted": "申請已重新送出",
+          "applicationReturnedResubmit": "此申請已被退回，請修正後重新提交。",
+          "applicationApproved": "申請已核准",
+          "completedWithdrawal": "出金已完成",
+          "refundProcessingContactSupport": "無法核准您的出金申請，退款處理中。如有疑問請聯絡客服。",
+          "additionalInfoResubmit": "需要補充資料以處理您的出金，請更新資料後重新提交。",
+          "refundCompleted": "退款已完成",
+          "withdrawalFailed": "出金未成功",
+          "withdrawalCancelled": "出金已取消",
+          "statusUpdatedFallback": "狀態更新"
+        },
+        "reason": {
+          "invalidBankAccount": "銀行帳戶資料無效。",
+          "invalidBankReenter": "銀行帳戶資料無效，請重新輸入。"
+        },
+        "statusUpdated": "狀態已更新：",
+        "additionalInfoLabel": "補充說明："
+      }
+    },
+    "detail": {
+      "title": "出金詳情",
+      "loading": "載入中…",
+      "contactSupport": "聯絡客服",
+      "section": {
+        "summary": "摘要",
+        "transfer": "鏈上轉帳",
+        "bank": "銀行資料",
+        "history": "歷程"
+      },
+      "field": {
+        "status": "狀態",
+        "orderNo": "訂單編號",
+        "chain": "鏈",
+        "token": "代幣",
+        "amount": "數量",
+        "total": "合計",
+        "sentTx": "轉帳 TxID",
+        "refundTx": "退款 TxID"
+      },
+      "bank": {
+        "bankName": "銀行名稱",
+        "accountName": "帳戶姓名",
+        "accountNumber": "帳號／IBAN",
+        "swift": "Swift 代碼",
+        "bankCode": "銀行代碼",
+        "branchCode": "分行代碼",
+        "bankAddress": "銀行地址",
+        "beneficiaryAddress": "受益人地址"
+      },
+      "history": {
+        "empty": "尚無歷程",
+        "attachment": "開啟附件"
+      },
+      "actionRequired": {
+        "title": "需要補件",
+        "body": "我們需要更多資訊以繼續處理您的出金申請。",
+        "cta": "更新資料"
+      }
+    },
+    "resubmit": {
+      "title": "更新資料",
+      "subtitle": "請補充說明並／或上傳文件。",
+      "message": "補充資訊",
+      "messagePlaceholder": "請輸入",
+      "attachments": "上傳文件",
+      "addFile": "點擊上傳",
+      "fileTypesHint": "支援 .pdf、.jpg 與 .png；請保持畫面清晰，單檔小於 5MB。",
+      "removeFile": "移除檔案",
+      "uploading": "上傳中…",
+      "uploaded": "已上傳",
+      "submit": "送出",
+      "success": "已送出",
+      "successNavTitle": "已提交",
+      "successTitle": "補件已送出",
+      "successBody": "您的出金申請已重新送出。我們將再次審核您的申請，結果將於 3～5 個工作天內以電子郵件通知您。",
+      "viewDetail": "查看訂單詳情",
+      "backHome": "返回首頁",
+      "pick": {
+        "title": "選擇檔案類型",
+        "image": "圖片"
+      },
+      "alert": {
+        "title": "上傳"
+      },
+      "error": {
+        "upload": "上傳失敗",
+        "submit": "送出失敗",
+        "state": "此訂單目前無法補件，請重新整理後再試。",
+        "size": "每個檔案需小於等於 {{mb}}MB。",
+        "permission": "需要相簿權限才能選取圖片。"
+      }
+    }
+  },
+  "withdrawKycGate": {
+    "cardTitle": "準備進行進階驗證",
+    "needToProvide": "需提供：",
+    "completeKyc": "完成驗證",
+    "goBack": "返回",
+    "fullyUnverifiedHeadline": "您需完成身份驗證方可使用提領服務",
+    "basicOnlyHeadline": "您需完成進階身份驗證方可使用提領服務",
+    "underReviewHeadline": "目前無法使用提領功能，您的身份驗證審核中。",
+    "bulletName": "姓名",
+    "bulletNationality": "國籍",
+    "bulletPassport": "護照",
+    "bulletBankRecord": "銀行交易紀錄"
+  },
+  "user.terms": "用戶條款",
+  "privacy.policy": "隱私政策",
+  "campaign": {
+    "liquid_usdt": {
+      "title": "LIQUID 轉帳手續費限量免費送！",
+      "step1": "Step 1｜LIQUID 錢包持有 200 USDT 並完成 KYC",
+      "step2": "Step 2｜前往 LIQUID 鏈點擊「接收」",
+      "step3": "Step 3｜產生接收地址",
+      "reward": "完成即可獲得 LBTC 手續費補助 (約 5 次 Liquid 轉帳)",
+      "notice1": "＊名額有限，送完為止",
+      "notice2": "＊手續費到帳時間視區塊鏈速度而定",
+      "never_show_again": "不再顯示",
+      "got_it": "我知道了"
+    }
+  },
+  "chain": {
+    "type": {
+      "public": "公開",
+      "private": "私密"
+    }
+  },
+  "faq": {
+    "transaction.types": "這是什麼類型的交易？"
+  }
+}

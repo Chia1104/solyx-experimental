@@ -1,0 +1,185 @@
+{
+  "title": {
+    "set.app.lock": "設定應用鎖",
+    "set.a.password": "設定密碼",
+    "setup.complete": "設定完成",
+    "welcome.back": "歡迎回來",
+    "welcome.to": "歡迎來到",
+    "start.with": "開始使用",
+    "what.different": "有什麼不同？",
+    "language": "語言",
+    "notice": "通知",
+    "change.app.lock": "變更應用鎖"
+  },
+  "caption": {
+    "start.with": "開始使用",
+    "fortuna.wallet": "Bridgefy wallet",
+    "web3.wallet": "Web3 錢包"
+  },
+  "label": {
+    "address": "地址",
+    "status": "狀態",
+    "password": "密碼",
+    "new.password": "新密碼",
+    "confirmPassword": "確認密碼",
+    "turn.on.auto.lock": "打開自動上鎖",
+    "switch.to.Fortuna.wallet": "切換到 Bridgefy wallet",
+    "create.a.wallet": "建立 Web3 錢包",
+    "switch.to.wallet": "切換至 Web3 錢包",
+    "language": "語言",
+    "change.password": "修改密碼",
+    "app.lock": "應用鎖",
+    "auto.lock": "自動上鎖",
+    "phone.number": "手機號碼",
+    "email": "電子信箱",
+    "passkey": "通行密鑰",
+    "biometry": {
+      "face": {
+        "id": "Face ID",
+        "unlock": "臉部解鎖"
+      },
+      "touch": {
+        "id": "Touch ID"
+      },
+      "fingerprint": {
+        "unlock": "指紋解鎖"
+      }
+    }
+  },
+  "default": {
+    "version": "版本 {{version}}"
+  },
+  "unit": {
+    "date": "日期",
+    "today": "今天",
+    "yesterday": "昨天",
+    "sec": "秒",
+    "min": "分"
+  },
+  "status": {},
+  "relation": {
+    "fortuna.wallet": "簡單快速的加密世界",
+    "web3.wallet": "您的 Web3 入口"
+  },
+  "placeholder": {},
+  "description": {
+    "set.app.lock": {
+      "1": "開始擁有你的加密資產，進入 Web3 世界。",
+      "2": "請設定應用鎖，保護資產安全。"
+    },
+    "set.a.password": "請保管密碼在安全的地方，我們無法幫您找回。若忘記密碼，只能移除並重新安裝。",
+    "reset.password": "Bridgefy wallet 無法替您找回密碼",
+    "setup.complete": "下次開啟應用時，將需要再次解鎖。",
+    "change.app.lock": "選擇您要用來解鎖應用程式的方式。",
+    "verify.app.lock": "變更前，請先驗證目前的應用鎖。",
+    "biometry.reset.password.multiple.verify": "由於您的錢包資料受生物辨識保護，重設期間可能需要進行多次生物辨識驗證。",
+    "lock.app.leave": "短暫離開時將應用上鎖",
+    "make.sure.owner": "確認您的身份",
+    "liquid.required.verify": "Liquid 網路需要驗證",
+    "for.liquid.security.reasons": "為了安全起見，每次開啟應用程式或切換到 Liquid 網路時，都需要進行驗證。",
+    "input.password.to.process": "輸入密碼以繼續",
+    "what.different": "Bridgefy wallet 與 Web3 錢包都是加密貨幣錢包，您可以儲存加密貨幣在裡面。",
+    "fortuna.wallet": "Bridgefy wallet 將保管您的私鑰。當您忘記密碼時，我們將寄送一封電子郵件協助您重設密碼。您只能在 Bridgefy wallet 上使用此錢包。",
+    "web3.wallet": "使用助記詞產生地址。您可以在其他加密錢包服務中使用您的錢包。",
+    "switch": {
+      "fortuna.wallet": "Bridgefy wallet 是託管錢包服務",
+      "web3.wallet": "在 Web3 錢包中，您可建立多個帳戶，並擁有完整的資金使用權限"
+    },
+    "check.on.scanner": "在 {{scanner}} 查看",
+    "check.detail.on.scanner": "在 {{scanner}} 查看詳情",
+    "setting": {
+      "lock.when.leave": "短暫離開時將應用程式上鎖",
+      "reset.password.for.lock": "重置應用鎖密碼",
+      "change.app.lock": "變更此應用程式的解鎖方式"
+    }
+  },
+  "notice": {
+    "copied.to.clipboard": "已複製到剪貼簿",
+    "physical.keyboard.connected": "目前正在使用實體鍵盤。為安全起見，SSO 登入／註冊時請勿使用實體鍵盤輸入。",
+    "do.not.show.again": "不再顯示此通知",
+    "maintenance.title": "系統維護中",
+    "maintenance.description": "目前系統正在進行維護，請稍後再試。",
+    "force.update.title": "需要更新",
+    "force.update.description": "請更新至最新版本以繼續使用應用程式。",
+    "update.title": "有新版本可用",
+    "update.description": "新版本已上線，立即更新以獲得最佳體驗。",
+    "no-network.title": "無網路連線",
+    "no-network.description": "請檢查您的網路連線後再試一次。",
+    "failed.title": "服務不可用",
+    "failed.description": "無法連接到我們的伺服器。請稍後再試。",
+    "retry.after.app.lock.verify": "請先完成應用鎖驗證，再操作一次。",
+    "app.lock.changed": "已更新應用鎖"
+  },
+  "action": {
+    "set.app.lock": {
+      "biometry": "以 {{biometryLabel}} 設定",
+      "password": "設定密碼"
+    },
+    "verify.with.biometry": "以 {{biometryLabel}} 驗證",
+    "yes": "是",
+    "no": "否",
+    "close": "關閉",
+    "check": "查看",
+    "reset": "重設密碼",
+    "enter": "進入",
+    "back": "返回",
+    "copy": "複製",
+    "paste": "貼上",
+    "confirm": "確認",
+    "finish": "完成",
+    "next": "下一步",
+    "submit": "提交",
+    "ok": "開始使用",
+    "pause": "停用",
+    "cancel": "取消",
+    "approve": "授權",
+    "create": "建立帳戶",
+    "switch": "切換",
+    "fortuna.enter": "進入 Bridgefy wallet",
+    "what.different": "有什麼不同？",
+    "go.to.setting": "前往設定",
+    "stay.in.here": "留在這邊",
+    "manage": "管理",
+    "skip": "跳過",
+    "done": "完成",
+    "home": "首頁",
+    "camera": "相機",
+    "gallery": "相簿",
+    "update": "立即更新",
+    "later": "稍後",
+    "update-now": "立即更新",
+    "retry": "重試"
+  },
+  "validation": {
+    "minimum": "至少 {{number}} 字元",
+    "letter": "{{number}} 英文字母",
+    "number": "{{number}} 數字",
+    "required": "此欄位為必填",
+    "invalid-type": "無效的類型"
+  },
+  "error": {
+    "confirmPassword": {
+      "required": "此欄位必填",
+      "not.match": "密碼不一樣"
+    },
+    "password": {
+      "required": "此欄位必填",
+      "wrong": "密碼錯誤"
+    },
+    "keychain": {
+      "incorrect": "您輸入的密碼不正確。",
+      "canceled": "操作已取消。",
+      "verify": {
+        "failed": "驗證未通過，請再試一次",
+        "canceled": "點一下隨時重試"
+      }
+    },
+    "scanner": {
+      "camera.not.access": "請在隱私設定中允許 Bridgefy wallet 使用您的相機",
+      "album.not.access": "請在隱私設定中允許 Bridgefy wallet 使用您的相簿"
+    }
+  },
+  "utils": {
+    "all": "全部"
+  }
+}

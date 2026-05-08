@@ -1,4 +1,4 @@
-import type { QueryOptions } from '@tanstack/react-query';
+import type { UseQueryOptions } from '@tanstack/react-query';
 import { queryOptions, useQuery } from '@tanstack/react-query';
 
 import type { GetOnrampOrdersRequest } from '../pipes/onramp.pipe';
@@ -7,7 +7,7 @@ import { getOnrampOrders } from '../services/onramp.service';
 type OnrampOrdersResponse = Awaited<ReturnType<typeof getOnrampOrders>>;
 
 type UseQueryOnrampOrdersOptions = Omit<
-  QueryOptions<OnrampOrdersResponse, Error>,
+  UseQueryOptions<OnrampOrdersResponse, Error>,
   'queryKey' | 'queryFn'
 >;
 

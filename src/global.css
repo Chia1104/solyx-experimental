@@ -2,9 +2,16 @@
 @import "uniwind";
 @import "heroui-native/styles";
 
-@source './node_modules/heroui-native/lib';
+@source '../node_modules/heroui-native/lib';
 
 @layer theme {
+  :root {
+    --radius: 12px;
+    --radius-panel: 12px;
+    --radius-panel-inner: 12px;
+    --field-radius: var(--radius);
+  }
+
   @variant light {
     --background: oklch(0.9702 0 0);
     --foreground: oklch(0.2686 0 0);
@@ -47,12 +54,9 @@
     --focus: var(--accent);
     --link: var(--accent);
 
-    --surface-shadow:
-      0 2px 4px 0 rgba(0, 0, 0, 0.04), 0 1px 2px 0 rgba(0, 0, 0, 0.06),
-      0 0 1px 0 rgba(0, 0, 0, 0.06);
+    --surface-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.04), 0 1px 2px 0 rgba(0, 0, 0, 0.06), 0 0 1px 0 rgba(0, 0, 0, 0.06);
     --overlay-shadow:
-      0 2px 8px 0 rgba(0, 0, 0, 0.02), 0 -6px 12px 0 rgba(0, 0, 0, 0.01),
-      0 14px 28px 0 rgba(0, 0, 0, 0.03);
+      0 2px 8px 0 rgba(0, 0, 0, 0.02), 0 -6px 12px 0 rgba(0, 0, 0, 0.01), 0 14px 28px 0 rgba(0, 0, 0, 0.03);
     --field-shadow: var(--surface-shadow);
 
     --bridgefy-card: oklch(0.9772 0.0017 325.59);
@@ -117,6 +121,14 @@
 }
 
 @theme inline {
+  --radius-lg: 12px;
+  --radius-xl: 12px;
+  --radius-2xl: 12px;
+  --radius-3xl: 12px;
+  --radius-full: 12px;
+  --radius-panel: 12px;
+  --radius-panel-inner: 12px;
+  --radius-field: 12px;
   --color-bridgefy-card: var(--bridgefy-card);
   --color-bridgefy-primary-70: var(--bridgefy-primary-70);
   --color-bridgefy-primary-80: var(--bridgefy-primary-80);

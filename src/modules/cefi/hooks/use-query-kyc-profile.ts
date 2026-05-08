@@ -1,10 +1,10 @@
-import type { QueryOptions } from '@tanstack/react-query';
+import type { UseQueryOptions } from '@tanstack/react-query';
 import { queryOptions, useQuery } from '@tanstack/react-query';
 
 import type { KYCProfile } from '../pipes/kyc.pipe';
 import { getKYCProfile } from '../services/kyc.service';
 
-type UseQueryKYCProfileOptions = Omit<QueryOptions<KYCProfile, Error>, 'queryKey' | 'queryFn'>;
+type UseQueryKYCProfileOptions = Omit<UseQueryOptions<KYCProfile, Error>, 'queryKey' | 'queryFn'>;
 
 export const queryKYCProfileOptions = (options?: UseQueryKYCProfileOptions) => {
   return queryOptions({

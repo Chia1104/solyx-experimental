@@ -1,10 +1,10 @@
-import type { QueryOptions } from '@tanstack/react-query';
+import type { UseQueryOptions } from '@tanstack/react-query';
 import { queryOptions, useQuery } from '@tanstack/react-query';
 
 import type { DefiMeta } from '../pipes/meta.pipe';
 import { getDefiMeta } from '../services/meta.service';
 
-type UseQueryDefiMetaOptions = Omit<QueryOptions<DefiMeta, Error>, 'queryKey' | 'queryFn'>;
+type UseQueryDefiMetaOptions = Omit<UseQueryOptions<DefiMeta, Error>, 'queryKey' | 'queryFn'>;
 
 export const queryDefiMetaOptions = (options?: UseQueryDefiMetaOptions) => {
   return queryOptions({

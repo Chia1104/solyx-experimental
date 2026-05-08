@@ -1,10 +1,10 @@
-import type { QueryOptions } from '@tanstack/react-query';
+import type { UseQueryOptions } from '@tanstack/react-query';
 import { queryOptions, useQuery } from '@tanstack/react-query';
 
 import type { Meta } from '../pipes/meta.pipe';
 import { getMeta } from '../services/meta.service';
 
-type UseQueryMetaOptions = Omit<QueryOptions<Meta, Error>, 'queryKey' | 'queryFn'>;
+type UseQueryMetaOptions = Omit<UseQueryOptions<Meta, Error>, 'queryKey' | 'queryFn'>;
 
 export const queryMetaOptions = (options?: UseQueryMetaOptions) => {
   return queryOptions({
