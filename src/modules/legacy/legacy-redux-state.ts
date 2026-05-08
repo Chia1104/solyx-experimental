@@ -1,5 +1,5 @@
-//  oldReduxMMKV.getString('persist:root');
-const _legacyReduxPersistRootState = {
+// oldReduxMMKV.getString('persist:root');
+export const legacyReduxPersistRootStateExample = {
   user: '/** See below _userData **/',
   auth: '{"cefiAuth":{"token":"","refreshToken":""}}',
   announcement: '{"article":{"hiddenIDs":[]}}',
@@ -7,7 +7,7 @@ const _legacyReduxPersistRootState = {
   _persist: '{"version":1,"rehydrated":true}',
 };
 
-const _userData = {
+export const legacyReduxUserStateExample = {
   account: {
     hasPassword: true,
     hasHDWallet: true,
@@ -111,4 +111,4 @@ const _userData = {
     },
     isLogin: true,
   },
-};
+}
