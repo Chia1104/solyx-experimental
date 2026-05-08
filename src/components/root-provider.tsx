@@ -5,7 +5,7 @@ import { useColorScheme } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { queryClient } from '@/modules/request/query-client';
+import { queryClient } from '@/libs/request/query-client';
 
 export const RootProvider = ({ children }: { children: React.ReactNode }) => {
   const colorScheme = useColorScheme();

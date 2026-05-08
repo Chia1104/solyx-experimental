@@ -1,5 +1,5 @@
 import '@/global.css';
-import '@/modules/translations';
+import '@/libs/translations';
 import { Stack } from 'expo-router';
 import { Text } from 'react-native';
 

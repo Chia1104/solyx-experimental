@@ -1,4 +1,4 @@
-import { CommonResponse } from '@/modules/request/pipes/commans.pipe';
+import { CommonResponse } from '@/libs/request/pipes/commans.pipe';
 
 import { publicCefiClient } from '../client';
 import type { RefreshTokenRequest, SignInRequest } from '../pipes/tokens.pipe';

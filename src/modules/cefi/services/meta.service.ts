@@ -1,4 +1,4 @@
-import { CommonResponse } from '@/modules/request/pipes/commans.pipe';
+import { CommonResponse } from '@/libs/request/pipes/commans.pipe';
 
 import { protectedCefiClient } from '../client';
 import { Meta } from '../pipes/meta.pipe';

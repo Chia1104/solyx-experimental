@@ -1,5 +1,5 @@
+import { CommonResponse } from '@/libs/request/pipes/commans.pipe';
 import { toBridgeApiChainId } from '@/modules/chain/utils';
-import { CommonResponse } from '@/modules/request/pipes/commans.pipe';
 
 import { protectedCefiClient } from '../../cefi/client';
 import type {

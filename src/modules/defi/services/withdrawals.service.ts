@@ -1,4 +1,4 @@
-import { CommonResponse } from '@/modules/request/pipes/commans.pipe';
+import { CommonResponse } from '@/libs/request/pipes/commans.pipe';
 
 import { protectedCefiClient } from '../../cefi/client';
 import type {
@@ -11,12 +11,12 @@ import type {
   UpdateDefiWithdrawalRequest,
 } from '../pipes/withdrawals.pipe';
 import {
-  createDefiWithdrawalsListResponse,
   DefiWithdrawalBankInfo,
   DefiWithdrawalDetail,
   DefiWithdrawalEstimateFee,
   DefiWithdrawalEventsResponse,
   DefiWithdrawalsMeta,
+  createDefiWithdrawalsListResponse,
 } from '../pipes/withdrawals.pipe';
 
 export const getDefiWithdrawalsMeta = async () => {

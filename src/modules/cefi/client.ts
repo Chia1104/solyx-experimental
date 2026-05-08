@@ -2,8 +2,8 @@ import Constants from 'expo-constants';
 import * as Device from 'expo-device';
 import ky from 'ky';
 
-import { env } from '../env';
-import { cefiToken } from '../store/cefi-store';
+import { env } from '../../libs/env';
+import { cefiToken } from '../../libs/store/cefi-store';
 
 interface CefiAuthTokens {
   accessToken: string;
