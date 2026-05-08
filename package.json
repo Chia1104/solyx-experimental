@@ -14,6 +14,7 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@craftzdog/react-native-buffer": "^6.1.1",
     "@gorhom/bottom-sheet": "^5.2.13",
     "@hookform/resolvers": "^5.2.2",
     "@legendapp/list": "^2.0.19",
@@ -34,7 +35,6 @@
     "expo": "~55.0.23",
     "expo-clipboard": "~55.0.13",
     "expo-constants": "~55.0.16",
-    "expo-crypto": "~55.0.14",
     "expo-device": "~55.0.16",
     "expo-document-picker": "~55.0.13",
     "expo-font": "~55.0.7",
@@ -65,8 +65,10 @@
     "react-i18next": "^17.0.6",
     "react-native": "0.83.6",
     "react-native-gesture-handler": "^2.28.0",
+    "react-native-keychain": "^10.0.0",
     "react-native-mmkv": "^4.3.1",
     "react-native-nitro-modules": "^0.35.6",
+    "react-native-quick-crypto": "^1.1.2",
     "react-native-reanimated": "^4.1.1",
     "react-native-safe-area-context": "~5.6.2",
     "react-native-screens": "~4.23.0",
