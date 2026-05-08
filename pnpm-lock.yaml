@@ -26,6 +26,9 @@ importers:
       '@react-navigation/native':
         specifier: ^7.1.33
         version: 7.2.2(react-native@0.83.6(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.0))(react@19.2.0)
+      '@roswell/react-native-gdk':
+        specifier: github:Chia1104/react-native-gdk.git
+        version: git+https://git@github.com:Chia1104/react-native-gdk.git#e6fb71cf948ce65e027f9a04b6aa0ed7bf4c9c5a(react-native@0.83.6(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.0))(react@19.2.0)
       '@t3-oss/env-core':
         specifier: ^0.13.11
         version: 0.13.11(typescript@5.9.3)(zod@4.4.3)
@@ -2194,6 +2197,14 @@ packages:
 
   '@rolldown/pluginutils@1.0.0-rc.17':
     resolution: {integrity: sha512-n8iosDOt6Ig1UhJ2AYqoIhHWh/isz0xpicHTzpKBeotdVsTEcxsSA/i3EVM7gQAj0rU27OLAxCjzlj15IWY7bg==}
+
+  '@roswell/react-native-gdk@git+https://git@github.com:Chia1104/react-native-gdk.git#e6fb71cf948ce65e027f9a04b6aa0ed7bf4c9c5a':
+    resolution: {commit: e6fb71cf948ce65e027f9a04b6aa0ed7bf4c9c5a, repo: git@github.com:Chia1104/react-native-gdk.git, type: git}
+    version: 0.76.1
+    engines: {node: '>= 18.0.0'}
+    peerDependencies:
+      react: '*'
+      react-native: '*'
 
   '@scure/base@1.1.9':
     resolution: {integrity: sha512-8YKhl8GHiNI/pU2VMaofa2Tor7PJRAjwQLBBuilkJ9L5+13yVbC7JO/wS7piioAvPSwR3JKM1IJ/u4xQzbcXKg==}
@@ -7178,6 +7189,11 @@ snapshots:
     optional: true
 
   '@rolldown/pluginutils@1.0.0-rc.17': {}
+
+  '@roswell/react-native-gdk@git+https://git@github.com:Chia1104/react-native-gdk.git#e6fb71cf948ce65e027f9a04b6aa0ed7bf4c9c5a(react-native@0.83.6(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.0))(react@19.2.0)':
+    dependencies:
+      react: 19.2.0
+      react-native: 0.83.6(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.0)
 
   '@scure/base@1.1.9': {}
 

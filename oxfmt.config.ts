@@ -42,6 +42,7 @@ export default defineConfig({
     '.vscode',
     '.idea',
     '.map.ts',
+    'uniwind-types.d.ts',
   ],
   experimentalSortImports: {
     groups: [

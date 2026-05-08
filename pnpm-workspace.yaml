@@ -1,3 +1,4 @@
 allowBuilds:
   esbuild: true
+  "@roswell/react-native-gdk": true
 nodeLinker: hoisted

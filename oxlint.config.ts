@@ -40,6 +40,7 @@ export default defineConfig({
     '.vscode',
     '.idea',
     '.map.ts',
+    'uniwind-types.d.ts',
   ],
   rules: {
     'typescript/no-require-imports': 'off',
