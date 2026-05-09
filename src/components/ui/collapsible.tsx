@@ -1,4 +1,5 @@
-import { PropsWithChildren, useState } from 'react';
+import type { PropsWithChildren } from 'react';
+import { useState } from 'react';
 
 import { SymbolView } from 'expo-symbols';
 import { Pressable, StyleSheet } from 'react-native';

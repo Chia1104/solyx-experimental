@@ -12,6 +12,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     userInterfaceStyle: 'automatic',
     ios: {
       icon: './assets/expo.icon',
+      bundleIdentifier: 'com.chia1104.solyxexperimental',
     },
     android: {
       adaptiveIcon: {

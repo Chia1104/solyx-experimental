@@ -8,6 +8,7 @@
     "reset-project": "node ./scripts/reset-project.js",
     "android": "expo run:android",
     "ios": "expo run:ios",
+    "type-check": "tsc --noEmit",
     "lint": "oxlint",
     "format": "oxfmt",
     "lint:fix": "oxlint --fix",

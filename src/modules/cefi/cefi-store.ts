@@ -1,6 +1,6 @@
 import { createMMKV } from 'react-native-mmkv';
 
-import { env } from '../env';
+import { env } from '@/libs/env';
 
 export const cefiAuthStorage = createMMKV({
   id: 'cefi-auth',

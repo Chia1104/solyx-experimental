@@ -1,20 +1,39 @@
-import { useCallback, useMemo } from 'react';
+import { createContext, use, useCallback, useMemo } from 'react';
 
 import * as Device from 'expo-device';
 import { useNetworkState } from 'expo-network';
 import { Platform } from 'react-native';
 
-import type { AppStatusContextValue } from '@/components/app-status-context';
 import { AppStatus } from '@/enums/app-status.enum';
 import { needsUpdate } from '@/libs/app/version';
 import { useQueryMeta } from '@/modules/cefi/hooks/use-query-meta';
 
+interface AppGuardContext {
+  status: AppStatus;
+  canProceed: boolean;
+  isLoading: boolean;
+  openStore: () => void;
+  refetch: () => void;
+}
+
 interface Props {
-  children: (data: AppStatusContextValue) => React.ReactNode;
+  children: ((data: AppGuardContext) => React.ReactNode) | React.ReactNode;
   fallback: React.ReactNode;
 }
 
 const LOCAL_VERSION = Device.osVersion ?? '0.0.0';
+
+export const AppGuardContext = createContext<AppGuardContext | null>(null);
+
+export const useAppGuard = (namespace = 'useAppGuard') => {
+  const context = use(AppGuardContext);
+
+  if (!context) {
+    throw new Error(`${namespace} must be used within AppGuardContext.Provider`);
+  }
+
+  return context;
+};
 
 export const AppGuard = ({ children, fallback }: Props) => {
   const { isConnected } = useNetworkState();
@@ -36,10 +55,10 @@ export const AppGuard = ({ children, fallback }: Props) => {
     if (meta.siteStatus === 'inMaintenance') return AppStatus.Maintenance;
 
     if (meta.clientVersions?.forceUpdate) {
-      const required =
-        Platform.OS === 'ios'
-          ? meta.clientVersions.forceUpdate.ios
-          : meta.clientVersions.forceUpdate.android;
+      const required = Platform.select({
+        ios: meta.clientVersions.forceUpdate.ios,
+        android: meta.clientVersions.forceUpdate.android,
+      });
       if (required && needsUpdate(LOCAL_VERSION, required)) {
         return AppStatus.UpdateRequired;
       }
@@ -63,17 +82,26 @@ export const AppGuard = ({ children, fallback }: Props) => {
   const canProceed =
     !isLoading && (status === AppStatus.Operational || status === AppStatus.UpdateSuggested);
 
+  const context = useMemo(
+    () => ({
+      status,
+      canProceed,
+      isLoading,
+      openStore: () => {
+        /* empty */
+      },
+      refetch: handleRefetch,
+    }),
+    [status, canProceed, isLoading, handleRefetch],
+  );
+
   if (isLoading) {
     return fallback;
   }
 
-  return children({
-    status,
-    canProceed,
-    isLoading,
-    openStore: () => {
-      /* empty */
-    },
-    refetch: handleRefetch,
-  });
+  return (
+    <AppGuardContext value={context}>
+      {typeof children === 'function' ? children(context) : children}
+    </AppGuardContext>
+  );
 };
