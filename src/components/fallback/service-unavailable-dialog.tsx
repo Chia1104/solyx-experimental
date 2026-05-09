@@ -2,11 +2,11 @@ import type { DialogRootProps } from 'heroui-native';
 import { Button, Dialog } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
 
-import { useAppStatus } from '@/components/app-status-context';
+import { useAppGuard } from '@/components/app-guard';
 
 export const ServiceUnavailableDialog = (props: DialogRootProps) => {
   const { t } = useTranslation(['global']);
-  const { refetch } = useAppStatus();
+  const { refetch } = useAppGuard();
   return (
     <Dialog {...props}>
       <Dialog.Portal>

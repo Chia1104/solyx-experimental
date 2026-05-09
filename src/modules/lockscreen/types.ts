@@ -1,0 +1,73 @@
+export const LockRequestType = {
+  Password: 'password',
+  PrivateKey: 'privateKey',
+  Phrase: 'phrase',
+  Liquid: 'liquid',
+} as const;
+
+export type LockRequestType = (typeof LockRequestType)[keyof typeof LockRequestType];
+
+export interface LockRequestBase {
+  id: string;
+  isDismissible?: boolean;
+  reason?: string;
+  type: LockRequestType;
+}
+
+export interface PasswordLockRequest extends LockRequestBase {
+  type: typeof LockRequestType.Password;
+}
+
+export interface PrivateKeyLockRequest extends LockRequestBase {
+  network?: string;
+  type: typeof LockRequestType.PrivateKey;
+}
+
+export interface PhraseLockRequest extends LockRequestBase {
+  type: typeof LockRequestType.Phrase;
+}
+
+export interface LiquidLockRequest extends LockRequestBase {
+  type: typeof LockRequestType.Liquid;
+}
+
+export type LockRequest =
+  | PasswordLockRequest
+  | PrivateKeyLockRequest
+  | PhraseLockRequest
+  | LiquidLockRequest;
+
+export type LockRequestInput =
+  | Omit<PasswordLockRequest, 'id'>
+  | Omit<PrivateKeyLockRequest, 'id'>
+  | Omit<PhraseLockRequest, 'id'>
+  | Omit<LiquidLockRequest, 'id'>;
+
+export interface LockRequestResultMap {
+  liquid: true;
+  password: string;
+  phrase: string;
+  privateKey: string;
+}
+
+export type LockRequestResult<T extends LockRequestType> = LockRequestResultMap[T];
+
+export const LockScreenErrorCode = {
+  Canceled: 'canceled',
+  MissingCredential: 'missing_credential',
+  RequestInProgress: 'request_in_progress',
+  UnsupportedRequest: 'unsupported_request',
+  VerifyFailed: 'verify_failed',
+} as const;
+
+export type LockScreenErrorCode = (typeof LockScreenErrorCode)[keyof typeof LockScreenErrorCode];
+
+export class LockScreenError extends Error {
+  code: LockScreenErrorCode;
+
+  constructor(code: LockScreenErrorCode, message?: string) {
+    super(message ?? code);
+    this.name = 'LockScreenError';
+    this.code = code;
+  }
+}
