@@ -5,6 +5,9 @@ import { Text } from 'react-native';
 
 import { AppGuard } from '@/components/app-guard';
 import { RootProvider } from '@/components/root-provider';
+import { globalInit } from '@/libs/app/global-init';
+
+globalInit();
 
 export default function RootLayout() {
   return (
