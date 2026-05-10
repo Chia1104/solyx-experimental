@@ -22,7 +22,7 @@ import { useQueryBiometryType } from '@/modules/keychain/hooks/use-query-biometr
 import { KeychainError } from '@/modules/keychain/utils';
 import { useUserStore } from '@/modules/user/stores/user';
 
-import Brand from '../brand';
+import Brand, { BrandImage } from '../brand';
 import { PasswordInput } from '../ui/password-input';
 
 interface LockScreenFormValues {
@@ -303,15 +303,21 @@ export const LockScreenOverlay = () => {
   const confirmLabel = request.type === 'password' ? t('action.enter') : t('action.confirm');
 
   return (
-    <Brand className="absolute inset-0 z-50 flex-1" pointerEvents="auto" display={['background']}>
+    <Brand className="absolute inset-0 z-50 flex-1" display={['background']} pointerEvents="auto">
       <TouchableWithoutFeedback accessible={false} onPress={Keyboard.dismiss}>
         <View className="flex-1 items-center justify-center px-6 py-10">
+          <BrandImage className="mb-7 flex-none" />
+
           <View className="items-center">
             <Text className="text-foreground text-center text-2xl font-semibold">{copy.title}</Text>
-            <Text className="text-muted mt-3 max-w-xs text-center text-sm">{copy.description}</Text>
+            {request.type === 'password' ? null : (
+              <Text className="text-muted mt-3 max-w-xs text-center text-sm">
+                {copy.description}
+              </Text>
+            )}
           </View>
 
-          <View className="mt-12 w-full max-w-sm">
+          <View className="mt-12 w-full max-w-64">
             {!canUseBiometry ? (
               <>
                 <Controller

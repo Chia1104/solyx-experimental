@@ -45,7 +45,7 @@ export const Background = ({
 export const BrandImage = ({ className, ...props }: ViewProps) => {
   return (
     <View
-      className={cn('absolute inset-0 z-10 items-center justify-center', className)}
+      className={cn('w-full flex-1 items-center justify-center', className)}
       {...props}
       pointerEvents="none"
     >
@@ -69,12 +69,12 @@ const Brand = ({
       )}
       {...props}
     >
-      {display.includes('brand') && <BrandImage />}
       {display.includes('background') && <Background />}
       <View
         className={cn('relative z-20 h-full w-full flex-1', wrapperProps?.className)}
         {...wrapperProps}
       >
+        {display.includes('brand') && <BrandImage />}
         {children}
       </View>
     </View>
