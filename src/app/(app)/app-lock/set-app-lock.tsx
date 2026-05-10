@@ -1,35 +1,21 @@
 import { router } from 'expo-router';
 import { Button } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
-import { ActivityIndicator, View } from 'react-native';
-import { BIOMETRY_TYPE } from 'react-native-keychain';
+import { View } from 'react-native';
 
+import Brand from '@/components/brand';
 import { ThemedText } from '@/components/ui/themed-text';
 import { useQueryBiometryType } from '@/modules/keychain/hooks/use-query-biometry-type';
 
-const getBiometryLabelKey = (type?: BIOMETRY_TYPE | null) => {
-  switch (type) {
-    case BIOMETRY_TYPE.FACE_ID:
-      return 'label.biometry.face.id' as const;
-    case BIOMETRY_TYPE.TOUCH_ID:
-      return 'label.biometry.touch.id' as const;
-    case BIOMETRY_TYPE.FACE:
-      return 'label.biometry.face.unlock' as const;
-    case BIOMETRY_TYPE.FINGERPRINT:
-      return 'label.biometry.fingerprint.unlock' as const;
-    default:
-      return null;
-  }
-};
-
 export default function SetAppLock() {
   const { t } = useTranslation(['global']);
-  const { data: biometryType, isLoading } = useQueryBiometryType();
-  const biometryLabelKey = getBiometryLabelKey(biometryType);
-  const biometryLabel = biometryLabelKey ? t(biometryLabelKey) : undefined;
+  const { isLoading, biometryLabel } = useQueryBiometryType();
 
   return (
-    <View className="bg-background flex-1 justify-between px-10 py-24">
+    <Brand
+      display={['background']}
+      wrapperProps={{ className: 'flex-1 justify-between px-10 py-24' }}
+    >
       <ThemedText className="text-foreground text-center text-3xl font-semibold">
         {t('title.set.app.lock')}
       </ThemedText>
@@ -44,10 +30,8 @@ export default function SetAppLock() {
       </View>
 
       <View className="gap-6">
-        {isLoading ? (
-          <ActivityIndicator />
-        ) : biometryLabel ? (
-          <Button onPress={() => router.push('/app-lock/check-biometry')}>
+        {biometryLabel ? (
+          <Button onPress={() => router.push('/app-lock/check-biometry')} isDisabled={isLoading}>
             <Button.Label>
               {t('action.set.app.lock.biometry', {
                 biometryLabel,
@@ -63,6 +47,6 @@ export default function SetAppLock() {
           <Button.Label>{t('action.set.app.lock.password')}</Button.Label>
         </Button>
       </View>
-    </View>
+    </Brand>
   );
 }

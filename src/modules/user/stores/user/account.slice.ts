@@ -3,7 +3,6 @@ import type { AccountActions, AccountState, UserStoreSlice } from './types';
 export const createAccountInitialState = (): AccountState => ({
   hasPassword: false,
   hasHDWallet: false,
-  isLogged: false,
   backupPhraseState: '',
   account: '',
 });
@@ -19,10 +18,6 @@ export const createAccountSlice: UserStoreSlice<AccountActions> = set => ({
 
   setBackupPhraseState: backupPhraseState => {
     set(state => ({ account: { ...state.account, backupPhraseState } }));
-  },
-
-  setLoggedState: isLogged => {
-    set(state => ({ account: { ...state.account, isLogged } }));
   },
 
   setAccount: account => {

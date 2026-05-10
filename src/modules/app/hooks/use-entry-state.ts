@@ -32,19 +32,19 @@ export const useEntryState = () => {
     };
   }
 
+  if (hasPassword && !isStartupDone) {
+    return {
+      hasPasswordCredential,
+      isLoading: false,
+      phase: EntryPhase.AppLock,
+    };
+  }
+
   if (!hasHDWallet) {
     return {
       hasPasswordCredential,
       isLoading: false,
       phase: EntryPhase.Onboarding,
-    };
-  }
-
-  if (hasPassword && hasHDWallet && !isStartupDone) {
-    return {
-      hasPasswordCredential,
-      isLoading: false,
-      phase: EntryPhase.AppLock,
     };
   }
 

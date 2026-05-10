@@ -5,14 +5,12 @@ import { ActivityIndicator, View } from 'react-native';
 
 import { LockScreenOverlay } from '@/components/lockscreen/lockscreen-overlay';
 import { useGlobalStore } from '@/modules/app/stores/global';
-import { useUserStore } from '@/modules/user/stores/user';
 
 export default function AppLockIndex() {
   const hasActiveLockRequest = useGlobalStore(store => store.hasActiveLockRequest);
   const lockRequest = useGlobalStore(store => store.lockRequest);
   const requestLock = useGlobalStore(store => store.requestLock);
   const setStartup = useGlobalStore(store => store.setStartup);
-  const setLoggedState = useUserStore(state => state.setLoggedState);
 
   const { isSuccess } = useQuery({
     enabled: !lockRequest && !hasActiveLockRequest(),
@@ -35,8 +33,7 @@ export default function AppLockIndex() {
     if (!isSuccess) return;
 
     setStartup(true);
-    setLoggedState(true);
-  }, [isSuccess, setLoggedState, setStartup]);
+  }, [isSuccess, setStartup]);
 
   return (
     <View className="bg-background flex-1">

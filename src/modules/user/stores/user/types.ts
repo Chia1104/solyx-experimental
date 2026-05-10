@@ -6,7 +6,6 @@ export type BackupPhraseState = '' | 'later' | 'done';
 export interface AccountState {
   hasPassword: boolean;
   hasHDWallet: boolean;
-  isLogged: boolean;
   backupPhraseState: BackupPhraseState;
   account: string;
 }
@@ -121,7 +120,6 @@ export interface AccountActions {
   setHasPassword: (hasPassword: boolean) => void;
   setHasHDWallet: (hasHDWallet: boolean) => void;
   setBackupPhraseState: (backupPhraseState: BackupPhraseState) => void;
-  setLoggedState: (isLogged: boolean) => void;
   setAccount: (account: string) => void;
   resetAccount: () => void;
 }

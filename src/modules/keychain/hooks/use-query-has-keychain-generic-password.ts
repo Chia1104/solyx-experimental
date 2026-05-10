@@ -2,7 +2,8 @@ import type { UseQueryOptions } from '@tanstack/react-query';
 import { queryOptions, useQuery } from '@tanstack/react-query';
 
 import { env } from '@/libs/env';
-import { hasKeychainGenericPassword } from '@/modules/keychain/utils';
+
+import { hasKeychainGenericPassword } from '../utils';
 
 type UseQueryHasKeychainGenericPasswordOptions = Omit<
   UseQueryOptions<boolean, Error>,
