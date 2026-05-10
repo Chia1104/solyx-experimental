@@ -94,7 +94,7 @@ export default function SetPassword() {
       setUnlockMode('password');
       setStartup(true);
       requestAnimationFrame(() => {
-        router.replace('/onboarding');
+        router.replace('/login');
       });
     },
   });
@@ -177,7 +177,6 @@ export default function SetPassword() {
             <Button
               isDisabled={!form.formState.isValid || setPasswordMutation.isPending}
               onPress={handleSubmit}
-              size="sm"
             >
               <Button.Label>{t('action.confirm')}</Button.Label>
             </Button>

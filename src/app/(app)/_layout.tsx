@@ -21,6 +21,10 @@ export default function AppLayout() {
         >
           <Stack.Screen name="app-lock" options={{ headerShown: false }} />
         </Stack.Protected>
+        <Stack.Protected guard={entryState.phase === EntryPhase.Login}>
+          <Stack.Screen name="login/index" options={{ headerShown: false }} />
+          <Stack.Screen name="callback" options={{ headerShown: false }} />
+        </Stack.Protected>
         <Stack.Protected guard={entryState.phase === EntryPhase.Onboarding}>
           <Stack.Screen name="onboarding/index" options={{ headerShown: false }} />
         </Stack.Protected>

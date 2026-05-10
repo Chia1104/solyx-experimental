@@ -1,8 +1,9 @@
 export const EntryPhase = {
   AppLock: 'app-lock',
-  Onboarding: 'onboarding',
+  Login: 'login',
   Loading: 'loading',
   Main: 'main',
+  Onboarding: 'onboarding',
   SetPassword: 'set-password',
 } as const;
 

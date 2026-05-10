@@ -337,23 +337,14 @@ export const LockScreenOverlay = () => {
                 />
 
                 <View className="mt-6 items-center">
-                  <Button
-                    isDisabled={isVerifying}
-                    onPress={handleSubmit(verifyWithPassword)}
-                    size="sm"
-                  >
+                  <Button isDisabled={isVerifying} onPress={handleSubmit(verifyWithPassword)}>
                     <Button.Label>{confirmLabel}</Button.Label>
                   </Button>
                 </View>
               </>
             ) : (
               <View className="mt-40 items-center">
-                <Button
-                  isDisabled={isVerifying}
-                  onPress={verifyWithBiometry}
-                  variant="tertiary"
-                  size="sm"
-                >
+                <Button isDisabled={isVerifying} onPress={verifyWithBiometry} variant="tertiary">
                   <Button.Label>
                     {t('action.verify.with.biometry', {
                       biometryLabel: biometryLabel ?? undefined,
@@ -365,7 +356,7 @@ export const LockScreenOverlay = () => {
 
             {request.isDismissible === false ? null : (
               <View className="mt-3 items-center">
-                <Button isDisabled={isVerifying} onPress={handleCancel} variant="ghost" size="sm">
+                <Button isDisabled={isVerifying} onPress={handleCancel} variant="ghost">
                   <Button.Label>{t('action.cancel')}</Button.Label>
                 </Button>
               </View>

@@ -4,6 +4,7 @@ import { Uniwind, useUniwind } from 'uniwind';
 
 import { ThemedText } from '@/components/ui/themed-text';
 import { useGlobalStore } from '@/modules/app/stores/global';
+import { useQueryMe } from '@/modules/cefi/hooks/use-query-me';
 import { useUserStore } from '@/modules/user/stores/user';
 
 export default function DefiMainIndex() {
@@ -11,6 +12,9 @@ export default function DefiMainIndex() {
   const autoLock = useUserStore(state => state.settings.autoLock);
   const setAutoLock = useUserStore(state => state.setAutoLock);
   const { theme } = useUniwind();
+  const { data: userData } = useQueryMe();
+
+  console.log(userData);
 
   return (
     <View className="bg-background flex-1 p-6">

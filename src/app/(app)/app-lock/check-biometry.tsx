@@ -34,7 +34,7 @@ export default function CheckBiometry() {
       setUnlockMode('biometry');
       setStartup(true);
       requestAnimationFrame(() => {
-        router.replace('/onboarding');
+        router.replace('/login');
       });
     },
   });

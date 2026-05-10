@@ -8,6 +8,7 @@ import { useGlobalStore } from '../stores/global';
 export const useEntryState = () => {
   const hasPassword = useUserStore(state => state.account.hasPassword);
   const hasHDWallet = useUserStore(state => state.account.hasHDWallet);
+  const isLogin = useUserStore(state => state.cefiUserAccount.isLogin);
   const isStartupDone = useGlobalStore(store => store.isStartupDone);
 
   const hasPasswordCredentialQuery = useQueryHasKeychainGenericPassword(
@@ -37,6 +38,14 @@ export const useEntryState = () => {
       hasPasswordCredential,
       isLoading: false,
       phase: EntryPhase.AppLock,
+    };
+  }
+
+  if (!hasHDWallet && !isLogin) {
+    return {
+      hasPasswordCredential,
+      isLoading: false,
+      phase: EntryPhase.Login,
     };
   }
 

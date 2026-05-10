@@ -2,6 +2,18 @@ import * as z from 'zod';
 
 import { CefiKYCStatus, CefiLocale, CefiPlusKYCStatus } from '../enums/users.enum';
 
+export const GetAuthorizeUrlRequest = z.object({
+  redirectUrl: z.string(),
+});
+
+export type GetAuthorizeUrlRequest = z.infer<typeof GetAuthorizeUrlRequest>;
+
+export const AuthorizeUrl = z.object({
+  redirectUrl: z.string(),
+});
+
+export type AuthorizeUrl = z.infer<typeof AuthorizeUrl>;
+
 export const CefiAccount = z.object({
   id: z.string(),
   type: z.string(),

@@ -4,7 +4,7 @@ import type { SvgProps } from 'react-native-svg';
 import Svg, { ClipPath, Defs, G, Path } from 'react-native-svg';
 import { useCSSVariable } from 'uniwind';
 
-const LogoVerticalBlack = (props: SvgProps) => {
+const LogoVertical = (props: SvgProps) => {
   const textColor = useCSSVariable('--foreground') as string;
   const iconColor = useCSSVariable('--accent') as string;
 
@@ -61,4 +61,4 @@ const LogoVerticalBlack = (props: SvgProps) => {
   );
 };
 
-export default LogoVerticalBlack;
+export default LogoVertical;
