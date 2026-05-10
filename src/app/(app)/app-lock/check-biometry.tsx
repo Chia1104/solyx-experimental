@@ -7,7 +7,6 @@ import { ActivityIndicator } from 'react-native';
 import Brand from '@/components/brand';
 import { ThemedText } from '@/components/ui/themed-text';
 import { env } from '@/libs/env';
-import { useGlobalStore } from '@/modules/app/stores/global';
 import { generateRandomString } from '@/modules/keychain/crypto';
 import { useMutationSetKeychainPassword } from '@/modules/keychain/hooks/use-mutation-set-keychain-password';
 import { useQueryBiometryType } from '@/modules/keychain/hooks/use-query-biometry-type';
@@ -18,8 +17,6 @@ export default function CheckBiometry() {
   const { t } = useTranslation(['global']);
   const queryClient = useQueryClient();
 
-  const setStartup = useGlobalStore(state => state.setStartup);
-  const setHasPassword = useUserStore(state => state.setHasPassword);
   const setUnlockMode = useUserStore(state => state.setUnlockMode);
 
   const { isLoading: isBiometryLoading, biometryLabel } = useQueryBiometryType();
@@ -30,12 +27,8 @@ export default function CheckBiometry() {
           .queryKey,
         true,
       );
-      setHasPassword(true);
       setUnlockMode('biometry');
-      setStartup(true);
-      requestAnimationFrame(() => {
-        router.replace('/login');
-      });
+      router.replace('/app-lock/auto-lock');
     },
   });
 

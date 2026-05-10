@@ -11,7 +11,6 @@ import Brand from '@/components/brand';
 import { PasswordInput } from '@/components/ui/password-input';
 import { ThemedText } from '@/components/ui/themed-text';
 import { env } from '@/libs/env';
-import { useGlobalStore } from '@/modules/app/stores/global';
 import { useMutationSetKeychainPassword } from '@/modules/keychain/hooks/use-mutation-set-keychain-password';
 import { queryHasKeychainGenericPasswordOptions } from '@/modules/keychain/hooks/use-query-has-keychain-generic-password';
 import { useUserStore } from '@/modules/user/stores/user';
@@ -62,8 +61,6 @@ export default function SetPassword() {
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  const setStartup = useGlobalStore(state => state.setStartup);
-  const setHasPassword = useUserStore(state => state.setHasPassword);
   const setUnlockMode = useUserStore(state => state.setUnlockMode);
 
   const formSchema = useFormSchema();
@@ -90,12 +87,8 @@ export default function SetPassword() {
           .queryKey,
         true,
       );
-      setHasPassword(true);
       setUnlockMode('password');
-      setStartup(true);
-      requestAnimationFrame(() => {
-        router.replace('/login');
-      });
+      router.replace('/app-lock/auto-lock');
     },
   });
 

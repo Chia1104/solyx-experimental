@@ -14,6 +14,7 @@ export default function AppLockLayout() {
         <Stack.Screen name="set-app-lock" options={{ headerShown: false }} />
         <Stack.Screen name="set-password" options={{ header: CompactHeader }} />
         <Stack.Screen name="check-biometry" options={{ header: CompactHeader }} />
+        <Stack.Screen name="auto-lock" options={{ headerShown: false }} />
       </Stack.Protected>
       <Stack.Protected guard={entryState.phase === EntryPhase.AppLock}>
         <Stack.Screen name="index" options={{ headerShown: false }} />
