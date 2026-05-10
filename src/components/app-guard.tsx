@@ -4,8 +4,8 @@ import * as Device from 'expo-device';
 import { useNetworkState } from 'expo-network';
 import { Platform } from 'react-native';
 
-import { AppStatus } from '@/enums/app-status.enum';
-import { needsUpdate } from '@/libs/app/version';
+import { AppStatus } from '@/modules/app/enums/app-status.enum';
+import { needsUpdate } from '@/modules/app/utils';
 import { useQueryMeta } from '@/modules/cefi/hooks/use-query-meta';
 
 interface AppGuardContext {

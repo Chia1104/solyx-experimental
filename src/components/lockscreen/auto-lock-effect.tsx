@@ -5,16 +5,16 @@ import type { AppStateStatus } from 'react-native';
 import { AppState } from 'react-native';
 
 import { env } from '@/libs/env';
+import { useGlobalStore } from '@/modules/app/stores/global';
 import { hasKeychainGenericPassword } from '@/modules/keychain/utils';
 import { useUserStore } from '@/modules/user/stores/user';
-
-import { useLockScreenActions } from './lockscreen-provider';
 
 const AUTO_LOCK_BACKGROUND_TIMEOUT_MS = 30_000;
 
 export const AutoLockEffect = () => {
   const { t } = useTranslation(['global']);
-  const { hasActiveRequest, requestLock } = useLockScreenActions('AutoLockEffect');
+  const hasActiveRequest = useGlobalStore(store => store.hasActiveLockRequest);
+  const requestLock = useGlobalStore(store => store.requestLock);
   const autoLock = useUserStore(state => state.settings.autoLock);
   const hasPassword = useUserStore(state => state.account.hasPassword);
 

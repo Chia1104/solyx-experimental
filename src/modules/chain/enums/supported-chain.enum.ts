@@ -10,3 +10,11 @@ export const SupportedChainID = {
 } as const;
 
 export type SupportedChainID = (typeof SupportedChainID)[keyof typeof SupportedChainID];
+
+export const SupportedNetwork = {
+  Liquid: 'liquid',
+  Evm: 'evm',
+  Tron: 'tron',
+} as const;
+
+export type SupportedNetwork = (typeof SupportedNetwork)[keyof typeof SupportedNetwork];

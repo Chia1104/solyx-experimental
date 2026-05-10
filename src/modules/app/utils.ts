@@ -1,3 +1,9 @@
+import { install } from 'react-native-quick-crypto';
+
+export const globalInit = () => {
+  install();
+};
+
 export function compareVersions(local: string, required: string): number {
   const localParts = local.split('.').map(Number);
   const requiredParts = required.split('.').map(Number);

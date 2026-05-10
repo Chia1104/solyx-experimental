@@ -5,7 +5,7 @@ import { Text } from 'react-native';
 
 import { AppGuard } from '@/components/app-guard';
 import { RootProvider } from '@/components/root-provider';
-import { globalInit } from '@/libs/app/global-init';
+import { globalInit } from '@/modules/app/utils';
 
 globalInit();
 
@@ -19,7 +19,7 @@ export default function RootLayout() {
               <Stack.Screen name="fallback" options={{ headerShown: false }} />
             </Stack.Protected>
             <Stack.Protected guard={data.canProceed}>
-              <Stack.Screen name="(main)" options={{ headerShown: false }} />
+              <Stack.Screen name="(app)" options={{ headerShown: false }} />
             </Stack.Protected>
           </Stack>
         )}

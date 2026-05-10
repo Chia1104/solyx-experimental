@@ -4,7 +4,7 @@ import { NoNetworkDialog } from '@/components/fallback/no-network-dialog';
 import { ServiceUnavailableDialog } from '@/components/fallback/service-unavailable-dialog';
 import { UpdateRequiredDialog } from '@/components/fallback/update-required-dialog';
 import { UpdateSuggestedDialog } from '@/components/fallback/update-suggested-dialog';
-import { AppStatus } from '@/enums/app-status.enum';
+import { AppStatus } from '@/modules/app/enums/app-status.enum';
 
 const Startup = () => {
   const { status } = useAppGuard();
