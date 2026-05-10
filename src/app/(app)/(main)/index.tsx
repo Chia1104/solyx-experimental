@@ -1,6 +1,5 @@
 import { Button, Switch } from 'heroui-native';
 import { View } from 'react-native';
-import { Uniwind, useUniwind } from 'uniwind';
 
 import { ThemedText } from '@/components/ui/themed-text';
 import { useGlobalStore } from '@/modules/app/stores/global';
@@ -11,7 +10,6 @@ export default function DefiMainIndex() {
   const requestLock = useGlobalStore(store => store.requestLock);
   const autoLock = useUserStore(state => state.settings.autoLock);
   const setAutoLock = useUserStore(state => state.setAutoLock);
-  const { theme } = useUniwind();
   const { data: userData } = useQueryMe();
 
   console.log(userData);
@@ -35,9 +33,6 @@ export default function DefiMainIndex() {
         <Button.Label>Click me</Button.Label>
       </Button>
       <Switch isSelected={autoLock} onSelectedChange={value => setAutoLock(value)} />
-      <Button onPress={() => Uniwind.setTheme(theme === 'dark' ? 'light' : 'dark')}>
-        <Button.Label>Toggle Theme</Button.Label>
-      </Button>
     </View>
   );
 }

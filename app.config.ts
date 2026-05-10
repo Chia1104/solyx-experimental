@@ -9,12 +9,15 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     orientation: 'portrait',
     icon: './assets/images/icon.png',
     scheme: process.env.EXPO_PUBLIC_DEEP_LINK_SCHEME?.replace('://', '') ?? 'solyx-experimental',
-    userInterfaceStyle: 'automatic',
+    backgroundColor: '#F7F7F7',
+    userInterfaceStyle: 'light',
     ios: {
       icon: './assets/expo.icon',
       bundleIdentifier: 'com.chia1104.solyxexperimental',
     },
     android: {
+      backgroundColor: '#F7F7F7',
+      userInterfaceStyle: 'light',
       adaptiveIcon: {
         backgroundColor: '#E6F4FE',
         foregroundImage: './assets/images/android-icon-foreground.png',
@@ -43,6 +46,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       'expo-secure-store',
       'expo-sqlite',
       'expo-localization',
+      'expo-system-ui',
     ],
     experiments: {
       typedRoutes: true,
