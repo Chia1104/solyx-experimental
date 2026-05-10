@@ -9,9 +9,9 @@ import { ThemedText } from '@/components/ui/themed-text';
 import { env } from '@/libs/env';
 import { useGlobalStore } from '@/modules/app/stores/global';
 import { generateRandomString } from '@/modules/keychain/crypto';
-import { queryHasKeychainGenericPasswordOptions } from '@/modules/keychain/hooks/use-query-has-keychain-generic-password';
 import { useMutationSetKeychainPassword } from '@/modules/keychain/hooks/use-mutation-set-keychain-password';
 import { useQueryBiometryType } from '@/modules/keychain/hooks/use-query-biometry-type';
+import { queryHasKeychainGenericPasswordOptions } from '@/modules/keychain/hooks/use-query-has-keychain-generic-password';
 import { useUserStore } from '@/modules/user/stores/user';
 
 export default function CheckBiometry() {

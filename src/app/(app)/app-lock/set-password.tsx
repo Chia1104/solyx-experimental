@@ -12,8 +12,8 @@ import { PasswordInput } from '@/components/ui/password-input';
 import { ThemedText } from '@/components/ui/themed-text';
 import { env } from '@/libs/env';
 import { useGlobalStore } from '@/modules/app/stores/global';
-import { queryHasKeychainGenericPasswordOptions } from '@/modules/keychain/hooks/use-query-has-keychain-generic-password';
 import { useMutationSetKeychainPassword } from '@/modules/keychain/hooks/use-mutation-set-keychain-password';
+import { queryHasKeychainGenericPasswordOptions } from '@/modules/keychain/hooks/use-query-has-keychain-generic-password';
 import { useUserStore } from '@/modules/user/stores/user';
 
 const getPasswordValidationIssues = (password: string) => {

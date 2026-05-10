@@ -6,8 +6,7 @@ import { useEntryState } from '@/modules/app/hooks/use-entry-state';
 
 export default function AppLockLayout() {
   const entryState = useEntryState();
-  const initialRouteName =
-    entryState.phase === EntryPhase.SetPassword ? 'set-app-lock' : 'index';
+  const initialRouteName = entryState.phase === EntryPhase.SetPassword ? 'set-app-lock' : 'index';
 
   return (
     <Stack initialRouteName={initialRouteName}>
