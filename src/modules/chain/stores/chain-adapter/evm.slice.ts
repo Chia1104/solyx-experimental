@@ -1,5 +1,6 @@
-import { HDNodeWallet, JsonRpcProvider, Wallet } from 'ethers';
+import { HDNodeWallet, JsonRpcProvider, Mnemonic, Wallet } from 'ethers';
 import type { TransactionRequest } from 'ethers';
+import QuickCrypto from 'react-native-quick-crypto';
 
 import { EIP155_CHAINS, EVM_DERIVATION_PATH, JSON_RPC_METHODS } from './chains';
 import type { TEIP155Chain } from './chains';
@@ -7,19 +8,25 @@ import type { ChainAdapterSlice, EvmChainAdapterActions } from './types';
 import { convertHexToUtf8, normalizeEvmPrivateKey } from './utils';
 import type { Eip712TypedData } from './utils';
 
+const EVM_MNEMONIC_ENTROPY_BYTES = 16;
+
+const createRandomEvmPhrase = () =>
+  Mnemonic.fromEntropy(QuickCrypto.randomBytes(EVM_MNEMONIC_ENTROPY_BYTES)).phrase;
+
 export const createEvmChainAdapterSlice: ChainAdapterSlice<EvmChainAdapterActions> = (
   set,
   get,
 ) => ({
   createEvmWallet: async mnemonic => {
-    const wallet = mnemonic ? Wallet.fromPhrase(mnemonic) : Wallet.createRandom();
+    const phrase = mnemonic ?? createRandomEvmPhrase();
+    const wallet = HDNodeWallet.fromPhrase(phrase, undefined, `${EVM_DERIVATION_PATH}/0`);
 
     return {
-      mnemonic: wallet.mnemonic?.phrase ?? mnemonic ?? '',
+      mnemonic: phrase,
       account: {
         address: wallet.address,
         privateKey: wallet.privateKey,
-        publicKey: wallet.publicKey,
+        publicKey: wallet.signingKey.publicKey,
       },
     };
   },

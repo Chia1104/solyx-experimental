@@ -10,9 +10,11 @@ export default function DefiMainIndex() {
   const requestLock = useGlobalStore(store => store.requestLock);
   const autoLock = useUserStore(state => state.settings.autoLock);
   const setAutoLock = useUserStore(state => state.setAutoLock);
+  const wallets = useUserStore(state => state.wallet.wallets);
   const { data: userData } = useQueryMe();
 
   console.log(userData);
+  console.log(JSON.stringify(wallets, null, 2));
 
   return (
     <View className="bg-background flex-1 p-6">
