@@ -1,13 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'expo-router';
-import { Button } from 'heroui-native';
+import { Button, Text } from 'heroui-native';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import * as z from 'zod';
 
-import Brand from '@/components/brand';
-import { ThemedText } from '@/components/ui/themed-text';
+import { Page } from '@/components/page';
 import { useMutationCreateWalletFromPhrase } from '@/modules/defi/hooks/use-mutation-create-wallet-from-phrase';
 
 const createWalletSchema = z.object({
@@ -46,13 +45,16 @@ export default function CreateWallet() {
   );
 
   return (
-    <Brand
-      display={['background']}
-      wrapperProps={{ className: 'px-8 py-12 flex-1 items-center justify-between' }}
+    <Page
+      isBrandVisible
+      className="items-center justify-between px-8 py-12"
+      header={{
+        onBack: () => router.back(),
+      }}
     >
-      <ThemedText className="text-center text-3xl font-semibold" variant="headlineMedium">
+      <Text className="text-center text-3xl font-semibold" type="h3">
         {t('defi:title.web.3.wallet')}
-      </ThemedText>
+      </Text>
 
       <View className="w-full flex-1 items-center justify-center gap-6">
         <Button isDisabled={createWalletMutation.isPending} onPress={handleCreateWallet}>
@@ -68,11 +70,11 @@ export default function CreateWallet() {
         </Button>
 
         {form.formState.errors.root?.message ? (
-          <ThemedText className="text-danger text-center text-sm">
+          <Text className="text-danger text-center text-sm">
             {form.formState.errors.root.message}
-          </ThemedText>
+          </Text>
         ) : null}
       </View>
-    </Brand>
+    </Page>
   );
 }

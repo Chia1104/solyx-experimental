@@ -1,11 +1,10 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { router } from 'expo-router';
-import { Button } from 'heroui-native';
+import { Button, Text } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
 import { ActivityIndicator } from 'react-native';
 
-import Brand from '@/components/brand';
-import { ThemedText } from '@/components/ui/themed-text';
+import { Page } from '@/components/page';
 import { env } from '@/libs/env';
 import { generateRandomString } from '@/modules/keychain/crypto';
 import { useMutationSetKeychainPassword } from '@/modules/keychain/hooks/use-mutation-set-keychain-password';
@@ -41,9 +40,12 @@ export default function CheckBiometry() {
   };
 
   return (
-    <Brand
-      display={['background']}
-      wrapperProps={{ className: 'flex-1 items-center justify-center' }}
+    <Page
+      isBrandVisible
+      className="items-center justify-center"
+      header={{
+        onBack: () => router.back(),
+      }}
     >
       {setupBiometryMutation.isPending || isBiometryLoading ? (
         <ActivityIndicator />
@@ -53,13 +55,15 @@ export default function CheckBiometry() {
         </Button>
       )}
 
-      <ThemedText className="text-foreground mt-8 text-center text-lg">{biometryLabel}</ThemedText>
+      <Text className="text-foreground mt-8 text-center text-lg" weight="medium">
+        {biometryLabel}
+      </Text>
 
       {setupBiometryMutation.isError ? (
-        <ThemedText className="text-danger mt-4 text-center text-sm">
+        <Text className="text-danger mt-4 text-center text-sm">
           {t('error.keychain.verify.failed')}
-        </ThemedText>
+        </Text>
       ) : null}
-    </Brand>
+    </Page>
   );
 }

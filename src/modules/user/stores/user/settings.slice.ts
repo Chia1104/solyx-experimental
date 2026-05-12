@@ -4,7 +4,7 @@ export const createSettingsInitialState = (): SettingsState => ({
   languageCode: 'en',
   walletMode: '',
   unlockMode: 'password',
-  autoLock: false,
+  autoLock: true,
   switchModeHint: {
     isDisabledDefi: false,
   },

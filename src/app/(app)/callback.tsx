@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { useLocalSearchParams } from 'expo-router';
 import { ActivityIndicator } from 'react-native';
 
-import Brand from '@/components/brand';
+import { Page } from '@/components/page';
 import { useSsoCallback } from '@/modules/cefi/hooks/use-sso';
 
 const getSingleParam = (value: string | string[] | undefined) => {
@@ -26,11 +26,8 @@ export default function Callback() {
   useSsoCallback(callbackParams);
 
   return (
-    <Brand
-      display={['background']}
-      wrapperProps={{ className: 'items-center justify-center px-6' }}
-    >
+    <Page isBrandVisible className="items-center justify-center px-6">
       <ActivityIndicator />
-    </Brand>
+    </Page>
   );
 }

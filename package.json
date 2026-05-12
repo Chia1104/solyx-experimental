@@ -57,7 +57,7 @@
     "expo-system-ui": "~55.0.17",
     "expo-task-manager": "~55.0.15",
     "expo-web-browser": "~55.0.15",
-    "heroui-native": "^1.0.2",
+    "heroui-native": "^1.0.3",
     "i18next": "^26.0.9",
     "ky": "^2.0.2",
     "react": "19.2.0",

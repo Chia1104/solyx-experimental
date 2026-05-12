@@ -1,10 +1,9 @@
 import { useRouter } from 'expo-router';
-import { Button } from 'heroui-native';
+import { Button, Text } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
 import { Image, View } from 'react-native';
 
-import Brand from '@/components/brand';
-import { ThemedText } from '@/components/ui/themed-text';
+import { Page } from '@/components/page';
 import { useGlobalStore } from '@/modules/app/stores/global';
 import { useUserStore } from '@/modules/user/stores/user';
 
@@ -24,25 +23,22 @@ export default function OnboardingDone() {
   };
 
   return (
-    <Brand
-      display={['background']}
-      wrapperProps={{ className: 'flex-1 justify-between px-10 py-24' }}
-    >
-      <ThemedText className="text-center text-3xl font-semibold" variant="headlineMedium">
+    <Page isBrandVisible className="justify-between px-10 py-24">
+      <Text className="text-center text-3xl font-semibold" type="h3">
         {t('defi:title.congrats')}
-      </ThemedText>
+      </Text>
 
       <View className="flex-1 items-center justify-center gap-10">
         <Image source={require('@/assets/images/onboarding/congrats.png')} />
 
-        <ThemedText className="text-foreground text-center text-lg">
+        <Text className="text-foreground text-center text-lg" weight="medium">
           {t('defi:description.wallet.is.ready')}
-        </ThemedText>
+        </Text>
 
         <Button onPress={handleEnter}>
           <Button.Label>{t('global:action.enter')}</Button.Label>
         </Button>
       </View>
-    </Brand>
+    </Page>
   );
 }

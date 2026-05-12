@@ -1,12 +1,11 @@
 import { useMemo } from 'react';
 
-import { Button } from 'heroui-native';
+import { Button, Text } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
-import Brand from '@/components/brand';
 import LogoVertical from '@/components/icons/logo-vertical';
-import { ThemedText } from '@/components/ui/themed-text';
+import { Page } from '@/components/page';
 import { useSso } from '@/modules/cefi/hooks/use-sso';
 
 export default function Login() {
@@ -30,18 +29,15 @@ export default function Login() {
   );
 
   return (
-    <Brand
-      display={['background']}
-      wrapperProps={{ className: 'justify-between px-6 pt-36 pb-28' }}
-    >
+    <Page isBrandVisible className="justify-between px-6 pt-36 pb-28">
       <View className="flex-1 items-center justify-center">
         <LogoVertical />
       </View>
 
       <View className="w-full gap-3">
-        <ThemedText className="text-muted mb-4 text-center text-base">
+        <Text className="text-muted mb-4 text-center text-base" weight="medium">
           {t('description.login.access.full.functions')}
-        </ThemedText>
+        </Text>
 
         <View className="w-full flex-row gap-3">
           {actions.map(action => (
@@ -57,6 +53,6 @@ export default function Login() {
           ))}
         </View>
       </View>
-    </Brand>
+    </Page>
   );
 }

@@ -1,13 +1,12 @@
 import { useState } from 'react';
 
 import { useRouter } from 'expo-router';
-import { Button, Checkbox, Popover } from 'heroui-native';
+import { Button, Checkbox, Popover, Text } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
-import Brand from '@/components/brand';
+import { Page } from '@/components/page';
 import { ThemedIcon } from '@/components/ui/themed-icon';
-import { ThemedText } from '@/components/ui/themed-text';
 import { useGlobalStore } from '@/modules/app/stores/global';
 import { useUserStore } from '@/modules/user/stores/user';
 
@@ -30,18 +29,15 @@ export default function AutoLock() {
   };
 
   return (
-    <Brand
-      display={['background']}
-      wrapperProps={{ className: 'flex-1 justify-between px-10 py-24' }}
-    >
-      <ThemedText className="text-foreground text-center text-3xl font-semibold">
+    <Page isBrandVisible className="justify-between px-10 py-24">
+      <Text className="text-foreground text-center text-3xl font-semibold">
         {t('title.setup.complete')}
-      </ThemedText>
+      </Text>
 
       <View className="gap-6">
-        <ThemedText className="text-foreground text-center text-lg">
+        <Text className="text-foreground text-center text-lg" weight="medium">
           {t('description.setup.complete')}
-        </ThemedText>
+        </Text>
 
         <View className="flex-row flex-wrap items-center justify-center gap-2">
           <Checkbox
@@ -49,9 +45,9 @@ export default function AutoLock() {
             onSelectedChange={value => setAutoLockEnabled(value)}
             className="rounded-sm"
           />
-          <ThemedText className="text-foreground shrink text-base">
+          <Text className="text-foreground shrink text-base" weight="medium">
             {t('label.turn.on.auto.lock')}
-          </ThemedText>
+          </Text>
           <Popover>
             <Popover.Trigger asChild>
               <Button isIconOnly className="size-9" variant="ghost">
@@ -81,6 +77,6 @@ export default function AutoLock() {
       <Button onPress={handleEnter}>
         <Button.Label>{t('action.fortuna.enter')}</Button.Label>
       </Button>
-    </Brand>
+    </Page>
   );
 }

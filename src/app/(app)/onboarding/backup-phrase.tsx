@@ -2,13 +2,12 @@ import { useMemo, useState } from 'react';
 
 import * as Clipboard from 'expo-clipboard';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { Button, Checkbox } from 'heroui-native';
+import { Button, Checkbox, Text } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, View } from 'react-native';
 
-import Brand from '@/components/brand';
+import { Page } from '@/components/page';
 import { ThemedIcon } from '@/components/ui/themed-icon';
-import { ThemedText } from '@/components/ui/themed-text';
 
 const getParamValue = (value: string | string[] | undefined) =>
   Array.isArray(value) ? value[0] : (value ?? '');
@@ -47,18 +46,18 @@ export default function BackupPhrase() {
   };
 
   return (
-    <Brand display={['background']} wrapperProps={{ className: 'flex-1 px-6 py-12' }}>
+    <Page isBrandVisible className="px-6 py-12">
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <View className="flex-1 justify-center">
-          <ThemedText className="mb-10 text-center text-3xl font-semibold" variant="headlineMedium">
+          <Text className="mb-10 text-center text-3xl font-semibold" type="h3">
             {t('defi:title.back.up.seed.phrase')}
-          </ThemedText>
+          </Text>
 
-          <ThemedText className="text-muted mb-8" variant="bodyLarge">
+          <Text className="text-muted mb-8" type="body">
             {t('defi:description.phraseBrowse.back.up.seed.phrase', {
               count: words.length || 12,
             })}
-          </ThemedText>
+          </Text>
 
           <View className="border-border bg-surface-secondary relative overflow-hidden rounded-xl border px-4 py-5">
             {!hasRevealed ? (
@@ -68,12 +67,12 @@ export default function BackupPhrase() {
                 onPress={() => setHasRevealed(true)}
               >
                 <ThemedIcon name="eye-off-outline" size={24} className="text-muted" />
-                <ThemedText className="text-center" variant="bodyLarge">
+                <Text className="text-center" type="body">
                   {t('defi:notice.nobody.looking')}
-                </ThemedText>
-                <ThemedText className="text-muted mt-1 text-center" variant="bodyLarge">
+                </Text>
+                <Text className="text-muted mt-1 text-center" type="body">
                   {t('defi:notice.reveal.seed')}
-                </ThemedText>
+                </Text>
               </Pressable>
             ) : null}
 
@@ -86,16 +85,17 @@ export default function BackupPhrase() {
                 return (
                   <View className="flex-1" key={`phrase-column-${columnIndex}`}>
                     {column.map((word, index) => (
-                      <ThemedText
+                      <Text
                         className="py-1 text-sm"
                         key={`${startIndex + index}-${word}`}
-                        variant="titleMedium"
+                        type="body"
+                        weight="semibold"
                       >
-                        <ThemedText className="text-accent text-sm" variant="titleMedium">
+                        <Text className="text-accent text-sm" type="body" weight="semibold">
                           {startIndex + index + 1}.
-                        </ThemedText>{' '}
+                        </Text>{' '}
                         {word}
-                      </ThemedText>
+                      </Text>
                     ))}
                   </View>
                 );
@@ -124,9 +124,9 @@ export default function BackupPhrase() {
               onSelectedChange={setHasSavedPhrase}
               className="rounded-sm"
             />
-            <ThemedText className="shrink" variant="titleMedium">
+            <Text className="shrink" type="body" weight="semibold">
               {t('defi:description.phraseBrowse.saved.seed')}
-            </ThemedText>
+            </Text>
           </View>
 
           <View className="mt-10 items-center">
@@ -136,6 +136,6 @@ export default function BackupPhrase() {
           </View>
         </View>
       </ScrollView>
-    </Brand>
+    </Page>
   );
 }

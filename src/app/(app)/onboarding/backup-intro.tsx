@@ -1,13 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'expo-router';
-import { Button, Checkbox } from 'heroui-native';
+import { Button, Checkbox, Text } from 'heroui-native';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
 import * as z from 'zod';
 
-import Brand from '@/components/brand';
-import { ThemedText } from '@/components/ui/themed-text';
+import { Page } from '@/components/page';
 import { useGlobalStore } from '@/modules/app/stores/global';
 
 const backupIntroSchema = z.object({
@@ -47,45 +46,45 @@ export default function BackupIntro() {
   });
 
   return (
-    <Brand display={['background']} wrapperProps={{ className: 'flex-1 px-6 py-12' }}>
+    <Page isBrandVisible className="px-6 py-12">
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <View className="flex-1 justify-center">
-          <ThemedText className="mb-12 text-center text-3xl font-semibold" variant="headlineMedium">
+          <Text className="mb-12 text-center text-3xl font-semibold" type="h3">
             {t('defi:title.back.up.seed.phrase')}
-          </ThemedText>
+          </Text>
 
           <View className="gap-9">
             <View>
-              <ThemedText className="mb-2" variant="titleMedium">
+              <Text className="mb-2" type="body" weight="semibold">
                 {t('defi:notice.what.seed.phrase')}
-              </ThemedText>
-              <ThemedText className="text-muted" variant="bodyLarge">
+              </Text>
+              <Text className="text-muted" type="body">
                 {t('defi:description.phraseIntroduce.back.up.seed.phrase')}
-              </ThemedText>
+              </Text>
             </View>
 
             <View>
-              <ThemedText className="mb-2" variant="titleMedium">
+              <Text className="mb-2" type="body" weight="semibold">
                 {t('defi:notice.how.save.my.seed')}
-              </ThemedText>
+              </Text>
               {[
                 t('defi:label.password.manager'),
                 t('defi:label.deposit.box'),
                 t('defi:label.secret.places'),
               ].map(item => (
-                <ThemedText className="text-muted my-1" key={item} variant="bodyLarge">
+                <Text className="text-muted my-1" key={item} type="body">
                   - {item}
-                </ThemedText>
+                </Text>
               ))}
             </View>
 
             <View>
-              <ThemedText className="mb-2" variant="titleMedium">
+              <Text className="mb-2" type="body" weight="semibold">
                 {t('defi:description.phraseIntroduce.should.i.share')}
-              </ThemedText>
-              <ThemedText className="text-muted" variant="bodyLarge">
+              </Text>
+              <Text className="text-muted" type="body">
                 {t('defi:description.phraseIntroduce.never.share')}
-              </ThemedText>
+              </Text>
             </View>
 
             <View className="gap-5">
@@ -99,9 +98,9 @@ export default function BackupIntro() {
                       onSelectedChange={field.onChange}
                       className="rounded-sm"
                     />
-                    <ThemedText className="shrink" variant="titleMedium">
+                    <Text className="shrink" type="body" weight="semibold">
                       {t('defi:description.phraseIntroduce.i.have.learned')}
-                    </ThemedText>
+                    </Text>
                   </View>
                 )}
               />
@@ -116,9 +115,9 @@ export default function BackupIntro() {
                       onSelectedChange={field.onChange}
                       className="rounded-sm"
                     />
-                    <ThemedText className="shrink" variant="titleMedium">
+                    <Text className="shrink" type="body" weight="semibold">
                       {t('defi:description.phraseIntroduce.i.know')}
-                    </ThemedText>
+                    </Text>
                   </View>
                 )}
               />
@@ -132,6 +131,6 @@ export default function BackupIntro() {
           </View>
         </View>
       </ScrollView>
-    </Brand>
+    </Page>
   );
 }

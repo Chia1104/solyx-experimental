@@ -147,8 +147,9 @@ const getColorClassName = (color?: TextColor, themeColor?: LegacyThemeColor) => 
 
 const isThemedTextElement = (
   children: ReactNode,
-): children is ReactElement<ComponentProps<typeof ThemedText>> =>
-  isValidElement<ComponentProps<typeof ThemedText>>(children) && children.type === ThemedText;
+): children is ReactElement<ComponentProps<typeof LegacyThemedText>> =>
+  isValidElement<ComponentProps<typeof LegacyThemedText>>(children) &&
+  children.type === LegacyThemedText;
 
 const ThemedTextBase = (
   {
@@ -192,6 +193,7 @@ const ThemedTextBase = (
   );
 };
 
-export const ThemedText = forwardRef(ThemedTextBase);
-
-// export const ThemedText = ThemedTextComponent;
+/**
+ * @deprecated Use `Text` from `heroui-native` instead.
+ */
+export const LegacyThemedText = forwardRef(ThemedTextBase);

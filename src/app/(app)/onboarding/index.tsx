@@ -1,15 +1,14 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
-import { cn } from 'heroui-native';
+import { Text, cn } from 'heroui-native';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Image, Pressable, View } from 'react-native';
 import * as z from 'zod';
 
-import Brand from '@/components/brand';
 import LogoHorizontal from '@/components/icons/logo-horizontal';
-import { ThemedText } from '@/components/ui/themed-text';
+import { Page } from '@/components/page';
 import { useUserStore } from '@/modules/user/stores/user';
 
 const onboardingSchema = z.object({
@@ -44,15 +43,15 @@ export default function DefiEntrance() {
   const handleSubmit = form.handleSubmit(values => onboardingMutation.mutate(values));
 
   return (
-    <Brand display={['background']} wrapperProps={{ className: 'flex-1 px-6 pt-14 pb-10' }}>
+    <Page isBrandVisible className="px-6 pt-14 pb-10">
       <View className="items-center">
         <LogoHorizontal />
       </View>
 
       <View className="flex-1 items-center justify-center">
-        <ThemedText className="mb-5 text-center font-medium" variant="titleLarge">
+        <Text className="mb-5 text-center font-medium" type="h5">
           {t('caption.start.with')}
-        </ThemedText>
+        </Text>
 
         <Controller
           control={form.control}
@@ -81,16 +80,16 @@ export default function DefiEntrance() {
                 resizeMode="contain"
                 className="mb-4"
               />
-              <ThemedText className="text-center" variant="titleMedium">
+              <Text className="text-center" type="body" weight="semibold">
                 {t('caption.web3.wallet')}
-              </ThemedText>
-              <ThemedText className="text-muted mt-1 text-center" variant="bodySmall">
+              </Text>
+              <Text className="text-muted mt-1 text-center" type="body-xs">
                 {t('relation.web3.wallet')}
-              </ThemedText>
+              </Text>
             </Pressable>
           )}
         />
       </View>
-    </Brand>
+    </Page>
   );
 }

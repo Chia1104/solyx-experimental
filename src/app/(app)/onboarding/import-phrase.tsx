@@ -1,13 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'expo-router';
-import { Button, FieldError, TextArea, TextField } from 'heroui-native';
+import { Button, FieldError, Text, TextArea, TextField } from 'heroui-native';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
 import * as z from 'zod';
 
-import Brand from '@/components/brand';
-import { ThemedText } from '@/components/ui/themed-text';
+import { Page } from '@/components/page';
 import { useClipboard } from '@/hooks/use-clipboard';
 import { useMutationCreateWalletFromPhrase } from '@/modules/defi/hooks/use-mutation-create-wallet-from-phrase';
 
@@ -60,21 +59,27 @@ export default function ImportPhrase() {
   );
 
   return (
-    <Brand display={['background']} wrapperProps={{ className: 'flex-1 px-6 py-12' }}>
+    <Page
+      isBrandVisible
+      className="px-6 py-12"
+      header={{
+        onBack: () => router.back(),
+      }}
+    >
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         className="flex-1"
       >
         <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ flexGrow: 1 }}>
           <View className="flex-1 items-center justify-center">
-            <ThemedText className="text-center text-3xl font-semibold" variant="headlineMedium">
+            <Text className="text-center text-3xl font-semibold" type="h3">
               {t('defi:title.seed.phrase.import')}
-            </ThemedText>
+            </Text>
 
             <View className="mt-12 w-full max-w-sm flex-col">
-              <ThemedText className="text-muted mb-6 text-base">
+              <Text className="text-muted mb-6 text-base" weight="medium">
                 {t('defi:description.import.seed.phrase')}
-              </ThemedText>
+              </Text>
 
               <Controller
                 control={form.control}
@@ -120,6 +125,6 @@ export default function ImportPhrase() {
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
-    </Brand>
+    </Page>
   );
 }

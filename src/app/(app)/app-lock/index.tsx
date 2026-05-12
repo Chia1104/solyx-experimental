@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
-import Brand from '@/components/brand';
 import { LockScreenOverlay } from '@/components/lockscreen/lockscreen-overlay';
+import { Page } from '@/components/page';
 import { useGlobalStore } from '@/modules/app/stores/global';
 
 export default function AppLockIndex() {
@@ -30,5 +30,9 @@ export default function AppLockIndex() {
     staleTime: Infinity,
   });
 
-  return lockRequest ? <LockScreenOverlay key={lockRequest.id} /> : <Brand />;
+  return lockRequest ? (
+    <LockScreenOverlay key={lockRequest.id} />
+  ) : (
+    <Page isBrandVisible brandProps={{ display: ['brand', 'background'] }} />
+  );
 }

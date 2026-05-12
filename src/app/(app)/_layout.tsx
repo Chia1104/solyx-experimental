@@ -3,7 +3,6 @@ import { Stack } from 'expo-router';
 import { AutoLockEffect } from '@/components/lockscreen/auto-lock-effect';
 import { LockScreenOverlay } from '@/components/lockscreen/lockscreen-overlay';
 import { LockScreenProvider } from '@/components/lockscreen/lockscreen-provider';
-import { CompactHeader } from '@/components/ui/compact-header';
 import { EntryPhase } from '@/modules/app/enums/entry-phase.enum';
 import { useEntryState } from '@/modules/app/hooks/use-entry-state';
 import { useGlobalStore } from '@/modules/app/stores/global';
@@ -27,13 +26,7 @@ export default function AppLayout() {
           <Stack.Screen name="callback" options={{ headerShown: false }} />
         </Stack.Protected>
         <Stack.Protected guard={entryState.phase === EntryPhase.Onboarding}>
-          <Stack.Screen name="onboarding/index" options={{ headerShown: false }} />
-          <Stack.Screen name="onboarding/create-wallet" options={{ header: CompactHeader }} />
-          <Stack.Screen name="onboarding/import-phrase" options={{ header: CompactHeader }} />
-          <Stack.Screen name="onboarding/backup-intro" options={{ headerShown: false }} />
-          <Stack.Screen name="onboarding/backup-phrase" options={{ headerShown: false }} />
-          <Stack.Screen name="onboarding/confirm-phrase" options={{ headerShown: false }} />
-          <Stack.Screen name="onboarding/done" options={{ headerShown: false }} />
+          <Stack.Screen name="onboarding" options={{ headerShown: false }} />
         </Stack.Protected>
         <Stack.Protected guard={entryState.phase === EntryPhase.Main}>
           <Stack.Screen name="(main)" options={{ headerShown: false }} />

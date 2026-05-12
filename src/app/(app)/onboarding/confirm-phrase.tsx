@@ -1,13 +1,12 @@
 import { useMemo, useState } from 'react';
 
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { Button, cn } from 'heroui-native';
+import { Button, Text, cn } from 'heroui-native';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, View } from 'react-native';
 
-import Brand from '@/components/brand';
-import { ThemedText } from '@/components/ui/themed-text';
+import { Page } from '@/components/page';
 import { useUserStore } from '@/modules/user/stores/user';
 
 interface ConfirmPhraseFormValues {
@@ -84,21 +83,21 @@ export default function ConfirmPhrase() {
   });
 
   return (
-    <Brand display={['background']} wrapperProps={{ className: 'flex-1 px-6 py-12' }}>
+    <Page isBrandVisible className="px-6 py-12">
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <View className="flex-1 justify-center">
-          <ThemedText className="mb-12 text-center text-3xl font-semibold" variant="headlineMedium">
+          <Text className="mb-12 text-center text-3xl font-semibold" type="h3">
             {t('defi:title.seed.phrase.confirm')}
-          </ThemedText>
+          </Text>
 
           <View className="gap-8">
             {questions.map((question, questionIndex) => (
               <View key={`question-${question.answerIndex}`}>
-                <ThemedText className="mb-3" variant="titleMedium">
+                <Text className="mb-3" type="body" weight="semibold">
                   {t('defi:label.phraseConfirm.seed.phrase', {
                     index: question.answerIndex + 1,
                   })}
-                </ThemedText>
+                </Text>
 
                 <View className="flex-row flex-wrap gap-2">
                   {question.options.map(optionIndex => {
@@ -115,12 +114,12 @@ export default function ConfirmPhrase() {
                         key={`${question.answerIndex}-${optionIndex}`}
                         onPress={() => handleSelect(questionIndex, optionIndex)}
                       >
-                        <ThemedText
+                        <Text
                           className={cn('text-muted', isSelected && 'text-accent-foreground')}
-                          variant="bodyLarge"
+                          type="body"
                         >
                           {words[optionIndex]}
-                        </ThemedText>
+                        </Text>
                       </Pressable>
                     );
                   })}
@@ -131,9 +130,9 @@ export default function ConfirmPhrase() {
 
           <View className="mt-10 items-center">
             {isWrong ? (
-              <ThemedText className="text-danger mb-4 text-center" variant="bodyLarge">
+              <Text className="text-danger mb-4 text-center" type="body">
                 {t('defi:error.seed.phrase.wrong.answers')}
-              </ThemedText>
+              </Text>
             ) : null}
 
             <Button
@@ -145,6 +144,6 @@ export default function ConfirmPhrase() {
           </View>
         </View>
       </ScrollView>
-    </Brand>
+    </Page>
   );
 }

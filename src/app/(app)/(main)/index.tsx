@@ -1,7 +1,6 @@
-import { Button, Switch } from 'heroui-native';
+import { Button, Switch, Text } from 'heroui-native';
 import { View } from 'react-native';
 
-import { ThemedText } from '@/components/ui/themed-text';
 import { useGlobalStore } from '@/modules/app/stores/global';
 import { useQueryMe } from '@/modules/cefi/hooks/use-query-me';
 import { useUserStore } from '@/modules/user/stores/user';
@@ -19,7 +18,7 @@ export default function DefiMainIndex() {
   return (
     <View className="bg-background flex-1 p-6">
       <View className="bg-accent rounded-lg p-4">
-        <ThemedText>DeFi Main</ThemedText>
+        <Text weight="medium">DeFi Main</Text>
       </View>
       <Button
         className="mt-4"
