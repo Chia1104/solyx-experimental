@@ -47,6 +47,8 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       'expo-sqlite',
       'expo-localization',
       'expo-system-ui',
+      'expo-build-properties',
+      'react-native-quick-crypto',
     ],
     experiments: {
       typedRoutes: true,
