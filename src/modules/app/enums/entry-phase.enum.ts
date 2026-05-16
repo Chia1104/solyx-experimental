@@ -1,6 +1,7 @@
 export const EntryPhase = {
   AppLock: 'app-lock',
   Login: 'login',
+  LegacyBiometryMigration: 'legacy-biometry-migration',
   Loading: 'loading',
   Main: 'main',
   Onboarding: 'onboarding',

@@ -318,42 +318,8 @@ export const LockScreenOverlay = () => {
           </View>
 
           <View className="mt-12 w-full max-w-64">
-            {!canUseBiometry ? (
-              <>
-                <Controller
-                  control={control}
-                  name="password"
-                  render={({ field, fieldState }) => (
-                    <PasswordInput
-                      isDisabled={isVerifying}
-                      isInvalid={fieldState.invalid}
-                      error={fieldState.error?.message}
-                      label={t('label.password')}
-                      inputProps={{
-                        onBlur: field.onBlur,
-                        onChangeText: field.onChange,
-                        onSubmitEditing: handleSubmit(verifyWithPassword),
-                        placeholder: t('label.password'),
-                      }}
-                    />
-                  )}
-                  rules={{
-                    required: t('error.password.required'),
-                  }}
-                />
-
-                <View className="mt-6 items-center">
-                  <Button
-                    isDisabled={isVerifying}
-                    onPress={handleSubmit(verifyWithPassword)}
-                    size="sm"
-                  >
-                    <Button.Label>{confirmLabel}</Button.Label>
-                  </Button>
-                </View>
-              </>
-            ) : (
-              <View className="mt-40 items-center">
+            {canUseBiometry ? (
+              <View className="mb-6 items-center">
                 <Button
                   isDisabled={isVerifying}
                   onPress={verifyWithBiometry}
@@ -367,7 +333,35 @@ export const LockScreenOverlay = () => {
                   </Button.Label>
                 </Button>
               </View>
-            )}
+            ) : null}
+
+            <Controller
+              control={control}
+              name="password"
+              render={({ field, fieldState }) => (
+                <PasswordInput
+                  isDisabled={isVerifying}
+                  isInvalid={fieldState.invalid}
+                  error={fieldState.error?.message}
+                  label={t('label.password')}
+                  inputProps={{
+                    onBlur: field.onBlur,
+                    onChangeText: field.onChange,
+                    onSubmitEditing: handleSubmit(verifyWithPassword),
+                    placeholder: t('label.password'),
+                  }}
+                />
+              )}
+              rules={{
+                required: t('error.password.required'),
+              }}
+            />
+
+            <View className="mt-6 items-center">
+              <Button isDisabled={isVerifying} onPress={handleSubmit(verifyWithPassword)} size="sm">
+                <Button.Label>{confirmLabel}</Button.Label>
+              </Button>
+            </View>
 
             {request.isDismissible === false ? null : (
               <View className="mt-3 items-center">

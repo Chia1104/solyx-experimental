@@ -17,6 +17,8 @@ export const queryHasKeychainGenericPasswordOptions = (
   return queryOptions({
     queryKey: ['keychain', 'has-generic-password', service],
     queryFn: () => hasKeychainGenericPassword(service),
+    gcTime: 0,
+    staleTime: 0,
     ...options,
   });
 };

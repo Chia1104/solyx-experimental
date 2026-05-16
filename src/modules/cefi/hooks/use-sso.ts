@@ -1,12 +1,14 @@
 import { useCallback, useMemo } from 'react';
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import type { UseQueryOptions } from '@tanstack/react-query';
 import { router } from 'expo-router';
 import * as WebBrowser from 'expo-web-browser';
 import { useToast } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
 import { Platform } from 'react-native';
 
+import { env } from '@/libs/env';
 import { cefiToken } from '@/modules/cefi/cefi-store';
 import { queryMeOptions } from '@/modules/cefi/hooks/use-query-me';
 import { signIn } from '@/modules/cefi/services/tokens.service';
@@ -95,6 +97,15 @@ export const useSso = () => {
           showLoginError(t('login.login.failed.message'));
           return;
         }
+
+        const searchParams = new URLSearchParams(result.url);
+
+        if (Platform.OS === 'ios') {
+          router.push(
+            // TODO: Fix ios callback handling
+            `/callback?${searchParams.toString().replace(`bridgefywallet-beta%3A%2F%2Fcallback%3F`, '')}`,
+          );
+        }
       } catch {
         showLoginError(t('login.login.failed.message'));
       }
@@ -108,7 +119,12 @@ export const useSso = () => {
   };
 };
 
-export const useSsoCallback = (callbackParams: SsoCallbackParams) => {
+type UseSsoCallbackOptions = Omit<UseQueryOptions<boolean, Error>, 'queryKey' | 'queryFn'>;
+
+export const useSsoCallback = (
+  callbackParams: SsoCallbackParams,
+  options?: UseSsoCallbackOptions,
+) => {
   const { t } = useTranslation(['cefi']);
   const queryClient = useQueryClient();
   const { toast } = useToast();
@@ -162,10 +178,12 @@ export const useSsoCallback = (callbackParams: SsoCallbackParams) => {
           description: t('login.login.failed.message'),
         });
         router.replace('/login');
+        return false;
       }
     },
     queryKey: ['cefi/sso-callback', callbackParams],
     retry: false,
+    ...options,
   });
 
   return useMemo(

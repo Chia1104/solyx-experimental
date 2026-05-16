@@ -16,7 +16,9 @@ export default function AppLayout() {
       <Stack>
         <Stack.Protected
           guard={
-            entryState.phase === EntryPhase.SetPassword || entryState.phase === EntryPhase.AppLock
+            entryState.phase === EntryPhase.SetPassword ||
+            entryState.phase === EntryPhase.LegacyBiometryMigration ||
+            entryState.phase === EntryPhase.AppLock
           }
         >
           <Stack.Screen name="app-lock" options={{ headerShown: false }} />

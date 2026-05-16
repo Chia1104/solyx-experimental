@@ -63,7 +63,6 @@ export const useMutationCreateWalletFromPhrase = (
   const requestLock = useGlobalStore(state => state.requestLock);
   const getAllAdapters = useChainAdapterStore(state => state.getAllAdapters);
 
-  const unlockMode = useUserStore(state => state.settings.unlockMode);
   const switchWalletMode = useUserStore(state => state.switchWalletMode);
   const addWallet = useUserStore(state => state.addWallet);
   const setBackupPhraseState = useUserStore(state => state.setBackupPhraseState);
@@ -95,11 +94,9 @@ export const useMutationCreateWalletFromPhrase = (
         const accounts = await Promise.all(
           adapters.map(adapter => adapter.createAccountFromMnemonic(normalizedPhrase, 0)),
         );
-        const useBiometry = unlockMode === 'biometry';
 
         await setKeychainPhraseMutation.mutateAsync({
           password,
-          useBiometry,
           value: normalizedPhrase,
         });
 
@@ -109,7 +106,6 @@ export const useMutationCreateWalletFromPhrase = (
               address: account.address,
               key: account.privateKey,
               password,
-              useBiometry,
             }),
           ),
         );

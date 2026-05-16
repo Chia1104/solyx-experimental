@@ -4,11 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import { Page } from '@/components/page';
-import { useQueryBiometryType } from '@/modules/keychain/hooks/use-query-biometry-type';
-
 export default function SetAppLock() {
   const { t } = useTranslation(['global']);
-  const { isLoading, biometryLabel } = useQueryBiometryType();
 
   return (
     <Page isBrandVisible className="justify-between px-10 py-24">
@@ -26,20 +23,7 @@ export default function SetAppLock() {
       </View>
 
       <View className="gap-6">
-        {biometryLabel ? (
-          <Button onPress={() => router.push('/app-lock/check-biometry')} isDisabled={isLoading}>
-            <Button.Label>
-              {t('action.set.app.lock.biometry', {
-                biometryLabel,
-              })}
-            </Button.Label>
-          </Button>
-        ) : null}
-
-        <Button
-          onPress={() => router.push('/app-lock/set-password')}
-          variant={biometryLabel ? 'outline' : 'primary'}
-        >
+        <Button onPress={() => router.push('/app-lock/set-password')}>
           <Button.Label>{t('action.set.app.lock.password')}</Button.Label>
         </Button>
       </View>

@@ -21,19 +21,22 @@ export interface KeychainData {
 export type KeychainErrorCallback = (error: unknown) => void;
 
 export interface SetKeychainPasswordVariables {
-  useBiometry: boolean;
+  value: string;
+  onError?: KeychainErrorCallback;
+}
+
+export interface SetKeychainBiometryPasswordVariables {
   value: string;
   onError?: KeychainErrorCallback;
 }
 
 export interface GetKeychainPasswordVariables {
-  useBiometry: boolean;
+  useBiometry?: boolean;
   password?: string;
   onError?: KeychainErrorCallback;
 }
 
 export interface SetKeychainPhraseVariables {
-  useBiometry: boolean;
   value: string;
   password: string;
   onError?: KeychainErrorCallback;
@@ -45,7 +48,6 @@ export interface GetKeychainPhraseVariables {
 }
 
 export interface SetKeychainPrivateKeyVariables {
-  useBiometry: boolean;
   address: string;
   key: string;
   password: string;
@@ -59,27 +61,22 @@ export interface GetKeychainPrivateKeyVariables {
 }
 
 export interface ResetDefiAllKeychainVariables {
-  useBiometry: boolean;
   newPassword: string;
   keychainData: KeychainData[];
 }
 
 export interface GetDefiAllKeychainDataVariables {
-  useBiometry: boolean;
+  useBiometry?: boolean;
   password?: string;
   wallets: WalletItem[];
 }
 
-const getKeychainOptions = async (useBiometry: boolean) => {
-  if (useBiometry) {
-    return getPrivateAccessControlOptions();
-  }
-
-  return publicAccessControlOptions;
+const getPasswordEncryptKey = (password: string) => {
+  return `${env.EXPO_PUBLIC_WALLET_MASTER_KEY}_${password}`;
 };
 
-const getPasswordEncryptKey = (useBiometry: boolean, password?: string) => {
-  return `${env.EXPO_PUBLIC_WALLET_MASTER_KEY}${!useBiometry ? `_${password}` : ''}`;
+const getBiometryPasswordEncryptKey = () => {
+  return env.EXPO_PUBLIC_WALLET_MASTER_KEY;
 };
 
 const getPrivateKeyService = (address: string) => {
@@ -90,13 +87,9 @@ const notifyError = (error: unknown, onError?: KeychainErrorCallback) => {
   onError?.(error);
 };
 
-export const setKeychainPassword = async ({
-  useBiometry,
-  value,
-  onError,
-}: SetKeychainPasswordVariables) => {
+export const setKeychainPassword = async ({ value, onError }: SetKeychainPasswordVariables) => {
   try {
-    const encryptedPassword = encrypt(value, getPasswordEncryptKey(useBiometry, value));
+    const encryptedPassword = encrypt(value, getPasswordEncryptKey(value));
 
     await resetGenericPassword({
       service: env.EXPO_PUBLIC_WALLET_DEFI_PASSWORD_SERVICE,
@@ -105,7 +98,29 @@ export const setKeychainPassword = async ({
     return setGenericPassword({
       password: encryptedPassword,
       service: env.EXPO_PUBLIC_WALLET_DEFI_PASSWORD_SERVICE,
-      options: await getKeychainOptions(useBiometry),
+      options: publicAccessControlOptions,
+    });
+  } catch (error) {
+    notifyError(error, onError);
+    throw error;
+  }
+};
+
+export const setKeychainBiometryPassword = async ({
+  value,
+  onError,
+}: SetKeychainBiometryPasswordVariables) => {
+  try {
+    const encryptedPassword = encrypt(value, getBiometryPasswordEncryptKey());
+
+    await resetGenericPassword({
+      service: env.EXPO_PUBLIC_WALLET_BIOMETRY_DEFI_PASSWORD_SERVICE,
+    });
+
+    return setGenericPassword({
+      password: encryptedPassword,
+      service: env.EXPO_PUBLIC_WALLET_BIOMETRY_DEFI_PASSWORD_SERVICE,
+      options: await getPrivateAccessControlOptions(),
     });
   } catch (error) {
     notifyError(error, onError);
@@ -114,14 +129,29 @@ export const setKeychainPassword = async ({
 };
 
 export const getKeychainPassword = async ({
-  useBiometry,
+  useBiometry = false,
   password,
   onError,
 }: GetKeychainPasswordVariables) => {
   try {
-    const encryptedPassword = await getGenericPassword({
-      service: env.EXPO_PUBLIC_WALLET_DEFI_PASSWORD_SERVICE,
-    });
+    if (!useBiometry && !password) {
+      throw new KeychainError(
+        KeychainErrorCode.DecryptPasswordError,
+        'Decrypt password error, password is required',
+      );
+    }
+
+    const encryptedPassword =
+      (await getGenericPassword({
+        service: useBiometry
+          ? env.EXPO_PUBLIC_WALLET_BIOMETRY_DEFI_PASSWORD_SERVICE
+          : env.EXPO_PUBLIC_WALLET_DEFI_PASSWORD_SERVICE,
+      })) ??
+      (useBiometry
+        ? await getGenericPassword({
+            service: env.EXPO_PUBLIC_WALLET_DEFI_PASSWORD_SERVICE,
+          })
+        : undefined);
 
     if (!encryptedPassword) {
       throw new KeychainError(
@@ -130,7 +160,10 @@ export const getKeychainPassword = async ({
       );
     }
 
-    return decrypt(encryptedPassword, getPasswordEncryptKey(useBiometry, password));
+    return decrypt(
+      encryptedPassword,
+      useBiometry ? getBiometryPasswordEncryptKey() : getPasswordEncryptKey(password as string),
+    );
   } catch (error) {
     notifyError(error, onError);
     throw error;
@@ -138,7 +171,6 @@ export const getKeychainPassword = async ({
 };
 
 export const setKeychainPhrase = async ({
-  useBiometry,
   value,
   password,
   onError,
@@ -153,7 +185,7 @@ export const setKeychainPhrase = async ({
     await setGenericPassword({
       password: encryptedPhrase,
       service: env.EXPO_PUBLIC_WALLET_DEFI_PHRASE_SERVICE,
-      options: await getKeychainOptions(useBiometry),
+      options: publicAccessControlOptions,
     });
 
     return encryptedPhrase;
@@ -184,7 +216,6 @@ export const getKeychainPhrase = async ({ password, onError }: GetKeychainPhrase
 };
 
 export const setKeychainPrivateKey = async ({
-  useBiometry,
   address,
   key,
   password,
@@ -201,7 +232,7 @@ export const setKeychainPrivateKey = async ({
     return setGenericPassword({
       password: encryptedPrivateKey,
       service,
-      options: await getKeychainOptions(useBiometry),
+      options: publicAccessControlOptions,
     });
   } catch (error) {
     notifyError(error, onError);
@@ -234,7 +265,6 @@ export const getKeychainPrivateKey = async ({
 };
 
 export const resetDefiAllKeychain = async ({
-  useBiometry,
   newPassword,
   keychainData,
 }: ResetDefiAllKeychainVariables) => {
@@ -249,7 +279,6 @@ export const resetDefiAllKeychain = async ({
 
   if (phraseKeychain?.result) {
     await setKeychainPhrase({
-      useBiometry,
       value: phraseKeychain.result,
       password: newPassword,
     });
@@ -258,7 +287,6 @@ export const resetDefiAllKeychain = async ({
   await Promise.all(
     privateKeyKeychains.map(item =>
       setKeychainPrivateKey({
-        useBiometry,
         address: item.address,
         key: item.key,
         password: newPassword,
@@ -281,11 +309,11 @@ const getCurrentPassword = async (useBiometry: boolean, password?: string) => {
     );
   }
 
-  return getKeychainPassword({ useBiometry });
+  return getKeychainPassword({ useBiometry: true });
 };
 
 export const getDefiAllKeychainData = async ({
-  useBiometry,
+  useBiometry = false,
   password,
   wallets,
 }: GetDefiAllKeychainDataVariables) => {

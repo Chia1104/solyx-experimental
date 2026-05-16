@@ -5,7 +5,12 @@ import { useEntryState } from '@/modules/app/hooks/use-entry-state';
 
 export default function AppLockLayout() {
   const entryState = useEntryState();
-  const initialRouteName = entryState.phase === EntryPhase.SetPassword ? 'set-app-lock' : 'index';
+  const initialRouteName =
+    entryState.phase === EntryPhase.SetPassword
+      ? 'set-app-lock'
+      : entryState.phase === EntryPhase.LegacyBiometryMigration
+        ? 'migrate-biometry-password'
+        : 'index';
 
   return (
     <Stack
@@ -17,6 +22,9 @@ export default function AppLockLayout() {
         <Stack.Screen name="set-password" options={{ headerShown: false }} />
         <Stack.Screen name="check-biometry" options={{ headerShown: false }} />
         <Stack.Screen name="auto-lock" options={{ headerShown: false }} />
+      </Stack.Protected>
+      <Stack.Protected guard={entryState.phase === EntryPhase.LegacyBiometryMigration}>
+        <Stack.Screen name="migrate-biometry-password" options={{ headerShown: false }} />
       </Stack.Protected>
       <Stack.Protected guard={entryState.phase === EntryPhase.AppLock}>
         <Stack.Screen name="index" options={{ headerShown: false }} />

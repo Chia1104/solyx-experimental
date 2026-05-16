@@ -1,48 +1,49 @@
-import { useQueryClient } from '@tanstack/react-query';
 import { router } from 'expo-router';
 import { Button, Text } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 
 import { Page } from '@/components/page';
-import { env } from '@/libs/env';
-import { generateRandomString } from '@/modules/keychain/crypto';
-import { useMutationSetKeychainPassword } from '@/modules/keychain/hooks/use-mutation-set-keychain-password';
+import { useGlobalStore } from '@/modules/app/stores/global';
+import { useMutationSetKeychainBiometryPassword } from '@/modules/keychain/hooks/use-mutation-set-keychain-biometry-password';
 import { useQueryBiometryType } from '@/modules/keychain/hooks/use-query-biometry-type';
-import { queryHasKeychainGenericPasswordOptions } from '@/modules/keychain/hooks/use-query-has-keychain-generic-password';
 import { useUserStore } from '@/modules/user/stores/user';
 
 export default function CheckBiometry() {
   const { t } = useTranslation(['global']);
-  const queryClient = useQueryClient();
 
+  const requestLock = useGlobalStore(state => state.requestLock);
   const setUnlockMode = useUserStore(state => state.setUnlockMode);
 
   const { isLoading: isBiometryLoading, biometryLabel } = useQueryBiometryType();
-  const setupBiometryMutation = useMutationSetKeychainPassword({
+  const setupBiometryMutation = useMutationSetKeychainBiometryPassword({
     onSuccess: () => {
-      queryClient.setQueryData(
-        queryHasKeychainGenericPasswordOptions(env.EXPO_PUBLIC_WALLET_DEFI_PASSWORD_SERVICE)
-          .queryKey,
-        true,
-      );
       setUnlockMode('biometry');
       router.replace('/app-lock/auto-lock');
     },
   });
 
-  const handleSetupBiometry = () => {
-    const password = generateRandomString();
+  const handleSetupBiometry = async () => {
+    const password = await requestLock({
+      isDismissible: false,
+      reason: t('description.verify.app.lock'),
+      type: 'password',
+    });
+
     setupBiometryMutation.mutate({
-      useBiometry: true,
       value: password,
     });
+  };
+
+  const handleSkip = () => {
+    setUnlockMode('password');
+    router.replace('/app-lock/auto-lock');
   };
 
   return (
     <Page
       isBrandVisible
-      className="items-center justify-center"
+      className="items-center justify-center px-10"
       header={{
         onBack: () => router.back(),
       }}
@@ -50,9 +51,17 @@ export default function CheckBiometry() {
       {setupBiometryMutation.isPending || isBiometryLoading ? (
         <ActivityIndicator />
       ) : (
-        <Button onPress={handleSetupBiometry} variant="tertiary">
-          <Button.Label>{t('action.verify.with.biometry', { biometryLabel })}</Button.Label>
-        </Button>
+        <View className="w-full gap-6">
+          {biometryLabel ? (
+            <Button onPress={handleSetupBiometry} variant="tertiary">
+              <Button.Label>{t('action.verify.with.biometry', { biometryLabel })}</Button.Label>
+            </Button>
+          ) : null}
+
+          <Button onPress={handleSkip} variant={biometryLabel ? 'outline' : 'primary'}>
+            <Button.Label>{t('action.skip')}</Button.Label>
+          </Button>
+        </View>
       )}
 
       <Text className="text-foreground mt-8 text-center text-lg" weight="medium">
