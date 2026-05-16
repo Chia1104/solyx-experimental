@@ -8,7 +8,6 @@ import { useToast } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
 import { Platform } from 'react-native';
 
-import { env } from '@/libs/env';
 import { cefiToken } from '@/modules/cefi/cefi-store';
 import { queryMeOptions } from '@/modules/cefi/hooks/use-query-me';
 import { signIn } from '@/modules/cefi/services/tokens.service';
