@@ -1,27 +1,18 @@
 import { useState } from 'react';
 
-import type BigNumber from 'bignumber.js';
 import { useRouter } from 'expo-router';
-import { Button, Select, Skeleton, Text } from 'heroui-native';
-import { NumberValue } from 'heroui-native-pro/number-value';
+import { Button, Select, Text } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
-import { Pressable, View } from 'react-native';
+import { View } from 'react-native';
 
 import { useLiquidSession } from '@/modules/chain/hooks/use-liquid-session';
 import type { ChainConfig } from '@/modules/chain/stores/chain-adapter/types';
 import { useUserStore } from '@/modules/user/stores/user';
 
-import { ChainMark, TokenMark } from './chain-mark';
+import { AssetList } from './asset-list';
+import type { AssetRow } from './asset-list';
+import { ChainMark } from './chain-mark';
 import { getModeChains, getNetworkMode } from './home-chain-utils';
-
-export interface AssetRow {
-  address: string;
-  balance: string;
-  fiatValue: BigNumber;
-  name: string;
-  price: string;
-  symbol: string;
-}
 
 interface AssetsPanelProps {
   chain?: ChainConfig;
@@ -38,6 +29,7 @@ export const AssetsPanel = ({
   rows,
   statusText,
 }: AssetsPanelProps) => {
+  const router = useRouter();
   const { t } = useTranslation(['defi']);
 
   return (
@@ -51,14 +43,12 @@ export const AssetsPanel = ({
 
       <View className="gap-3">
         {rows.length > 0 ? (
-          rows.map(row => (
-            <AssetListItem
-              isBalanceVisible={isBalanceVisible}
-              isLoading={isLoading}
-              key={`${row.symbol}:${row.address}`}
-              row={row}
-            />
-          ))
+          <AssetList
+            isBalanceVisible={isBalanceVisible}
+            isLoading={isLoading}
+            onPressAsset={row => router.push(`/assets/${row.symbol}`)}
+            rows={rows}
+          />
         ) : (
           <View className="bg-content1 rounded-3xl p-5">
             <Text className="text-foreground/60">{statusText}</Text>
@@ -66,68 +56,6 @@ export const AssetsPanel = ({
         )}
       </View>
     </View>
-  );
-};
-
-interface AssetListItemProps {
-  isBalanceVisible: boolean;
-  isLoading: boolean;
-  row: AssetRow;
-}
-
-const AssetListItem = ({ isBalanceVisible, isLoading, row }: AssetListItemProps) => {
-  const router = useRouter();
-  const { i18n } = useTranslation();
-
-  return (
-    <Pressable
-      className="bg-surface justify-center rounded-xl px-4 py-3"
-      onPress={() => router.push(`/assets/${row.symbol}`)}
-    >
-      <View className="flex-row items-center justify-between gap-3">
-        <View className="min-w-0 flex-1 flex-row items-center gap-3">
-          <TokenMark symbol={row.symbol} size="lg" />
-          <View className="min-w-0 flex-1">
-            <Text className="text-foreground" numberOfLines={1} weight="medium">
-              {row.symbol}
-            </Text>
-            {isBalanceVisible ? (
-              <NumberValue
-                classNames={{ value: 'text-foreground/50' }}
-                currency="USD"
-                locale={i18n.language}
-                maximumFractionDigits={2}
-                numberStyle="currency"
-                value={row.fiatValue.toNumber()}
-              />
-            ) : (
-              <Text className="text-foreground/50" numberOfLines={1} type="body-xs">
-                ******
-              </Text>
-            )}
-          </View>
-        </View>
-
-        <View className="items-end">
-          {isBalanceVisible ? (
-            isLoading ? (
-              <Skeleton className="h-5 w-20 rounded-md" />
-            ) : (
-              <NumberValue
-                classNames={{ value: 'text-foreground font-medium text-lg' }}
-                locale={i18n.language}
-                maximumFractionDigits={8}
-                value={Number(row.balance)}
-              />
-            )
-          ) : (
-            <Text className="text-foreground" weight="medium" type="h5">
-              ******
-            </Text>
-          )}
-        </View>
-      </View>
-    </Pressable>
   );
 };
 

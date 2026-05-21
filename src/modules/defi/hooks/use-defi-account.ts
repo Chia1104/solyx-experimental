@@ -23,20 +23,16 @@ export const getWalletAddress = (wallet: WalletItem | undefined, chainType: Chai
   if (!wallet) {
     return '';
   }
-
-  if (chainType === ChainType.EVM) {
-    return wallet.evmAddress ?? '';
+  switch (chainType) {
+    case ChainType.EVM:
+      return wallet.evmAddress ?? '';
+    case ChainType.TRON:
+      return wallet.tronAddress ?? '';
+    case ChainType.LIQUID:
+      return wallet.liquidAmpId ?? '';
+    default:
+      return '';
   }
-
-  if (chainType === ChainType.TRON) {
-    return wallet.tronAddress ?? '';
-  }
-
-  if (chainType === ChainType.LIQUID) {
-    return wallet.liquidAmpId ?? '';
-  }
-
-  return '';
 };
 
 export const useDefiAccount = () => {

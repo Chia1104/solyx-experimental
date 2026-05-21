@@ -5,9 +5,7 @@ export default function DefiMainLayout() {
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="(tabs)" />
       <Stack.Screen name="assets/[symbol]" options={{ presentation: 'modal' }} />
-      <Stack.Screen name="send/index" options={{ presentation: 'modal' }} />
-      <Stack.Screen name="send/amount" />
-      <Stack.Screen name="send/confirm" />
+      <Stack.Screen name="send" options={{ presentation: 'modal' }} />
       <Stack.Screen name="receive/index" options={{ presentation: 'modal' }} />
       <Stack.Screen name="scanner/index" options={{ presentation: 'modal' }} />
       <Stack.Screen name="bridge/confirm" />
