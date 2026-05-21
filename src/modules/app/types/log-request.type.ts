@@ -21,6 +21,7 @@ export interface PhraseLockRequest extends LockRequestBase {
 }
 
 export interface LiquidLockRequest extends LockRequestBase {
+  chainId?: number;
   type: typeof LockRequestType.Liquid;
 }
 

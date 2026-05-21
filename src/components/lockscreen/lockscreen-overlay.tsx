@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useTransition } from 'react';
 
-import { Button, Dialog } from 'heroui-native';
+import { Button, Dialog, useBottomSheetAwareHandlers } from 'heroui-native';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import {
@@ -15,6 +15,7 @@ import {
 import { useGlobalStore } from '@/modules/app/stores/global';
 import { LockScreenError, LockScreenErrorCode } from '@/modules/app/types/log-request.type';
 import { SupportedNetwork } from '@/modules/chain/enums/supported-chain.enum';
+import { useChainAdapterStore } from '@/modules/chain/stores/chain-adapter';
 import { useMutationGetKeychainPassword } from '@/modules/keychain/hooks/use-mutation-get-keychain-password';
 import { useMutationGetKeychainPhrase } from '@/modules/keychain/hooks/use-mutation-get-keychain-phrase';
 import { useMutationGetKeychainPrivateKey } from '@/modules/keychain/hooks/use-mutation-get-keychain-private-key';
@@ -44,41 +45,13 @@ interface LockScreenContentProps {
   presentation?: LockScreenPresentation;
 }
 
-const LockScreenContent = ({ presentation = 'fullscreen' }: LockScreenContentProps) => {
+interface LockScreenPresentationProps {
+  isDialog: boolean;
+}
+
+const LockScreenHeader = ({ isDialog }: LockScreenPresentationProps) => {
   const { t } = useTranslation(['global']);
-
   const request = useGlobalStore(store => store.lockRequest);
-  const network = useGlobalStore(store => store.network);
-  const rejectLockRequest = useGlobalStore(store => store.rejectLockRequest);
-  const resolveLockRequest = useGlobalStore(store => store.resolveLockRequest);
-  const setLiquidFgsSuppressResumePasswordLockUntil = useGlobalStore(
-    store => store.setLiquidFgsSuppressResumePasswordLockUntil,
-  );
-
-  const unlockMode = useUserStore(state => state.settings.unlockMode);
-  const currentWalletIndex = useUserStore(state => state.wallet.currentWalletIndex);
-  const wallets = useUserStore(state => state.wallet.wallets);
-
-  const { biometryLabel } = useQueryBiometryType();
-  const hasTriggeredBiometry = useRef(false);
-
-  const { control, handleSubmit, setError } = useForm<LockScreenFormValues>({
-    defaultValues: {
-      password: '',
-    },
-    mode: 'onChange',
-  });
-
-  const getKeychainPasswordMutation = useMutationGetKeychainPassword();
-  const getKeychainPhraseMutation = useMutationGetKeychainPhrase();
-  const getKeychainPrivateKeyMutation = useMutationGetKeychainPrivateKey();
-
-  const isVerifying =
-    getKeychainPasswordMutation.isPending ||
-    getKeychainPhraseMutation.isPending ||
-    getKeychainPrivateKeyMutation.isPending;
-
-  const currentWallet = wallets[currentWalletIndex];
 
   const copy = useMemo(() => {
     if (!request) return null;
@@ -102,6 +75,65 @@ const LockScreenContent = ({ presentation = 'fullscreen' }: LockScreenContentPro
         };
     }
   }, [request, t]);
+
+  if (!request || !copy) return null;
+
+  return (
+    <View className="items-center">
+      <Text
+        className={
+          isDialog
+            ? 'text-foreground text-center text-xl font-semibold'
+            : 'text-foreground text-center text-2xl font-semibold'
+        }
+      >
+        {copy.title}
+      </Text>
+      {request.type === 'password' ? null : (
+        <Text className="text-muted mt-3 max-w-xs text-center text-sm">{copy.description}</Text>
+      )}
+    </View>
+  );
+};
+
+const LockScreenVerificationForm = ({ isDialog }: LockScreenPresentationProps) => {
+  const { t } = useTranslation(['global']);
+  const request = useGlobalStore(store => store.lockRequest);
+  const network = useGlobalStore(store => store.network);
+  const rejectLockRequest = useGlobalStore(store => store.rejectLockRequest);
+  const resolveLockRequest = useGlobalStore(store => store.resolveLockRequest);
+  const setLiquidFgsSuppressResumePasswordLockUntil = useGlobalStore(
+    store => store.setLiquidFgsSuppressResumePasswordLockUntil,
+  );
+  const loginLiquid = useChainAdapterStore(state => state.login);
+
+  const unlockMode = useUserStore(state => state.settings.unlockMode);
+  const currentWalletIndex = useUserStore(state => state.wallet.currentWalletIndex);
+  const wallets = useUserStore(state => state.wallet.wallets);
+
+  const { biometryLabel } = useQueryBiometryType();
+  const hasTriggeredBiometry = useRef(false);
+  const [isPending, startTransition] = useTransition();
+
+  const { control, handleSubmit, setError } = useForm<LockScreenFormValues>({
+    defaultValues: {
+      password: '',
+    },
+    mode: 'onChange',
+  });
+
+  const getKeychainPasswordMutation = useMutationGetKeychainPassword();
+  const getKeychainPhraseMutation = useMutationGetKeychainPhrase();
+  const getKeychainPrivateKeyMutation = useMutationGetKeychainPrivateKey();
+
+  const isVerifying =
+    getKeychainPasswordMutation.isPending ||
+    getKeychainPhraseMutation.isPending ||
+    getKeychainPrivateKeyMutation.isPending ||
+    isPending;
+
+  const currentWallet = wallets[currentWalletIndex];
+  const bottomSheetInputHandlers = useBottomSheetAwareHandlers();
 
   const getVerificationErrorMessage = useCallback(
     (error: unknown) => {
@@ -201,14 +233,16 @@ const LockScreenContent = ({ presentation = 'fullscreen' }: LockScreenContentPro
           resolveLockRequest(request, privateKey);
           return;
         }
-        case 'liquid':
-          await getKeychainPhraseMutation.mutateAsync({
+        case 'liquid': {
+          const phrase = await getKeychainPhraseMutation.mutateAsync({
             onError: handleKeychainError,
             password: verifiedPassword,
           });
+          await loginLiquid(phrase, request.chainId);
           setLiquidFgsSuppressResumePasswordLockUntil(null);
           resolveLockRequest(request, true);
           return;
+        }
       }
     },
     [
@@ -216,6 +250,7 @@ const LockScreenContent = ({ presentation = 'fullscreen' }: LockScreenContentPro
       getKeychainPrivateKeyMutation,
       getPrivateKeyAddress,
       handleKeychainError,
+      loginLiquid,
       network,
       request,
       resolveLockRequest,
@@ -246,17 +281,19 @@ const LockScreenContent = ({ presentation = 'fullscreen' }: LockScreenContentPro
 
   const verifyWithPassword = useCallback(
     async (values: LockScreenFormValues) => {
-      if (!request || isVerifying) return;
+      startTransition(async () => {
+        if (!request || isVerifying) return;
 
-      try {
-        const storedPassword = await verifyAsync({
-          method: 'password',
-          password: values.password,
-        });
-        resolveVerifiedRequest(storedPassword);
-      } catch (error) {
-        handleVerificationError(error);
-      }
+        try {
+          const storedPassword = await verifyAsync({
+            method: 'password',
+            password: values.password,
+          });
+          await resolveVerifiedRequest(storedPassword);
+        } catch (error) {
+          handleVerificationError(error);
+        }
+      });
     },
     [handleVerificationError, isVerifying, request, resolveVerifiedRequest, verifyAsync],
   );
@@ -303,11 +340,75 @@ const LockScreenContent = ({ presentation = 'fullscreen' }: LockScreenContentPro
     return () => clearTimeout(timer);
   }, [biometryLabel, request, unlockMode, verifyWithBiometry]);
 
-  if (!request || !copy) return null;
+  if (!request) return null;
 
-  const canUseBiometry = unlockMode === 'biometry' && Boolean(biometryLabel);
-  const confirmLabel = request.type === 'password' ? t('action.enter') : t('action.confirm');
+  return (
+    <View className={isDialog ? 'mt-8 w-full' : 'mt-12 w-full max-w-64'}>
+      {unlockMode === 'biometry' && Boolean(biometryLabel) ? (
+        <View className="mb-6 items-center">
+          <Button
+            isDisabled={isVerifying}
+            onPress={verifyWithBiometry}
+            variant="tertiary"
+            size="sm"
+          >
+            <Button.Label>
+              {t('action.verify.with.biometry', {
+                biometryLabel: biometryLabel ?? undefined,
+              })}
+            </Button.Label>
+          </Button>
+        </View>
+      ) : null}
+
+      <Controller
+        control={control}
+        name="password"
+        render={({ field, fieldState }) => (
+          <PasswordInput
+            isDisabled={isVerifying}
+            isInvalid={fieldState.invalid}
+            error={fieldState.error?.message}
+            label={t('label.password')}
+            inputProps={{
+              onChangeText: field.onChange,
+              onFocus: bottomSheetInputHandlers.onFocus,
+              onSubmitEditing: handleSubmit(verifyWithPassword),
+              onBlur: event => {
+                field.onBlur();
+                bottomSheetInputHandlers.onBlur(event);
+              },
+              placeholder: t('label.password'),
+              isDisabled: isVerifying,
+            }}
+          />
+        )}
+        rules={{
+          required: t('error.password.required'),
+        }}
+      />
+
+      <View className="mt-6 flex-row items-center justify-center gap-2">
+        <Button isDisabled={isVerifying} onPress={handleSubmit(verifyWithPassword)} size="sm">
+          <Button.Label>
+            {request.type === 'password' ? t('action.enter') : t('action.confirm')}
+          </Button.Label>
+        </Button>
+        {request.isDismissible === true ? (
+          <Button isDisabled={isVerifying} onPress={handleCancel} variant="outline" size="sm">
+            <Button.Label>{t('action.cancel')}</Button.Label>
+          </Button>
+        ) : null}
+      </View>
+    </View>
+  );
+};
+
+const LockScreenContent = ({ presentation = 'fullscreen' }: LockScreenContentProps) => {
+  const request = useGlobalStore(store => store.lockRequest);
   const isDialog = presentation === 'dialog';
+
+  if (!request) return null;
 
   return (
     <TouchableWithoutFeedback accessible={false} onPress={Keyboard.dismiss}>
@@ -319,73 +420,8 @@ const LockScreenContent = ({ presentation = 'fullscreen' }: LockScreenContentPro
         }
       >
         {isDialog ? null : <BrandImage className="mb-7 flex-none" />}
-
-        <View className="items-center">
-          <Text
-            className={
-              isDialog
-                ? 'text-foreground text-center text-xl font-semibold'
-                : 'text-foreground text-center text-2xl font-semibold'
-            }
-          >
-            {copy.title}
-          </Text>
-          {request.type === 'password' ? null : (
-            <Text className="text-muted mt-3 max-w-xs text-center text-sm">{copy.description}</Text>
-          )}
-        </View>
-
-        <View className={isDialog ? 'mt-8 w-full' : 'mt-12 w-full max-w-64'}>
-          {canUseBiometry ? (
-            <View className="mb-6 items-center">
-              <Button
-                isDisabled={isVerifying}
-                onPress={verifyWithBiometry}
-                variant="tertiary"
-                size="sm"
-              >
-                <Button.Label>
-                  {t('action.verify.with.biometry', {
-                    biometryLabel: biometryLabel ?? undefined,
-                  })}
-                </Button.Label>
-              </Button>
-            </View>
-          ) : null}
-
-          <Controller
-            control={control}
-            name="password"
-            render={({ field, fieldState }) => (
-              <PasswordInput
-                isDisabled={isVerifying}
-                isInvalid={fieldState.invalid}
-                error={fieldState.error?.message}
-                label={t('label.password')}
-                inputProps={{
-                  onBlur: field.onBlur,
-                  onChangeText: field.onChange,
-                  onSubmitEditing: handleSubmit(verifyWithPassword),
-                  placeholder: t('label.password'),
-                }}
-              />
-            )}
-            rules={{
-              required: t('error.password.required'),
-            }}
-          />
-
-          <View className="mt-6 flex-row items-center justify-center gap-2">
-            <Button isDisabled={isVerifying} onPress={handleSubmit(verifyWithPassword)} size="sm">
-              <Button.Label>{confirmLabel}</Button.Label>
-            </Button>
-            {request.isDismissible ? (
-              <Button isDisabled={isVerifying} onPress={handleCancel} variant="outline" size="sm">
-                <Button.Label>{t('action.cancel')}</Button.Label>
-              </Button>
-            ) : null}
-          </View>
-        </View>
+        <LockScreenHeader isDialog={isDialog} />
+        <LockScreenVerificationForm isDialog={isDialog} />
       </View>
     </TouchableWithoutFeedback>
   );

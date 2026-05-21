@@ -11,6 +11,7 @@ import { Image, ImageBackground, Pressable, View } from 'react-native';
 import { ThemedIcon } from '@/components/ui/themed-icon';
 import { SsoMode } from '@/modules/cefi/enums/sso-mode.enum';
 import { useSso } from '@/modules/cefi/hooks/use-sso';
+import { useLiquidSession } from '@/modules/chain/hooks/use-liquid-session';
 import {
   EIP155_CHAINS,
   LIQUID_CHAINS,
@@ -90,15 +91,30 @@ interface HomeTopBarProps {
 export const HomeTopBar = ({ chain, wallet }: HomeTopBarProps) => {
   const router = useRouter();
   const { t } = useTranslation(['defi']);
+  const [pendingMode, setPendingMode] = useState<NetworkMode | null>(null);
   const changeNetwork = useUserStore(state => state.changeNetwork);
+  const { ensureLiquidSession } = useLiquidSession();
   const currentMode = getNetworkMode(chain?.chainType);
 
-  const selectNetworkMode = (mode: NetworkMode) => {
-    if (mode === currentMode) {
+  const selectNetworkMode = async (mode: NetworkMode) => {
+    if (mode === currentMode || pendingMode) {
       return;
     }
 
-    changeNetwork(mode === 'private' ? PRIVATE_CHAIN_ID : PUBLIC_CHAIN_ID);
+    setPendingMode(mode);
+    try {
+      if (mode === 'private') {
+        const isLiquidSessionReady = await ensureLiquidSession(PRIVATE_CHAIN_ID);
+        if (!isLiquidSessionReady) {
+          return;
+        }
+      }
+      changeNetwork(mode === 'private' ? PRIVATE_CHAIN_ID : PUBLIC_CHAIN_ID);
+    } catch {
+      // Keep the current mode when the Liquid unlock request is dismissed or fails.
+    } finally {
+      setPendingMode(null);
+    }
   };
 
   return (
@@ -117,7 +133,7 @@ export const HomeTopBar = ({ chain, wallet }: HomeTopBarProps) => {
       <Segment
         size="sm"
         value={currentMode}
-        onValueChange={value => selectNetworkMode(value as NetworkMode)}
+        onValueChange={value => void selectNetworkMode(value as NetworkMode)}
       >
         <Segment.Group>
           <Segment.Indicator />
@@ -416,11 +432,33 @@ interface ChainSelectorProps {
 const ChainSelector = ({ chain }: ChainSelectorProps) => {
   const { t } = useTranslation(['defi']);
   const [isOpen, setIsOpen] = useState(false);
+  const [pendingChainId, setPendingChainId] = useState<number | null>(null);
   const currentWalletIndex = useUserStore(state => state.wallet.currentWalletIndex);
   const wallets = useUserStore(state => state.wallet.wallets);
   const changeNetwork = useUserStore(state => state.changeNetwork);
+  const { ensureLiquidSession } = useLiquidSession();
   const mode = getNetworkMode(chain?.chainType);
   const options = getModeChains(mode, wallets[currentWalletIndex]?.chains);
+
+  const handleSelectChain = async (chainId: number) => {
+    if (chainId === chain?.chainId || pendingChainId) {
+      return;
+    }
+
+    setPendingChainId(chainId);
+    try {
+      const isLiquidSessionReady = await ensureLiquidSession(chainId);
+      if (!isLiquidSessionReady) {
+        return;
+      }
+      changeNetwork(chainId);
+      setIsOpen(false);
+    } catch {
+      // Keep the current chain when the Liquid unlock request is dismissed or fails.
+    } finally {
+      setPendingChainId(null);
+    }
+  };
 
   if (options.length <= 1) {
     return <ChainSelectorButton chain={chain} label={t('caption.home.no.network')} />;
@@ -443,11 +481,9 @@ const ChainSelector = ({ chain }: ChainSelectorProps) => {
                   'justify-between rounded-2xl px-4 py-3',
                   isSelected ? 'bg-accent/10' : 'bg-content2',
                 )}
+                isDisabled={pendingChainId !== null}
                 key={option.chainId}
-                onPress={() => {
-                  changeNetwork(option.chainId);
-                  setIsOpen(false);
-                }}
+                onPress={() => void handleSelectChain(option.chainId)}
                 variant="ghost"
               >
                 <View className="flex-row items-center gap-3">

@@ -176,7 +176,7 @@ export interface ChainAdapter {
 export type LiquidTransaction = SignedBlindedTransaction | SignedTransaction | UnsignedTransaction;
 
 export interface LiquidActions {
-  login: (mnemonic: string) => Promise<void>;
+  login: (mnemonic: string, chainId?: number) => Promise<void>;
   tryReconnect: (chainId?: number) => Promise<boolean>;
   getLiquidReceiveAddresses: (index: number) => Promise<LiquidReceiveAddresses>;
   getReceiveAddress: (index: number) => Promise<string>;
@@ -256,7 +256,7 @@ export interface LiquidChainAdapterActions extends LiquidActions {
   createLiquidAccountFromMnemonic: (mnemonic: string, index: number) => Promise<Account>;
   createLiquidAccountFromPrivateKey: (privateKey: string) => Account;
   getLiquidProvider: (chainId: number, options?: { connect?: boolean }) => Promise<GdkInterface>;
-  checkLiquidProviderReady: () => Promise<boolean>;
+  checkLiquidProviderReady: (chainId?: number) => Promise<boolean>;
   signLiquidMessage: (params: SignMessageParams) => Promise<string>;
   signLiquidTransaction: (
     params: UnsignedTransaction,

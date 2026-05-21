@@ -6,6 +6,7 @@ import { LockScreenProvider } from '@/components/lockscreen/lockscreen-provider'
 import { EntryPhase } from '@/modules/app/enums/entry-phase.enum';
 import { useEntryState } from '@/modules/app/hooks/use-entry-state';
 import { useGlobalStore } from '@/modules/app/stores/global';
+import { LiquidSessionInterceptor } from '@/modules/chain/hooks/use-liquid-session';
 
 export default function AppLayout() {
   const request = useGlobalStore(store => store.lockRequest);
@@ -37,6 +38,7 @@ export default function AppLayout() {
       {request && entryState.phase !== EntryPhase.AppLock ? (
         <LockScreenDialog key={request.id} />
       ) : null}
+      {entryState.phase === EntryPhase.Main ? <LiquidSessionInterceptor /> : null}
       <AutoLockEffect />
     </LockScreenProvider>
   );

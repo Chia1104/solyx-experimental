@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
-import { ScrollView, RefreshControl, View } from 'react-native';
+import { RefreshControl, ScrollView, View } from 'react-native';
 
 import { Page } from '@/components/page';
 import {

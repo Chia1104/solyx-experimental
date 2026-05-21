@@ -128,10 +128,12 @@ export const useQueryAssets = (options?: UseQueryAssetsBalanceOptions) => {
   const currentWalletIndex = useUserStore(state => state.wallet.currentWalletIndex);
   const wallets = useUserStore(state => state.wallet.wallets);
   const getAdapterByChainId = useChainAdapterStore(state => state.getAdapterByChainId);
+  const liquidLoggedIn = useChainAdapterStore(state => state.liquidLoggedIn);
   const pricesQuery = useQueryPrices();
 
   const wallet = wallets[currentWalletIndex];
   const chain = useMemo(() => getChainConfig(currentChainId), [currentChainId]);
+  const isLiquidChain = chain?.chainType === ChainType.LIQUID;
   const currentAddress = getWalletAddress(wallet, chain?.chainType ?? ChainType.EVM);
   const balanceQuery = useQuery(
     queryAssetsOptions(
@@ -144,7 +146,7 @@ export const useQueryAssets = (options?: UseQueryAssetsBalanceOptions) => {
         liquidSubaccountPointer: wallet?.liquidSubaccountPointer,
       },
       {
-        enabled: Boolean(chain && currentAddress),
+        enabled: Boolean(chain && currentAddress && (!isLiquidChain || liquidLoggedIn)),
         ...options,
       },
     ),

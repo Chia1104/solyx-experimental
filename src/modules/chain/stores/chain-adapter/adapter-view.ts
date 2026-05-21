@@ -57,7 +57,7 @@ export const createAdapterView = (
         createAccountFromMnemonic: get().createLiquidAccountFromMnemonic,
         createAccountFromPrivateKey: get().createLiquidAccountFromPrivateKey,
         getProvider: get().getLiquidProvider,
-        checkProviderReady: get().checkLiquidProviderReady,
+        checkProviderReady: () => get().checkLiquidProviderReady(),
         signMessage: get().signLiquidMessage,
         signTransaction: params => get().signLiquidTransaction(params as UnsignedTransaction),
         sendTransaction: params =>
