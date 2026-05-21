@@ -23,7 +23,7 @@ export default function SetAppLock() {
       </View>
 
       <View className="gap-6">
-        <Button onPress={() => router.push('/app-lock/set-password')}>
+        <Button onPress={() => router.push('/app-lock/set-password')} size="sm">
           <Button.Label>{t('action.set.app.lock.password')}</Button.Label>
         </Button>
       </View>

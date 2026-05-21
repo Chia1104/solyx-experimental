@@ -57,7 +57,7 @@ export default function CreateWallet() {
       </Text>
 
       <View className="w-full flex-1 items-center justify-center gap-6">
-        <Button isDisabled={createWalletMutation.isPending} onPress={handleCreateWallet}>
+        <Button isDisabled={createWalletMutation.isPending} onPress={handleCreateWallet} size="sm">
           <Button.Label>{t('defi:action.create.new.wallet')}</Button.Label>
         </Button>
 
@@ -65,6 +65,7 @@ export default function CreateWallet() {
           isDisabled={createWalletMutation.isPending}
           onPress={() => router.push('/onboarding/import-phrase')}
           variant="outline"
+          size="sm"
         >
           <Button.Label>{t('defi:action.already.have.wallet')}</Button.Label>
         </Button>

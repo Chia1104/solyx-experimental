@@ -125,7 +125,7 @@ export default function BackupIntro() {
           </View>
 
           <View className="mt-10 items-center">
-            <Button isDisabled={!form.formState.isValid} onPress={handleNext}>
+            <Button isDisabled={!form.formState.isValid} onPress={handleNext} size="sm">
               <Button.Label>{t('global:action.next')}</Button.Label>
             </Button>
           </View>

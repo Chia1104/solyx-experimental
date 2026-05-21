@@ -7,10 +7,8 @@
 
 @layer theme {
   :root {
-    --radius: 12px;
-    --radius-panel: 12px;
-    --radius-panel-inner: 12px;
-    --field-radius: var(--radius);
+    --radius: 0.25rem;
+    --field-radius: 0.25rem;
   }
 
   @variant light {
@@ -122,14 +120,6 @@
 }
 
 @theme inline {
-  --radius-lg: 12px;
-  --radius-xl: 12px;
-  --radius-2xl: 12px;
-  --radius-3xl: 12px;
-  --radius-full: 12px;
-  --radius-panel: 12px;
-  --radius-panel-inner: 12px;
-  --radius-field: 12px;
   --color-bridgefy-card: var(--bridgefy-card);
   --color-bridgefy-primary-70: var(--bridgefy-primary-70);
   --color-bridgefy-primary-80: var(--bridgefy-primary-80);

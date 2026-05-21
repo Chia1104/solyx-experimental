@@ -152,7 +152,11 @@ export const AppLockPasswordForm = ({
               {form.formState.errors.root.message}
             </Text>
           ) : null}
-          <Button isDisabled={!form.formState.isValid || isPending} onPress={handleSubmit}>
+          <Button
+            isDisabled={!form.formState.isValid || isPending}
+            onPress={handleSubmit}
+            size="sm"
+          >
             <Button.Label>{t('action.confirm')}</Button.Label>
           </Button>
         </View>

@@ -50,7 +50,7 @@ export default function AutoLock() {
           </Text>
           <Popover>
             <Popover.Trigger asChild>
-              <Button isIconOnly className="size-9" variant="ghost">
+              <Button isIconOnly className="size-9" variant="ghost" size="sm">
                 <ThemedIcon
                   name="information-circle-outline"
                   className="text-foreground"
@@ -74,7 +74,7 @@ export default function AutoLock() {
         </View>
       </View>
 
-      <Button onPress={handleEnter}>
+      <Button onPress={handleEnter} size="sm">
         <Button.Label>{t('action.fortuna.enter')}</Button.Label>
       </Button>
     </Page>

@@ -53,12 +53,12 @@ export default function CheckBiometry() {
       ) : (
         <View className="w-full gap-6">
           {biometryLabel ? (
-            <Button onPress={handleSetupBiometry} variant="tertiary">
+            <Button onPress={handleSetupBiometry} variant="tertiary" size="sm">
               <Button.Label>{t('action.verify.with.biometry', { biometryLabel })}</Button.Label>
             </Button>
           ) : null}
 
-          <Button onPress={handleSkip} variant={biometryLabel ? 'outline' : 'primary'}>
+          <Button onPress={handleSkip} variant={biometryLabel ? 'outline' : 'primary'} size="sm">
             <Button.Label>{t('action.skip')}</Button.Label>
           </Button>
         </View>

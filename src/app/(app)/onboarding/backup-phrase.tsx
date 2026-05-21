@@ -130,7 +130,7 @@ export default function BackupPhrase() {
           </View>
 
           <View className="mt-10 items-center">
-            <Button isDisabled={!hasRevealed || !hasSavedPhrase} onPress={handleNext}>
+            <Button isDisabled={!hasRevealed || !hasSavedPhrase} onPress={handleNext} size="sm">
               <Button.Label>{t('global:action.next')}</Button.Label>
             </Button>
           </View>

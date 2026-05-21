@@ -138,6 +138,7 @@ export default function ConfirmPhrase() {
             <Button
               isDisabled={Object.keys(answers).length < questions.length}
               onPress={handleConfirm}
+              size="sm"
             >
               <Button.Label>{t('global:action.confirm')}</Button.Label>
             </Button>

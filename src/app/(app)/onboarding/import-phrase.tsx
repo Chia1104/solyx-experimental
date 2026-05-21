@@ -118,6 +118,7 @@ export default function ImportPhrase() {
                 isDisabled={!form.formState.isValid || importPhraseMutation.isPending}
                 onPress={handleSubmit}
                 className="mt-6 self-center "
+                size="sm"
               >
                 <Button.Label>{t('global:action.next')}</Button.Label>
               </Button>

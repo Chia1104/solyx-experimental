@@ -47,6 +47,7 @@ export default function Login() {
               key={action.mode}
               onPress={() => void openSsoPage(action.mode)}
               variant={action.variant}
+              size="sm"
             >
               <Button.Label>{action.label}</Button.Label>
             </Button>

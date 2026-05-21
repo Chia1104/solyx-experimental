@@ -35,7 +35,7 @@ export default function OnboardingDone() {
           {t('defi:description.wallet.is.ready')}
         </Text>
 
-        <Button onPress={handleEnter}>
+        <Button onPress={handleEnter} size="sm">
           <Button.Label>{t('global:action.enter')}</Button.Label>
         </Button>
       </View>
