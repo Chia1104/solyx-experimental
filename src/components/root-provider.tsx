@@ -92,7 +92,9 @@ export const RootProvider = ({ children }: { children: React.ReactNode }) => {
               backgroundColor={systemBackgroundColor}
               barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
             />
-            <SafeAreaView style={{ flex: 1 }}>{children}</SafeAreaView>
+            <SafeAreaView edges={['top', 'left', 'right']} style={{ flex: 1 }}>
+              {children}
+            </SafeAreaView>
             {isThemeTransitionVisible ? (
               <Animated.View
                 className="absolute inset-0"
