@@ -10,7 +10,6 @@ import { useQueryMeta } from '@/modules/cefi/hooks/use-query-meta';
 
 interface AppGuardContext {
   status: AppStatus;
-  canProceed: boolean;
   isLoading: boolean;
   openStore: () => void;
   refetch: () => void;
@@ -79,20 +78,16 @@ export const AppGuard = ({ children, fallback }: Props) => {
     refetch();
   }, [refetch]);
 
-  const canProceed =
-    !isLoading && (status === AppStatus.Operational || status === AppStatus.UpdateSuggested);
-
   const context = useMemo(
     () => ({
       status,
-      canProceed,
       isLoading,
       openStore: () => {
         /* empty */
       },
       refetch: handleRefetch,
     }),
-    [status, canProceed, isLoading, handleRefetch],
+    [status, isLoading, handleRefetch],
   );
 
   if (isLoading) {

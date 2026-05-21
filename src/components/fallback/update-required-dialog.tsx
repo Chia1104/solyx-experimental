@@ -8,7 +8,7 @@ export const UpdateRequiredDialog = (props: DialogRootProps) => {
     <Dialog {...props}>
       <Dialog.Portal>
         <Dialog.Overlay />
-        <Dialog.Content>
+        <Dialog.Content isSwipeable={false}>
           <Dialog.Title>{t('notice.force.update.title')}</Dialog.Title>
           <Dialog.Description>{t('notice.force.update.description')}</Dialog.Description>
         </Dialog.Content>

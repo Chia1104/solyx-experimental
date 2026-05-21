@@ -146,6 +146,7 @@ export interface ChainConfig {
 }
 
 export type ChainConfigMap = Record<string, ChainConfig>;
+export type ChainTokenBalances = Record<string, string>;
 
 export interface ChainAdapter {
   chainType: ChainType;
@@ -168,6 +169,7 @@ export interface ChainAdapter {
     chainId: number,
     index?: number,
   ) => Promise<string | Record<string, number>>;
+  getBalances: (address: string, chainId: number, index?: number) => Promise<ChainTokenBalances>;
   getBlockNumber: (chainId: number) => Promise<number>;
 }
 
@@ -227,6 +229,7 @@ export interface EvmChainAdapterActions {
   sendEvmTransaction: (params: TransactionParams) => Promise<string>;
   estimateEvmGas: (params: TransactionParams) => Promise<GasEstimate>;
   getEvmBalance: (address: string, chainId: number) => Promise<string>;
+  getEvmBalances: (address: string, chainId: number) => Promise<ChainTokenBalances>;
   getEvmBlockNumber: (chainId: number) => Promise<number>;
 }
 
@@ -241,6 +244,7 @@ export interface TronChainAdapterActions {
   sendTronTransaction: (params: TransactionParams) => Promise<string>;
   estimateTronGas: (params: TransactionParams) => Promise<GasEstimate>;
   getTronBalance: (address: string, chainId: number) => Promise<string>;
+  getTronBalances: (address: string, chainId: number) => Promise<ChainTokenBalances>;
   getTronBlockNumber: (chainId: number) => Promise<number>;
   toSun: (trx: string | number) => string;
   fromSun: (sun: string | number) => string;
@@ -264,6 +268,11 @@ export interface LiquidChainAdapterActions extends LiquidActions {
     chainId: number,
     index?: number,
   ) => Promise<Record<string, number>>;
+  getLiquidBalances: (
+    address: string,
+    chainId: number,
+    index?: number,
+  ) => Promise<ChainTokenBalances>;
   getLiquidBlockNumber: () => Promise<number>;
   internal_getLiquidGdk: () => GdkInterface;
   internal_ensureLiquidInitialized: () => Promise<void>;

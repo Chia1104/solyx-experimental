@@ -8,7 +8,7 @@ export const UpdateSuggestedDialog = (props: DialogRootProps) => {
     <Dialog {...props}>
       <Dialog.Portal>
         <Dialog.Overlay />
-        <Dialog.Content>
+        <Dialog.Content isSwipeable={false}>
           <Dialog.Title>{t('notice.update.title')}</Dialog.Title>
           <Dialog.Description>{t('notice.update.description')}</Dialog.Description>
         </Dialog.Content>

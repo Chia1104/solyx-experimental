@@ -8,7 +8,6 @@ import {
   createCefiUserAccountInitialState,
   createCefiUserAccountSlice,
 } from './cefi-user-account.slice';
-import { createDefiAssetsInitialState, createDefiAssetsSlice } from './defi-assets.slice';
 import { createSettingsInitialState, createSettingsSlice } from './settings.slice';
 import type { UserPersistedState, UserStoreState } from './types';
 import { createWalletInitialState, createWalletSlice } from './wallet.slice';
@@ -31,7 +30,6 @@ export const createUserInitialState = (): UserPersistedState => ({
   account: createAccountInitialState(),
   settings: createSettingsInitialState(),
   wallet: createWalletInitialState(),
-  defiAssets: createDefiAssetsInitialState(),
   cefiUserAccount: createCefiUserAccountInitialState(),
 });
 
@@ -59,10 +57,6 @@ const mergeUserState = (
     ...currentState.wallet,
     ...nextState.wallet,
   },
-  defiAssets: {
-    ...currentState.defiAssets,
-    ...nextState.defiAssets,
-  },
   cefiUserAccount: {
     ...currentState.cefiUserAccount,
     ...nextState.cefiUserAccount,
@@ -83,7 +77,6 @@ export const useUserStore = create<UserStoreState>()(
         ...createAccountSlice(...params),
         ...createSettingsSlice(...params),
         ...createWalletSlice(...params),
-        ...createDefiAssetsSlice(...params),
         ...createCefiUserAccountSlice(...params),
 
         hydrateLegacyReduxUserState: nextState => {
@@ -102,7 +95,6 @@ export const useUserStore = create<UserStoreState>()(
         account: state.account,
         settings: state.settings,
         wallet: state.wallet,
-        defiAssets: state.defiAssets,
         cefiUserAccount: state.cefiUserAccount,
       }),
     },

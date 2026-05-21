@@ -8,7 +8,7 @@ export const MaintenanceDialog = (props: DialogRootProps) => {
     <Dialog {...props}>
       <Dialog.Portal>
         <Dialog.Overlay />
-        <Dialog.Content>
+        <Dialog.Content isSwipeable={false}>
           <Dialog.Title>{t('notice.maintenance.title')}</Dialog.Title>
           <Dialog.Description>{t('notice.maintenance.description')}</Dialog.Description>
         </Dialog.Content>

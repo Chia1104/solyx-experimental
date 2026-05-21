@@ -2,11 +2,11 @@ import { Text } from 'heroui-native';
 import { ScrollView, View } from 'react-native';
 
 import { Page } from '@/components/page';
-import { useHomeAssets } from '@/modules/defi/hooks/use-home-assets';
+import { useQueryAssets } from '@/modules/defi/hooks/use-query-assets';
 import { useQueryTransactions } from '@/modules/defi/hooks/use-query-transactions';
 
 export default function ActivityScreen() {
-  const { chain, currentAddress } = useHomeAssets();
+  const { chain, currentAddress } = useQueryAssets();
   const transactionsQuery = useQueryTransactions(
     {
       address: currentAddress,

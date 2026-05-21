@@ -1,4 +1,4 @@
-import { HDNodeWallet, JsonRpcProvider, Mnemonic, Wallet } from 'ethers';
+import { Contract, HDNodeWallet, JsonRpcProvider, Mnemonic, Wallet } from 'ethers';
 import type { TransactionRequest } from 'ethers';
 import QuickCrypto from 'react-native-quick-crypto';
 
@@ -9,6 +9,7 @@ import { convertHexToUtf8, normalizeEvmPrivateKey } from './utils';
 import type { Eip712TypedData } from './utils';
 
 const EVM_MNEMONIC_ENTROPY_BYTES = 16;
+const ERC20_BALANCE_OF_ABI = ['function balanceOf(address owner) view returns (uint256)'] as const;
 
 const createRandomEvmPhrase = () =>
   Mnemonic.fromEntropy(QuickCrypto.randomBytes(EVM_MNEMONIC_ENTROPY_BYTES)).phrase;
@@ -197,6 +198,39 @@ export const createEvmChainAdapterSlice: ChainAdapterSlice<EvmChainAdapterAction
   getEvmBalance: async (address, chainId) => {
     const balance = await get().getEvmProvider(chainId).getBalance(address);
     return balance.toString();
+  },
+
+  getEvmBalances: async (address, chainId) => {
+    const provider = get().getEvmProvider(chainId);
+    const chain = EIP155_CHAINS[`eip155:${chainId}` as TEIP155Chain];
+    if (!chain) {
+      throw new Error(`Unsupported EVM chain ID: ${chainId}`);
+    }
+
+    const balances: Record<string, string> = {};
+    const currencies = Array.from(
+      new Map(
+        [chain.nativeCurrency, ...(chain.supportCurrency ?? [])].map(currency => [
+          currency.address,
+          currency,
+        ]),
+      ).values(),
+    );
+
+    await Promise.all(
+      currencies.map(async currency => {
+        if (currency.address === chain.nativeCurrency.address) {
+          balances[currency.address] = await get().getEvmBalance(address, chainId);
+          return;
+        }
+
+        const contract = new Contract(currency.address, ERC20_BALANCE_OF_ABI, provider);
+        const balance = (await contract.balanceOf(address)) as bigint;
+        balances[currency.address] = balance.toString();
+      }),
+    );
+
+    return balances;
   },
 
   getEvmBlockNumber: async chainId => {

@@ -14,6 +14,9 @@ export const useEntryState = () => {
 
   const hasPasswordCredentialQuery = useQueryHasKeychainGenericPassword(
     env.EXPO_PUBLIC_WALLET_DEFI_PASSWORD_SERVICE,
+    {
+      enabled: hasPassword,
+    },
   );
   const hasBiometryPasswordCredentialQuery = useQueryHasKeychainGenericPassword(
     env.EXPO_PUBLIC_WALLET_BIOMETRY_DEFI_PASSWORD_SERVICE,

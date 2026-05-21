@@ -158,6 +158,40 @@ export const createTronChainAdapterSlice: ChainAdapterSlice<TronChainAdapterActi
     return balance.toString();
   },
 
+  getTronBalances: async (address, chainId) => {
+    const provider = get().getTronProvider(chainId);
+    const chain = TRON_CHAINS[`${chainId}` as TTRONChain];
+    if (!chain) {
+      throw new Error(`Unsupported TRON chain ID: ${chainId}`);
+    }
+
+    provider.setAddress(address);
+    const balances: Record<string, string> = {};
+    const currencies = Array.from(
+      new Map(
+        [chain.nativeCurrency, ...(chain.supportCurrency ?? [])].map(currency => [
+          currency.address,
+          currency,
+        ]),
+      ).values(),
+    );
+
+    await Promise.all(
+      currencies.map(async currency => {
+        if (currency.address === chain.nativeCurrency.address) {
+          balances[currency.address] = await get().getTronBalance(address, chainId);
+          return;
+        }
+
+        const contract = await provider.contract().at(currency.address);
+        const balance = await contract.balanceOf(address).call();
+        balances[currency.address] = balance?.toString?.() ?? String(balance ?? 0);
+      }),
+    );
+
+    return balances;
+  },
+
   getTronBlockNumber: async chainId => {
     const block = await get().getTronProvider(chainId).trx.getCurrentBlock();
     return block.block_header.raw_data.number;

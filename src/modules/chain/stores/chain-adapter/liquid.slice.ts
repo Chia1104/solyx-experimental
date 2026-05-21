@@ -505,6 +505,31 @@ export const createLiquidChainAdapterSlice: ChainAdapterSlice<LiquidChainAdapter
     }
   },
 
+  getLiquidBalances: async (_address, chainId, index) => {
+    const subaccount = index ?? 0;
+    await get().internal_prepareLiquidGdk();
+
+    try {
+      const balance = await get().internal_getLiquidGdk().getBalance({
+        subaccount,
+        num_confs: 0,
+      });
+      const chainConfig = LIQUID_CHAINS[`${chainId}` as TLiquidChain];
+      const balances: Record<string, string> = {};
+
+      for (const currency of chainConfig?.supportCurrency ?? []) {
+        balances[currency.address] = String(balance[currency.address] ?? 0);
+      }
+
+      return balances;
+    } catch (error) {
+      throw new LiquidError(
+        LiquidErrorCode.GetBalanceError,
+        `Failed to get balances: ${toErrorMessage(error)}`,
+      );
+    }
+  },
+
   getLiquidBlockNumber: async () => 0,
 
   destroyLiquidSession: async () => {

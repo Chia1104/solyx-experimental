@@ -8,7 +8,7 @@ export const NoNetworkDialog = (props: DialogRootProps) => {
     <Dialog {...props}>
       <Dialog.Portal>
         <Dialog.Overlay />
-        <Dialog.Content>
+        <Dialog.Content isSwipeable={false}>
           <Dialog.Title>{t('notice.no-network.title')}</Dialog.Title>
           <Dialog.Description>{t('notice.no-network.description')}</Dialog.Description>
         </Dialog.Content>

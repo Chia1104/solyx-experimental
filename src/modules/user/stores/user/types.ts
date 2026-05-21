@@ -58,17 +58,6 @@ export interface WalletState {
   dappsConnected: Record<string, DappItem>;
 }
 
-export type TokenBalances = Record<string, string>;
-export type AddressBalances = Record<string, TokenBalances>;
-export type Assets = Record<string, AddressBalances>;
-export type Prices = Record<string, TokenBalances>;
-
-export interface DefiAssetsState {
-  assets: Assets;
-  prices: Prices;
-  balanceRefreshTrigger: number;
-}
-
 export const KYCStatus = {
   NEW: 'Unverified',
   PENDING_VERIFY: 'Pending',
@@ -112,7 +101,6 @@ export interface UserPersistedState {
   account: AccountState;
   settings: SettingsState;
   wallet: WalletState;
-  defiAssets: DefiAssetsState;
   cefiUserAccount: CefiUserAccountState;
 }
 
@@ -148,13 +136,6 @@ export interface WalletActions {
   resetWallet: () => void;
 }
 
-export interface DefiAssetsActions {
-  setUserAssets: (assets: Assets) => void;
-  setTokenPrices: (prices: Prices) => void;
-  triggerBalanceRefresh: () => void;
-  removeWalletAssets: (address: string) => void;
-}
-
 export interface CefiUserAccountActions {
   setUserData: (userData: CefiUserData) => void;
   clearUserData: () => void;
@@ -172,7 +153,6 @@ export interface UserStoreState
     AccountActions,
     SettingsActions,
     WalletActions,
-    DefiAssetsActions,
     CefiUserAccountActions,
     LegacyUserStateActions {}
 

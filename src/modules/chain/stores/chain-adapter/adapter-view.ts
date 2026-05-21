@@ -27,6 +27,7 @@ export const createAdapterView = (
         sendTransaction: params => get().sendEvmTransaction(params as TransactionParams),
         estimateGas: params => get().estimateEvmGas(params as TransactionParams),
         getBalance: get().getEvmBalance,
+        getBalances: get().getEvmBalances,
         getBlockNumber: get().getEvmBlockNumber,
       };
 
@@ -44,6 +45,7 @@ export const createAdapterView = (
         sendTransaction: params => get().sendTronTransaction(params as TransactionParams),
         estimateGas: params => get().estimateTronGas(params as TransactionParams),
         getBalance: get().getTronBalance,
+        getBalances: get().getTronBalances,
         getBlockNumber: get().getTronBlockNumber,
       };
 
@@ -62,6 +64,7 @@ export const createAdapterView = (
           get().sendLiquidTransaction(params as SignedBlindedTransaction | SignedTransaction),
         estimateGas: get().estimateLiquidGas,
         getBalance: get().getLiquidBalance,
+        getBalances: get().getLiquidBalances,
         getBlockNumber: get().getLiquidBlockNumber,
       };
 

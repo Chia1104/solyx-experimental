@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react';
 
-import { useQuery, useQueryClient } from '@tanstack/react-query';
 import type { UseQueryOptions } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { router } from 'expo-router';
 import * as WebBrowser from 'expo-web-browser';
 import { useToast } from 'heroui-native';
@@ -26,6 +26,16 @@ export interface SsoCallbackParams {
 }
 
 const REDIRECT_URL = getSsoRedirectUrl();
+
+const buildCallbackRoute = (callbackUrl: string) => {
+  const queryString = callbackUrl.split('?')[1];
+  const searchParams = new URLSearchParams(queryString);
+
+  return {
+    pathname: '/callback',
+    params: Object.fromEntries(searchParams),
+  } as const;
+};
 
 const buildSsoUrl = ({
   languageCode,
@@ -97,13 +107,8 @@ export const useSso = () => {
           return;
         }
 
-        const searchParams = new URLSearchParams(result.url);
-
         if (Platform.OS === 'ios') {
-          router.push(
-            // TODO: Fix ios callback handling
-            `/callback?${searchParams.toString().replace(`bridgefywallet-beta%3A%2F%2Fcallback%3F`, '')}`,
-          );
+          router.replace(buildCallbackRoute(result.url));
         }
       } catch {
         showLoginError(t('login.login.failed.message'));

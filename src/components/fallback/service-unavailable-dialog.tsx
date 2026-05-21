@@ -11,7 +11,7 @@ export const ServiceUnavailableDialog = (props: DialogRootProps) => {
     <Dialog {...props}>
       <Dialog.Portal>
         <Dialog.Overlay />
-        <Dialog.Content>
+        <Dialog.Content isSwipeable={false}>
           <Dialog.Title>{t('notice.failed.title')}</Dialog.Title>
           <Dialog.Description>{t('notice.failed.description')}</Dialog.Description>
           <Button onPress={refetch} size="sm" variant="tertiary" className="mt-5">

@@ -1,11 +1,10 @@
 import { useRouter } from 'expo-router';
-import type { Href } from 'expo-router';
 import { Button, Text } from 'heroui-native';
 import { Pressable, ScrollView, View } from 'react-native';
 
 import { Page } from '@/components/page';
 import { ThemedIcon } from '@/components/ui/themed-icon';
-import { useHomeAssets } from '@/modules/defi/hooks/use-home-assets';
+import { useQueryAssets } from '@/modules/defi/hooks/use-query-assets';
 
 const formatUsd = (value: { toNumber: () => number }) =>
   new Intl.NumberFormat('en-US', {
@@ -17,17 +16,15 @@ const formatUsd = (value: { toNumber: () => number }) =>
 export default function HomeScreen() {
   const router = useRouter();
   const {
-    balanceRefreshTrigger,
+    balanceQuery,
     chain,
     currentAddress,
-    isPricesLoading,
-    pricesError,
-    refreshBalances,
+    isAssetsLoading,
+    pricesQuery,
     rows,
     totalFiatValue,
     wallet,
-  } = useHomeAssets();
-  const push = (href: string) => router.push(href as Href);
+  } = useQueryAssets();
 
   return (
     <Page className="bg-background">
@@ -54,17 +51,17 @@ export default function HomeScreen() {
         </View>
 
         <View className="flex-row gap-3">
-          <QuickAction icon="arrow-up" label="Send" onPress={() => push('/send')} />
-          <QuickAction icon="qr-code" label="Receive" onPress={() => push('/receive')} />
-          <QuickAction icon="scan" label="Scan" onPress={() => push('/scanner')} />
-          <QuickAction icon="card" label="Buy" onPress={() => push('/activity')} />
+          <QuickAction icon="arrow-up" label="Send" onPress={() => router.push('/send')} />
+          <QuickAction icon="qr-code" label="Receive" onPress={() => router.push('/receive')} />
+          <QuickAction icon="scan" label="Scan" onPress={() => router.push('/scanner')} />
+          <QuickAction icon="card" label="Buy" onPress={() => router.push('/activity')} />
         </View>
 
         <View className="flex-row gap-3">
-          <Button className="flex-1" onPress={refreshBalances} variant="primary">
+          <Button className="flex-1" onPress={() => balanceQuery.refetch()} variant="primary">
             <Button.Label>Refresh balances</Button.Label>
           </Button>
-          <Button className="flex-1" onPress={() => push('/kyc/gate')} variant="secondary">
+          <Button className="flex-1" onPress={() => router.push('/kyc/gate')} variant="secondary">
             <Button.Label>Withdraw</Button.Label>
           </Button>
         </View>
@@ -75,10 +72,10 @@ export default function HomeScreen() {
               Assets
             </Text>
             <Text className="text-foreground/50">
-              {isPricesLoading
-                ? 'Loading prices'
-                : pricesError
-                  ? 'Price unavailable'
+              {isAssetsLoading
+                ? 'Loading assets'
+                : balanceQuery.error || pricesQuery.error
+                  ? 'Asset unavailable'
                   : 'Live prices'}
             </Text>
           </View>
@@ -88,7 +85,7 @@ export default function HomeScreen() {
               <Pressable
                 className="bg-content1 rounded-3xl p-4"
                 key={`${row.symbol}:${row.address}`}
-                onPress={() => push(`/assets/${row.symbol}`)}
+                onPress={() => router.push(`/assets/${row.symbol}`)}
               >
                 <View className="flex-row items-center justify-between">
                   <View>
@@ -122,7 +119,9 @@ export default function HomeScreen() {
 
         <Text className="text-foreground/40">
           Last balance refresh:{' '}
-          {balanceRefreshTrigger ? new Date(balanceRefreshTrigger).toLocaleString() : 'Never'}
+          {balanceQuery.dataUpdatedAt
+            ? new Date(balanceQuery.dataUpdatedAt).toLocaleString()
+            : 'Never'}
         </Text>
       </ScrollView>
     </Page>
