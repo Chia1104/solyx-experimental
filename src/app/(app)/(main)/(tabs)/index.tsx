@@ -3,14 +3,14 @@ import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { RefreshControl, ScrollView, View } from 'react-native';
 
-import { Page } from '@/components/page';
 import {
   AssetsPanel,
   BalanceCard,
   HomeAuthActions,
   HomeTopBar,
   QuickActions,
-} from '@/modules/defi/components/home/home-sections';
+} from '@/components/home/home-sections';
+import { Page } from '@/components/page';
 import { useQueryAssets } from '@/modules/defi/hooks/use-query-assets';
 
 export default function HomeScreen() {

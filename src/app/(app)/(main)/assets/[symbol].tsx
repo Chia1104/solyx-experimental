@@ -1,6 +1,6 @@
 import { useLocalSearchParams } from 'expo-router';
 
-import { DefiPlaceholderScreen } from '@/modules/defi/components/defi-placeholder-screen';
+import { DefiPlaceholderScreen } from '@/components/defi-placeholder-screen';
 
 export default function AssetDetailScreen() {
   const { symbol } = useLocalSearchParams<{ symbol: string }>();
