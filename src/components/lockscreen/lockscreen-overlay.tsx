@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 
-import { Button } from 'heroui-native';
+import { Button, Dialog } from 'heroui-native';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import {
@@ -38,7 +38,13 @@ type VerifyPayload =
       password: string;
     };
 
-export const LockScreenOverlay = () => {
+type LockScreenPresentation = 'dialog' | 'fullscreen';
+
+interface LockScreenContentProps {
+  presentation?: LockScreenPresentation;
+}
+
+const LockScreenContent = ({ presentation = 'fullscreen' }: LockScreenContentProps) => {
   const { t } = useTranslation(['global']);
 
   const request = useGlobalStore(store => store.lockRequest);
@@ -301,78 +307,121 @@ export const LockScreenOverlay = () => {
 
   const canUseBiometry = unlockMode === 'biometry' && Boolean(biometryLabel);
   const confirmLabel = request.type === 'password' ? t('action.enter') : t('action.confirm');
+  const isDialog = presentation === 'dialog';
 
   return (
-    <Brand className="absolute inset-0 z-50 flex-1" display={['background']} pointerEvents="auto">
-      <TouchableWithoutFeedback accessible={false} onPress={Keyboard.dismiss}>
-        <View className="flex-1 items-center justify-center px-6 py-10">
-          <BrandImage className="mb-7 flex-none" />
+    <TouchableWithoutFeedback accessible={false} onPress={Keyboard.dismiss}>
+      <View
+        className={
+          isDialog
+            ? 'w-full items-center px-1 py-2'
+            : 'flex-1 items-center justify-center px-6 py-10'
+        }
+      >
+        {isDialog ? null : <BrandImage className="mb-7 flex-none" />}
 
-          <View className="items-center">
-            <Text className="text-foreground text-center text-2xl font-semibold">{copy.title}</Text>
-            {request.type === 'password' ? null : (
-              <Text className="text-muted mt-3 max-w-xs text-center text-sm">
-                {copy.description}
-              </Text>
-            )}
-          </View>
+        <View className="items-center">
+          <Text
+            className={
+              isDialog
+                ? 'text-foreground text-center text-xl font-semibold'
+                : 'text-foreground text-center text-2xl font-semibold'
+            }
+          >
+            {copy.title}
+          </Text>
+          {request.type === 'password' ? null : (
+            <Text className="text-muted mt-3 max-w-xs text-center text-sm">{copy.description}</Text>
+          )}
+        </View>
 
-          <View className="mt-12 w-full max-w-64">
-            {canUseBiometry ? (
-              <View className="mb-6 items-center">
-                <Button
-                  isDisabled={isVerifying}
-                  onPress={verifyWithBiometry}
-                  variant="tertiary"
-                  size="sm"
-                >
-                  <Button.Label>
-                    {t('action.verify.with.biometry', {
-                      biometryLabel: biometryLabel ?? undefined,
-                    })}
-                  </Button.Label>
-                </Button>
-              </View>
-            ) : null}
-
-            <Controller
-              control={control}
-              name="password"
-              render={({ field, fieldState }) => (
-                <PasswordInput
-                  isDisabled={isVerifying}
-                  isInvalid={fieldState.invalid}
-                  error={fieldState.error?.message}
-                  label={t('label.password')}
-                  inputProps={{
-                    onBlur: field.onBlur,
-                    onChangeText: field.onChange,
-                    onSubmitEditing: handleSubmit(verifyWithPassword),
-                    placeholder: t('label.password'),
-                  }}
-                />
-              )}
-              rules={{
-                required: t('error.password.required'),
-              }}
-            />
-
-            <View className="mt-6 items-center">
-              <Button isDisabled={isVerifying} onPress={handleSubmit(verifyWithPassword)} size="sm">
-                <Button.Label>{confirmLabel}</Button.Label>
+        <View className={isDialog ? 'mt-8 w-full' : 'mt-12 w-full max-w-64'}>
+          {canUseBiometry ? (
+            <View className="mb-6 items-center">
+              <Button
+                isDisabled={isVerifying}
+                onPress={verifyWithBiometry}
+                variant="tertiary"
+                size="sm"
+              >
+                <Button.Label>
+                  {t('action.verify.with.biometry', {
+                    biometryLabel: biometryLabel ?? undefined,
+                  })}
+                </Button.Label>
               </Button>
             </View>
+          ) : null}
 
-            {request.isDismissible === false ? null : (
-              <View className="mt-3 items-center">
-                <Button isDisabled={isVerifying} onPress={handleCancel} variant="ghost" size="sm">
-                  <Button.Label>{t('action.cancel')}</Button.Label>
-                </Button>
-              </View>
+          <Controller
+            control={control}
+            name="password"
+            render={({ field, fieldState }) => (
+              <PasswordInput
+                isDisabled={isVerifying}
+                isInvalid={fieldState.invalid}
+                error={fieldState.error?.message}
+                label={t('label.password')}
+                inputProps={{
+                  onBlur: field.onBlur,
+                  onChangeText: field.onChange,
+                  onSubmitEditing: handleSubmit(verifyWithPassword),
+                  placeholder: t('label.password'),
+                }}
+              />
             )}
+            rules={{
+              required: t('error.password.required'),
+            }}
+          />
+
+          <View className="mt-6 flex-row items-center justify-center gap-2">
+            <Button isDisabled={isVerifying} onPress={handleSubmit(verifyWithPassword)} size="sm">
+              <Button.Label>{confirmLabel}</Button.Label>
+            </Button>
+            {request.isDismissible ? (
+              <Button isDisabled={isVerifying} onPress={handleCancel} variant="outline" size="sm">
+                <Button.Label>{t('action.cancel')}</Button.Label>
+              </Button>
+            ) : null}
           </View>
         </View>
-      </TouchableWithoutFeedback>
-    </Brand>
+      </View>
+    </TouchableWithoutFeedback>
+  );
+};
+
+export const LockScreenOverlay = () => (
+  <Brand className="absolute inset-0 z-50 flex-1" display={['background']} pointerEvents="auto">
+    <LockScreenContent />
+  </Brand>
+);
+
+export const LockScreenDialog = () => {
+  const request = useGlobalStore(store => store.lockRequest);
+  const rejectLockRequest = useGlobalStore(store => store.rejectLockRequest);
+
+  const handleOpenChange = useCallback(
+    (isOpen: boolean) => {
+      if (isOpen || !request || request.isDismissible === false) return;
+
+      rejectLockRequest(new LockScreenError(LockScreenErrorCode.Canceled));
+    },
+    [rejectLockRequest, request],
+  );
+
+  if (!request) return null;
+
+  const isDismissible = request.isDismissible !== false;
+
+  return (
+    <Dialog isOpen={Boolean(request)} onOpenChange={handleOpenChange}>
+      <Dialog.Portal>
+        <Dialog.Overlay isCloseOnPress={isDismissible} />
+        <Dialog.Content isSwipeable={isDismissible}>
+          <LockScreenContent presentation="dialog" />
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog>
   );
 };

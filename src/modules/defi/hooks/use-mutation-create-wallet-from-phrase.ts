@@ -80,16 +80,22 @@ export const useMutationCreateWalletFromPhrase = (
         walletName = 'Account 1',
       }: CreateWalletFromPhraseVariables) => {
         const adapters = getAllAdapters();
-        const sourcePhrase = phrase ?? (await adapters[0].createWallet()).mnemonic;
-        const normalizedPhrase = normalizePhrase(sourcePhrase);
 
-        assertValidPhraseLength(normalizedPhrase);
+        const normalizedInputPhrase = phrase ? normalizePhrase(phrase) : undefined;
+        if (normalizedInputPhrase) {
+          assertValidPhraseLength(normalizedInputPhrase);
+        }
 
         const password = await requestLock({
-          isDismissible: false,
+          isDismissible: true,
           reason: 'Unlock your app lock to encrypt this Web3 wallet.',
           type: 'password',
         });
+
+        const sourcePhrase = normalizedInputPhrase ?? (await adapters[0].createWallet()).mnemonic;
+        const normalizedPhrase = normalizePhrase(sourcePhrase);
+
+        assertValidPhraseLength(normalizedPhrase);
 
         const accounts = await Promise.all(
           adapters.map(adapter => adapter.createAccountFromMnemonic(normalizedPhrase, 0)),

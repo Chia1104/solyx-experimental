@@ -1,6 +1,5 @@
 import { useEffect, useEffectEvent, useRef } from 'react';
 
-import { useTranslation } from 'react-i18next';
 import type { AppStateStatus } from 'react-native';
 import { AppState } from 'react-native';
 
@@ -12,9 +11,8 @@ import { useUserStore } from '@/modules/user/stores/user';
 const AUTO_LOCK_BACKGROUND_TIMEOUT_MS = 30_000;
 
 export const AutoLockEffect = () => {
-  const { t } = useTranslation(['global']);
   const hasActiveRequest = useGlobalStore(store => store.hasActiveLockRequest);
-  const requestLock = useGlobalStore(store => store.requestLock);
+  const setStartup = useGlobalStore(store => store.setStartup);
   const autoLock = useUserStore(state => state.settings.autoLock);
   const hasPassword = useUserStore(state => state.account.hasPassword);
 
@@ -50,13 +48,7 @@ export const AutoLockEffect = () => {
       hasCredential => {
         if (!hasCredential || hasActiveRequest()) return;
 
-        void requestLock({
-          isDismissible: false,
-          reason: t('description.verify.app.lock'),
-          type: 'password',
-        }).catch(() => {
-          /* Another request may have won the race while returning to foreground. */
-        });
+        setStartup(false);
       },
     );
   });

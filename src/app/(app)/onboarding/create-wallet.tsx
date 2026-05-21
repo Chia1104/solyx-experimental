@@ -28,8 +28,7 @@ export default function CreateWallet() {
   });
 
   const createWalletMutation = useMutationCreateWalletFromPhrase({
-    onError: error => {
-      console.error(error);
+    onError: () => {
       form.setError('root', { message: t('defi:error.unknown.error') });
     },
     onSuccess: () => {
@@ -69,12 +68,6 @@ export default function CreateWallet() {
         >
           <Button.Label>{t('defi:action.already.have.wallet')}</Button.Label>
         </Button>
-
-        {form.formState.errors.root?.message ? (
-          <Text className="text-danger text-center text-sm">
-            {form.formState.errors.root.message}
-          </Text>
-        ) : null}
       </View>
     </Page>
   );

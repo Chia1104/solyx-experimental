@@ -1,7 +1,7 @@
 import { Stack } from 'expo-router';
 
 import { AutoLockEffect } from '@/components/lockscreen/auto-lock-effect';
-import { LockScreenOverlay } from '@/components/lockscreen/lockscreen-overlay';
+import { LockScreenDialog } from '@/components/lockscreen/lockscreen-overlay';
 import { LockScreenProvider } from '@/components/lockscreen/lockscreen-provider';
 import { EntryPhase } from '@/modules/app/enums/entry-phase.enum';
 import { useEntryState } from '@/modules/app/hooks/use-entry-state';
@@ -35,7 +35,7 @@ export default function AppLayout() {
         </Stack.Protected>
       </Stack>
       {request && entryState.phase !== EntryPhase.AppLock ? (
-        <LockScreenOverlay key={request.id} />
+        <LockScreenDialog key={request.id} />
       ) : null}
       <AutoLockEffect />
     </LockScreenProvider>
