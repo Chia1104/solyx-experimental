@@ -57,7 +57,9 @@
       "feature.only.you": "Only you can access"
     },
     "home": {
-      "my.assets": "My Assets"
+      "active.address": "Active address",
+      "my.assets": "My Assets",
+      "no.network": "No network"
     },
     "phraseBrowse": {
       "tips": "Tips"
@@ -208,6 +210,13 @@
     "scanner": {
       "select.walletConnect": "Select WalletConnect and",
       "scan.QR.Code": "scan the QR code"
+    },
+    "home": {
+      "asset.unavailable": "Asset balances are temporarily unavailable. Pull to refresh and try again.",
+      "loading.assets": "Loading chain assets...",
+      "no.supported.assets": "No supported assets were found for this network.",
+      "no.wallet": "Create or import a wallet to start using DeFi.",
+      "no.wallet.address": "No wallet address yet"
     },
     "walletConnect": {
       "no.connect": "No DApp is connecting",

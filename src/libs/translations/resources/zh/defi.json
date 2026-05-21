@@ -57,7 +57,9 @@
       "feature.only.you": "僅您可存取"
     },
     "home": {
-      "my.assets": "我的資產"
+      "active.address": "目前地址",
+      "my.assets": "我的資產",
+      "no.network": "尚無網路"
     },
     "phraseBrowse": {
       "tips": "小技巧"
@@ -208,6 +210,13 @@
     "scanner": {
       "select.walletConnect": "選擇 WalletConnect 並",
       "scan.QR.Code": "掃描 QR code"
+    },
+    "home": {
+      "asset.unavailable": "暫時無法取得資產餘額，請下拉重新整理後再試。",
+      "loading.assets": "正在載入鏈上資產...",
+      "no.supported.assets": "此網路尚無支援的資產。",
+      "no.wallet": "建立或匯入錢包後即可開始使用 DeFi。",
+      "no.wallet.address": "尚無錢包地址"
     },
     "walletConnect": {
       "no.connect": "沒有連接中的 DApp",
