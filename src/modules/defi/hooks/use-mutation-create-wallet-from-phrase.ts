@@ -1,5 +1,6 @@
 import type { UseMutationOptions } from '@tanstack/react-query';
 import { mutationOptions, useMutation } from '@tanstack/react-query';
+import QuickCrypto from 'react-native-quick-crypto';
 
 import { useGlobalStore } from '@/modules/app/stores/global';
 import { useChainAdapterStore } from '@/modules/chain/stores/chain-adapter';
@@ -15,7 +16,6 @@ import { useUserStore } from '@/modules/user/stores/user';
 import type { BackupPhraseState, WalletItem } from '@/modules/user/stores/user/types';
 
 import { useMutationAddWallet } from './use-mutation-add-wallet';
-
 interface CreateWalletFromPhraseVariables {
   backupPhraseState?: BackupPhraseState;
   phrase?: string;
@@ -125,6 +125,7 @@ export const useMutationCreateWalletFromPhrase = (
             source: DEFAULT_WALLET_IMAGE,
           },
           name: walletName,
+          id: QuickCrypto.randomUUID(),
         };
 
         accounts.forEach((account, index) => {

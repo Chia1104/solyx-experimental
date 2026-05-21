@@ -1,9 +1,12 @@
-import type { WalletActions, WalletState, UserStoreSlice } from './types';
+import QuickCrypto from 'react-native-quick-crypto';
+
+import type { UserStoreSlice, WalletActions, WalletState } from './types';
 
 export const createWalletInitialState = (): WalletState => ({
   namespace: 'eip155',
   currentChainId: 1,
   currentWalletIndex: 0,
+  currentWalletId: '',
   wallets: [],
   walletConnectPaireds: {},
   dappsConnected: {},
@@ -54,7 +57,11 @@ export const createWalletSlice: UserStoreSlice<WalletActions> = set => ({
   },
 
   addWallet: wallet => {
-    set(state => ({ wallet: { ...state.wallet, wallets: [...state.wallet.wallets, wallet] } }));
+    const newWallet = {
+      ...wallet,
+      id: QuickCrypto.randomUUID(),
+    };
+    set(state => ({ wallet: { ...state.wallet, wallets: [...state.wallet.wallets, newWallet] } }));
   },
 
   setWalletInfo: walletInfo => {
@@ -81,8 +88,12 @@ export const createWalletSlice: UserStoreSlice<WalletActions> = set => ({
     }));
   },
 
-  changeCurrentWalletIndex: index => {
-    set(state => ({ wallet: { ...state.wallet, currentWalletIndex: index } }));
+  // changeCurrentWalletIndex: index => {
+  //   set(state => ({ wallet: { ...state.wallet, currentWalletIndex: index } }));
+  // },
+
+  changeCurrentWalletId: id => {
+    set(state => ({ wallet: { ...state.wallet, currentWalletId: id } }));
   },
 
   addWalletConnectPaired: (address, pairedProposal) => {

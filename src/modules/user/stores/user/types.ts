@@ -27,6 +27,7 @@ export interface SettingsState {
 }
 
 export interface WalletItem {
+  id: string;
   name?: string;
   evmAddress?: string;
   tronAddress?: string;
@@ -52,7 +53,11 @@ export interface DappItem {
 export interface WalletState {
   namespace: string;
   currentChainId: number;
+  /**
+   * @deprecated Use `currentWalletId` instead
+   */
   currentWalletIndex: number;
+  currentWalletId: string;
   wallets: WalletItem[];
   walletConnectPaireds: Record<string, unknown[]>;
   dappsConnected: Record<string, DappItem>;
@@ -126,9 +131,13 @@ export interface WalletActions {
   disconnectDappAccount: (address: string, hostname: string) => void;
   changeNamespace: (namespace: string) => void;
   changeNetwork: (chainId: number) => void;
-  addWallet: (wallet: WalletItem) => void;
+  addWallet: (wallet: Omit<WalletItem, 'id'>) => void;
   setWalletInfo: (walletInfo: Pick<WalletItem, 'image' | 'name'> & { address: string }) => void;
-  changeCurrentWalletIndex: (index: number) => void;
+  /**
+   * @deprecated Use `changeCurrentWalletId` instead
+   */
+  changeCurrentWalletIndex?: unknown;
+  changeCurrentWalletId: (id: string) => void;
   addWalletConnectPaired: (address: string, pairedProposal: unknown) => void;
   removeWalletConnectPaired: (address: string, pairingTopic: string) => void;
   removeAllWalletConnectPaired: () => void;

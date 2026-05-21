@@ -12,6 +12,7 @@ import {
 } from '@/components/home/home-sections';
 import { Page } from '@/components/page';
 import { useQueryAssets } from '@/modules/defi/hooks/use-query-assets';
+import { useUserStore } from '@/modules/user/stores/user';
 
 export default function HomeScreen() {
   const { t } = useTranslation(['defi']);
@@ -26,6 +27,10 @@ export default function HomeScreen() {
     totalFiatValue,
     wallet,
   } = useQueryAssets();
+
+  const walletState = useUserStore(state => state.wallet);
+
+  console.log(JSON.stringify(walletState, null, 2));
 
   const assetStatusText = useMemo(() => {
     if (isAssetsLoading) {
