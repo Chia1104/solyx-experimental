@@ -25,6 +25,7 @@ import { useUserStore } from '@/modules/user/stores/user';
 import { delay } from '@/utils/delay';
 
 import Brand, { BrandImage } from '../brand';
+import { KeyboardAwareScrollView } from '../ui/keyboard-aware-scroll-view';
 import { PasswordInput } from '../ui/password-input';
 
 interface LockScreenFormValues {
@@ -416,13 +417,13 @@ const LockScreenContent = ({ presentation = 'fullscreen' }: LockScreenContentPro
 
   if (!request) return null;
 
-  return (
+  const content = (
     <TouchableWithoutFeedback accessible={false} onPress={Keyboard.dismiss}>
       <View
         className={
           isDialog
             ? 'w-full items-center px-1 py-2'
-            : 'flex-1 items-center justify-center px-6 py-10'
+            : 'min-h-full items-center justify-center px-6 py-10'
         }
       >
         {isDialog ? null : <BrandImage className="mb-7 flex-none" />}
@@ -431,6 +432,10 @@ const LockScreenContent = ({ presentation = 'fullscreen' }: LockScreenContentPro
       </View>
     </TouchableWithoutFeedback>
   );
+
+  if (isDialog) return content;
+
+  return <KeyboardAwareScrollView>{content}</KeyboardAwareScrollView>;
 };
 
 export const LockScreenOverlay = () => (

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { useRouter } from 'expo-router';
-import { Button, Checkbox, Popover, Text } from 'heroui-native';
+import { Button, Checkbox, ControlField, Popover, Text } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
@@ -38,13 +38,14 @@ export default function AutoLock() {
         <Text className="text-foreground text-center text-lg" weight="medium">
           {t('description.setup.complete')}
         </Text>
-
-        <View className="flex-row flex-wrap items-center justify-center gap-2">
-          <Checkbox
-            isSelected={autoLockEnabled}
-            onSelectedChange={value => setAutoLockEnabled(value)}
-            className="rounded-sm"
-          />
+        <ControlField
+          isSelected={autoLockEnabled}
+          onSelectedChange={value => setAutoLockEnabled(value)}
+          className="flex-row flex-wrap items-center justify-center gap-2"
+        >
+          <ControlField.Indicator>
+            <Checkbox className="rounded-sm" />
+          </ControlField.Indicator>
           <Text className="text-foreground shrink text-base" weight="medium">
             {t('label.turn.on.auto.lock')}
           </Text>
@@ -71,7 +72,7 @@ export default function AutoLock() {
               </Popover.Content>
             </Popover.Portal>
           </Popover>
-        </View>
+        </ControlField>
       </View>
 
       <Button onPress={handleEnter} size="sm">

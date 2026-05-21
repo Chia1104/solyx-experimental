@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import type { AppLockPasswordFormValues } from '@/components/lockscreen/app-lock-password-form';
 import { AppLockPasswordForm } from '@/components/lockscreen/app-lock-password-form';
 import { Page } from '@/components/page';
+import { KeyboardAwareScrollView } from '@/components/ui/keyboard-aware-scroll-view';
 import { useGlobalStore } from '@/modules/app/stores/global';
 import { useMutationGetDefiAllKeychainData } from '@/modules/keychain/hooks/use-mutation-get-defi-all-keychain-data';
 import { useMutationResetDefiAllKeychain } from '@/modules/keychain/hooks/use-mutation-reset-defi-all-keychain';
@@ -58,11 +59,13 @@ export default function MigrateBiometryPassword() {
 
   return (
     <Page isBrandVisible className="px-6 py-12">
-      <AppLockPasswordForm
-        isPending={isPending}
-        onSubmit={handleSubmit}
-        submitErrorMessage={t('error.keychain.verify.failed')}
-      />
+      <KeyboardAwareScrollView>
+        <AppLockPasswordForm
+          isPending={isPending}
+          onSubmit={handleSubmit}
+          submitErrorMessage={t('error.keychain.verify.failed')}
+        />
+      </KeyboardAwareScrollView>
     </Page>
   );
 }

@@ -1,11 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button, Text } from 'heroui-native';
+import { Button, ControlField, Label, Text } from 'heroui-native';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import * as z from 'zod';
 
 import { PasswordInput } from '@/components/ui/password-input';
+import { useQueryBiometryType } from '@/modules/keychain/hooks/use-query-biometry-type';
 
 const getPasswordValidationIssues = (password: string) => {
   const missing: string[] = [];
@@ -23,6 +24,7 @@ const useFormSchema = () => {
     .object({
       confirmPassword: z.string().min(1, t('error.confirmPassword.required')),
       password: z.string(),
+      enableBiometry: z.boolean().optional(),
     })
     .superRefine((values, context) => {
       const passwordIssues = getPasswordValidationIssues(values.password);
@@ -59,12 +61,14 @@ export const AppLockPasswordForm = ({
   submitErrorMessage,
 }: AppLockPasswordFormProps) => {
   const { t } = useTranslation(['global']);
+  const { biometryLabel } = useQueryBiometryType();
 
   const formSchema = useFormSchema();
   const form = useForm<AppLockPasswordFormValues>({
     defaultValues: {
       confirmPassword: '',
       password: '',
+      enableBiometry: false,
     },
     mode: 'onChange',
     resolver: zodResolver(formSchema),
@@ -145,6 +149,27 @@ export const AppLockPasswordForm = ({
             />
           )}
         />
+
+        {biometryLabel ? (
+          <Controller
+            control={form.control}
+            name="enableBiometry"
+            render={({ field }) => (
+              <ControlField
+                isSelected={field.value}
+                onSelectedChange={field.onChange}
+                className="my-6 justify-center"
+              >
+                <ControlField.Indicator />
+                <Label>
+                  {t('label.enableBiometry', {
+                    method: biometryLabel,
+                  })}
+                </Label>
+              </ControlField>
+            )}
+          />
+        ) : null}
 
         <View className="mt-6 items-center">
           {form.formState.errors.root?.message ? (

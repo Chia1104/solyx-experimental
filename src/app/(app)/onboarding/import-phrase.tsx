@@ -3,10 +3,11 @@ import { useRouter } from 'expo-router';
 import { Button, FieldError, Text, TextArea, TextField } from 'heroui-native';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 import * as z from 'zod';
 
 import { Page } from '@/components/page';
+import { KeyboardAwareScrollView } from '@/components/ui/keyboard-aware-scroll-view';
 import { useClipboard } from '@/hooks/use-clipboard';
 import { useMutationCreateWalletFromPhrase } from '@/modules/defi/hooks/use-mutation-create-wallet-from-phrase';
 
@@ -66,66 +67,61 @@ export default function ImportPhrase() {
         onBack: () => router.back(),
       }}
     >
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        className="flex-1"
-      >
-        <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ flexGrow: 1 }}>
-          <View className="flex-1 items-center justify-center">
-            <Text className="text-center text-3xl font-semibold" type="h3">
-              {t('defi:title.seed.phrase.import')}
+      <KeyboardAwareScrollView>
+        <View className="flex-1 items-center justify-center">
+          <Text className="text-center text-3xl font-semibold" type="h3">
+            {t('defi:title.seed.phrase.import')}
+          </Text>
+
+          <View className="mt-12 w-full max-w-sm flex-col">
+            <Text className="text-muted mb-6 text-base" weight="medium">
+              {t('defi:description.import.seed.phrase')}
             </Text>
 
-            <View className="mt-12 w-full max-w-sm flex-col">
-              <Text className="text-muted mb-6 text-base" weight="medium">
-                {t('defi:description.import.seed.phrase')}
-              </Text>
+            <Controller
+              control={form.control}
+              name="phrase"
+              render={({ field, fieldState }) => (
+                <TextField
+                  isDisabled={importPhraseMutation.isPending}
+                  isInvalid={fieldState.invalid}
+                >
+                  <View>
+                    <TextArea
+                      onBlur={field.onBlur}
+                      onChangeText={field.onChange}
+                      placeholder={t('defi:placeholder.seed.phrase')}
+                      value={field.value}
+                      textAlignVertical="top"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                    />
+                    <Button
+                      isDisabled={importPhraseMutation.isPending}
+                      onPress={() => void handlePaste()}
+                      variant="ghost"
+                      className="absolute right-2 bottom-2"
+                      size="sm"
+                    >
+                      <Button.Label>{t('global:action.paste')}</Button.Label>
+                    </Button>
+                  </View>
+                  <FieldError>{fieldState.error?.message}</FieldError>
+                </TextField>
+              )}
+            />
 
-              <Controller
-                control={form.control}
-                name="phrase"
-                render={({ field, fieldState }) => (
-                  <TextField
-                    isDisabled={importPhraseMutation.isPending}
-                    isInvalid={fieldState.invalid}
-                  >
-                    <View>
-                      <TextArea
-                        onBlur={field.onBlur}
-                        onChangeText={field.onChange}
-                        placeholder={t('defi:placeholder.seed.phrase')}
-                        value={field.value}
-                        textAlignVertical="top"
-                        autoCapitalize="none"
-                        autoCorrect={false}
-                      />
-                      <Button
-                        isDisabled={importPhraseMutation.isPending}
-                        onPress={() => void handlePaste()}
-                        variant="ghost"
-                        className="absolute right-2 bottom-2"
-                        size="sm"
-                      >
-                        <Button.Label>{t('global:action.paste')}</Button.Label>
-                      </Button>
-                    </View>
-                    <FieldError>{fieldState.error?.message}</FieldError>
-                  </TextField>
-                )}
-              />
-
-              <Button
-                isDisabled={!form.formState.isValid || importPhraseMutation.isPending}
-                onPress={handleSubmit}
-                className="mt-6 self-center "
-                size="sm"
-              >
-                <Button.Label>{t('global:action.next')}</Button.Label>
-              </Button>
-            </View>
+            <Button
+              isDisabled={!form.formState.isValid || importPhraseMutation.isPending}
+              onPress={handleSubmit}
+              className="mt-6 self-center "
+              size="sm"
+            >
+              <Button.Label>{t('global:action.next')}</Button.Label>
+            </Button>
           </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
+        </View>
+      </KeyboardAwareScrollView>
     </Page>
   );
 }

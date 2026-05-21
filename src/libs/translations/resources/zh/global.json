@@ -33,6 +33,7 @@
     "phone.number": "手機號碼",
     "email": "電子信箱",
     "passkey": "通行密鑰",
+    "enableBiometry": "使用 {{method}} 解鎖",
     "biometry": {
       "face": {
         "id": "Face ID",

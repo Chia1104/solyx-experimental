@@ -33,6 +33,7 @@
     "phone.number": "Phone number",
     "email": "Email",
     "passkey": "Passkey",
+    "enableBiometry": "Enable {{method}} unlock",
     "biometry": {
       "face": {
         "id": "Face ID",

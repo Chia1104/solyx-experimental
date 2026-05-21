@@ -20,7 +20,6 @@ export default function AppLockLayout() {
       <Stack.Protected guard={entryState.phase === EntryPhase.SetPassword}>
         <Stack.Screen name="set-app-lock" options={{ headerShown: false }} />
         <Stack.Screen name="set-password" options={{ headerShown: false }} />
-        <Stack.Screen name="check-biometry" options={{ headerShown: false }} />
         <Stack.Screen name="auto-lock" options={{ headerShown: false }} />
       </Stack.Protected>
       <Stack.Protected guard={entryState.phase === EntryPhase.LegacyBiometryMigration}>
