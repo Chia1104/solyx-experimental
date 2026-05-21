@@ -66,6 +66,7 @@ export const useMutationCreateWalletFromPhrase = (
   const switchWalletMode = useUserStore(state => state.switchWalletMode);
   const addWallet = useUserStore(state => state.addWallet);
   const setBackupPhraseState = useUserStore(state => state.setBackupPhraseState);
+  const changeCurrentWalletId = useUserStore(state => state.changeCurrentWalletId);
 
   const addWalletMutation = useMutationAddWallet();
   const setKeychainPhraseMutation = useMutationSetKeychainPhrase();
@@ -167,6 +168,7 @@ export const useMutationCreateWalletFromPhrase = (
         addWallet(wallet);
         setBackupPhraseState(backupPhraseState);
         switchWalletMode('defi');
+        changeCurrentWalletId(wallet.id);
 
         return {
           phrase: normalizedPhrase,

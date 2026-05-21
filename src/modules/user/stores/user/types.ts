@@ -131,7 +131,7 @@ export interface WalletActions {
   disconnectDappAccount: (address: string, hostname: string) => void;
   changeNamespace: (namespace: string) => void;
   changeNetwork: (chainId: number) => void;
-  addWallet: (wallet: Omit<WalletItem, 'id'>) => void;
+  addWallet: (wallet: Omit<WalletItem, 'id'> & { id?: string }) => void;
   setWalletInfo: (walletInfo: Pick<WalletItem, 'image' | 'name'> & { address: string }) => void;
   /**
    * @deprecated Use `changeCurrentWalletId` instead

@@ -5,16 +5,10 @@ import { queryOptions, useQuery } from '@tanstack/react-query';
 import BigNumber from 'bignumber.js';
 
 import { useChainAdapterStore } from '@/modules/chain/stores/chain-adapter';
-import {
-  EIP155_CHAINS,
-  LIQUID_CHAINS,
-  TRON_CHAINS,
-} from '@/modules/chain/stores/chain-adapter/chains';
 import type { ChainConfig, ChainCurrency } from '@/modules/chain/stores/chain-adapter/types';
 import { ChainType } from '@/modules/chain/stores/chain-adapter/types';
-import { useUserStore } from '@/modules/user/stores/user';
-import type { WalletItem } from '@/modules/user/stores/user/types';
 
+import { useDefiAccount } from './use-defi-account';
 import { useQueryPrices } from './use-query-prices';
 
 type TokenBalances = Record<string, string>;
@@ -33,35 +27,6 @@ type UseQueryAssetsBalanceOptions = Omit<
 >;
 
 const EMPTY_BALANCES: TokenBalances = {};
-
-const chainConfigs = {
-  ...EIP155_CHAINS,
-  ...TRON_CHAINS,
-  ...LIQUID_CHAINS,
-};
-
-const getChainConfig = (chainId: number) =>
-  Object.values(chainConfigs).find(chain => chain.chainId === chainId);
-
-const getWalletAddress = (wallet: WalletItem | undefined, chainType: ChainType) => {
-  if (!wallet) {
-    return '';
-  }
-
-  if (chainType === ChainType.EVM) {
-    return wallet.evmAddress ?? '';
-  }
-
-  if (chainType === ChainType.TRON) {
-    return wallet.tronAddress ?? '';
-  }
-
-  if (chainType === ChainType.LIQUID) {
-    return wallet.liquidAmpId ?? '';
-  }
-
-  return '';
-};
 
 const getCurrencies = (chain: ChainConfig) =>
   Array.from(
@@ -124,17 +89,13 @@ export const queryAssetsOptions = (
 };
 
 export const useQueryAssets = (options?: UseQueryAssetsBalanceOptions) => {
-  const currentChainId = useUserStore(state => state.wallet.currentChainId);
-  const currentWalletIndex = useUserStore(state => state.wallet.currentWalletIndex);
-  const wallets = useUserStore(state => state.wallet.wallets);
+  const { chain, currentAddress, currentChainId, liquidSubaccountPointer, wallet } =
+    useDefiAccount();
   const getAdapterByChainId = useChainAdapterStore(state => state.getAdapterByChainId);
   const liquidLoggedIn = useChainAdapterStore(state => state.liquidLoggedIn);
   const pricesQuery = useQueryPrices();
 
-  const wallet = wallets[currentWalletIndex];
-  const chain = useMemo(() => getChainConfig(currentChainId), [currentChainId]);
   const isLiquidChain = chain?.chainType === ChainType.LIQUID;
-  const currentAddress = getWalletAddress(wallet, chain?.chainType ?? ChainType.EVM);
   const balanceQuery = useQuery(
     queryAssetsOptions(
       {
@@ -143,7 +104,7 @@ export const useQueryAssets = (options?: UseQueryAssetsBalanceOptions) => {
         chainId: currentChainId,
         getBalances: (address, chainId, index) =>
           getAdapterByChainId(chainId).getBalances(address, chainId, index),
-        liquidSubaccountPointer: wallet?.liquidSubaccountPointer,
+        liquidSubaccountPointer,
       },
       {
         enabled: Boolean(chain && currentAddress && (!isLiquidChain || liquidLoggedIn)),

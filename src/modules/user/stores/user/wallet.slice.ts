@@ -58,8 +58,8 @@ export const createWalletSlice: UserStoreSlice<WalletActions> = set => ({
 
   addWallet: wallet => {
     const newWallet = {
-      ...wallet,
       id: QuickCrypto.randomUUID(),
+      ...wallet,
     };
     set(state => ({ wallet: { ...state.wallet, wallets: [...state.wallet.wallets, newWallet] } }));
   },

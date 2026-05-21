@@ -3,16 +3,13 @@ import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { RefreshControl, ScrollView, View } from 'react-native';
 
-import {
-  AssetsPanel,
-  BalanceCard,
-  HomeAuthActions,
-  HomeTopBar,
-  QuickActions,
-} from '@/components/home/home-sections';
+import { AssetsPanel } from '@/components/home/assets-panel';
+import { BalanceCard } from '@/components/home/balance-card';
+import { HomeAuthActions } from '@/components/home/home-auth-actions';
+import { HomeTopBar } from '@/components/home/home-top-bar';
+import { QuickActions } from '@/components/home/quick-actions';
 import { Page } from '@/components/page';
 import { useQueryAssets } from '@/modules/defi/hooks/use-query-assets';
-import { useUserStore } from '@/modules/user/stores/user';
 
 export default function HomeScreen() {
   const { t } = useTranslation(['defi']);
@@ -27,10 +24,6 @@ export default function HomeScreen() {
     totalFiatValue,
     wallet,
   } = useQueryAssets();
-
-  const walletState = useUserStore(state => state.wallet);
-
-  console.log(JSON.stringify(walletState, null, 2));
 
   const assetStatusText = useMemo(() => {
     if (isAssetsLoading) {
