@@ -135,7 +135,7 @@ export const HomeTopBar = ({ chain, wallet }: HomeTopBarProps) => {
         value={currentMode}
         onValueChange={value => void selectNetworkMode(value as NetworkMode)}
       >
-        <Segment.Group>
+        <Segment.Group className="bg-surface">
           <Segment.Indicator />
           <Segment.Item value="public">
             <View className="flex-row items-center gap-1.5">
@@ -291,7 +291,9 @@ const QuickAction = ({ icon, isHighlighted = false, label, onPress }: QuickActio
   <Pressable
     className={cn(
       'min-h-[80px] flex-1 items-center justify-center gap-1 rounded-xl border py-3',
-      isHighlighted ? 'border-accent bg-content1' : 'bg-content2 border-transparent',
+      isHighlighted
+        ? 'border-accent bg-surface-tertiary'
+        : 'bg-surface-tertiary border-transparent',
     )}
     onPress={onPress}
   >
@@ -330,7 +332,7 @@ export const AssetsPanel = ({
   return (
     <View className="gap-3">
       <View className="flex-row items-center justify-between">
-        <Text className="text-foreground" type="h3">
+        <Text className="text-foreground" type="h5">
           {t('caption.home.my.assets')}
         </Text>
         <ChainSelector chain={chain} />
@@ -368,7 +370,7 @@ const AssetListItem = ({ isBalanceVisible, isLoading, row }: AssetListItemProps)
 
   return (
     <Pressable
-      className="bg-content1 min-h-[76px] justify-center rounded-xl px-4 py-3"
+      className="bg-surface justify-center rounded-xl px-4 py-3"
       onPress={() => router.push(`/assets/${row.symbol}`)}
     >
       <View className="flex-row items-center justify-between gap-3">
@@ -388,7 +390,7 @@ const AssetListItem = ({ isBalanceVisible, isLoading, row }: AssetListItemProps)
                 value={row.fiatValue.toNumber()}
               />
             ) : (
-              <Text className="text-foreground/50" numberOfLines={1} type="body">
+              <Text className="text-foreground/50" numberOfLines={1} type="body-xs">
                 ******
               </Text>
             )}
@@ -402,7 +404,7 @@ const AssetListItem = ({ isBalanceVisible, isLoading, row }: AssetListItemProps)
             ) : (
               <>
                 <NumberValue
-                  classNames={{ value: 'text-foreground font-medium' }}
+                  classNames={{ value: 'text-foreground font-medium text-lg' }}
                   locale={i18n.language}
                   maximumFractionDigits={8}
                   value={Number(row.balance)}
@@ -410,7 +412,7 @@ const AssetListItem = ({ isBalanceVisible, isLoading, row }: AssetListItemProps)
               </>
             )
           ) : (
-            <Text className="text-foreground" weight="medium">
+            <Text className="text-foreground" weight="medium" type="h5">
               ******
             </Text>
           )}
@@ -513,7 +515,7 @@ const ChainSelectorButton = ({
   ...props
 }: ChainSelectorButtonProps) => (
   <Button
-    className="bg-content1 self-start rounded-lg px-2.5 py-1.5"
+    className="bg-surface h-auto min-h-0 self-start rounded-lg px-2.5 py-1.5"
     size="sm"
     variant="ghost"
     {...props}
