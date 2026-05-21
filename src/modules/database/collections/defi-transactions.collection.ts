@@ -15,7 +15,7 @@ export const getDefiTransactionKey = ({
   symbol,
 }: DefiTransaction) => {
   return [chainId, txId, fromAddress, toAddress, symbol]
-    .map(value => value.trim().toLocaleLowerCase())
+    .map(value => value?.trim().toLocaleLowerCase())
     .join(':');
 };
 
