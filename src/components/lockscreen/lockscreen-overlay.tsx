@@ -22,6 +22,7 @@ import { useMutationGetKeychainPrivateKey } from '@/modules/keychain/hooks/use-m
 import { useQueryBiometryType } from '@/modules/keychain/hooks/use-query-biometry-type';
 import { KeychainError } from '@/modules/keychain/utils';
 import { useUserStore } from '@/modules/user/stores/user';
+import { delay } from '@/utils/delay';
 
 import Brand, { BrandImage } from '../brand';
 import { PasswordInput } from '../ui/password-input';
@@ -305,7 +306,7 @@ const LockScreenVerificationForm = ({ isDialog }: LockScreenPresentationProps) =
       if (Platform.OS === 'android' && request.type === 'liquid') {
         await new Promise<void>(resolve => {
           InteractionManager.runAfterInteractions(() => {
-            setTimeout(resolve, 2000);
+            void delay(2000).then(resolve);
           });
         });
       }
@@ -332,12 +333,17 @@ const LockScreenVerificationForm = ({ isDialog }: LockScreenPresentationProps) =
 
     if (!request || !canUseBiometry || hasTriggeredBiometry.current) return;
 
-    const timer = setTimeout(() => {
+    let isCancelled = false;
+
+    void delay(300).then(() => {
+      if (isCancelled) return;
       hasTriggeredBiometry.current = true;
       void verifyWithBiometry();
-    }, 300);
+    });
 
-    return () => clearTimeout(timer);
+    return () => {
+      isCancelled = true;
+    };
   }, [biometryLabel, request, unlockMode, verifyWithBiometry]);
 
   if (!request) return null;

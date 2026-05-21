@@ -2,6 +2,8 @@ import { Contract, HDNodeWallet, JsonRpcProvider, Mnemonic, Wallet } from 'ether
 import type { TransactionRequest } from 'ethers';
 import QuickCrypto from 'react-native-quick-crypto';
 
+import { delay } from '@/utils/delay';
+
 import { EIP155_CHAINS, EVM_DERIVATION_PATH, JSON_RPC_METHODS } from './chains';
 import type { TEIP155Chain } from './chains';
 import type { ChainAdapterSlice, EvmChainAdapterActions } from './types';
@@ -91,9 +93,10 @@ export const createEvmChainAdapterSlice: ChainAdapterSlice<EvmChainAdapterAction
       const provider = new JsonRpcProvider(rpcUrl);
       const result = await Promise.race([
         provider.getNetwork(),
-        new Promise<false>((_, reject) =>
-          setTimeout(() => reject(new Error('Provider timeout')), 5000),
-        ),
+        (async () => {
+          await delay(5000);
+          throw new Error('Provider timeout');
+        })(),
       ]);
       return !!result;
     } catch {

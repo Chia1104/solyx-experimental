@@ -5,6 +5,7 @@ import { AppState } from 'react-native';
 
 import { env } from '@/libs/env';
 import { useGlobalStore } from '@/modules/app/stores/global';
+import { isLiquidChainId } from '@/modules/chain/hooks/use-liquid-session';
 import { hasKeychainGenericPassword } from '@/modules/keychain/utils';
 import { useUserStore } from '@/modules/user/stores/user';
 
@@ -15,6 +16,7 @@ export const AutoLockEffect = () => {
   const setStartup = useGlobalStore(store => store.setStartup);
   const autoLock = useUserStore(state => state.settings.autoLock);
   const hasPassword = useUserStore(state => state.account.hasPassword);
+  const currentChainId = useUserStore(state => state.wallet.currentChainId);
 
   const lastBackgroundAtRef = useRef<number | null>(null);
 
@@ -38,6 +40,7 @@ export const AutoLockEffect = () => {
     if (
       !autoLock ||
       !hasPassword ||
+      isLiquidChainId(currentChainId) ||
       hasActiveRequest() ||
       elapsed < AUTO_LOCK_BACKGROUND_TIMEOUT_MS
     ) {

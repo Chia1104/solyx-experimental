@@ -5,6 +5,7 @@ import { AppState } from 'react-native';
 import { LockRequestType } from '@/modules/app/enums/lock-request-type.enum';
 import { useGlobalStore } from '@/modules/app/stores/global';
 import { useUserStore } from '@/modules/user/stores/user';
+import { delay } from '@/utils/delay';
 
 import { useChainAdapterStore } from '../stores/chain-adapter';
 import type { TLiquidChain } from '../stores/chain-adapter/chains';
@@ -46,7 +47,7 @@ export const useLiquidSession = () => {
         await destroyLiquidSession();
         await requestLock({
           chainId,
-          isDismissible: true,
+          isDismissible: false,
           reason: 'Unlock your Liquid wallet to continue.',
           type: LockRequestType.Liquid,
         });
@@ -74,10 +75,14 @@ export const LiquidSessionInterceptor = () => {
   const destroyLiquidSession = useChainAdapterStore(state => state.destroyLiquidSession);
 
   const handleDestroyLiquidSession = useCallback(async () => {
-    destroyLiquidSession()
-      .then(() => ensureLiquidSessionRef.current(currentChainIdRef.current))
-      .catch(console.error);
-  }, [destroyLiquidSession, ensureLiquidSessionRef, currentChainIdRef]);
+    try {
+      await destroyLiquidSession();
+      await delay(0);
+      await ensureLiquidSessionRef.current(currentChainIdRef.current);
+    } catch {
+      // The user may dismiss the Liquid unlock request; keep the app running and retry on next access.
+    }
+  }, [destroyLiquidSession]);
 
   currentChainIdRef.current = currentChainId;
   ensureLiquidSessionRef.current = ensureLiquidSession;

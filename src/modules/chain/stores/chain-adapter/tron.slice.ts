@@ -1,5 +1,7 @@
 import tronweb, { TronWeb } from 'tronweb';
 
+import { delay } from '@/utils/delay';
+
 import { TRON_CHAINS, TRON_DERIVATION_PATH } from './chains';
 import type { TTRONChain } from './chains';
 import type { ChainAdapterSlice, TronChainAdapterActions } from './types';
@@ -91,9 +93,10 @@ export const createTronChainAdapterSlice: ChainAdapterSlice<TronChainAdapterActi
       });
       const result = await Promise.race([
         Promise.resolve(tronWeb.isValidProvider(provider)),
-        new Promise<boolean>((_, reject) =>
-          setTimeout(() => reject(new Error('Provider timeout')), 5000),
-        ),
+        (async () => {
+          await delay(5000);
+          throw new Error('Provider timeout');
+        })(),
       ]);
       return !!result;
     } catch {

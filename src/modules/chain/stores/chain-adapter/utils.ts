@@ -1,6 +1,8 @@
 import { isHexString, toUtf8String } from 'ethers';
 import type { TypedDataDomain, TypedDataField } from 'ethers';
 
+import { delay } from '@/utils/delay';
+
 export const DEFAULT_TRON_CHAIN_ID = 728126428;
 export const DEFAULT_LIQUID_CHAIN_ID = 1776;
 export const DEFAULT_LIQUID_FEE_RATE = 1000;
@@ -12,7 +14,7 @@ export interface Eip712TypedData {
   message: Record<string, unknown>;
 }
 
-export const sleep = (ms: number) => new Promise<void>(resolve => setTimeout(resolve, ms));
+export const sleep = delay;
 
 export const toErrorMessage = (error: unknown) =>
   error instanceof Error ? error.message : 'Unknown error';

@@ -15,6 +15,7 @@ import Brand from '@/components/brand';
 import { persistOptions, queryClient } from '@/libs/request/query-client';
 import { LIQUID_CHAINS } from '@/modules/chain/stores/chain-adapter/chains';
 import { useUserStore } from '@/modules/user/stores/user';
+import { delay } from '@/utils/delay';
 
 const INITIAL_LIGHT_BACKGROUND_COLOR = '#F7F7F7';
 const THEME_TRANSITION_TOTAL_MS = 1_500;
@@ -62,7 +63,10 @@ export const RootProvider = ({ children }: { children: React.ReactNode }) => {
 
     transitionOpacity.value = withTiming(1, { duration: THEME_TRANSITION_FADE_IN_MS });
 
-    const timeout = setTimeout(() => {
+    let isCancelled = false;
+
+    void delay(THEME_TRANSITION_FADE_IN_MS + THEME_TRANSITION_HOLD_MS).then(() => {
+      if (isCancelled) return;
       transitionOpacity.value = withTiming(
         0,
         { duration: THEME_TRANSITION_FADE_OUT_MS },
@@ -72,9 +76,11 @@ export const RootProvider = ({ children }: { children: React.ReactNode }) => {
           }
         },
       );
-    }, THEME_TRANSITION_FADE_IN_MS + THEME_TRANSITION_HOLD_MS);
+    });
 
-    return () => clearTimeout(timeout);
+    return () => {
+      isCancelled = true;
+    };
   }, [isThemeTransitionVisible, transitionOpacity]);
 
   return (
