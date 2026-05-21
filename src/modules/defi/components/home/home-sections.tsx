@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import type BigNumber from 'bignumber.js';
 import { useRouter } from 'expo-router';
-import { BottomSheet, Button, Popover, Skeleton, Text, cn } from 'heroui-native';
+import { Button, Popover, Select, Skeleton, Text, cn } from 'heroui-native';
 import { NumberValue } from 'heroui-native-pro/number-value';
 import { Segment } from 'heroui-native-pro/segment';
 import { useTranslation } from 'react-i18next';
@@ -467,38 +467,36 @@ const ChainSelector = ({ chain }: ChainSelectorProps) => {
   }
 
   return (
-    <BottomSheet isOpen={isOpen} onOpenChange={setIsOpen}>
-      <BottomSheet.Trigger asChild>
-        <ChainSelectorButton chain={chain} label={t('caption.home.no.network')} isExpandable />
-      </BottomSheet.Trigger>
-      <BottomSheet.Portal>
-        <BottomSheet.Overlay />
-        <BottomSheet.Content>
-          {options.map(option => {
-            const isSelected = option.chainId === chain?.chainId;
-
-            return (
-              <Button
-                className={cn(
-                  'justify-between rounded-2xl px-4 py-3',
-                  isSelected ? 'bg-accent/10' : 'bg-content2',
-                )}
-                isDisabled={pendingChainId !== null}
-                key={option.chainId}
-                onPress={() => void handleSelectChain(option.chainId)}
-                variant="ghost"
-              >
-                <View className="flex-row items-center gap-3">
-                  <ChainMark chain={option} />
-                  <Button.Label className="text-foreground">{option.name}</Button.Label>
-                </View>
-                {isSelected && <ThemedIcon className="text-accent" name="checkmark" size={20} />}
-              </Button>
-            );
-          })}
-        </BottomSheet.Content>
-      </BottomSheet.Portal>
-    </BottomSheet>
+    <Select
+      presentation="bottom-sheet"
+      value={{
+        label: chain?.name ?? t('caption.home.no.network'),
+        value: chain?.chainId?.toString() ?? '',
+      }}
+      onValueChange={option => handleSelectChain(Number(option?.value))}
+      isOpen={isOpen}
+      onOpenChange={setIsOpen}
+    >
+      <Select.Trigger className="h-auto min-h-0 px-2 py-1">
+        <ChainMark chain={chain} />
+        <Text className="text-foreground" type="body-sm">
+          {chain?.name ?? t('caption.home.no.network')}
+        </Text>
+        <Select.TriggerIndicator />
+      </Select.Trigger>
+      <Select.Portal>
+        <Select.Overlay className="bg-background/50" />
+        <Select.Content presentation="bottom-sheet" snapPoints={['35%']}>
+          {options.map(option => (
+            <Select.Item
+              key={option.chainId}
+              value={option.chainId.toString()}
+              label={option.name}
+            />
+          ))}
+        </Select.Content>
+      </Select.Portal>
+    </Select>
   );
 };
 
@@ -522,7 +520,7 @@ const ChainSelectorButton = ({
   >
     <ChainMark chain={chain} />
     <Button.Label className="text-foreground">{chain?.name ?? label}</Button.Label>
-    {isExpandable && <ThemedIcon className="text-foreground" name="chevron-down" size={16} />}
+    {isExpandable && <Select.TriggerIndicator />}
   </Button>
 );
 
