@@ -3,8 +3,7 @@ import { useMemo } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import BigNumber from 'bignumber.js';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { Button, FieldError, Text } from 'heroui-native';
-import { NumberField } from 'heroui-native-pro/number-field';
+import { Button, Text } from 'heroui-native';
 import { NumberValue } from 'heroui-native-pro/number-value';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -13,6 +12,7 @@ import * as z from 'zod';
 
 import { TokenMark } from '@/components/home/chain-mark';
 import { Page } from '@/components/page';
+import { AmountInput } from '@/components/ui/amount-input';
 import { KeyboardAwareScrollView } from '@/components/ui/keyboard-aware-scroll-view';
 import { useQueryAssets } from '@/modules/defi/hooks/use-query-assets';
 
@@ -36,26 +36,6 @@ const getCurrencyDecimalPlaces = (
     : 6;
 };
 
-const toAmountValue = (value: number, decimals: number) => {
-  if (!Number.isFinite(value)) {
-    return '';
-  }
-
-  return new BigNumber(value).decimalPlaces(decimals, BigNumber.ROUND_DOWN).toString();
-};
-
-const normalizeAmountText = (value: string, decimals: number) => {
-  const normalized = value.replace(/[^\d.]/g, '');
-  const [integer = '', ...fractionParts] = normalized.split('.');
-  const fraction = fractionParts.join('');
-
-  if (!normalized.includes('.')) {
-    return integer;
-  }
-
-  return `${integer || '0'}.${fraction.slice(0, decimals)}`;
-};
-
 const toBigNumberOrNull = (value: string) => {
   if (!value.trim()) {
     return null;
@@ -68,8 +48,6 @@ const toBigNumberOrNull = (value: string) => {
     return null;
   }
 };
-
-const toNumberFieldValue = (value: string) => toBigNumberOrNull(value)?.toNumber() ?? Number.NaN;
 
 export default function SendAmountScreen() {
   const router = useRouter();
@@ -123,7 +101,6 @@ export default function SendAmountScreen() {
   });
 
   const amount = form.watch('amount');
-  console.log('amount', amount);
   const fiatAmount = useMemo(() => {
     return new BigNumber(amount || '0').multipliedBy(price).toNumber();
   }, [amount, price]);
@@ -171,50 +148,17 @@ export default function SendAmountScreen() {
             control={form.control}
             name="amount"
             render={({ field, fieldState }) => (
-              <NumberField
-                className="w-full"
-                formatOptions={{
-                  maximumFractionDigits: decimals,
-                  minimumFractionDigits: 0,
-                  useGrouping: false,
-                }}
+              <AmountInput
+                decimals={decimals}
+                error={fieldState.error?.message}
+                fiatAmount={fiatAmount}
                 isInvalid={fieldState.invalid}
-                minValue={0}
-                onChange={value => field.onChange(toAmountValue(value, decimals))}
-                step={new BigNumber(10).pow(-Math.min(decimals, 8)).toNumber()}
-                value={toNumberFieldValue(field.value)}
-              >
-                <NumberField.Group className="min-h-11 flex-row items-end justify-center bg-transparent">
-                  <NumberField.Input
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    className="text-foreground max-w-[220px] border-0 bg-transparent px-0 py-0 text-center text-4xl font-normal"
-                    isAutoPaddingActive={false}
-                    keyboardType="decimal-pad"
-                    onBlur={field.onBlur}
-                    onChangeText={value => field.onChange(normalizeAmountText(value, decimals))}
-                    placeholder="0"
-                  />
-                  {symbol ? (
-                    <Text className="text-foreground pb-2" type="body-sm">
-                      {symbol}
-                    </Text>
-                  ) : null}
-                </NumberField.Group>
-                <View className="items-center">
-                  <NumberValue
-                    classNames={{ value: 'text-default-foreground text-xs' }}
-                    currency="USD"
-                    locale={i18n.language}
-                    maximumFractionDigits={2}
-                    numberStyle="currency"
-                    value={fiatAmount}
-                  />
-                  <View className="h-12 items-center justify-center">
-                    <FieldError>{fieldState.error?.message}</FieldError>
-                  </View>
-                </View>
-              </NumberField>
+                locale={i18n.language}
+                onBlur={field.onBlur}
+                onChange={field.onChange}
+                symbol={symbol}
+                value={field.value}
+              />
             )}
           />
         </View>
