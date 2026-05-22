@@ -49,6 +49,11 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       'expo-system-ui',
       'expo-build-properties',
       'react-native-quick-crypto',
+      // enable in expo 56
+      // 'expo-font',
+      // 'expo-image',
+      // 'expo-status-bar',
+      // 'expo-web-browser',
     ],
     experiments: {
       typedRoutes: true,

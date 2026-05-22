@@ -1,8 +1,16 @@
 allowBuilds:
-  esbuild: true
+  esbuild: false
   "@roswell/react-native-gdk": true
-  '@shopify/react-native-skia': true
-  'heroui-pro': true
-  '@heroui-pro/react': true
-  'heroui-native-pro': true
+  "@shopify/react-native-skia": true
+  "heroui-pro": true
+  "@heroui-pro/react": true
+  "heroui-native-pro": true
+  "@zowe/secrets-for-zowe-sdk": false
+
+overrides:
+  axios: 1.15.2
+
 nodeLinker: hoisted
+
+minimumReleaseAgeExclude:
+  - react-native-quick-crypto@1.1.5
