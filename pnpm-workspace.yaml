@@ -8,6 +8,7 @@ allowBuilds:
   "@zowe/secrets-for-zowe-sdk": false
   "@firebase/util": true
   protobufjs: false
+  "@sentry/cli": false
 
 overrides:
   axios: 1.15.2

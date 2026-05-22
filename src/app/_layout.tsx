@@ -1,5 +1,6 @@
 import '@/global.css';
 import '@/libs/translations';
+import * as Sentry from '@sentry/react-native';
 import { Stack } from 'expo-router';
 
 import { AppGuard } from '@/components/app-guard';
@@ -15,7 +16,7 @@ import { globalInit } from '@/modules/app/utils';
 
 globalInit();
 
-export default function RootLayout() {
+const RootLayout = () => {
   return (
     <RootProvider>
       <AppGuard fallback={<Brand />}>
@@ -34,4 +35,6 @@ export default function RootLayout() {
       </AppGuard>
     </RootProvider>
   );
-}
+};
+
+export default Sentry.wrap(RootLayout);

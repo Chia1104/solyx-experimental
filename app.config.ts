@@ -75,6 +75,14 @@ export default ({ config }: ConfigContext): ExpoConfig => {
           },
         },
       ],
+      [
+        '@sentry/react-native/expo',
+        {
+          url: 'https://sentry.io/',
+          project: process.env.SENTRY_PROJECT,
+          organization: process.env.SENTRY_ORGANIZATION,
+        },
+      ],
       // enable in expo 56
       // 'expo-font',
       // 'expo-image',

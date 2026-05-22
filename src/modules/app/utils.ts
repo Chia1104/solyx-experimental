@@ -1,7 +1,17 @@
+import * as Sentry from '@sentry/react-native';
 import { install } from 'react-native-quick-crypto';
+
+import { env } from '@/libs/env';
 
 export const globalInit = () => {
   install();
+  Sentry.init({
+    dsn: env.EXPO_PUBLIC_SENTRY_DSN,
+    sendDefaultPii: true,
+    enableLogs: false,
+
+    enabled: false,
+  });
 };
 
 export function compareVersions(local: string, required: string): number {
