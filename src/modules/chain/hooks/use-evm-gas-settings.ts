@@ -1,22 +1,65 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
+import type { UseQueryOptions } from '@tanstack/react-query';
+import { queryOptions, useQuery } from '@tanstack/react-query';
 import type { JsonRpcProvider } from 'ethers';
 
 import { useChainAdapterStore } from '@/modules/chain/stores/chain-adapter';
 import type { EvmGasSettings } from '@/modules/chain/utils/evm-gas-settings';
 import { buildEvmGasSettings } from '@/modules/chain/utils/evm-gas-settings';
 
-const FEE_DATA_POLL_INTERVAL_MS = 15_000;
+const EVM_GAS_SETTINGS_STALE_TIME_MS = 15_000;
 
-interface UseEvmGasSettingsInput {
+export interface QueryEvmGasSettingsRequest {
+  chainId?: number;
+  gasLimit: string;
+  provider: JsonRpcProvider;
+}
+
+const fetchEvmGasSettings = async ({
+  gasLimit,
+  provider,
+}: QueryEvmGasSettingsRequest): Promise<EvmGasSettings | undefined> => {
+  try {
+    const gasLimitValue = BigInt(gasLimit);
+    const feeData = await provider.getFeeData();
+    return buildEvmGasSettings(feeData, gasLimitValue);
+  } catch {
+    return undefined;
+  }
+};
+
+type UseQueryEvmGasSettingsOptions = Omit<
+  UseQueryOptions<EvmGasSettings | undefined, Error>,
+  'queryKey' | 'queryFn'
+>;
+
+export const queryEvmGasSettingsOptions = (
+  request: QueryEvmGasSettingsRequest | null,
+  options?: UseQueryEvmGasSettingsOptions,
+) => {
+  return queryOptions({
+    queryKey: ['chain', 'evm-gas-settings', request?.chainId, request?.gasLimit],
+    queryFn: () => fetchEvmGasSettings(request!),
+    enabled: Boolean(request),
+    staleTime: EVM_GAS_SETTINGS_STALE_TIME_MS,
+    refetchInterval: EVM_GAS_SETTINGS_STALE_TIME_MS,
+    retry: false,
+    ...options,
+  });
+};
+
+export interface UseEvmGasSettingsInput {
   chainId?: number;
   gasLimit?: string;
   provider?: JsonRpcProvider;
 }
 
-export const useEvmGasSettings = ({ chainId, gasLimit, provider }: UseEvmGasSettingsInput) => {
+export const useEvmGasSettings = (
+  { chainId, gasLimit, provider }: UseEvmGasSettingsInput,
+  options?: UseQueryEvmGasSettingsOptions,
+) => {
   const getEvmProvider = useChainAdapterStore(state => state.getEvmProvider);
-  const [gasSettings, setGasSettings] = useState<EvmGasSettings>();
 
   const resolvedProvider = useMemo(() => {
     if (provider) {
@@ -46,42 +89,22 @@ export const useEvmGasSettings = ({ chainId, gasLimit, provider }: UseEvmGasSett
     }
   }, [gasLimit]);
 
-  useEffect(() => {
+  const request = useMemo((): QueryEvmGasSettingsRequest | null => {
     if (!resolvedProvider || !gasLimitValue) {
-      setGasSettings(undefined);
-      return;
+      return null;
     }
 
-    let isCancelled = false;
-
-    const refreshFeeData = async () => {
-      try {
-        const feeData = await resolvedProvider.getFeeData();
-        if (isCancelled) {
-          return;
-        }
-
-        setGasSettings(buildEvmGasSettings(feeData, gasLimitValue));
-      } catch {
-        if (!isCancelled) {
-          setGasSettings(undefined);
-        }
-      }
+    return {
+      chainId,
+      gasLimit: gasLimitValue.toString(),
+      provider: resolvedProvider,
     };
+  }, [chainId, gasLimitValue, resolvedProvider]);
 
-    void refreshFeeData();
-    const intervalId = setInterval(() => {
-      void refreshFeeData();
-    }, FEE_DATA_POLL_INTERVAL_MS);
-
-    return () => {
-      isCancelled = true;
-      clearInterval(intervalId);
-    };
-  }, [gasLimitValue, resolvedProvider]);
+  const query = useQuery(queryEvmGasSettingsOptions(request, options));
 
   return {
-    gasSettings,
-    isReady: Boolean(gasSettings && gasLimitValue),
+    gasSettings: query.data,
+    isReady: Boolean(query.data && gasLimitValue),
   };
 };

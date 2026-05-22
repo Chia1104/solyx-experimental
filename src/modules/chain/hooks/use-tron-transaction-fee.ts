@@ -6,8 +6,7 @@ import { TronWeb } from 'tronweb';
 
 import { useChainAdapterStore } from '@/modules/chain/stores/chain-adapter';
 import { ChainType } from '@/modules/chain/stores/chain-adapter/types';
-
-import { useDefiAccount } from './use-defi-account';
+import { useDefiAccount } from '@/modules/defi/hooks/use-defi-account';
 
 interface UserAccountData {
   bandwidthBalance: number;

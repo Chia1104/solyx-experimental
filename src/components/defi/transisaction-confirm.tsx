@@ -1,20 +1,22 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { useAsyncThrottledCallback } from '@tanstack/react-pacer';
-import { useMutation } from '@tanstack/react-query';
 import BigNumber from 'bignumber.js';
 import type { JsonRpcProvider } from 'ethers';
-import { parseUnits } from 'ethers';
 import { useToast } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
-import { TronWeb } from 'tronweb';
 
-import { useGlobalStore } from '@/modules/app/stores/global';
 import { LockScreenError } from '@/modules/app/types/log-request.type';
-import { SupportedNetwork } from '@/modules/chain/enums/supported-chain.enum';
 import { useEvmGasSettings } from '@/modules/chain/hooks/use-evm-gas-settings';
 import { useLiquidSession } from '@/modules/chain/hooks/use-liquid-session';
+import { useMutationSendTransaction } from '@/modules/chain/hooks/use-mutation-send-transaction';
+import {
+  useQueryEvmGasLimit,
+  useQueryLiquidFeeFallback,
+  useQueryLiquidPreparedTransaction,
+  useQueryTronTransactionFee,
+} from '@/modules/chain/hooks/use-query-transaction-confirm';
 import { useChainAdapterStore } from '@/modules/chain/stores/chain-adapter';
 import { ChainType } from '@/modules/chain/stores/chain-adapter/types';
 import type { EvmGasMode } from '@/modules/chain/utils/evm-gas-settings';
@@ -24,24 +26,15 @@ import {
   LiquidTransactionNotReadyError,
   TransactionNotReadyError,
   TronTransactionNotReadyError,
-  buildEvmTransactionDraft,
   formatDisplayValue,
   formatLiquidAddress,
   getEvmTransactionErrorType,
   getLiquidTransactionErrorType,
   getTronTransactionErrorType,
-  getTronTransactionResult,
-  isTronRpcErrorResponse,
 } from '@/modules/chain/utils/transaction-confirm';
 import { useDefiAccount } from '@/modules/defi/hooks/use-defi-account';
 import { useMutationTransactionCallBack } from '@/modules/defi/hooks/use-mutation-transaction-callback';
 import { useQueryAssets } from '@/modules/defi/hooks/use-query-assets';
-import {
-  useQueryEvmGasLimit,
-  useQueryLiquidFeeFallback,
-  useQueryLiquidPreparedTransaction,
-  useQueryTronTransactionFee,
-} from '@/modules/defi/hooks/use-query-transaction-confirm';
 
 import { GasSettingSheet } from './transaction-confirm/gas-setting-sheet';
 import {
@@ -69,11 +62,6 @@ export interface TransactionConfirmProps {
   transactionCallBack?: TransactionCallback;
 }
 
-// TODO: Persist pending transaction to local defi record DB (InsertData equivalent).
-const insertPendingTransaction = async () => {
-  // Intentionally deferred — wire to defi-record.repo when activity list is ready.
-};
-
 export const TransactionConfirm = ({
   chainType,
   sendParams,
@@ -88,12 +76,10 @@ export const TransactionConfirm = ({
   const { toast } = useToast();
   const successSheetCloseReasonRef = useRef<'activity' | null>(null);
   const [isSuccessSheetOpen, setIsSuccessSheetOpen] = useState(false);
-  const requestLock = useGlobalStore(state => state.requestLock);
   const { ensureLiquidSession } = useLiquidSession();
   const { chain, currentAddress, currentChainId, liquidSubaccountPointer, wallet } =
     useDefiAccount();
   const { assets, rows } = useQueryAssets();
-  const getAdapterByChainId = useChainAdapterStore(state => state.getAdapterByChainId);
   const getEvmProvider = useChainAdapterStore(state => state.getEvmProvider);
   const transactionCallBackMutation = useMutationTransactionCallBack();
   const [evmGasMode, setEvmGasMode] = useState<EvmGasMode>('average');
@@ -298,195 +284,99 @@ export const TransactionConfirm = ({
     [chainType, t],
   );
 
-  const resolvePrivateKey = useCallback(async () => {
-    if (chainType === ChainType.LIQUID) {
-      await ensureLiquidSession(currentChainId);
-      return '';
-    }
-
-    const network = chainType === ChainType.TRON ? SupportedNetwork.Tron : SupportedNetwork.Evm;
-
-    return requestLock({
-      isDismissible: true,
-      network,
-      reason: t('global:description.input.password.to.process'),
-      type: 'privateKey',
-    });
-  }, [chainType, currentChainId, ensureLiquidSession, requestLock, t]);
-
-  const sendEvmTransaction = useCallback(async () => {
-    const selectedGas = evmGasSettings?.[evmGasMode];
-
-    if (!chain || !evmProvider || !selectedGas || gasFee === '-' || !evmGasLimitQuery.data) {
+  const getSendTransactionVariables = useCallback(() => {
+    if (!chain) {
       throw new TransactionNotReadyError();
     }
 
-    const privateKey = await resolvePrivateKey();
-    const adapter = getAdapterByChainId(chain.chainId);
-    const draft = await buildEvmTransactionDraft({
-      currency,
-      params,
-      chainInfo: {
-        chainId: chain.chainId,
-        nativeCurrency: chain.nativeCurrency,
-      },
-      toAddress,
-      value,
-    });
+    switch (chainType) {
+      case ChainType.EVM: {
+        const selectedGas = evmGasSettings?.[evmGasMode];
 
-    const txHash = await adapter.sendTransaction({
-      from: currentAddress,
-      to: draft.txTo,
-      value: draft.txValue,
-      data: draft.txData,
-      chainId: chain.chainId,
-      gasLimit: evmGasLimitQuery.data,
-      maxPriorityFeePerGas: selectedGas.maxPriorityFeePerGas,
-      maxFeePerGas: selectedGas.maxFeePerGas,
-      gasPrice: selectedGas.gasPrice,
-      privateKey,
-    });
+        if (!evmProvider || !selectedGas || gasFee === '-' || !evmGasLimitQuery.data) {
+          throw new TransactionNotReadyError();
+        }
 
-    await insertPendingTransaction();
-    return txHash;
+        return {
+          chainType: ChainType.EVM,
+          currentChainId,
+          currentAddress,
+          chain,
+          currency,
+          sendParams: params,
+          toAddress,
+          value,
+          evmProvider,
+          evmGasLimit: evmGasLimitQuery.data,
+          selectedGas,
+          gasFee,
+        };
+      }
+      case ChainType.TRON: {
+        if (gasFee === '-' || !toAddress) {
+          throw new TronTransactionNotReadyError();
+        }
+
+        return {
+          chainType: ChainType.TRON,
+          currentChainId,
+          chain,
+          currency,
+          gasFee,
+          isNativeCurrency: !!isNativeCurrency,
+          sendParams: params,
+          toAddress,
+          value,
+        };
+      }
+      case ChainType.LIQUID: {
+        if (!liquidPreparedQuery.data?.unsignedTransaction) {
+          throw new LiquidTransactionNotReadyError();
+        }
+
+        return {
+          chainType: ChainType.LIQUID,
+          currentChainId,
+          unsignedTransaction: liquidPreparedQuery.data.unsignedTransaction,
+        };
+      }
+      default:
+        throw new Error(`Unsupported chain type: ${chainType}`);
+    }
   }, [
     chain,
+    chainType,
     currency,
     currentAddress,
+    currentChainId,
     evmGasLimitQuery.data,
     evmGasMode,
     evmGasSettings,
     evmProvider,
     gasFee,
-    getAdapterByChainId,
-    params,
-    resolvePrivateKey,
-    toAddress,
-    value,
-  ]);
-
-  const sendTronTransaction = useCallback(async () => {
-    if (!chain || gasFee === '-' || !toAddress) {
-      throw new TronTransactionNotReadyError();
-    }
-
-    const privateKey = await resolvePrivateKey();
-    const adapter = getAdapterByChainId(chain.chainId);
-    const provider = adapter.getProvider(chain.chainId) as TronWeb;
-    const wallet = new TronWeb({
-      fullNode: provider.fullNode,
-      solidityNode: provider.solidityNode,
-      eventServer: provider.eventServer,
-      privateKey: privateKey.replace(/^0x/, ''),
-    });
-    const fromAddress = wallet.defaultAddress.base58;
-
-    if (!fromAddress) {
-      throw new TronTransactionNotReadyError();
-    }
-
-    let result: unknown;
-
-    if (isNativeCurrency) {
-      const sunValue = TronWeb.toSun(new BigNumber(value).toNumber());
-      const tx = await wallet.transactionBuilder.sendTrx(
-        toAddress,
-        new BigNumber(sunValue).toNumber(),
-        fromAddress,
-      );
-      const signedTx = await wallet.trx.sign(tx);
-      result = await wallet.trx.sendRawTransaction(signedTx);
-    } else {
-      if (!params.tokenAddress || !currency) {
-        throw new TronTransactionNotReadyError();
-      }
-
-      const tx = await wallet.transactionBuilder.triggerSmartContract(
-        TronWeb.address.toHex(params.tokenAddress),
-        'transfer(address,uint256)',
-        { feeLimit: 100000000, callValue: 0 },
-        [
-          { type: 'address', value: toAddress },
-          {
-            type: 'uint256',
-            value: parseUnits(value, currency.decimals).toString(),
-          },
-        ],
-        fromAddress,
-      );
-
-      const signedTx = await wallet.trx.sign(tx.transaction);
-      result = await wallet.trx.sendRawTransaction(signedTx);
-    }
-
-    if (isTronRpcErrorResponse(result)) {
-      throw result;
-    }
-
-    const transaction = getTronTransactionResult(result);
-    if (!transaction) {
-      return null;
-    }
-
-    await insertPendingTransaction();
-    return transaction.txID;
-  }, [
-    chain,
-    currency,
-    gasFee,
-    getAdapterByChainId,
     isNativeCurrency,
-    params.tokenAddress,
-    resolvePrivateKey,
+    liquidPreparedQuery.data?.unsignedTransaction,
+    params,
     toAddress,
     value,
   ]);
 
-  const sendLiquidTransaction = useCallback(async () => {
-    if (!liquidPreparedQuery.data?.unsignedTransaction) {
-      throw new LiquidTransactionNotReadyError();
-    }
-
-    await resolvePrivateKey();
-    const adapter = getAdapterByChainId(currentChainId);
-    const signedTx = await adapter.signTransaction(liquidPreparedQuery.data.unsignedTransaction);
-    if (typeof signedTx === 'string') {
-      throw new LiquidTransactionNotReadyError();
-    }
-    const txHash = await adapter.sendTransaction(signedTx);
-
-    await insertPendingTransaction();
-    return txHash;
-  }, [currentChainId, getAdapterByChainId, liquidPreparedQuery.data, resolvePrivateKey]);
-
-  const sendTransaction = useCallback(async () => {
-    switch (chainType) {
-      case ChainType.EVM:
-        return sendEvmTransaction();
-      case ChainType.TRON:
-        return sendTronTransaction();
-      case ChainType.LIQUID:
-        return sendLiquidTransaction();
-      default:
-        throw new Error(`Unsupported chain type: ${chainType}`);
-    }
-  }, [chainType, sendEvmTransaction, sendLiquidTransaction, sendTronTransaction]);
-
-  const sendTransactionMutation = useMutation({
-    mutationFn: sendTransaction,
+  const sendTransactionMutation = useMutationSendTransaction({
     onSuccess: async txHash => {
       if (!txHash) {
         return;
       }
 
-      transactionCallBack?.(txHash);
+      if (chainType !== ChainType.LIQUID) {
+        transactionCallBack?.(txHash);
 
-      if (chain) {
-        await transactionCallBackMutation.mutateAsync({
-          chainId: chain.chainId.toString(),
-          address: currentAddress,
-          txId: txHash,
-        });
+        if (chain) {
+          await transactionCallBackMutation.mutateAsync({
+            chainId: chain.chainId.toString(),
+            address: currentAddress,
+            txId: txHash,
+          });
+        }
       }
 
       if (!params.suppressSuccessModal) {
@@ -537,7 +427,7 @@ export const TransactionConfirm = ({
       if (sendTransactionMutation.isPending) {
         return;
       }
-      await sendTransactionMutation.mutateAsync();
+      await sendTransactionMutation.mutateAsync(getSendTransactionVariables());
     },
     { wait: 1500 },
   );
@@ -548,11 +438,13 @@ export const TransactionConfirm = ({
       return;
     }
 
-    transactionCallBack?.({
-      message: 'The request is rejected by the user.',
-      code: 4001,
-    });
-  }, [onCancel, transactionCallBack]);
+    if (chainType !== ChainType.LIQUID) {
+      transactionCallBack?.({
+        message: 'The request is rejected by the user.',
+        code: 4001,
+      });
+    }
+  }, [chainType, onCancel, transactionCallBack]);
 
   const handleSuccessSheetOpenChange = useCallback(
     (open: boolean) => {

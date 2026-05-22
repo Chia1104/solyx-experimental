@@ -28,6 +28,7 @@ import type { TronSendTrc20FeeParams } from './use-tron-transaction-fee';
 import { useTronTransactionFee } from './use-tron-transaction-fee';
 
 const TRANSACTION_CONFIRM_STALE_TIME = 15 * 1000;
+const TRANSACTION_CONFIRM_QUERY_KEY = 'chain/transaction-confirm';
 
 export interface LiquidPreparedTransaction {
   fee: string;
@@ -179,7 +180,7 @@ export const queryEvmTransactionFeeOptions = (
 ) => {
   return queryOptions({
     queryKey: [
-      'defi/transaction-confirm',
+      TRANSACTION_CONFIRM_QUERY_KEY,
       'evm-fee',
       request.chain.chainId,
       request.address,
@@ -215,7 +216,7 @@ export const queryEvmGasLimitOptions = (
 
   return queryOptions({
     queryKey: [
-      'defi/transaction-confirm',
+      TRANSACTION_CONFIRM_QUERY_KEY,
       'evm-gas-limit',
       input.chain?.chainId,
       input.address,
@@ -298,7 +299,7 @@ export const queryTronTransactionFeeOptions = (
 ) => {
   return queryOptions({
     queryKey: [
-      'defi/transaction-confirm',
+      TRANSACTION_CONFIRM_QUERY_KEY,
       'tron-fee',
       request.isReady,
       request.isNativeCurrency,
@@ -356,7 +357,7 @@ export const queryLiquidPreparedTransactionOptions = (
 ) => {
   return queryOptions({
     queryKey: [
-      'defi/transaction-confirm',
+      TRANSACTION_CONFIRM_QUERY_KEY,
       'liquid-prepared',
       request.assetId,
       request.currencyDecimals,
@@ -416,7 +417,7 @@ export const queryLiquidFeeFallbackOptions = (
   options?: UseQueryLiquidFeeFallbackOptions,
 ) => {
   return queryOptions({
-    queryKey: ['defi/transaction-confirm', 'liquid-fee-fallback'],
+    queryKey: [TRANSACTION_CONFIRM_QUERY_KEY, 'liquid-fee-fallback'],
     queryFn: () => deps.calculateTransactionFeeInLBTC(),
     staleTime: TRANSACTION_CONFIRM_STALE_TIME,
     retry: false,
