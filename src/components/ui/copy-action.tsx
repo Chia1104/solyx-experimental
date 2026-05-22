@@ -13,11 +13,7 @@ export const CopyAction = ({ value, ...options }: CopyActionProps) => {
   const { copyToClipboard, copied } = useClipboard(options);
   return (
     <Button isIconOnly onPress={() => copyToClipboard(value)} variant="ghost" size="sm">
-      <ThemedIcon
-        name={copied ? 'checkmark-outline' : 'copy-outline'}
-        className="text-primary-foreground"
-        size={18}
-      />
+      <ThemedIcon name={copied ? 'checkmark-outline' : 'copy-outline'} size={18} />
     </Button>
   );
 };

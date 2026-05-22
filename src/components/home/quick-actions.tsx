@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { useRouter } from 'expo-router';
 import { Alert, BottomSheet, Skeleton, Text, cn, useThemeColor } from 'heroui-native';
@@ -7,23 +7,57 @@ import { Pressable, View } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 
 import { CopyAction } from '@/components/ui/copy-action';
-import { ThemedIcon } from '@/components/ui/themed-icon';
+import {
+  ThemedFontAwesomeIcon,
+  ThemedIcon,
+  ThemedMaterialDesignIcon,
+} from '@/components/ui/themed-icon';
+import { CefiPlusKYCStatus } from '@/modules/cefi/enums/users.enum';
+import { useQueryMeta } from '@/modules/cefi/hooks/use-query-meta';
+import {
+  isCoinbaseOnrampEnabled,
+  isDefiWithdrawalEnabled,
+} from '@/modules/cefi/utils/app-features';
 import { useLiquidReceiveAddress } from '@/modules/chain/hooks/use-liquid-receive-address';
 import { useDefiAccount } from '@/modules/defi/hooks/use-defi-account';
+import { useUserStore } from '@/modules/user/stores/user';
 
 export const QuickActions = () => {
   const router = useRouter();
   const { t } = useTranslation(['defi']);
   const [isReceiveOpen, setIsReceiveOpen] = useState(false);
+  const { data: meta } = useQueryMeta();
+  const { currentChainId } = useDefiAccount();
+  const userData = useUserStore(state => state.cefiUserAccount.userData);
+
+  const coinbaseOnrampEnabled = isCoinbaseOnrampEnabled(meta, currentChainId);
+  const defiWithdrawalEnabled = isDefiWithdrawalEnabled(meta);
+
+  /**
+   * @TODO
+   * Use Stack guard to handle the withdrawal logic
+   */
+  const handleWithdrawPress = useCallback(() => {
+    if (!defiWithdrawalEnabled) {
+      return;
+    }
+
+    if (userData.plusKYCStatus === CefiPlusKYCStatus.Pass) {
+      router.push('/withdraw');
+      return;
+    }
+
+    router.push('/kyc/gate');
+  }, [defiWithdrawalEnabled, router, userData.plusKYCStatus]);
 
   return (
     <View className="flex-row gap-1">
       <BottomSheet className="flex-1" isOpen={isReceiveOpen} onOpenChange={setIsReceiveOpen}>
         <QuickAction
-          icon="arrow-down"
           isHighlighted
           label={t('action.receive')}
           onPress={() => setIsReceiveOpen(true)}
+          renderIcon={className => <ThemedIcon className={className} name="arrow-down" size={24} />}
         />
         <BottomSheet.Portal>
           <BottomSheet.Overlay className="bg-background/50" />
@@ -32,16 +66,35 @@ export const QuickActions = () => {
           </BottomSheet.Content>
         </BottomSheet.Portal>
       </BottomSheet>
-      <QuickAction icon="arrow-up" label={t('action.send')} onPress={() => router.push('/send')} />
       <QuickAction
-        icon="swap-horizontal"
-        label={t('action.swap')}
-        onPress={() => router.push('/bridge')}
+        label={t('action.send')}
+        onPress={() => router.push('/send')}
+        renderIcon={className => <ThemedIcon className={className} name="arrow-up" size={24} />}
       />
+      {coinbaseOnrampEnabled ? (
+        <QuickAction
+          label={t('action.buy')}
+          onPress={() => router.push('/buy')}
+          renderIcon={className => (
+            <ThemedFontAwesomeIcon className={className} name="dollar" size={24} />
+          )}
+        />
+      ) : (
+        <QuickAction
+          label={t('action.swap')}
+          onPress={() => router.push('/bridge')}
+          renderIcon={className => (
+            <ThemedIcon className={className} name="swap-horizontal" size={24} />
+          )}
+        />
+      )}
       <QuickAction
-        icon="card-outline"
+        disabled={!defiWithdrawalEnabled}
         label={t('action.withdraw')}
-        onPress={() => router.push('/kyc/gate')}
+        onPress={handleWithdrawPress}
+        renderIcon={className => (
+          <ThemedMaterialDesignIcon className={className} name="bank-outline" size={24} />
+        )}
       />
     </View>
   );
@@ -133,33 +186,41 @@ const ReceiveBottomSheetContent = ({ isOpen }: ReceiveBottomSheetContentProps) =
 };
 
 interface QuickActionProps {
-  icon: React.ComponentProps<typeof ThemedIcon>['name'];
+  disabled?: boolean;
   isHighlighted?: boolean;
   label: string;
   onPress: () => void;
+  renderIcon: (className: string) => React.ReactNode;
 }
 
-const QuickAction = ({ icon, isHighlighted = false, label, onPress }: QuickActionProps) => (
-  <Pressable
-    className={cn(
-      'min-h-[80px] flex-1 items-center justify-center gap-1 rounded-xl border py-3',
-      isHighlighted
-        ? 'border-accent bg-surface-tertiary'
-        : 'bg-surface-tertiary border-transparent',
-    )}
-    onPress={onPress}
-  >
-    <ThemedIcon
-      className={cn(isHighlighted ? 'text-accent' : 'text-foreground')}
-      name={icon}
-      size={24}
-    />
-    <Text
-      className={cn('text-center', isHighlighted ? 'text-accent' : 'text-foreground')}
-      type="body"
-      weight="medium"
+const QuickAction = ({
+  disabled = false,
+  isHighlighted = false,
+  label,
+  onPress,
+  renderIcon,
+}: QuickActionProps) => {
+  const iconClassName = isHighlighted ? 'text-accent' : 'text-foreground';
+
+  return (
+    <Pressable
+      className={cn(
+        'min-h-[80px] flex-1 items-center justify-center gap-1 rounded-xl border py-3',
+        isHighlighted
+          ? 'border-accent bg-surface-tertiary'
+          : 'bg-surface-tertiary border-transparent',
+        disabled && 'opacity-50',
+      )}
+      disabled={disabled}
+      onPress={onPress}
     >
-      {label}
-    </Text>
-  </Pressable>
-);
+      {renderIcon(iconClassName)}
+      <Text
+        className={cn('text-center', isHighlighted ? 'text-accent' : 'text-foreground')}
+        type="body-sm"
+      >
+        {label}
+      </Text>
+    </Pressable>
+  );
+};

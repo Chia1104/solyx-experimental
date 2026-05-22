@@ -28,6 +28,7 @@ export const env = createEnv({
 
     EXPO_PUBLIC_ONRAMP_ENCRYPTION_PASSPHRASE: z.string(),
     EXPO_PUBLIC_ONRAMP_ENCRYPTION_IV: z.string(),
+    EXPO_PUBLIC_ENABLE_COINBASE_ONRAMP: z.string().optional(),
 
     EXPO_PUBLIC_APP_STORE_URL: z.url(),
     EXPO_PUBLIC_PLAY_STORE_URL: z.url(),

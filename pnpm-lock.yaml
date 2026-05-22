@@ -32,7 +32,13 @@ importers:
       '@legendapp/list':
         specifier: ^2.0.19
         version: 2.0.19(react-native@0.83.6(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.0))(react@19.2.0)
+      '@react-native-vector-icons/fontawesome':
+        specifier: ^13.1.1
+        version: 13.1.1(@expo/config-plugins@55.0.8)(@react-native/assets-registry@0.83.6)(react-native@0.83.6(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.0))(react@19.2.0)
       '@react-native-vector-icons/ionicons':
+        specifier: ^13.1.1
+        version: 13.1.1(@expo/config-plugins@55.0.8)(@react-native/assets-registry@0.83.6)(react-native@0.83.6(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.0))(react@19.2.0)
+      '@react-native-vector-icons/material-design-icons':
         specifier: ^13.1.1
         version: 13.1.1(@expo/config-plugins@55.0.8)(@react-native/assets-registry@0.83.6)(react-native@0.83.6(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.0))(react@19.2.0)
       '@react-navigation/bottom-tabs':
@@ -2136,8 +2142,30 @@ packages:
       '@react-native/assets-registry':
         optional: true
 
+  '@react-native-vector-icons/fontawesome@13.1.1':
+    resolution: {integrity: sha512-GD1eOt1YmkxbUmHZzxpCGMMC3WCif3edo8RKMnv0dlf07KNLktfQDh0mVYJhU4d203oyeTk1E5GWBjNDRw3zWg==}
+    engines: {node: '>= 18.0.0'}
+    peerDependencies:
+      '@expo/config-plugins': '>=10.0.0'
+      react: '*'
+      react-native: '*'
+    peerDependenciesMeta:
+      '@expo/config-plugins':
+        optional: true
+
   '@react-native-vector-icons/ionicons@13.1.1':
     resolution: {integrity: sha512-OAIEf7HW5SnDi+YMRR1W/HBwzWmQiQ4msY8aSQRdVisPvbVFvO6vaWJdV33QI2aj1/5lVLh9oKJGcRsSaBzh2Q==}
+    engines: {node: '>= 18.0.0'}
+    peerDependencies:
+      '@expo/config-plugins': '>=10.0.0'
+      react: '*'
+      react-native: '*'
+    peerDependenciesMeta:
+      '@expo/config-plugins':
+        optional: true
+
+  '@react-native-vector-icons/material-design-icons@13.1.1':
+    resolution: {integrity: sha512-bKkai9GSMOrqIwKskHZuegejgO6bLp7xNgp7YdeLprkEK44/HsATjCpXhwvRPYq9RSHdOvrFFKBIKLZbkpijSw==}
     engines: {node: '>= 18.0.0'}
     peerDependencies:
       '@expo/config-plugins': '>=10.0.0'
@@ -8195,7 +8223,29 @@ snapshots:
     optionalDependencies:
       '@react-native/assets-registry': 0.83.6
 
+  '@react-native-vector-icons/fontawesome@13.1.1(@expo/config-plugins@55.0.8)(@react-native/assets-registry@0.83.6)(react-native@0.83.6(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.0))(react@19.2.0)':
+    dependencies:
+      '@react-native-vector-icons/common': 13.0.0(@react-native/assets-registry@0.83.6)(react-native@0.83.6(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.0))(react@19.2.0)
+      react: 19.2.0
+      react-native: 0.83.6(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.0)
+    optionalDependencies:
+      '@expo/config-plugins': 55.0.8
+    transitivePeerDependencies:
+      - '@react-native-vector-icons/get-image'
+      - '@react-native/assets-registry'
+
   '@react-native-vector-icons/ionicons@13.1.1(@expo/config-plugins@55.0.8)(@react-native/assets-registry@0.83.6)(react-native@0.83.6(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.0))(react@19.2.0)':
+    dependencies:
+      '@react-native-vector-icons/common': 13.0.0(@react-native/assets-registry@0.83.6)(react-native@0.83.6(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.0))(react@19.2.0)
+      react: 19.2.0
+      react-native: 0.83.6(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.0)
+    optionalDependencies:
+      '@expo/config-plugins': 55.0.8
+    transitivePeerDependencies:
+      - '@react-native-vector-icons/get-image'
+      - '@react-native/assets-registry'
+
+  '@react-native-vector-icons/material-design-icons@13.1.1(@expo/config-plugins@55.0.8)(@react-native/assets-registry@0.83.6)(react-native@0.83.6(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.0))(react@19.2.0)':
     dependencies:
       '@react-native-vector-icons/common': 13.0.0(@react-native/assets-registry@0.83.6)(react-native@0.83.6(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.0))(react@19.2.0)
       react: 19.2.0

@@ -8,6 +8,7 @@ export default function DefiMainLayout() {
       <Stack.Screen name="send" options={{ presentation: 'modal' }} />
       <Stack.Screen name="receive/index" options={{ presentation: 'modal' }} />
       <Stack.Screen name="scanner/index" options={{ presentation: 'modal' }} />
+      <Stack.Screen name="buy/index" options={{ presentation: 'modal' }} />
       <Stack.Screen name="bridge/confirm" />
       <Stack.Screen name="bridge/orders" />
       <Stack.Screen name="withdraw/index" />
