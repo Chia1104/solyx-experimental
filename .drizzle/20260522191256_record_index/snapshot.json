@@ -1,0 +1,258 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "id": "0e727344-4a26-4b8c-b371-dd33cbd633b0",
+  "prevIds": [
+    "49e66728-7349-4ad6-8a93-8ff2f4d4c45c"
+  ],
+  "ddl": [
+    {
+      "name": "defiRecord",
+      "entityType": "tables"
+    },
+    {
+      "type": "integer",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "id",
+      "entityType": "columns",
+      "table": "defiRecord"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "userAddress",
+      "entityType": "columns",
+      "table": "defiRecord"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "chainId",
+      "entityType": "columns",
+      "table": "defiRecord"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "blockNumber",
+      "entityType": "columns",
+      "table": "defiRecord"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "timeStamp",
+      "entityType": "columns",
+      "table": "defiRecord"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "hash",
+      "entityType": "columns",
+      "table": "defiRecord"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "nonce",
+      "entityType": "columns",
+      "table": "defiRecord"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "fromAddress",
+      "entityType": "columns",
+      "table": "defiRecord"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "toAddress",
+      "entityType": "columns",
+      "table": "defiRecord"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "value",
+      "entityType": "columns",
+      "table": "defiRecord"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "tokenSymbol",
+      "entityType": "columns",
+      "table": "defiRecord"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "tokenDecimal",
+      "entityType": "columns",
+      "table": "defiRecord"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "gas",
+      "entityType": "columns",
+      "table": "defiRecord"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "gasPrice",
+      "entityType": "columns",
+      "table": "defiRecord"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "status",
+      "entityType": "columns",
+      "table": "defiRecord"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "input",
+      "entityType": "columns",
+      "table": "defiRecord"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "functionName",
+      "entityType": "columns",
+      "table": "defiRecord"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "explorerUrl",
+      "entityType": "columns",
+      "table": "defiRecord"
+    },
+    {
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "name": "defiRecord_pk",
+      "table": "defiRecord",
+      "entityType": "pks"
+    },
+    {
+      "columns": [
+        {
+          "value": "userAddress",
+          "isExpression": false
+        },
+        {
+          "value": "chainId",
+          "isExpression": false
+        },
+        {
+          "value": "timeStamp",
+          "isExpression": false
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "origin": "manual",
+      "name": "defi_record_user_chain_time_idx",
+      "entityType": "indexes",
+      "table": "defiRecord"
+    },
+    {
+      "columns": [
+        {
+          "value": "hash",
+          "isExpression": false
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "origin": "manual",
+      "name": "defi_record_hash_idx",
+      "entityType": "indexes",
+      "table": "defiRecord"
+    },
+    {
+      "columns": [
+        {
+          "value": "status",
+          "isExpression": false
+        },
+        {
+          "value": "timeStamp",
+          "isExpression": false
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "origin": "manual",
+      "name": "defi_record_status_time_idx",
+      "entityType": "indexes",
+      "table": "defiRecord"
+    }
+  ],
+  "renames": []
+}

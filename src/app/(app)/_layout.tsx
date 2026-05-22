@@ -1,3 +1,4 @@
+import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
 import { Stack } from 'expo-router';
 
 import { AutoLockEffect } from '@/components/lockscreen/auto-lock-effect';
@@ -7,10 +8,20 @@ import { EntryPhase } from '@/modules/app/enums/entry-phase.enum';
 import { useEntryState } from '@/modules/app/hooks/use-entry-state';
 import { useGlobalStore } from '@/modules/app/stores/global';
 import { LiquidSessionInterceptor } from '@/modules/chain/hooks/use-liquid-session';
+import { recordDb } from '@/modules/database/client';
+
+import migrations from '../../../.drizzle/migrations';
 
 export default function AppLayout() {
   const request = useGlobalStore(store => store.lockRequest);
   const entryState = useEntryState();
+
+  // @ts-expect-error - TODO: fix this
+  const { error } = useMigrations(recordDb, migrations);
+
+  if (error) {
+    console.error(error);
+  }
 
   return (
     <LockScreenProvider>

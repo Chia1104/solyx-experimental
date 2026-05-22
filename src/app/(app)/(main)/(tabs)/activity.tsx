@@ -2,8 +2,17 @@ import { Text } from 'heroui-native';
 import { ScrollView, View } from 'react-native';
 
 import { Page } from '@/components/page';
+import { useLiveInfiniteQueryRecord } from '@/modules/database/hooks/use-live-infinite-query-record';
+import { useDefiAccount } from '@/modules/defi/hooks/use-defi-account';
 
 export default function ActivityScreen() {
+  const { currentChainId, currentAddress } = useDefiAccount();
+
+  const { data } = useLiveInfiniteQueryRecord({
+    chainId: currentChainId.toString(),
+    userAddress: currentAddress,
+  });
+  console.log(data);
   return (
     <Page className="bg-background">
       <ScrollView contentContainerClassName="gap-5 p-6">

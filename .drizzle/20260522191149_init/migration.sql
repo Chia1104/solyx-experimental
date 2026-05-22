@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS `defiRecord` (
+	`id` integer PRIMARY KEY NOT NULL,
+	`userAddress` text NOT NULL,
+	`chainId` text NOT NULL,
+	`blockNumber` text NOT NULL,
+	`timeStamp` text NOT NULL,
+	`hash` text NOT NULL,
+	`nonce` text NOT NULL,
+	`fromAddress` text NOT NULL,
+	`toAddress` text NOT NULL,
+	`value` text NOT NULL,
+	`tokenSymbol` text NOT NULL,
+	`tokenDecimal` text NOT NULL,
+	`gas` text NOT NULL,
+	`gasPrice` text NOT NULL,
+	`status` text NOT NULL,
+	`input` text NOT NULL,
+	`functionName` text NOT NULL,
+	`explorerUrl` text NOT NULL
+);

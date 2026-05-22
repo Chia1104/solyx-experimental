@@ -5,7 +5,7 @@ import { ActionKey, RecordStatus } from '../enums/defi-record.enum';
 export const defiRecord = sqliteTable(
   'defiRecord',
   {
-    id: integer('id').primaryKey(),
+    id: integer('id').primaryKey().notNull(),
     userAddress: text('userAddress').notNull(),
     chainId: text('chainId').notNull(),
     blockNumber: text('blockNumber').notNull(),
