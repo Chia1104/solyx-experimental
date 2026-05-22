@@ -25,6 +25,7 @@ import { useUserStore } from '@/modules/user/stores/user';
 import { delay } from '@/utils/delay';
 
 import Brand, { BrandImage } from '../brand';
+import { DialogBlurBackdrop } from '../ui/dialog-blur-backdrop';
 import { KeyboardAwareScrollView } from '../ui/keyboard-aware-scroll-view';
 import { PasswordInput } from '../ui/password-input';
 
@@ -464,7 +465,7 @@ export const LockScreenDialog = () => {
   return (
     <Dialog isOpen={Boolean(request)} onOpenChange={handleOpenChange}>
       <Dialog.Portal>
-        <Dialog.Overlay isCloseOnPress={isDismissible} />
+        <DialogBlurBackdrop isCloseOnPress={isDismissible} />
         <Dialog.Content isSwipeable={isDismissible}>
           <LockScreenContent presentation="dialog" />
         </Dialog.Content>

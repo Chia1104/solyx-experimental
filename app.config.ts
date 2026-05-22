@@ -49,6 +49,9 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       'expo-system-ui',
       'expo-build-properties',
       'react-native-quick-crypto',
+      '@react-native-vector-icons/fontawesome',
+      '@react-native-vector-icons/ionicons',
+      '@react-native-vector-icons/material-design-icons',
       // enable in expo 56
       // 'expo-font',
       // 'expo-image',
