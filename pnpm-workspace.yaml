@@ -6,6 +6,8 @@ allowBuilds:
   "@heroui-pro/react": true
   "heroui-native-pro": true
   "@zowe/secrets-for-zowe-sdk": false
+  "@firebase/util": true
+  protobufjs: false
 
 overrides:
   axios: 1.15.2

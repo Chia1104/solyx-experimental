@@ -14,6 +14,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     ios: {
       icon: './assets/expo.icon',
       bundleIdentifier: 'com.chia1104.solyxexperimental',
+      googleServicesFile: './.firebase/GoogleService-Info.plist',
     },
     android: {
       backgroundColor: '#F7F7F7',
@@ -26,6 +27,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       },
       predictiveBackGestureEnabled: false,
       package: 'com.chia1104.solyxexperimental',
+      googleServicesFile: './.firebase/google-services.json',
     },
     web: {
       output: 'static',
@@ -47,11 +49,32 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       'expo-sqlite',
       'expo-localization',
       'expo-system-ui',
-      'expo-build-properties',
       'react-native-quick-crypto',
       '@react-native-vector-icons/fontawesome',
       '@react-native-vector-icons/ionicons',
       '@react-native-vector-icons/material-design-icons',
+      '@react-native-firebase/app',
+      '@react-native-firebase/crashlytics',
+      [
+        'expo-build-properties',
+        {
+          ios: {
+            useFrameworks: 'static',
+            forceStaticLinking: [
+              'RNFBAnalytics',
+              'RNFBApp',
+              'RNFBAppCheck',
+              'RNFBAuth',
+              'RNFBCrashlytics',
+              'RNFBFirestore',
+              'RNFBMessaging',
+              'RNFBRemoteConfig',
+              'RNFBStorage',
+              'RNFBSomeOtherRNFBModuleYouAreUsing',
+            ],
+          },
+        },
+      ],
       // enable in expo 56
       // 'expo-font',
       // 'expo-image',
