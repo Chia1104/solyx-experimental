@@ -1,5 +1,4 @@
-import { Text, cn } from 'heroui-native';
-import { View } from 'react-native';
+import { Avatar, cn } from 'heroui-native';
 
 import type { ChainConfig } from '@/modules/chain/stores/chain-adapter/types';
 
@@ -15,17 +14,22 @@ interface TokenMarkProps {
 }
 
 export const TokenMark = ({ size = 'lg', symbol }: TokenMarkProps) => (
-  <View
+  <Avatar
+    alt={`${symbol} token`}
     className={cn(
-      'items-center justify-center rounded-full',
+      'rounded-full',
       size === 'sm' ? 'h-4 w-4' : 'h-[30px] w-[30px]',
       TOKEN_MARK_STYLE[symbol] ?? 'bg-accent',
     )}
   >
-    <Text className="text-accent-foreground text-[10px]" weight="bold">
+    <Avatar.Fallback
+      classNames={{
+        text: cn('text-accent-foreground font-bold', size === 'sm' ? 'text-[8px]' : 'text-[10px]'),
+      }}
+    >
       {symbol.slice(0, 2).toUpperCase()}
-    </Text>
-  </View>
+    </Avatar.Fallback>
+  </Avatar>
 );
 
 interface ChainMarkProps {
