@@ -1,4 +1,4 @@
-import { sql } from 'drizzle-orm';
+import { and, desc, eq, sql } from 'drizzle-orm';
 
 import { recordDb } from '../client';
 import { InsertRecordsParams } from '../pipes/defi-record.pipe';
@@ -31,14 +31,11 @@ export const insertRecords = async (params: InsertRecordsParams) => {
     .returning();
 };
 
-export const getRecords = async (params: { userAddress: string; chainId: string }) => {
-  const records = await recordDb.query.defiRecord.findMany({
-    where: {
-      userAddress: params.userAddress,
-      chainId: params.chainId,
-    },
-    orderBy: (records, { desc }) => [desc(records.timeStamp)],
-  });
-
-  return records;
-};
+export const getRecords = async (params: { userAddress: string; chainId: string }) =>
+  recordDb
+    .select()
+    .from(defiRecord)
+    .where(
+      and(eq(defiRecord.userAddress, params.userAddress), eq(defiRecord.chainId, params.chainId)),
+    )
+    .orderBy(desc(defiRecord.timeStamp));

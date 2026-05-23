@@ -4,6 +4,13 @@ import { ScrollView, View } from 'react-native';
 import { Page } from '@/components/page';
 
 export default function ActivityScreen() {
+  // const { currentAddress, currentChainId } = useDefiAccount();
+  // const records = useLiveQuery(
+  //   getRecords({ userAddress: currentAddress, chainId: currentChainId }),
+  // );
+
+  // console.log(records);
+
   return (
     <Page className="bg-background">
       <ScrollView contentContainerClassName="gap-5 p-6">
