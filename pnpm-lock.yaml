@@ -74,9 +74,6 @@ importers:
       '@t3-oss/env-core':
         specifier: ^0.13.11
         version: 0.13.11(typescript@5.9.3)(zod@4.4.3)
-      '@tanstack/expo-db-sqlite-persistence':
-        specifier: ^0.1.9
-        version: 0.1.9(expo-sqlite@55.0.15(expo@55.0.23)(react-native@0.83.6(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.0))(react@19.2.0))(typescript@5.9.3)
       '@tanstack/query-async-storage-persister':
         specifier: ^5.100.11
         version: 5.100.11
@@ -2665,35 +2662,10 @@ packages:
     resolution: {integrity: sha512-yv9jeEFWnjKCI6/T3Oq50yQEOqmpmpfzG1hcZsAOaXFQPfzWprWrlHSdGPEF3WQTi8zu8ohC9Mh9J470nT5pUw==}
     engines: {node: '>= 20'}
 
-  '@tanstack/db-ivm@0.1.18':
-    resolution: {integrity: sha512-+pZJiRKdoKRM5Epq9T7otD9ZJl82pRFauo7LKuJGrarjVKQ7r+QQlPe3kGdN9LEKSnuNGIWjX9OOY4M8kH4eLw==}
-    peerDependencies:
-      typescript: '>=4.7'
-
-  '@tanstack/db-sqlite-persistence-core@0.1.9':
-    resolution: {integrity: sha512-Ju4HcBzaSXTaPJFMRWNjiyXRfCmom0AXBr/22sqLoQWY1TjFM/UTbSSTQgsrExkNuFDVFiV8EDpCt8WUBFiKcQ==}
-    peerDependencies:
-      typescript: '>=4.7'
-
-  '@tanstack/db@0.6.5':
-    resolution: {integrity: sha512-gtCuAo4UtC9SR/kTMu5fVEff6qZ2R1FZi9X7MybtHKA6wve7RePifGG6qBI4OmMB+7juT5/+glNbnqZOrG0/pg==}
-    peerDependencies:
-      typescript: '>=4.7'
-
   '@tanstack/devtools-event-client@0.4.3':
     resolution: {integrity: sha512-OZI6QyULw0FI0wjgmeYzCIfbgPsOEzwJtCpa69XrfLMtNXLGnz3d/dIabk7frg0TmHo+Ah49w5I4KC7Tufwsvw==}
     engines: {node: '>=18'}
     hasBin: true
-
-  '@tanstack/expo-db-sqlite-persistence@0.1.9':
-    resolution: {integrity: sha512-YxQRBe/UPi7zmBOLQnALhjrDsFx7JTNE+AMVW9VfZvZfOKiq1fQ80N1yK18b3TvIHovWonxwKk4YFRKXkThzPw==}
-    peerDependencies:
-      expo-sqlite: ^55.0.10
-      typescript: '>=4.7'
-
-  '@tanstack/pacer-lite@0.2.1':
-    resolution: {integrity: sha512-3PouiFjR4B6x1c969/Pl4ZIJleof1M0n6fNX8NRiC9Sqv1g06CVDlEaXUR4212ycGFyfq4q+t8Gi37Xy+z34iQ==}
-    engines: {node: '>=18'}
 
   '@tanstack/pacer@0.21.0':
     resolution: {integrity: sha512-EZyU3fQvdz7faj0vBVrPd5ejkSS9pbGKtrGZI56dLJgotca6iZKhaNDRv7dweG4dnWx0LovE9YYf1MAErGpbLQ==}
@@ -4091,10 +4063,6 @@ packages:
   form-data@4.0.5:
     resolution: {integrity: sha512-8RipRLol37bNs2bhoV67fiTEvdTrbMUYcFTiy3+wuuOnUog2QBHCZWXDRijWQfAkhBj2Uf5UnVaiWwA5vdd82w==}
     engines: {node: '>= 6'}
-
-  fractional-indexing@3.2.0:
-    resolution: {integrity: sha512-PcOxmqwYCW7O2ovKRU8OoQQj2yqTfEB/yeTYk4gPid6dN5ODRfU1hXd9tTVZzax/0NkO7AxpHykvZnT1aYp/BQ==}
-    engines: {node: ^14.13.1 || >=16.0.0}
 
   fresh@0.5.2:
     resolution: {integrity: sha512-zJ2mQYM18rEFOudeV4GShTGIQ7RbzA7ozbU9I/XBpm7kqgMywgmylMwXHxZJmkVoYkna9d2pVXVXPdYTP9ej8Q==}
@@ -5843,9 +5811,6 @@ packages:
   slugify@1.6.9:
     resolution: {integrity: sha512-vZ7rfeehZui7wQs438JXBckYLkIIdfHOXsaVEUMyS5fHo1483l1bMdo0EDSWYclY0yZKFOipDy4KHuKs6ssvdg==}
     engines: {node: '>=8.0.0'}
-
-  sorted-btree@1.8.1:
-    resolution: {integrity: sha512-395+XIP+wqNn3USkFSrNz7G3Ss/MXlZEqesxvzCRFwL14h6e8LukDHdLBePn5pwbm5OQ9vGu8mDyz2lLDIqamQ==}
 
   source-map-js@1.2.1:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
@@ -9140,34 +9105,7 @@ snapshots:
       '@tailwindcss/oxide-win32-arm64-msvc': 4.2.1
       '@tailwindcss/oxide-win32-x64-msvc': 4.2.1
 
-  '@tanstack/db-ivm@0.1.18(typescript@5.9.3)':
-    dependencies:
-      fractional-indexing: 3.2.0
-      sorted-btree: 1.8.1
-      typescript: 5.9.3
-
-  '@tanstack/db-sqlite-persistence-core@0.1.9(typescript@5.9.3)':
-    dependencies:
-      '@standard-schema/spec': 1.1.0
-      '@tanstack/db': 0.6.5(typescript@5.9.3)
-      typescript: 5.9.3
-
-  '@tanstack/db@0.6.5(typescript@5.9.3)':
-    dependencies:
-      '@standard-schema/spec': 1.1.0
-      '@tanstack/db-ivm': 0.1.18(typescript@5.9.3)
-      '@tanstack/pacer-lite': 0.2.1
-      typescript: 5.9.3
-
   '@tanstack/devtools-event-client@0.4.3': {}
-
-  '@tanstack/expo-db-sqlite-persistence@0.1.9(expo-sqlite@55.0.15(expo@55.0.23)(react-native@0.83.6(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.0))(react@19.2.0))(typescript@5.9.3)':
-    dependencies:
-      '@tanstack/db-sqlite-persistence-core': 0.1.9(typescript@5.9.3)
-      expo-sqlite: 55.0.15(expo@55.0.23)(react-native@0.83.6(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.0))(react@19.2.0)
-      typescript: 5.9.3
-
-  '@tanstack/pacer-lite@0.2.1': {}
 
   '@tanstack/pacer@0.21.0':
     dependencies:
@@ -10608,8 +10546,6 @@ snapshots:
       es-set-tostringtag: 2.1.0
       hasown: 2.0.3
       mime-types: 2.1.35
-
-  fractional-indexing@3.2.0: {}
 
   fresh@0.5.2: {}
 
@@ -12638,8 +12574,6 @@ snapshots:
   slash@5.1.0: {}
 
   slugify@1.6.9: {}
-
-  sorted-btree@1.8.1: {}
 
   source-map-js@1.2.1: {}
 
