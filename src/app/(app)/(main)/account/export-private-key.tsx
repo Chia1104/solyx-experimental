@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react';
 
-import { useRouter } from 'expo-router';
 import { Button, Text, cn } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, View } from 'react-native';
@@ -27,7 +26,6 @@ const maskSecret = (value: string) => {
 
 export default function ExportPrivateKeyScreen() {
   const { t } = useTranslation(['global']);
-  const router = useRouter();
   const { copyToClipboard } = useClipboard();
 
   const requestLock = useGlobalStore(state => state.requestLock);
@@ -100,13 +98,7 @@ export default function ExportPrivateKeyScreen() {
   };
 
   return (
-    <Page
-      className="bg-background"
-      header={{
-        onBack: router.back,
-        title: 'Export Private Key',
-      }}
-    >
+    <Page className="bg-background">
       <ScrollView contentContainerClassName="gap-5 p-6">
         <View className="bg-danger/10 border-danger/30 rounded-3xl border p-5">
           <View className="flex-row gap-3">

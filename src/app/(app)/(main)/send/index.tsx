@@ -21,7 +21,7 @@ export default function SendTokenScreen() {
   }, [rows]);
 
   return (
-    <Page className="bg-background" header={{ onBack: router.back, title: t('title.selectToken') }}>
+    <Page className="bg-background">
       <KeyboardAwareScrollView contentContainerStyle={{ padding: 24 }}>
         {isAssetsLoading ? (
           <AssetListSkeleton />

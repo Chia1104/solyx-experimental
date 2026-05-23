@@ -135,13 +135,7 @@ export default function SendAmountScreen() {
   });
 
   return (
-    <Page
-      className="bg-background"
-      header={{
-        onBack: router.back,
-        title: t('defi:title.amount'),
-      }}
-    >
+    <Page className="bg-background">
       <KeyboardAwareScrollView contentContainerClassName="gap-6 px-6 pt-6 pb-8">
         <View className="items-center">
           <Controller

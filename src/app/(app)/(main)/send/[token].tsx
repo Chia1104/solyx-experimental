@@ -104,13 +104,7 @@ export default function SendTokenDetailScreen() {
   });
 
   return (
-    <Page
-      className="bg-background"
-      header={{
-        onBack: router.back,
-        title: t('defi:title.sendTo'),
-      }}
-    >
+    <Page className="bg-background">
       <KeyboardAwareScrollView contentContainerClassName="gap-5 p-6">
         <View className="bg-content1 rounded-3xl p-5">
           <Text className="text-muted mb-4 text-base" weight="medium">

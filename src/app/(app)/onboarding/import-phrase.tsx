@@ -60,13 +60,7 @@ export default function ImportPhrase() {
   );
 
   return (
-    <Page
-      isBrandVisible
-      className="px-6 py-12"
-      header={{
-        onBack: () => router.back(),
-      }}
-    >
+    <Page isBrandVisible className="px-6 py-12">
       <KeyboardAwareScrollView>
         <View className="flex-1 items-center justify-center">
           <Text className="text-center text-3xl font-semibold" type="h3">

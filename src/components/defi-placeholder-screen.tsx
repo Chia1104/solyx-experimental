@@ -1,5 +1,5 @@
-import { useRouter } from 'expo-router';
 import type { Href } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { Button, Text } from 'heroui-native';
 import { ScrollView, View } from 'react-native';
 
@@ -22,13 +22,7 @@ export const DefiPlaceholderScreen = ({
   const router = useRouter();
 
   return (
-    <Page
-      className="bg-background"
-      header={{
-        onBack: router.back,
-        title,
-      }}
-    >
+    <Page className="bg-background">
       <ScrollView contentContainerClassName="gap-5 p-6">
         <View className="bg-content1 rounded-3xl p-5">
           <Text className="text-foreground" type="h2">

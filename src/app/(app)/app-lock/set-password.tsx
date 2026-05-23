@@ -39,13 +39,7 @@ export default function SetPassword() {
   };
 
   return (
-    <Page
-      isBrandVisible
-      className="px-6 py-12"
-      header={{
-        onBack: () => router.back(),
-      }}
-    >
+    <Page isBrandVisible className="px-6 py-12">
       <KeyboardAwareScrollView>
         <AppLockPasswordForm
           isPending={setPasswordMutation.isPending}

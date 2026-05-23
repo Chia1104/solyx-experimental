@@ -1,5 +1,4 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useTranslation } from 'react-i18next';
 
 import { TransactionConfirm } from '@/components/defi/transisaction-confirm';
 import { Page } from '@/components/page';
@@ -10,7 +9,6 @@ import { useDefiAccount } from '@/modules/defi/hooks/use-defi-account';
 
 export default function SendConfirmScreen() {
   const router = useRouter();
-  const { t } = useTranslation(['defi']);
   const { chainType } = useDefiAccount();
   const params = useLocalSearchParams<{
     to?: string;
@@ -42,13 +40,7 @@ export default function SendConfirmScreen() {
   const activeChainType = chainType ?? ChainType.EVM;
 
   return (
-    <Page
-      className="bg-background"
-      header={{
-        onBack: router.back,
-        title: t('defi:title.confirm'),
-      }}
-    >
+    <Page className="bg-background">
       <KeyboardAwareScrollView contentContainerClassName="pt-6 pb-8">
         <TransactionConfirm
           chainType={activeChainType}
