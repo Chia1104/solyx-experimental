@@ -1,7 +1,7 @@
 {
   "version": "7",
   "dialect": "sqlite",
-  "id": "0e727344-4a26-4b8c-b371-dd33cbd633b0",
+  "id": "33881efb-1567-4785-86a6-9d1c503f3a48",
   "prevIds": [
     "49e66728-7349-4ad6-8a93-8ff2f4d4c45c"
   ],
@@ -210,46 +210,14 @@
           "isExpression": false
         },
         {
-          "value": "timeStamp",
-          "isExpression": false
-        }
-      ],
-      "isUnique": false,
-      "where": null,
-      "origin": "manual",
-      "name": "defi_record_user_chain_time_idx",
-      "entityType": "indexes",
-      "table": "defiRecord"
-    },
-    {
-      "columns": [
-        {
           "value": "hash",
           "isExpression": false
         }
       ],
-      "isUnique": false,
+      "isUnique": true,
       "where": null,
       "origin": "manual",
-      "name": "defi_record_hash_idx",
-      "entityType": "indexes",
-      "table": "defiRecord"
-    },
-    {
-      "columns": [
-        {
-          "value": "status",
-          "isExpression": false
-        },
-        {
-          "value": "timeStamp",
-          "isExpression": false
-        }
-      ],
-      "isUnique": false,
-      "where": null,
-      "origin": "manual",
-      "name": "defi_record_status_time_idx",
+      "name": "defi_record_user_chain_hash_unique_idx",
       "entityType": "indexes",
       "table": "defiRecord"
     }
