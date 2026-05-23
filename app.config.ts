@@ -15,6 +15,9 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       icon: './assets/expo.icon',
       bundleIdentifier: 'com.chia1104.solyxexperimental',
       googleServicesFile: './.firebase/GoogleService-Info.plist',
+      infoPlist: {
+        ITSAppUsesNonExemptEncryption: false,
+      },
     },
     android: {
       backgroundColor: '#F7F7F7',
