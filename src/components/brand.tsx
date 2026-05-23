@@ -91,16 +91,14 @@ const Brand = ({
   return (
     <View
       className={cn(
-        'bg-background relative h-full w-full flex-1 items-center justify-center overflow-hidden',
+        'bg-background relative flex-1 overflow-hidden',
+        display.includes('brand') && 'items-center justify-center',
         className,
       )}
       {...props}
     >
       {display.includes('background') && <Background />}
-      <View
-        className={cn('relative z-20 h-full w-full flex-1', wrapperProps?.className)}
-        {...wrapperProps}
-      >
+      <View className={cn('absolute inset-0 z-20', wrapperProps?.className)} {...wrapperProps}>
         {display.includes('brand') && <BrandImage />}
         {children}
       </View>

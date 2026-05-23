@@ -1,7 +1,7 @@
 import { Tabs } from 'expo-router';
 import { useThemeColor } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
-import { Platform } from 'react-native';
+import { Platform, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ActivityIcon, HomeIcon, SettingsIcon, SwapIcon } from '@/components/icons/defi-tab-icons';
@@ -13,12 +13,8 @@ const TAB_BAR_MIN_BOTTOM_PADDING = 8;
 export default function DefiTabsLayout() {
   const { t } = useTranslation(['defi']);
   const { bottom: bottomInset } = useSafeAreaInsets();
-  const [accentColor, inactiveColor, surfaceColor, surfaceSecondaryColor] = useThemeColor([
-    'accent',
-    'field-placeholder',
-    'surface',
-    'surface-secondary',
-  ]);
+  const [accentColor, inactiveColor, surfaceColor, surfaceSecondaryColor, backgroundColor] =
+    useThemeColor(['accent', 'field-placeholder', 'surface', 'surface-secondary', 'background']);
   const tabBarBottomPadding =
     Platform.OS === 'android'
       ? Math.max(bottomInset, TAB_BAR_MIN_BOTTOM_PADDING)
@@ -29,6 +25,9 @@ export default function DefiTabsLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
+        sceneStyle: {
+          backgroundColor,
+        },
         tabBarActiveTintColor: accentColor,
         tabBarInactiveTintColor: inactiveColor,
         tabBarIconStyle: {
@@ -42,6 +41,7 @@ export default function DefiTabsLayout() {
           fontWeight: '500',
           lineHeight: 16,
         },
+        tabBarBackground: () => <View style={{ flex: 1, backgroundColor: surfaceColor }} />,
         tabBarStyle: {
           backgroundColor: surfaceColor,
           borderTopColor: surfaceSecondaryColor,

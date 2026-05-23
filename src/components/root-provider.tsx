@@ -7,7 +7,6 @@ import { HeroUINativeProvider } from 'heroui-native';
 import { StatusBar } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { scheduleOnRN } from 'react-native-worklets';
 import { Uniwind, useCSSVariable } from 'uniwind';
 
@@ -92,9 +91,7 @@ export const RootProvider = ({ children }: { children: React.ReactNode }) => {
               backgroundColor={systemBackgroundColor}
               barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
             />
-            <SafeAreaView edges={['top', 'left', 'right']} style={{ flex: 1 }}>
-              {children}
-            </SafeAreaView>
+            {children}
             {isThemeTransitionVisible ? (
               <Animated.View
                 className="absolute inset-0"

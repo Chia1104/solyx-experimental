@@ -1,11 +1,15 @@
 import { Stack } from 'expo-router';
 
+import { useStackScreenOptions } from '@/hooks/use-stack-screen-options';
+
 export default function DefiMainLayout() {
+  const screenOptions = useStackScreenOptions();
+
   return (
-    <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="(tabs)" />
+    <Stack screenOptions={screenOptions}>
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="assets/[symbol]" options={{ presentation: 'modal' }} />
-      <Stack.Screen name="send" options={{ presentation: 'modal' }} />
+      <Stack.Screen name="send" options={{ presentation: 'modal', headerShown: false }} />
       <Stack.Screen name="receive/index" options={{ presentation: 'modal' }} />
       <Stack.Screen name="scanner/index" options={{ presentation: 'modal' }} />
       <Stack.Screen name="buy/index" options={{ presentation: 'modal' }} />

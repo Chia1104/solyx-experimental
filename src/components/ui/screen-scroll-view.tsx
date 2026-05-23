@@ -20,6 +20,7 @@ export const ScreenScrollView: FC<PropsWithChildren<Props>> = ({
   children,
   className,
   contentContainerClassName,
+  contentContainerStyle,
   ...props
 }) => {
   const insets = useSafeAreaInsets();
@@ -27,11 +28,15 @@ export const ScreenScrollView: FC<PropsWithChildren<Props>> = ({
   return (
     <AnimatedScrollView
       className={cn(className)}
-      contentContainerClassName={cn('px-5', contentContainerClassName)}
-      contentContainerStyle={{
-        paddingTop: headerHeight,
-        paddingBottom: insets.bottom + 32,
-      }}
+      contentContainerClassName={cn(contentContainerClassName)}
+      contentContainerStyle={[
+        {
+          flexGrow: 1,
+          paddingTop: headerHeight,
+          paddingBottom: insets.bottom + 32,
+        },
+        contentContainerStyle,
+      ]}
       showsVerticalScrollIndicator={false}
       {...props}
     >
