@@ -23,7 +23,7 @@ export default function OnboardingDone() {
   };
 
   return (
-    <Page isBrandVisible className="justify-between px-10 py-24">
+    <Page isBrandVisible className="justify-between px-10 py-24" edges="all">
       <Text className="text-center text-3xl font-semibold" type="h3">
         {t('defi:title.congrats')}
       </Text>

@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 
 import * as Clipboard from 'expo-clipboard';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { Button, Checkbox, Text } from 'heroui-native';
+import { Button, Checkbox, ControlField, Text } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, View } from 'react-native';
 
@@ -46,7 +46,7 @@ export default function BackupPhrase() {
   };
 
   return (
-    <Page isBrandVisible className="px-6 py-12">
+    <Page isBrandVisible className="px-6 py-12" edges="all">
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <View className="flex-1 justify-center">
           <Text className="mb-10 text-center text-3xl font-semibold" type="h3">
@@ -118,16 +118,18 @@ export default function BackupPhrase() {
             </View>
           ) : null}
 
-          <View className="mt-8 flex-row items-center gap-3">
-            <Checkbox
-              isSelected={hasSavedPhrase}
-              onSelectedChange={setHasSavedPhrase}
-              className="rounded-sm"
-            />
+          <ControlField
+            isSelected={hasSavedPhrase}
+            onSelectedChange={setHasSavedPhrase}
+            className="mt-8 flex-row items-center gap-3"
+          >
+            <ControlField.Indicator>
+              <Checkbox className="rounded-sm" />
+            </ControlField.Indicator>
             <Text className="shrink" type="body" weight="semibold">
               {t('defi:description.phraseBrowse.saved.seed')}
             </Text>
-          </View>
+          </ControlField>
 
           <View className="mt-10 items-center">
             <Button isDisabled={!hasRevealed || !hasSavedPhrase} onPress={handleNext} size="sm">

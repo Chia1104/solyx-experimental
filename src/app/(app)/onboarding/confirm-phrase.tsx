@@ -1,10 +1,10 @@
 import { useMemo, useState } from 'react';
 
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { Button, Text, cn } from 'heroui-native';
+import { Button, Text } from 'heroui-native';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Pressable, ScrollView, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 import { Page } from '@/components/page';
 import { useUserStore } from '@/modules/user/stores/user';
@@ -83,7 +83,7 @@ export default function ConfirmPhrase() {
   });
 
   return (
-    <Page isBrandVisible className="px-6 py-12">
+    <Page isBrandVisible className="px-6 py-12" edges="all">
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <View className="flex-1 justify-center">
           <Text className="mb-12 text-center text-3xl font-semibold" type="h3">
@@ -102,25 +102,15 @@ export default function ConfirmPhrase() {
                 <View className="flex-row flex-wrap gap-2">
                   {question.options.map(optionIndex => {
                     const isSelected = answers[questionIndex] === optionIndex;
-
                     return (
-                      <Pressable
-                        accessibilityRole="button"
-                        accessibilityState={{ selected: isSelected }}
-                        className={cn(
-                          'border-border rounded-lg border px-4 py-2',
-                          isSelected && 'border-accent bg-accent',
-                        )}
-                        key={`${question.answerIndex}-${optionIndex}`}
+                      <Button
+                        variant={isSelected ? 'primary' : 'outline'}
+                        size="sm"
                         onPress={() => handleSelect(questionIndex, optionIndex)}
+                        key={`${question.answerIndex}-${optionIndex}`}
                       >
-                        <Text
-                          className={cn('text-muted', isSelected && 'text-accent-foreground')}
-                          type="body"
-                        >
-                          {words[optionIndex]}
-                        </Text>
-                      </Pressable>
+                        <Button.Label>{words[optionIndex]}</Button.Label>
+                      </Button>
                     );
                   })}
                 </View>

@@ -8,7 +8,7 @@ export default function SetAppLock() {
   const { t } = useTranslation(['global']);
 
   return (
-    <Page isBrandVisible className="justify-between px-10 py-24">
+    <Page isBrandVisible className="justify-between px-10 py-24" edges="all">
       <Text className="text-foreground text-center text-3xl font-semibold">
         {t('title.set.app.lock')}
       </Text>

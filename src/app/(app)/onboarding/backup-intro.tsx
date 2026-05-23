@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'expo-router';
-import { Button, Checkbox, Text } from 'heroui-native';
+import { Button, Checkbox, ControlField, Text } from 'heroui-native';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
@@ -46,7 +46,7 @@ export default function BackupIntro() {
   });
 
   return (
-    <Page isBrandVisible className="px-6 py-12">
+    <Page isBrandVisible className="px-6 py-12" edges="all">
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <View className="flex-1 justify-center">
           <Text className="mb-12 text-center text-3xl font-semibold" type="h3">
@@ -92,16 +92,18 @@ export default function BackupIntro() {
                 control={form.control}
                 name="learnedSeedPhrase"
                 render={({ field }) => (
-                  <View className="flex-row items-center gap-3">
-                    <Checkbox
-                      isSelected={field.value}
-                      onSelectedChange={field.onChange}
-                      className="rounded-sm"
-                    />
+                  <ControlField
+                    isSelected={field.value}
+                    onSelectedChange={field.onChange}
+                    className="flex-row items-center gap-3"
+                  >
+                    <ControlField.Indicator>
+                      <Checkbox className="rounded-sm" />
+                    </ControlField.Indicator>
                     <Text className="shrink" type="body" weight="semibold">
                       {t('defi:description.phraseIntroduce.i.have.learned')}
                     </Text>
-                  </View>
+                  </ControlField>
                 )}
               />
 
@@ -109,16 +111,18 @@ export default function BackupIntro() {
                 control={form.control}
                 name="canNotRetrieve"
                 render={({ field }) => (
-                  <View className="flex-row items-center gap-3">
-                    <Checkbox
-                      isSelected={field.value}
-                      onSelectedChange={field.onChange}
-                      className="rounded-sm"
-                    />
+                  <ControlField
+                    isSelected={field.value}
+                    onSelectedChange={field.onChange}
+                    className="flex-row items-center gap-3"
+                  >
+                    <ControlField.Indicator>
+                      <Checkbox className="rounded-sm" />
+                    </ControlField.Indicator>
                     <Text className="shrink" type="body" weight="semibold">
                       {t('defi:description.phraseIntroduce.i.know')}
                     </Text>
-                  </View>
+                  </ControlField>
                 )}
               />
             </View>

@@ -11,7 +11,7 @@ type SafeAreaEdge = 'top' | 'bottom' | 'left' | 'right';
 interface PageProps extends ViewProps {
   brandProps?: React.ComponentProps<typeof Brand>;
   children?: React.ReactNode;
-  edges?: SafeAreaEdge[];
+  edges?: SafeAreaEdge[] | 'all';
   isBrandVisible?: boolean;
 }
 
@@ -26,18 +26,21 @@ const PageContent = ({
 }: PageProps) => {
   const insets = useSafeAreaInsets();
 
+  if (edges === 'all') {
+    edges = ['top', 'bottom', 'left', 'right'];
+  }
+
   return (
-    <View className={cn('flex-1', !isBrandVisible && 'bg-background')}>
-      <View
-        className={cn('flex-1', className)}
-        style={{
-          paddingBottom: edges.includes('bottom') ? insets.bottom : 0,
-          paddingLeft: edges.includes('left') ? insets.left : 0,
-          paddingRight: edges.includes('right') ? insets.right : 0,
-          paddingTop: edges.includes('top') ? insets.top : 0,
-        }}
-        {...props}
-      >
+    <View
+      className={cn('flex-1', !isBrandVisible && 'bg-background')}
+      style={{
+        paddingBottom: edges.includes('bottom') ? insets.bottom : 0,
+        paddingLeft: edges.includes('left') ? insets.left : 0,
+        paddingRight: edges.includes('right') ? insets.right : 0,
+        paddingTop: edges.includes('top') ? insets.top : 0,
+      }}
+    >
+      <View className={cn('flex-1', className)} {...props}>
         {children}
       </View>
     </View>

@@ -39,7 +39,7 @@ export default function SetPassword() {
   };
 
   return (
-    <Page isBrandVisible className="px-6 py-12">
+    <Page isBrandVisible className="px-6 py-12" edges="all">
       <KeyboardAwareScrollView>
         <AppLockPasswordForm
           isPending={setPasswordMutation.isPending}
