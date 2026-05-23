@@ -55,23 +55,22 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       '@react-native-vector-icons/material-design-icons',
       '@react-native-firebase/app',
       '@react-native-firebase/crashlytics',
+      '@react-native-firebase/messaging',
+      [
+        './plugins/with-firebase-analytics-ios',
+        {
+          ios: {
+            withoutAdIdSupport: true,
+            googleAppMeasurementOnDeviceConversion: true,
+          },
+        },
+      ],
       [
         'expo-build-properties',
         {
           ios: {
             useFrameworks: 'static',
-            forceStaticLinking: [
-              'RNFBAnalytics',
-              'RNFBApp',
-              'RNFBAppCheck',
-              'RNFBAuth',
-              'RNFBCrashlytics',
-              'RNFBFirestore',
-              'RNFBMessaging',
-              'RNFBRemoteConfig',
-              'RNFBStorage',
-              'RNFBSomeOtherRNFBModuleYouAreUsing',
-            ],
+            forceStaticLinking: ['RNFBAnalytics', 'RNFBApp', 'RNFBCrashlytics', 'RNFBMessaging'],
           },
         },
       ],
