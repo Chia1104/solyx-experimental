@@ -301,8 +301,6 @@ export const formatLiquidAddress = (address: string) => {
   return `${address.slice(0, 10)}...${address.slice(-10)}`;
 };
 
-export const getAmountFontSize = (value: string) => 36 - (value.length / 18) * (36 - 25);
-
 export const isSameAddress = (a?: string, b?: string) =>
   !!a && !!b && a.toLocaleUpperCase() === b.toLocaleUpperCase();
 

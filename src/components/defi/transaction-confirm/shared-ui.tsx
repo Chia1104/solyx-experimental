@@ -8,7 +8,6 @@ import { Pressable, View } from 'react-native';
 
 import { CopyAction } from '@/components/ui/copy-action';
 import { ThemedIcon } from '@/components/ui/themed-icon';
-import { getAmountFontSize } from '@/modules/chain/utils/transaction-confirm';
 
 import { GasFeeAmountDetails } from './gas-fee-display';
 
@@ -38,18 +37,32 @@ export const TransactionAmountSummary = memo(
       return null;
     }
 
-    const fontSize = getAmountFontSize(value);
+    const numericValue = new BigNumber(value).toNumber();
+    const fontSize = Math.max(25, 36 - (value.length / 18) * (36 - 25));
 
     return (
       <View className="items-center">
-        <View className="flex-row items-end justify-center">
-          <Text className="text-foreground font-bold" style={{ fontSize }}>
-            -{value}
-          </Text>
-          <Text className="text-foreground mb-1.5 ml-1 text-base">
+        <NumberValue
+          classNames={{
+            container: 'flex-row items-end justify-center',
+            value: 'text-foreground font-bold',
+          }}
+          locale={locale}
+          maximumFractionDigits={8}
+          styles={{
+            value: {
+              fontSize,
+              includeFontPadding: false,
+              lineHeight: fontSize * 1.15,
+            },
+          }}
+          value={-numericValue}
+        >
+          <NumberValue.Value />
+          <NumberValue.Suffix className="text-foreground mb-1.5 ml-1 text-base">
             {currencySymbol ?? nativeCurrencySymbol}
-          </Text>
-        </View>
+          </NumberValue.Suffix>
+        </NumberValue>
         {typeof fiatAmount === 'number' ? (
           <NumberValue
             classNames={{ value: 'text-default-foreground mt-1 text-sm' }}
