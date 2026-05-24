@@ -1,56 +1,43 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'expo-router';
 import { Button, Text } from 'heroui-native';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
 
 import { Page } from '@/components/page';
+import {
+  queryOnboardingBackupPhraseOptions,
+  useQueryOnboardingBackupPhrase,
+} from '@/modules/onboarding/hooks/use-query-onboarding-backup-phrase';
+import { buildConfirmPhraseQuestions } from '@/modules/onboarding/utils/confirm-phrase-questions';
+import type { ConfirmPhraseQuestion } from '@/modules/onboarding/utils/confirm-phrase-questions';
 import { useUserStore } from '@/modules/user/stores/user';
 
 interface ConfirmPhraseFormValues {
   answers: Record<string, number>;
 }
 
-const getParamValue = (value: string | string[] | undefined) =>
-  Array.isArray(value) ? value[0] : (value ?? '');
-
-const getQuestionIndexes = (wordCount: number) => {
-  if (wordCount <= 0) return [];
-
-  return Array.from(new Set([0, Math.floor(wordCount / 2), wordCount - 1]));
-};
-
-const getOptionIndexes = (answerIndex: number, wordCount: number, questionIndex: number) => {
-  const indexes = new Set([answerIndex]);
-  let offset = questionIndex + 2;
-
-  while (indexes.size < Math.min(3, wordCount)) {
-    indexes.add((answerIndex + offset) % wordCount);
-    offset += 3;
-  }
-
-  return [...indexes].sort((a, b) => a - b);
-};
-
 export default function ConfirmPhrase() {
   const { t } = useTranslation(['defi', 'global']);
   const router = useRouter();
-  const params = useLocalSearchParams<{ phrase?: string }>();
-  const phrase = getParamValue(params.phrase);
+  const queryClient = useQueryClient();
   const setBackupPhraseState = useUserStore(state => state.setBackupPhraseState);
 
+  const { data: backupPhrase, isLoading } = useQueryOnboardingBackupPhrase();
   const [isWrong, setIsWrong] = useState(false);
-  const words = useMemo(() => phrase.split(' ').filter(Boolean), [phrase]);
-  const questions = useMemo(
-    () =>
-      getQuestionIndexes(words.length).map((answerIndex, questionIndex) => ({
-        answerIndex,
-        options: getOptionIndexes(answerIndex, words.length, questionIndex),
-      })),
-    [words.length],
-  );
+
+  const words = useMemo(() => (backupPhrase ?? '').split(' ').filter(Boolean), [backupPhrase]);
+  const questionsRef = useRef<ConfirmPhraseQuestion[] | null>(null);
+  const questions = useMemo(() => {
+    if (words.length === 0) return [];
+
+    questionsRef.current ??= buildConfirmPhraseQuestions(words.length);
+
+    return questionsRef.current;
+  }, [words.length]);
 
   const form = useForm<ConfirmPhraseFormValues>({
     defaultValues: {
@@ -79,8 +66,13 @@ export default function ConfirmPhrase() {
     }
 
     setBackupPhraseState('done');
+    queryClient.removeQueries({ queryKey: queryOnboardingBackupPhraseOptions(null).queryKey });
     router.replace('/onboarding/done');
   });
+
+  if (isLoading || !backupPhrase) {
+    return null;
+  }
 
   return (
     <Page isBrandVisible className="px-6 py-12" edges="all">

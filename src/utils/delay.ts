@@ -7,3 +7,12 @@ export function delay<T>(ms: number, fn?: () => T) {
     }, ms),
   );
 }
+
+/** Wait until after the next paint, so lock UI can unmount before callers continue. */
+export function deferToNextFrame(): Promise<void> {
+  return new Promise(resolve => {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => resolve());
+    });
+  });
+}

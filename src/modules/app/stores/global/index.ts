@@ -10,6 +10,7 @@ import type {
 } from '@/modules/app/types/log-request.type';
 import { LockScreenError, LockScreenErrorCode } from '@/modules/app/types/log-request.type';
 import type { SupportedNetwork } from '@/modules/chain/enums/supported-chain.enum';
+import { deferToNextFrame } from '@/utils/delay';
 
 interface PendingLockResolver {
   id: string;
@@ -117,7 +118,9 @@ export const useGlobalStore = create<GlobalStoreState>()(set => ({
     activeLockRequest = null;
     pendingLockResolver = null;
     set({ lockRequest: null });
-    resolver.resolve(result);
+    void deferToNextFrame().then(() => {
+      resolver.resolve(result);
+    });
   },
 
   setStartup: isStartupDone => {

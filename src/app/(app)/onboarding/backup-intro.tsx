@@ -7,7 +7,6 @@ import { ScrollView, View } from 'react-native';
 import * as z from 'zod';
 
 import { Page } from '@/components/page';
-import { useGlobalStore } from '@/modules/app/stores/global';
 
 const backupIntroSchema = z.object({
   canNotRetrieve: z.boolean().refine(Boolean),
@@ -19,7 +18,6 @@ type BackupIntroFormValues = z.infer<typeof backupIntroSchema>;
 export default function BackupIntro() {
   const { t } = useTranslation(['defi', 'global']);
   const router = useRouter();
-  const requestLock = useGlobalStore(state => state.requestLock);
 
   const form = useForm<BackupIntroFormValues>({
     defaultValues: {
@@ -30,19 +28,8 @@ export default function BackupIntro() {
     resolver: zodResolver(backupIntroSchema),
   });
 
-  const handleNext = form.handleSubmit(async () => {
-    const phrase = await requestLock({
-      isDismissible: false,
-      reason: t('global:description.input.password.to.process'),
-      type: 'phrase',
-    });
-
-    router.push({
-      pathname: '/onboarding/backup-phrase',
-      params: {
-        phrase,
-      },
-    });
+  const handleNext = form.handleSubmit(() => {
+    router.push('/onboarding/backup-phrase');
   });
 
   return (

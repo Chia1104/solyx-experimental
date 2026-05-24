@@ -32,7 +32,7 @@ export default function CreateWallet() {
       form.setError('root', { message: t('defi:error.unknown.error') });
     },
     onSuccess: () => {
-      router.push('/onboarding/backup-intro');
+      router.replace('/onboarding/backup-prompt');
     },
   });
 

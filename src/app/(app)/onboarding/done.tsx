@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
 import { Button, Text } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
@@ -5,17 +6,23 @@ import { Image, View } from 'react-native';
 
 import { Page } from '@/components/page';
 import { useGlobalStore } from '@/modules/app/stores/global';
+import { queryOnboardingBackupPhraseOptions } from '@/modules/onboarding/hooks/use-query-onboarding-backup-phrase';
+import { useOnboardingSessionStore } from '@/modules/onboarding/stores/onboarding-session';
 import { useUserStore } from '@/modules/user/stores/user';
 
 export default function OnboardingDone() {
   const { t } = useTranslation(['defi', 'global']);
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const setStartup = useGlobalStore(state => state.setStartup);
+  const resetOnboardingSession = useOnboardingSessionStore(state => state.resetOnboardingSession);
   const setHasHDWallet = useUserStore(state => state.setHasHDWallet);
   const switchWalletMode = useUserStore(state => state.switchWalletMode);
 
   const handleEnter = () => {
+    queryClient.removeQueries({ queryKey: queryOnboardingBackupPhraseOptions(null).queryKey });
+    resetOnboardingSession();
     switchWalletMode('defi');
     setHasHDWallet(true);
     setStartup(true);

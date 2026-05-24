@@ -1,28 +1,61 @@
 import { useMemo, useState } from 'react';
 
-import * as Clipboard from 'expo-clipboard';
-import { useLocalSearchParams, useRouter } from 'expo-router';
-import { Button, Checkbox, ControlField, Text } from 'heroui-native';
+import { useRouter } from 'expo-router';
+import { Button, Checkbox, ControlField, Skeleton, Text } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, View } from 'react-native';
 
 import { Page } from '@/components/page';
 import { ThemedIcon } from '@/components/ui/themed-icon';
+import { useClipboard } from '@/hooks/use-clipboard';
+import { useQueryOnboardingBackupPhrase } from '@/modules/onboarding/hooks/use-query-onboarding-backup-phrase';
 
-const getParamValue = (value: string | string[] | undefined) =>
-  Array.isArray(value) ? value[0] : (value ?? '');
+const DEFAULT_PHRASE_WORD_COUNT = 12;
+
+const getPhraseLayout = (wordCount: number) => {
+  const columnCount = wordCount === 24 ? 3 : 2;
+  const wordsPerColumn = columnCount === 3 ? 8 : Math.ceil(wordCount / 2);
+
+  return { columnCount, wordsPerColumn };
+};
+
+const PhraseGridSkeleton = ({
+  columnCount,
+  wordsPerColumn,
+}: {
+  columnCount: number;
+  wordsPerColumn: number;
+}) => (
+  <View className="flex-row justify-center gap-3">
+    {Array.from({ length: columnCount }).map((_, columnIndex) => (
+      <View className="flex-1" key={`phrase-skeleton-column-${columnIndex}`}>
+        {Array.from({ length: wordsPerColumn }).map((_, rowIndex) => (
+          <Skeleton
+            className="my-1 h-5 w-full rounded-sm"
+            key={`phrase-skeleton-row-${columnIndex}-${rowIndex}`}
+          />
+        ))}
+      </View>
+    ))}
+  </View>
+);
 
 export default function BackupPhrase() {
   const { t } = useTranslation(['defi', 'global']);
   const router = useRouter();
-  const params = useLocalSearchParams<{ phrase?: string }>();
-  const phrase = getParamValue(params.phrase);
+  const { copyToClipboard } = useClipboard();
 
   const [hasRevealed, setHasRevealed] = useState(false);
   const [hasSavedPhrase, setHasSavedPhrase] = useState(false);
 
-  const words = useMemo(() => phrase.split(' ').filter(Boolean), [phrase]);
-  const columnCount = words.length === 24 ? 3 : 2;
+  const { data: backupPhrase, isLoading } = useQueryOnboardingBackupPhrase();
+
+  const words = useMemo(() => (backupPhrase ?? '').split(' ').filter(Boolean), [backupPhrase]);
+  const phraseLayout = useMemo(
+    () => getPhraseLayout(words.length || DEFAULT_PHRASE_WORD_COUNT),
+    [words.length],
+  );
+  const { columnCount, wordsPerColumn } = phraseLayout;
   const columns = useMemo(() => {
     if (columnCount === 3) {
       return [words.slice(0, 8), words.slice(8, 16), words.slice(16, 24)];
@@ -32,17 +65,20 @@ export default function BackupPhrase() {
     return [words.slice(0, midpoint), words.slice(midpoint)];
   }, [columnCount, words]);
 
-  const handleCopy = async () => {
-    await Clipboard.setStringAsync(phrase);
+  const handleReveal = () => {
+    if (hasRevealed) return;
+
+    setHasRevealed(true);
+  };
+
+  const handleCopy = () => {
+    if (!backupPhrase) return;
+
+    void copyToClipboard(backupPhrase);
   };
 
   const handleNext = () => {
-    router.push({
-      pathname: '/onboarding/confirm-phrase',
-      params: {
-        phrase,
-      },
-    });
+    router.push('/onboarding/confirm-phrase');
   };
 
   return (
@@ -60,47 +96,51 @@ export default function BackupPhrase() {
           </Text>
 
           <View className="border-border bg-surface-secondary relative overflow-hidden rounded-xl border px-4 py-5">
-            {!hasRevealed ? (
-              <Pressable
-                accessibilityRole="button"
-                className="bg-surface-secondary absolute inset-0 z-10 items-center justify-center gap-2"
-                onPress={() => setHasRevealed(true)}
-              >
-                <ThemedIcon name="eye-off-outline" size={24} className="text-muted" />
-                <Text className="text-center" type="body">
-                  {t('defi:notice.nobody.looking')}
-                </Text>
-                <Text className="text-muted mt-1 text-center" type="body">
-                  {t('defi:notice.reveal.seed')}
-                </Text>
-              </Pressable>
-            ) : null}
+            {isLoading ? (
+              <PhraseGridSkeleton columnCount={columnCount} wordsPerColumn={wordsPerColumn} />
+            ) : (
+              <>
+                {!hasRevealed ? (
+                  <Pressable
+                    accessibilityRole="button"
+                    className="bg-surface-secondary absolute inset-0 z-10 items-center justify-center gap-2"
+                    onPress={handleReveal}
+                  >
+                    <ThemedIcon name="eye-off-outline" size={24} className="text-muted" />
+                    <Text className="text-center" type="body">
+                      {t('defi:notice.nobody.looking')}
+                    </Text>
+                    <Text className="text-muted mt-1 text-center" type="body">
+                      {t('defi:notice.reveal.seed')}
+                    </Text>
+                  </Pressable>
+                ) : null}
 
-            <View className="flex-row justify-center gap-3">
-              {columns.map((column, columnIndex) => {
-                const wordsPerColumn =
-                  columnCount === 3 ? 8 : Math.ceil(Math.max(words.length, 1) / 2);
-                const startIndex = columnIndex * wordsPerColumn;
+                <View className="flex-row justify-center gap-3">
+                  {columns.map((column, columnIndex) => {
+                    const startIndex = columnIndex * wordsPerColumn;
 
-                return (
-                  <View className="flex-1" key={`phrase-column-${columnIndex}`}>
-                    {column.map((word, index) => (
-                      <Text
-                        className="py-1 text-sm"
-                        key={`${startIndex + index}-${word}`}
-                        type="body"
-                        weight="semibold"
-                      >
-                        <Text className="text-accent text-sm" type="body" weight="semibold">
-                          {startIndex + index + 1}.
-                        </Text>{' '}
-                        {word}
-                      </Text>
-                    ))}
-                  </View>
-                );
-              })}
-            </View>
+                    return (
+                      <View className="flex-1" key={`phrase-column-${columnIndex}`}>
+                        {column.map((word, index) => (
+                          <Text
+                            className="py-1 text-sm"
+                            key={`${startIndex + index}-${word}`}
+                            type="body"
+                            weight="semibold"
+                          >
+                            <Text className="text-accent text-sm" type="body" weight="semibold">
+                              {startIndex + index + 1}.
+                            </Text>{' '}
+                            {word}
+                          </Text>
+                        ))}
+                      </View>
+                    );
+                  })}
+                </View>
+              </>
+            )}
           </View>
 
           {hasRevealed ? (
@@ -111,7 +151,7 @@ export default function BackupPhrase() {
                   {t('defi:action.hide.seed.phrase')}
                 </Button.Label>
               </Button>
-              <Button onPress={() => void handleCopy()} variant="ghost" size="sm">
+              <Button onPress={handleCopy} variant="ghost" size="sm">
                 <ThemedIcon name="copy-outline" size={18} className="text-accent" />
                 <Button.Label className="text-accent">{t('global:action.copy')}</Button.Label>
               </Button>
@@ -132,7 +172,11 @@ export default function BackupPhrase() {
           </ControlField>
 
           <View className="mt-10 items-center">
-            <Button isDisabled={!hasRevealed || !hasSavedPhrase} onPress={handleNext} size="sm">
+            <Button
+              isDisabled={!hasRevealed || !hasSavedPhrase || !backupPhrase}
+              onPress={handleNext}
+              size="sm"
+            >
               <Button.Label>{t('global:action.next')}</Button.Label>
             </Button>
           </View>
