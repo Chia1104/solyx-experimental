@@ -14,11 +14,7 @@ import {
 
 import { useGlobalStore } from '@/modules/app/stores/global';
 import { LockScreenError, LockScreenErrorCode } from '@/modules/app/types/log-request.type';
-import { SupportedNetwork } from '@/modules/chain/enums/supported-chain.enum';
-import { useChainAdapterStore } from '@/modules/chain/stores/chain-adapter';
 import { useMutationGetKeychainPassword } from '@/modules/keychain/hooks/use-mutation-get-keychain-password';
-import { useMutationGetKeychainPhrase } from '@/modules/keychain/hooks/use-mutation-get-keychain-phrase';
-import { useMutationGetKeychainPrivateKey } from '@/modules/keychain/hooks/use-mutation-get-keychain-private-key';
 import { useQueryBiometryType } from '@/modules/keychain/hooks/use-query-biometry-type';
 import { KeychainError } from '@/modules/keychain/utils';
 import { useUserStore } from '@/modules/user/stores/user';
@@ -102,17 +98,10 @@ const LockScreenHeader = ({ isDialog }: LockScreenPresentationProps) => {
 const LockScreenVerificationForm = ({ isDialog }: LockScreenPresentationProps) => {
   const { t } = useTranslation(['global']);
   const request = useGlobalStore(store => store.lockRequest);
-  const network = useGlobalStore(store => store.network);
-  const rejectLockRequest = useGlobalStore(store => store.rejectLockRequest);
-  const resolveLockRequest = useGlobalStore(store => store.resolveLockRequest);
-  const setLiquidFgsSuppressResumePasswordLockUntil = useGlobalStore(
-    store => store.setLiquidFgsSuppressResumePasswordLockUntil,
-  );
-  const loginLiquid = useChainAdapterStore(state => state.login);
+  const rejectLockVerification = useGlobalStore(store => store.rejectLockVerification);
+  const resolveLockVerification = useGlobalStore(store => store.resolveLockVerification);
 
   const unlockMode = useUserStore(state => state.settings.unlockMode);
-  const currentWalletId = useUserStore(state => state.wallet.currentWalletId);
-  const wallets = useUserStore(state => state.wallet.wallets);
 
   const { biometryLabel } = useQueryBiometryType();
   const hasTriggeredBiometry = useRef(false);
@@ -126,16 +115,9 @@ const LockScreenVerificationForm = ({ isDialog }: LockScreenPresentationProps) =
   });
 
   const getKeychainPasswordMutation = useMutationGetKeychainPassword();
-  const getKeychainPhraseMutation = useMutationGetKeychainPhrase();
-  const getKeychainPrivateKeyMutation = useMutationGetKeychainPrivateKey();
 
-  const isVerifying =
-    getKeychainPasswordMutation.isPending ||
-    getKeychainPhraseMutation.isPending ||
-    getKeychainPrivateKeyMutation.isPending ||
-    isPending;
+  const isVerifying = getKeychainPasswordMutation.isPending || isPending;
 
-  const currentWallet = wallets.find(wallet => wallet.id === currentWalletId);
   const bottomSheetInputHandlers = useBottomSheetAwareHandlers();
 
   const getVerificationErrorMessage = useCallback(
@@ -174,93 +156,6 @@ const LockScreenVerificationForm = ({ isDialog }: LockScreenPresentationProps) =
     [getVerificationErrorMessage, setError],
   );
 
-  const getPrivateKeyAddress = useCallback(() => {
-    const requestNetwork = request?.type === 'privateKey' ? request.network : undefined;
-    const selectedNetwork = requestNetwork ?? network;
-
-    switch (selectedNetwork) {
-      case SupportedNetwork.Tron:
-        return currentWallet?.tronAddress;
-      case SupportedNetwork.Evm:
-        return currentWallet?.evmAddress;
-      case SupportedNetwork.Liquid:
-        return currentWallet?.liquidAmpId;
-      default:
-        return currentWallet?.evmAddress ?? currentWallet?.tronAddress;
-    }
-  }, [
-    currentWallet?.evmAddress,
-    currentWallet?.liquidAmpId,
-    currentWallet?.tronAddress,
-    network,
-    request,
-  ]);
-
-  const resolveVerifiedRequest = useCallback(
-    async (verifiedPassword: string) => {
-      if (!request) return;
-
-      switch (request.type) {
-        case 'password':
-          resolveLockRequest(request, verifiedPassword);
-          return;
-        case 'phrase': {
-          const phrase = await getKeychainPhraseMutation.mutateAsync({
-            onError: handleKeychainError,
-            password: verifiedPassword,
-          });
-
-          resolveLockRequest(request, phrase);
-          return;
-        }
-        case 'privateKey': {
-          const selectedNetwork = request.network ?? network;
-
-          if (selectedNetwork === SupportedNetwork.Liquid) {
-            resolveLockRequest(request, 'liquid_verified');
-            return;
-          }
-
-          const address = getPrivateKeyAddress();
-
-          if (!address) {
-            throw new LockScreenError(LockScreenErrorCode.MissingCredential);
-          }
-
-          const privateKey = await getKeychainPrivateKeyMutation.mutateAsync({
-            address,
-            onError: handleKeychainError,
-            password: verifiedPassword,
-          });
-
-          resolveLockRequest(request, privateKey);
-          return;
-        }
-        case 'liquid': {
-          const phrase = await getKeychainPhraseMutation.mutateAsync({
-            onError: handleKeychainError,
-            password: verifiedPassword,
-          });
-          await loginLiquid(phrase, request.chainId);
-          setLiquidFgsSuppressResumePasswordLockUntil(null);
-          resolveLockRequest(request, true);
-          return;
-        }
-      }
-    },
-    [
-      getKeychainPhraseMutation,
-      getKeychainPrivateKeyMutation,
-      getPrivateKeyAddress,
-      handleKeychainError,
-      loginLiquid,
-      network,
-      request,
-      resolveLockRequest,
-      setLiquidFgsSuppressResumePasswordLockUntil,
-    ],
-  );
-
   const handleVerificationError = useCallback(
     (error: unknown) => {
       setError('password', {
@@ -292,13 +187,13 @@ const LockScreenVerificationForm = ({ isDialog }: LockScreenPresentationProps) =
             method: 'password',
             password: values.password,
           });
-          await resolveVerifiedRequest(storedPassword);
+          resolveLockVerification(request, storedPassword);
         } catch (error) {
           handleVerificationError(error);
         }
       });
     },
-    [handleVerificationError, isVerifying, request, resolveVerifiedRequest, verifyAsync],
+    [handleVerificationError, isVerifying, request, resolveLockVerification, verifyAsync],
   );
 
   const verifyWithBiometry = useCallback(async () => {
@@ -316,15 +211,15 @@ const LockScreenVerificationForm = ({ isDialog }: LockScreenPresentationProps) =
       const storedPassword = await verifyAsync({
         method: 'biometry',
       });
-      await resolveVerifiedRequest(storedPassword);
+      resolveLockVerification(request, storedPassword);
     } catch (error) {
       handleVerificationError(error);
     }
-  }, [handleVerificationError, isVerifying, request, resolveVerifiedRequest, verifyAsync]);
+  }, [handleVerificationError, isVerifying, request, resolveLockVerification, verifyAsync]);
 
   const handleCancel = useCallback(() => {
-    rejectLockRequest(new LockScreenError(LockScreenErrorCode.Canceled));
-  }, [rejectLockRequest]);
+    rejectLockVerification(new LockScreenError(LockScreenErrorCode.Canceled));
+  }, [rejectLockVerification]);
 
   useEffect(() => {
     hasTriggeredBiometry.current = false;
@@ -447,15 +342,15 @@ export const LockScreenOverlay = () => (
 
 export const LockScreenDialog = () => {
   const request = useGlobalStore(store => store.lockRequest);
-  const rejectLockRequest = useGlobalStore(store => store.rejectLockRequest);
+  const rejectLockVerification = useGlobalStore(store => store.rejectLockVerification);
 
   const handleOpenChange = useCallback(
     (isOpen: boolean) => {
       if (isOpen || !request || request.isDismissible === false) return;
 
-      rejectLockRequest(new LockScreenError(LockScreenErrorCode.Canceled));
+      rejectLockVerification(new LockScreenError(LockScreenErrorCode.Canceled));
     },
-    [rejectLockRequest, request],
+    [rejectLockVerification, request],
   );
 
   if (!request) return null;

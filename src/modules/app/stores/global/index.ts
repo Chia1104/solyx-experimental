@@ -1,13 +1,7 @@
 import Crypto from 'react-native-quick-crypto';
 import { create } from 'zustand';
 
-import type { LockRequestType } from '@/modules/app/enums/lock-request-type.enum';
-import type {
-  LockRequest,
-  LockRequestInput,
-  LockRequestResult,
-  LockRequestResultMap,
-} from '@/modules/app/types/log-request.type';
+import type { LockRequest, LockRequestInput } from '@/modules/app/types/log-request.type';
 import { LockScreenError, LockScreenErrorCode } from '@/modules/app/types/log-request.type';
 import type { SupportedNetwork } from '@/modules/chain/enums/supported-chain.enum';
 import { deferToNextFrame } from '@/utils/delay';
@@ -15,43 +9,24 @@ import { deferToNextFrame } from '@/utils/delay';
 interface PendingLockResolver {
   id: string;
   reject: (reason?: Error) => void;
-  resolve: (value: LockRequestResultMap[LockRequestType]) => void;
+  resolve: (verifiedPassword: string) => void;
 }
 
-let activeLockRequest: LockRequest | null = null;
-let pendingLockResolver: PendingLockResolver | null = null;
-
 export interface GlobalState {
-  /** App 啟動後是否已完成必要的 app-lock 驗證。 */
   isStartupDone: boolean;
   lockRequest: LockRequest | null;
   network?: SupportedNetwork;
   isLoading?: boolean;
-  /** 暫時不觸發應用鎖直到此時間戳（用於拍照/選圖等離開 app 的流程） */
-  appLockSuppressUntil?: number | null;
-  /** 進入背景時的時間戳，用於 30 秒內回前景不要求解鎖 */
-  appBackgroundedAt?: number | null;
-  /** 僅因背景逾時清除 Liquid session，此次回前景不觸發 app lock，只解 Liquid */
-  liquidSessionDestroyedByBackground?: boolean;
-  /** 使用者從 FGS 點「鎖定錢包」等：在此之前勿用 getPassword() 蓋掉 liquid lock（時間戳 ms）。 */
-  liquidFgsSuppressResumePasswordLockUntil?: number | null;
 }
 
 export interface GlobalActions {
   hasActiveLockRequest: () => boolean;
-  rejectLockRequest: (error?: Error) => void;
-  requestLock: <T extends LockRequestType>(
-    request: Extract<LockRequestInput, { type: T }>,
-  ) => Promise<LockRequestResult<T>>;
-  resolveLockRequest: (request: LockRequest, result: LockRequestResultMap[LockRequestType]) => void;
+  rejectLockVerification: (error?: Error) => void;
+  requestLockVerification: (request: LockRequestInput) => Promise<string>;
+  resolveLockVerification: (request: LockRequest, verifiedPassword: string) => void;
   setStartup: (isStartupDone: boolean) => void;
-  setLockRequest: (lockRequest?: LockRequest) => void;
   setNetwork: (network?: SupportedNetwork) => void;
   setLoading: (isLoading?: boolean) => void;
-  setAppLockSuppressUntil: (appLockSuppressUntil?: number | null) => void;
-  setAppBackgroundedAt: (appBackgroundedAt?: number | null) => void;
-  setLiquidSessionDestroyedByBackground: (destroyed?: boolean) => void;
-  setLiquidFgsSuppressResumePasswordLockUntil: (suppressUntil?: number | null) => void;
   resetGlobalState: () => void;
 }
 
@@ -62,107 +37,83 @@ export const createGlobalInitialState = (): GlobalState => ({
   lockRequest: null,
   network: undefined,
   isLoading: false,
-  appLockSuppressUntil: null,
-  appBackgroundedAt: null,
-  liquidSessionDestroyedByBackground: false,
-  liquidFgsSuppressResumePasswordLockUntil: null,
 });
 
-export const useGlobalStore = create<GlobalStoreState>()(set => ({
-  ...createGlobalInitialState(),
+export const useGlobalStore = create<GlobalStoreState>()((set, get) => {
+  let pendingLockResolver: PendingLockResolver | null = null;
 
-  hasActiveLockRequest: () => Boolean(activeLockRequest),
-
-  rejectLockRequest: error => {
-    const resolver = pendingLockResolver;
-
-    if (!resolver) return;
-
-    activeLockRequest = null;
+  const clearLockRequest = () => {
     pendingLockResolver = null;
     set({ lockRequest: null });
-    resolver.reject(error ?? new LockScreenError(LockScreenErrorCode.Canceled));
-  },
+  };
 
-  requestLock: <T extends LockRequestType>(input: Extract<LockRequestInput, { type: T }>) => {
-    if (activeLockRequest || pendingLockResolver) {
-      return Promise.reject(
-        new LockScreenError(LockScreenErrorCode.RequestInProgress, 'Lock request already active'),
-      );
-    }
+  return {
+    ...createGlobalInitialState(),
 
-    const nextRequest = {
-      ...input,
-      id: Crypto.randomUUID(),
-    } as Extract<LockRequest, { type: T }>;
+    hasActiveLockRequest: () => Boolean(get().lockRequest || pendingLockResolver),
 
-    activeLockRequest = nextRequest;
-    set({ lockRequest: nextRequest });
+    rejectLockVerification: error => {
+      const resolver = pendingLockResolver;
 
-    return new Promise<LockRequestResult<T>>((resolve, reject) => {
-      pendingLockResolver = {
-        id: nextRequest.id,
-        reject,
-        resolve: value => {
-          resolve(value as LockRequestResult<T>);
-        },
+      if (!resolver) return;
+
+      clearLockRequest();
+      resolver.reject(error ?? new LockScreenError(LockScreenErrorCode.Canceled));
+    },
+
+    requestLockVerification: input => {
+      if (get().lockRequest || pendingLockResolver) {
+        return Promise.reject(
+          new LockScreenError(LockScreenErrorCode.RequestInProgress, 'Lock request already active'),
+        );
+      }
+
+      const nextRequest = {
+        ...input,
+        id: Crypto.randomUUID(),
       };
-    });
-  },
 
-  resolveLockRequest: (resolvedRequest, result) => {
-    const resolver = pendingLockResolver;
+      set({ lockRequest: nextRequest });
 
-    if (!resolver || resolver.id !== resolvedRequest.id) return;
+      return new Promise<string>((resolve, reject) => {
+        pendingLockResolver = {
+          id: nextRequest.id,
+          reject,
+          resolve,
+        };
+      });
+    },
 
-    activeLockRequest = null;
-    pendingLockResolver = null;
-    set({ lockRequest: null });
-    void deferToNextFrame().then(() => {
-      resolver.resolve(result);
-    });
-  },
+    resolveLockVerification: (resolvedRequest, verifiedPassword) => {
+      const resolver = pendingLockResolver;
 
-  setStartup: isStartupDone => {
-    set({ isStartupDone });
-  },
+      if (!resolver || resolver.id !== resolvedRequest.id) return;
 
-  setLockRequest: lockRequest => {
-    activeLockRequest = lockRequest ?? null;
-    set({ lockRequest: lockRequest ?? null });
-  },
+      clearLockRequest();
+      void deferToNextFrame().then(() => {
+        resolver.resolve(verifiedPassword);
+      });
+    },
 
-  setNetwork: network => {
-    set({ network });
-  },
+    setStartup: isStartupDone => {
+      set({ isStartupDone });
+    },
 
-  setLoading: isLoading => {
-    set({ isLoading });
-  },
+    setNetwork: network => {
+      set({ network });
+    },
 
-  setAppLockSuppressUntil: appLockSuppressUntil => {
-    set({ appLockSuppressUntil: appLockSuppressUntil ?? null });
-  },
+    setLoading: isLoading => {
+      set({ isLoading });
+    },
 
-  setAppBackgroundedAt: appBackgroundedAt => {
-    set({ appBackgroundedAt: appBackgroundedAt ?? null });
-  },
+    resetGlobalState: () => {
+      const resolver = pendingLockResolver;
 
-  setLiquidSessionDestroyedByBackground: destroyed => {
-    set({ liquidSessionDestroyedByBackground: destroyed ?? false });
-  },
+      pendingLockResolver = null;
+      set(createGlobalInitialState());
 
-  setLiquidFgsSuppressResumePasswordLockUntil: suppressUntil => {
-    set({ liquidFgsSuppressResumePasswordLockUntil: suppressUntil ?? null });
-  },
-
-  resetGlobalState: () => {
-    const resolver = pendingLockResolver;
-
-    activeLockRequest = null;
-    pendingLockResolver = null;
-    set(createGlobalInitialState());
-
-    resolver?.reject(new LockScreenError(LockScreenErrorCode.Canceled));
-  },
-}));
+      resolver?.reject(new LockScreenError(LockScreenErrorCode.Canceled));
+    },
+  };
+});

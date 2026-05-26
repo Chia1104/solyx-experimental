@@ -7,7 +7,7 @@ import { Pressable, ScrollView, View } from 'react-native';
 import { Page } from '@/components/page';
 import { ThemedIcon } from '@/components/ui/themed-icon';
 import { useClipboard } from '@/hooks/use-clipboard';
-import { useGlobalStore } from '@/modules/app/stores/global';
+import { useLockRequest } from '@/modules/app/hooks/use-lock-request';
 import { SupportedNetwork } from '@/modules/chain/enums/supported-chain.enum';
 import { useUserStore } from '@/modules/user/stores/user';
 
@@ -28,7 +28,7 @@ export default function ExportPrivateKeyScreen() {
   const { t } = useTranslation(['global']);
   const { copyToClipboard } = useClipboard();
 
-  const requestLock = useGlobalStore(state => state.requestLock);
+  const { requestPrivateKey } = useLockRequest();
   const currentWalletId = useUserStore(state => state.wallet.currentWalletId);
   const wallets = useUserStore(state => state.wallet.wallets);
 
@@ -77,11 +77,11 @@ export default function ExportPrivateKeyScreen() {
     setIsRevealing(true);
 
     try {
-      const result = await requestLock({
+      const result = await requestPrivateKey({
+        address: selectedOption.address,
         isDismissible: true,
         network: selectedOption.network,
         reason: 'Verify your app lock before exporting this private key.',
-        type: 'privateKey',
       });
 
       setPrivateKey(result);

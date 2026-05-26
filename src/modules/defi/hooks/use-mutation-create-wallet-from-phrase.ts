@@ -2,7 +2,7 @@ import type { UseMutationOptions } from '@tanstack/react-query';
 import { mutationOptions, useMutation } from '@tanstack/react-query';
 import QuickCrypto from 'react-native-quick-crypto';
 
-import { useGlobalStore } from '@/modules/app/stores/global';
+import { useLockRequest } from '@/modules/app/hooks/use-lock-request';
 import { useChainAdapterStore } from '@/modules/chain/stores/chain-adapter';
 import {
   EIP155_CHAINS,
@@ -60,7 +60,7 @@ const getInitialBlockNumbers = () => {
 export const useMutationCreateWalletFromPhrase = (
   options?: UseMutationCreateWalletFromPhraseOptions,
 ) => {
-  const requestLock = useGlobalStore(state => state.requestLock);
+  const { requestPassword } = useLockRequest();
   const getAllAdapters = useChainAdapterStore(state => state.getAllAdapters);
 
   const switchWalletMode = useUserStore(state => state.switchWalletMode);
@@ -87,10 +87,9 @@ export const useMutationCreateWalletFromPhrase = (
           assertValidPhraseLength(normalizedInputPhrase);
         }
 
-        const password = await requestLock({
+        const password = await requestPassword({
           isDismissible: true,
           reason: 'Unlock your app lock to encrypt this Web3 wallet.',
-          type: 'password',
         });
 
         const sourcePhrase = normalizedInputPhrase ?? (await adapters[0].createWallet()).mnemonic;

@@ -5,7 +5,7 @@ import { Pressable, ScrollView, View } from 'react-native';
 
 import { Page } from '@/components/page';
 import { ThemedIcon } from '@/components/ui/themed-icon';
-import { useGlobalStore } from '@/modules/app/stores/global';
+import { useLockRequest } from '@/modules/app/hooks/use-lock-request';
 import { useQueryKYCProfile } from '@/modules/cefi/hooks/use-query-kyc-profile';
 import { useQueryMe } from '@/modules/cefi/hooks/use-query-me';
 import { useUserStore } from '@/modules/user/stores/user';
@@ -13,7 +13,7 @@ import { useUserStore } from '@/modules/user/stores/user';
 export default function SettingsScreen() {
   const router = useRouter();
   const push = (href: string) => router.push(href as Href);
-  const requestLock = useGlobalStore(store => store.requestLock);
+  const { requestPassword } = useLockRequest();
   const autoLock = useUserStore(state => state.settings.autoLock);
   const setAutoLock = useUserStore(state => state.setAutoLock);
   const { data: user } = useQueryMe();
@@ -49,10 +49,9 @@ export default function SettingsScreen() {
           <Button
             className="mt-4"
             onPress={() =>
-              requestLock({
+              requestPassword({
                 isDismissible: false,
                 reason: 'Unlock your DeFi wallet to continue.',
-                type: 'password',
               })
             }
             variant="secondary"

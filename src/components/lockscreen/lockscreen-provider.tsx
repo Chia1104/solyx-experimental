@@ -5,13 +5,13 @@ import { useGlobalStore } from '@/modules/app/stores/global';
 import { LockScreenError, LockScreenErrorCode } from '@/modules/app/types/log-request.type';
 
 export const LockScreenProvider = ({ children }: { children: ReactNode }) => {
-  const rejectLockRequest = useGlobalStore(store => store.rejectLockRequest);
+  const rejectLockVerification = useGlobalStore(store => store.rejectLockVerification);
 
   useEffect(
     () => () => {
-      rejectLockRequest(new LockScreenError(LockScreenErrorCode.Canceled));
+      rejectLockVerification(new LockScreenError(LockScreenErrorCode.Canceled));
     },
-    [rejectLockRequest],
+    [rejectLockVerification],
   );
 
   return children;

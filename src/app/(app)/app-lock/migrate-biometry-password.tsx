@@ -5,6 +5,7 @@ import type { AppLockPasswordFormValues } from '@/components/lockscreen/app-lock
 import { AppLockPasswordForm } from '@/components/lockscreen/app-lock-password-form';
 import { Page } from '@/components/page';
 import { KeyboardAwareScrollView } from '@/components/ui/keyboard-aware-scroll-view';
+import { useLockRequest } from '@/modules/app/hooks/use-lock-request';
 import { useGlobalStore } from '@/modules/app/stores/global';
 import { useMutationGetDefiAllKeychainData } from '@/modules/keychain/hooks/use-mutation-get-defi-all-keychain-data';
 import { useMutationResetDefiAllKeychain } from '@/modules/keychain/hooks/use-mutation-reset-defi-all-keychain';
@@ -15,7 +16,7 @@ import { useUserStore } from '@/modules/user/stores/user';
 export default function MigrateBiometryPassword() {
   const { t } = useTranslation(['global']);
 
-  const requestLock = useGlobalStore(state => state.requestLock);
+  const { requestPassword } = useLockRequest();
   const setStartup = useGlobalStore(state => state.setStartup);
   const wallets = useUserStore(state => state.wallet.wallets);
 
@@ -31,10 +32,9 @@ export default function MigrateBiometryPassword() {
     setBiometryPasswordMutation.isPending;
 
   const handleSubmit = async (values: AppLockPasswordFormValues) => {
-    const currentPassword = await requestLock({
+    const currentPassword = await requestPassword({
       isDismissible: false,
       reason: t('description.verify.app.lock'),
-      type: 'password',
     });
 
     const keychainData = await getDefiAllKeychainDataMutation.mutateAsync({

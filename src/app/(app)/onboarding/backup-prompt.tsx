@@ -6,7 +6,7 @@ import { ScrollView, View } from 'react-native';
 
 import { Page } from '@/components/page';
 import { ThemedMaterialDesignIcon } from '@/components/ui/themed-icon';
-import { useGlobalStore } from '@/modules/app/stores/global';
+import { useLockRequest } from '@/modules/app/hooks/use-lock-request';
 import { queryOnboardingBackupPhraseOptions } from '@/modules/onboarding/hooks/use-query-onboarding-backup-phrase';
 import { useOnboardingSessionStore } from '@/modules/onboarding/stores/onboarding-session';
 import { useUserStore } from '@/modules/user/stores/user';
@@ -15,16 +15,15 @@ export default function BackupPrompt() {
   const { t } = useTranslation(['defi', 'global']);
   const router = useRouter();
   const queryClient = useQueryClient();
-  const requestLock = useGlobalStore(state => state.requestLock);
+  const { requestPassword } = useLockRequest();
   const setAppLockPassword = useOnboardingSessionStore(state => state.setAppLockPassword);
   const resetOnboardingSession = useOnboardingSessionStore(state => state.resetOnboardingSession);
   const setBackupPhraseState = useUserStore(state => state.setBackupPhraseState);
 
   const handleGoBackup = async () => {
-    const password = await requestLock({
+    const password = await requestPassword({
       isDismissible: false,
       reason: t('global:description.input.password.to.process'),
-      type: 'password',
     });
 
     setAppLockPassword(password);

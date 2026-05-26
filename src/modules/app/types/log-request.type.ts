@@ -37,15 +37,6 @@ export type LockRequestInput =
   | Omit<PhraseLockRequest, 'id'>
   | Omit<LiquidLockRequest, 'id'>;
 
-export interface LockRequestResultMap {
-  liquid: true;
-  password: string;
-  phrase: string;
-  privateKey: string;
-}
-
-export type LockRequestResult<T extends LockRequestType> = LockRequestResultMap[T];
-
 export const LockScreenErrorCode = {
   Canceled: 'canceled',
   MissingCredential: 'missing_credential',

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef } from 'react';
 
 import { AppState } from 'react-native';
 
-import { LockRequestType } from '@/modules/app/enums/lock-request-type.enum';
+import { useLockRequest } from '@/modules/app/hooks/use-lock-request';
 import { useGlobalStore } from '@/modules/app/stores/global';
 import { useUserStore } from '@/modules/user/stores/user';
 import { delay } from '@/utils/delay';
@@ -17,7 +17,7 @@ export const isLiquidChainId = (chainId: number) =>
   Boolean(LIQUID_CHAINS[`${chainId}` as TLiquidChain]);
 
 export const useLiquidSession = () => {
-  const requestLock = useGlobalStore(state => state.requestLock);
+  const { requestLiquidUnlock } = useLockRequest();
   const hasActiveLockRequest = useGlobalStore(state => state.hasActiveLockRequest);
 
   const checkLiquidProviderReady = useChainAdapterStore(state => state.checkLiquidProviderReady);
@@ -45,11 +45,10 @@ export const useLiquidSession = () => {
 
       pendingLiquidSessionRef.current = (async () => {
         await destroyLiquidSession();
-        await requestLock({
+        await requestLiquidUnlock({
           chainId,
           isDismissible: false,
           reason: 'Unlock your Liquid wallet to continue.',
-          type: LockRequestType.Liquid,
         });
 
         return true;
@@ -59,7 +58,7 @@ export const useLiquidSession = () => {
 
       return pendingLiquidSessionRef.current;
     },
-    [requestLock, hasActiveLockRequest, destroyLiquidSession, checkLiquidProviderReady],
+    [requestLiquidUnlock, hasActiveLockRequest, destroyLiquidSession, checkLiquidProviderReady],
   );
 
   return { ensureLiquidSession };
