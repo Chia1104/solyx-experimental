@@ -1,15 +1,18 @@
+import { useLiveQuery } from 'drizzle-orm/expo-sqlite';
 import { Text } from 'heroui-native';
 import { ScrollView, View } from 'react-native';
 
 import { Page } from '@/components/page';
+import { getRecords } from '@/modules/database/repos/defi-record.repo';
+import { useDefiAccount } from '@/modules/defi/hooks/use-defi-account';
 
 export default function ActivityScreen() {
-  // const { currentAddress, currentChainId } = useDefiAccount();
-  // const records = useLiveQuery(
-  //   getRecords({ userAddress: currentAddress, chainId: currentChainId }),
-  // );
+  const { currentAddress, currentChainId } = useDefiAccount();
+  const records = useLiveQuery(
+    getRecords({ userAddress: currentAddress, chainId: currentChainId.toString() }),
+  );
 
-  // console.log(records);
+  console.log(records);
 
   return (
     <Page className="bg-background">

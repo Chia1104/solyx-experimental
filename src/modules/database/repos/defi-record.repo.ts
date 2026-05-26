@@ -31,7 +31,7 @@ export const insertRecords = async (params: InsertRecordsParams) => {
     .returning();
 };
 
-export const getRecords = async (params: { userAddress: string; chainId: string }) =>
+export const getRecords = (params: { userAddress: string; chainId: string }) =>
   recordDb
     .select()
     .from(defiRecord)
