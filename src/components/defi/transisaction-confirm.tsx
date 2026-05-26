@@ -336,8 +336,14 @@ export const TransactionConfirm = ({
 
         return {
           chainType: ChainType.LIQUID,
+          chain,
+          currency,
+          currentAddress,
           currentChainId,
+          gasFee,
+          toAddress,
           unsignedTransaction: liquidPreparedQuery.data.unsignedTransaction,
+          value,
         };
       }
       default:

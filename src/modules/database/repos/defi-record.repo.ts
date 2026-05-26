@@ -39,3 +39,6 @@ export const getRecords = (params: { userAddress: string; chainId: string }) =>
       and(eq(defiRecord.userAddress, params.userAddress), eq(defiRecord.chainId, params.chainId)),
     )
     .orderBy(desc(defiRecord.timeStamp));
+
+export const getAllRecords = () =>
+  recordDb.select().from(defiRecord).orderBy(desc(defiRecord.timeStamp));
