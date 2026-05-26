@@ -11,6 +11,7 @@ import { scheduleOnRN } from 'react-native-worklets';
 import { Uniwind, useCSSVariable } from 'uniwind';
 
 import Brand from '@/components/brand';
+import { AndroidBlurTargetView } from '@/components/ui/animated-blur-view';
 import { persistOptions, queryClient } from '@/libs/request/query-client';
 import { LIQUID_CHAINS } from '@/modules/chain/stores/chain-adapter/chains';
 import { useUserStore } from '@/modules/user/stores/user';
@@ -91,7 +92,7 @@ export const RootProvider = ({ children }: { children: React.ReactNode }) => {
               backgroundColor={systemBackgroundColor}
               barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
             />
-            {children}
+            <AndroidBlurTargetView style={{ flex: 1 }}>{children}</AndroidBlurTargetView>
             {isThemeTransitionVisible ? (
               <Animated.View
                 className="absolute inset-0"
