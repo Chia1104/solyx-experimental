@@ -23,6 +23,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     android: {
       backgroundColor: '#F7F7F7',
       versionCode: 2,
+      version: '4.0.0-nightly.2',
       userInterfaceStyle: 'light',
       adaptiveIcon: {
         backgroundColor: '#E6F4FE',
