@@ -9,8 +9,8 @@ import { useLiquidSession } from '@/modules/chain/hooks/use-liquid-session';
 import type { ChainConfig } from '@/modules/chain/stores/chain-adapter/types';
 import { useUserStore } from '@/modules/user/stores/user';
 
-import { AssetList } from './asset-list';
 import type { AssetRow } from './asset-list';
+import { AssetList } from './asset-list';
 import { ChainMark } from './chain-mark';
 import { getModeChains, getNetworkMode } from './home-chain-utils';
 
@@ -67,12 +67,15 @@ const ChainSelector = ({ chain }: ChainSelectorProps) => {
   const { t } = useTranslation(['defi']);
   const [isOpen, setIsOpen] = useState(false);
   const [pendingChainId, setPendingChainId] = useState<number | null>(null);
-  const currentWalletIndex = useUserStore(state => state.wallet.currentWalletIndex);
+  const currentWalletId = useUserStore(state => state.wallet.currentWalletId);
   const wallets = useUserStore(state => state.wallet.wallets);
   const changeNetwork = useUserStore(state => state.changeNetwork);
   const { ensureLiquidSession } = useLiquidSession();
   const mode = getNetworkMode(chain?.chainType);
-  const options = getModeChains(mode, wallets[currentWalletIndex]?.chains);
+  const options = getModeChains(
+    mode,
+    wallets.find(wallet => wallet.id === currentWalletId)?.chains,
+  );
 
   const handleSelectChain = async (chainId: number) => {
     if (chainId === chain?.chainId || pendingChainId) {

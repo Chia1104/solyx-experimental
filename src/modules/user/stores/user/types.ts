@@ -43,24 +43,11 @@ export interface WalletItem {
   blockNumbers: Record<number, number>;
 }
 
-export interface DappItem {
-  name: string;
-  url: string;
-  icons: string[];
-  accounts: string[];
-}
-
 export interface WalletState {
   namespace: string;
   currentChainId: number;
-  /**
-   * @deprecated Use `currentWalletId` instead
-   */
-  currentWalletIndex: number;
   currentWalletId: string;
   wallets: WalletItem[];
-  walletConnectPaireds: Record<string, unknown[]>;
-  dappsConnected: Record<string, DappItem>;
 }
 
 export const KYCStatus = {
@@ -127,20 +114,11 @@ export interface SettingsActions {
 }
 
 export interface WalletActions {
-  connectDapp: (dappData: DappItem) => void;
-  disconnectDappAccount: (address: string, hostname: string) => void;
   changeNamespace: (namespace: string) => void;
   changeNetwork: (chainId: number) => void;
   addWallet: (wallet: Omit<WalletItem, 'id'> & { id?: string }) => void;
   setWalletInfo: (walletInfo: Pick<WalletItem, 'image' | 'name'> & { address: string }) => void;
-  /**
-   * @deprecated Use `changeCurrentWalletId` instead
-   */
-  changeCurrentWalletIndex?: unknown;
   changeCurrentWalletId: (id: string) => void;
-  addWalletConnectPaired: (address: string, pairedProposal: unknown) => void;
-  removeWalletConnectPaired: (address: string, pairingTopic: string) => void;
-  removeAllWalletConnectPaired: () => void;
   deleteWallet: (address: string) => void;
   resetWallet: () => void;
 }

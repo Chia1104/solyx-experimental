@@ -111,7 +111,7 @@ const LockScreenVerificationForm = ({ isDialog }: LockScreenPresentationProps) =
   const loginLiquid = useChainAdapterStore(state => state.login);
 
   const unlockMode = useUserStore(state => state.settings.unlockMode);
-  const currentWalletIndex = useUserStore(state => state.wallet.currentWalletIndex);
+  const currentWalletId = useUserStore(state => state.wallet.currentWalletId);
   const wallets = useUserStore(state => state.wallet.wallets);
 
   const { biometryLabel } = useQueryBiometryType();
@@ -135,7 +135,7 @@ const LockScreenVerificationForm = ({ isDialog }: LockScreenPresentationProps) =
     getKeychainPrivateKeyMutation.isPending ||
     isPending;
 
-  const currentWallet = wallets[currentWalletIndex];
+  const currentWallet = wallets.find(wallet => wallet.id === currentWalletId);
   const bottomSheetInputHandlers = useBottomSheetAwareHandlers();
 
   const getVerificationErrorMessage = useCallback(

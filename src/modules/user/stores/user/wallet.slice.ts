@@ -5,49 +5,11 @@ import type { UserStoreSlice, WalletActions, WalletState } from './types';
 export const createWalletInitialState = (): WalletState => ({
   namespace: 'eip155',
   currentChainId: 1,
-  currentWalletIndex: 0,
   currentWalletId: '',
   wallets: [],
-  walletConnectPaireds: {},
-  dappsConnected: {},
 });
 
 export const createWalletSlice: UserStoreSlice<WalletActions> = set => ({
-  connectDapp: dappData => {
-    const url = new URL(dappData.url);
-    set(state => ({
-      wallet: {
-        ...state.wallet,
-        dappsConnected: {
-          ...state.wallet.dappsConnected,
-          [url.hostname]: dappData,
-        },
-      },
-    }));
-  },
-
-  disconnectDappAccount: (address, hostname) => {
-    set(state => {
-      const dappData = state.wallet.dappsConnected[hostname];
-      if (!dappData) {
-        return {};
-      }
-
-      return {
-        wallet: {
-          ...state.wallet,
-          dappsConnected: {
-            ...state.wallet.dappsConnected,
-            [hostname]: {
-              ...dappData,
-              accounts: dappData.accounts.filter(account => account !== address),
-            },
-          },
-        },
-      };
-    });
-  },
-
   changeNamespace: namespace => {
     set(state => ({ wallet: { ...state.wallet, namespace } }));
   },
@@ -88,43 +50,8 @@ export const createWalletSlice: UserStoreSlice<WalletActions> = set => ({
     }));
   },
 
-  // changeCurrentWalletIndex: index => {
-  //   set(state => ({ wallet: { ...state.wallet, currentWalletIndex: index } }));
-  // },
-
   changeCurrentWalletId: id => {
     set(state => ({ wallet: { ...state.wallet, currentWalletId: id } }));
-  },
-
-  addWalletConnectPaired: (address, pairedProposal) => {
-    set(state => ({
-      wallet: {
-        ...state.wallet,
-        walletConnectPaireds: {
-          ...state.wallet.walletConnectPaireds,
-          [address]: [...(state.wallet.walletConnectPaireds[address] ?? []), pairedProposal],
-        },
-      },
-    }));
-  },
-
-  removeWalletConnectPaired: (address, pairingTopic) => {
-    set(state => ({
-      wallet: {
-        ...state.wallet,
-        walletConnectPaireds: {
-          ...state.wallet.walletConnectPaireds,
-          [address]: (state.wallet.walletConnectPaireds[address] ?? []).filter(item => {
-            const proposal = item as { params?: { pairingTopic?: string } };
-            return proposal.params?.pairingTopic !== pairingTopic;
-          }),
-        },
-      },
-    }));
-  },
-
-  removeAllWalletConnectPaired: () => {
-    set(state => ({ wallet: { ...state.wallet, walletConnectPaireds: {} } }));
   },
 
   deleteWallet: address => {
@@ -146,9 +73,8 @@ export const createWalletSlice: UserStoreSlice<WalletActions> = set => ({
     set(state => ({
       wallet: {
         ...state.wallet,
-        walletConnectPaireds: {},
         wallets: [],
-        currentWalletIndex: 0,
+        currentWalletId: '',
       },
     }));
   },

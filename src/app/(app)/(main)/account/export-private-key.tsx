@@ -29,10 +29,10 @@ export default function ExportPrivateKeyScreen() {
   const { copyToClipboard } = useClipboard();
 
   const requestLock = useGlobalStore(state => state.requestLock);
-  const currentWalletIndex = useUserStore(state => state.wallet.currentWalletIndex);
+  const currentWalletId = useUserStore(state => state.wallet.currentWalletId);
   const wallets = useUserStore(state => state.wallet.wallets);
 
-  const currentWallet = wallets[currentWalletIndex];
+  const currentWallet = wallets.find(wallet => wallet.id === currentWalletId);
   const options = useMemo<ExportablePrivateKeyOption[]>(() => {
     if (!currentWallet) return [];
 
