@@ -7,6 +7,7 @@ import { View } from 'react-native';
 
 import { useLiquidSession } from '@/modules/chain/hooks/use-liquid-session';
 import type { ChainConfig } from '@/modules/chain/stores/chain-adapter/types';
+import { useDefiAccount } from '@/modules/defi/hooks/use-defi-account';
 import { useUserStore } from '@/modules/user/stores/user';
 
 import type { AssetRow } from './asset-list';
@@ -67,8 +68,7 @@ const ChainSelector = ({ chain }: ChainSelectorProps) => {
   const { t } = useTranslation(['defi']);
   const [isOpen, setIsOpen] = useState(false);
   const [pendingChainId, setPendingChainId] = useState<number | null>(null);
-  const currentWalletId = useUserStore(state => state.wallet.currentWalletId);
-  const wallets = useUserStore(state => state.wallet.wallets);
+  const { currentWalletId, wallets } = useDefiAccount();
   const changeNetwork = useUserStore(state => state.changeNetwork);
   const { ensureLiquidSession } = useLiquidSession();
   const mode = getNetworkMode(chain?.chainType);

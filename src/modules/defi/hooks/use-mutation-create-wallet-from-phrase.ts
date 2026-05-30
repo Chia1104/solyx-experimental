@@ -10,6 +10,7 @@ import {
   TRON_CHAINS,
 } from '@/modules/chain/stores/chain-adapter/chains';
 import { ChainType } from '@/modules/chain/stores/chain-adapter/types';
+import { useMutationWalletAdd } from '@/modules/database/hooks/use-mutation-wallet-add';
 import { useMutationSetKeychainPhrase } from '@/modules/keychain/hooks/use-mutation-set-keychain-phrase';
 import { useMutationSetKeychainPrivateKey } from '@/modules/keychain/hooks/use-mutation-set-keychain-private-key';
 import { useUserStore } from '@/modules/user/stores/user';
@@ -64,11 +65,11 @@ export const useMutationCreateWalletFromPhrase = (
   const getAllAdapters = useChainAdapterStore(state => state.getAllAdapters);
 
   const switchWalletMode = useUserStore(state => state.switchWalletMode);
-  const addWallet = useUserStore(state => state.addWallet);
   const setBackupPhraseState = useUserStore(state => state.setBackupPhraseState);
   const changeCurrentWalletId = useUserStore(state => state.changeCurrentWalletId);
 
   const addWalletMutation = useMutationAddWallet();
+  const addLocalWalletMutation = useMutationWalletAdd();
   const setKeychainPhraseMutation = useMutationSetKeychainPhrase();
   const setKeychainPrivateKeyMutation = useMutationSetKeychainPrivateKey();
 
@@ -164,7 +165,7 @@ export const useMutationCreateWalletFromPhrase = (
           await addWalletMutation.mutateAsync(apiWallets);
         }
 
-        addWallet(wallet);
+        await addLocalWalletMutation.mutateAsync(wallet);
         setBackupPhraseState(backupPhraseState);
         switchWalletMode('defi');
         changeCurrentWalletId(wallet.id);

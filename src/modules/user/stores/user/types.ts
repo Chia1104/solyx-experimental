@@ -43,11 +43,10 @@ export interface WalletItem {
   blockNumbers: Record<number, number>;
 }
 
-export interface WalletState {
+export interface WalletPreferenceState {
   namespace: string;
   currentChainId: number;
   currentWalletId: string;
-  wallets: WalletItem[];
 }
 
 export const KYCStatus = {
@@ -92,7 +91,7 @@ export interface CefiUserAccountState {
 export interface UserPersistedState {
   account: AccountState;
   settings: SettingsState;
-  wallet: WalletState;
+  wallet: WalletPreferenceState;
   cefiUserAccount: CefiUserAccountState;
 }
 
@@ -113,14 +112,11 @@ export interface SettingsActions {
   changeLanguageCode: (code: string) => void;
 }
 
-export interface WalletActions {
+export interface WalletPreferenceActions {
   changeNamespace: (namespace: string) => void;
   changeNetwork: (chainId: number) => void;
-  addWallet: (wallet: Omit<WalletItem, 'id'> & { id?: string }) => void;
-  setWalletInfo: (walletInfo: Pick<WalletItem, 'image' | 'name'> & { address: string }) => void;
   changeCurrentWalletId: (id: string) => void;
-  deleteWallet: (address: string) => void;
-  resetWallet: () => void;
+  resetWalletPreference: () => void;
 }
 
 export interface CefiUserAccountActions {
@@ -131,7 +127,7 @@ export interface CefiUserAccountActions {
 
 export interface LegacyUserStateActions {
   hydrateLegacyReduxUserState: (state: Partial<UserPersistedState>) => void;
-  resetUserState: () => void;
+  resetUserState: () => void | Promise<void>;
 }
 
 export interface UserStoreState
@@ -139,7 +135,7 @@ export interface UserStoreState
     UserPersistedState,
     AccountActions,
     SettingsActions,
-    WalletActions,
+    WalletPreferenceActions,
     CefiUserAccountActions,
     LegacyUserStateActions {}
 

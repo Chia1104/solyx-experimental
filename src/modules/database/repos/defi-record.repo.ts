@@ -1,12 +1,12 @@
 import { and, desc, eq, sql } from 'drizzle-orm';
 
-import { recordDb } from '../client';
+import { db } from '../client';
 import { InsertRecordsParams } from '../pipes/defi-record.pipe';
 import { defiRecord } from '../schema/defi-record.schema';
 
 export const insertRecords = async (params: InsertRecordsParams) => {
   const records = InsertRecordsParams.parse(params);
-  return recordDb
+  return db
     .insert(defiRecord)
     .values(records)
     .onConflictDoUpdate({
@@ -32,7 +32,7 @@ export const insertRecords = async (params: InsertRecordsParams) => {
 };
 
 export const getRecords = (params: { userAddress: string; chainId: string }) =>
-  recordDb
+  db
     .select()
     .from(defiRecord)
     .where(
@@ -40,5 +40,4 @@ export const getRecords = (params: { userAddress: string; chainId: string }) =>
     )
     .orderBy(desc(defiRecord.timeStamp));
 
-export const getAllRecords = () =>
-  recordDb.select().from(defiRecord).orderBy(desc(defiRecord.timeStamp));
+export const getAllRecords = () => db.select().from(defiRecord).orderBy(desc(defiRecord.timeStamp));

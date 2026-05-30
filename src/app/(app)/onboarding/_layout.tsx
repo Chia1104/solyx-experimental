@@ -1,15 +1,16 @@
 import { Stack } from 'expo-router';
 
 import { useStackScreenOptions } from '@/hooks/use-stack-screen-options';
+import { useQueryWallets } from '@/modules/database/hooks/use-query-wallets';
 import { useOnboardingSessionStore } from '@/modules/onboarding/stores/onboarding-session';
 import { useUserStore } from '@/modules/user/stores/user';
 
 export default function OnboardingLayout() {
   const screenOptions = useStackScreenOptions();
   const hasHDWallet = useUserStore(state => state.account.hasHDWallet);
-  const walletsCount = useUserStore(state => state.wallet.wallets.length);
+  const { data: wallets = [] } = useQueryWallets();
   const appLockPassword = useOnboardingSessionStore(state => state.appLockPassword);
-  const hasPendingBackup = walletsCount > 0 && !hasHDWallet;
+  const hasPendingBackup = wallets.length > 0 && !hasHDWallet;
   const hasAppLockPassword = Boolean(appLockPassword);
 
   return (

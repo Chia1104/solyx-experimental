@@ -5,6 +5,7 @@ import { useGlobalStore } from '@/modules/app/stores/global';
 import { LockScreenError, LockScreenErrorCode } from '@/modules/app/types/log-request.type';
 import { SupportedNetwork } from '@/modules/chain/enums/supported-chain.enum';
 import { useChainAdapterStore } from '@/modules/chain/stores/chain-adapter';
+import { useQueryWallets } from '@/modules/database/hooks/use-query-wallets';
 import { useMutationGetKeychainPhrase } from '@/modules/keychain/hooks/use-mutation-get-keychain-phrase';
 import { useMutationGetKeychainPrivateKey } from '@/modules/keychain/hooks/use-mutation-get-keychain-private-key';
 import { useUserStore } from '@/modules/user/stores/user';
@@ -28,7 +29,7 @@ export const useLockRequest = () => {
   const network = useGlobalStore(state => state.network);
 
   const currentWalletId = useUserStore(state => state.wallet.currentWalletId);
-  const wallets = useUserStore(state => state.wallet.wallets);
+  const { data: wallets = [] } = useQueryWallets();
 
   const loginLiquid = useChainAdapterStore(state => state.login);
   const getKeychainPhraseMutation = useMutationGetKeychainPhrase();

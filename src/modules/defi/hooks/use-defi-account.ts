@@ -7,6 +7,7 @@ import {
 } from '@/modules/chain/stores/chain-adapter/chains';
 import type { ChainConfigMap } from '@/modules/chain/stores/chain-adapter/types';
 import { ChainType } from '@/modules/chain/stores/chain-adapter/types';
+import { useQueryWallets } from '@/modules/database/hooks/use-query-wallets';
 import { useUserStore } from '@/modules/user/stores/user';
 import type { WalletItem } from '@/modules/user/stores/user/types';
 
@@ -38,7 +39,7 @@ export const getWalletAddress = (wallet: WalletItem | undefined, chainType: Chai
 export const useDefiAccount = () => {
   const currentChainId = useUserStore(state => state.wallet.currentChainId);
   const currentWalletId = useUserStore(state => state.wallet.currentWalletId);
-  const wallets = useUserStore(state => state.wallet.wallets);
+  const { data: wallets = [] } = useQueryWallets();
 
   const chain = useMemo(() => getChainConfig(currentChainId), [currentChainId]);
   const wallet = useMemo(

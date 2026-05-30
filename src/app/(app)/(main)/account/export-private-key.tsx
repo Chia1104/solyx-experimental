@@ -9,7 +9,7 @@ import { ThemedIcon } from '@/components/ui/themed-icon';
 import { useClipboard } from '@/hooks/use-clipboard';
 import { useLockRequest } from '@/modules/app/hooks/use-lock-request';
 import { SupportedNetwork } from '@/modules/chain/enums/supported-chain.enum';
-import { useUserStore } from '@/modules/user/stores/user';
+import { useDefiAccount } from '@/modules/defi/hooks/use-defi-account';
 
 type ExportableNetwork = typeof SupportedNetwork.Evm | typeof SupportedNetwork.Tron;
 
@@ -29,10 +29,7 @@ export default function ExportPrivateKeyScreen() {
   const { copyToClipboard } = useClipboard();
 
   const { requestPrivateKey } = useLockRequest();
-  const currentWalletId = useUserStore(state => state.wallet.currentWalletId);
-  const wallets = useUserStore(state => state.wallet.wallets);
-
-  const currentWallet = wallets.find(wallet => wallet.id === currentWalletId);
+  const { wallet: currentWallet } = useDefiAccount();
   const options = useMemo<ExportablePrivateKeyOption[]>(() => {
     if (!currentWallet) return [];
 

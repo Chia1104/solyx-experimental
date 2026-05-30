@@ -3,6 +3,10 @@ import { create } from 'zustand';
 import type { StateStorage } from 'zustand/middleware';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
+import { queryClient } from '@/libs/request/query-client';
+import { walletQueryKeys } from '@/modules/database/hooks/wallet-query-keys';
+import { resetWallets } from '@/modules/database/repos/wallet.repo';
+
 import { createAccountInitialState, createAccountSlice } from './account.slice';
 import {
   createCefiUserAccountInitialState,
@@ -83,8 +87,10 @@ export const useUserStore = create<UserStoreState>()(
           set(state => mergeUserState(state, nextState));
         },
 
-        resetUserState: () => {
+        resetUserState: async () => {
           set(createUserInitialState());
+          await resetWallets();
+          await queryClient.invalidateQueries({ queryKey: walletQueryKeys.all });
         },
       };
     },

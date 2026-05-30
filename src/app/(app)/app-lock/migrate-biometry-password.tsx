@@ -7,18 +7,18 @@ import { Page } from '@/components/page';
 import { KeyboardAwareScrollView } from '@/components/ui/keyboard-aware-scroll-view';
 import { useLockRequest } from '@/modules/app/hooks/use-lock-request';
 import { useGlobalStore } from '@/modules/app/stores/global';
+import { useQueryWallets } from '@/modules/database/hooks/use-query-wallets';
 import { useMutationGetDefiAllKeychainData } from '@/modules/keychain/hooks/use-mutation-get-defi-all-keychain-data';
 import { useMutationResetDefiAllKeychain } from '@/modules/keychain/hooks/use-mutation-reset-defi-all-keychain';
 import { useMutationSetKeychainBiometryPassword } from '@/modules/keychain/hooks/use-mutation-set-keychain-biometry-password';
 import { useMutationSetKeychainPassword } from '@/modules/keychain/hooks/use-mutation-set-keychain-password';
-import { useUserStore } from '@/modules/user/stores/user';
 
 export default function MigrateBiometryPassword() {
   const { t } = useTranslation(['global']);
 
   const { requestPassword } = useLockRequest();
   const setStartup = useGlobalStore(state => state.setStartup);
-  const wallets = useUserStore(state => state.wallet.wallets);
+  const { data: wallets = [] } = useQueryWallets();
 
   const getDefiAllKeychainDataMutation = useMutationGetDefiAllKeychainData();
   const resetDefiAllKeychainMutation = useMutationResetDefiAllKeychain();
