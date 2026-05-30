@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 
 import { useRouter } from 'expo-router';
-import { Button, Checkbox, ControlField, Skeleton, Text } from 'heroui-native';
+import { Button, Checkbox, ControlField, Skeleton, Typography } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, View } from 'react-native';
 
@@ -85,15 +85,15 @@ export default function BackupPhrase() {
     <Page isBrandVisible className="px-6 py-12" edges="all">
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <View className="flex-1 justify-center">
-          <Text className="mb-10 text-center text-3xl font-semibold" type="h3">
+          <Typography className="mb-10 text-center text-3xl font-semibold" type="h3">
             {t('defi:title.back.up.seed.phrase')}
-          </Text>
+          </Typography>
 
-          <Text className="text-muted mb-8" type="body">
+          <Typography className="text-muted mb-8" type="body">
             {t('defi:description.phraseBrowse.back.up.seed.phrase', {
               count: words.length || 12,
             })}
-          </Text>
+          </Typography>
 
           <View className="border-border bg-surface-secondary relative overflow-hidden rounded-xl border px-4 py-5">
             {isLoading ? (
@@ -107,12 +107,12 @@ export default function BackupPhrase() {
                     onPress={handleReveal}
                   >
                     <ThemedIcon name="eye-off-outline" size={24} className="text-muted" />
-                    <Text className="text-center" type="body">
+                    <Typography className="text-center" type="body">
                       {t('defi:notice.nobody.looking')}
-                    </Text>
-                    <Text className="text-muted mt-1 text-center" type="body">
+                    </Typography>
+                    <Typography className="text-muted mt-1 text-center" type="body">
                       {t('defi:notice.reveal.seed')}
-                    </Text>
+                    </Typography>
                   </Pressable>
                 ) : null}
 
@@ -123,17 +123,21 @@ export default function BackupPhrase() {
                     return (
                       <View className="flex-1" key={`phrase-column-${columnIndex}`}>
                         {column.map((word, index) => (
-                          <Text
+                          <Typography
                             className="py-1 text-sm"
                             key={`${startIndex + index}-${word}`}
                             type="body"
                             weight="semibold"
                           >
-                            <Text className="text-accent text-sm" type="body" weight="semibold">
+                            <Typography
+                              className="text-accent text-sm"
+                              type="body"
+                              weight="semibold"
+                            >
                               {startIndex + index + 1}.
-                            </Text>{' '}
+                            </Typography>{' '}
                             {word}
-                          </Text>
+                          </Typography>
                         ))}
                       </View>
                     );
@@ -166,9 +170,9 @@ export default function BackupPhrase() {
             <ControlField.Indicator>
               <Checkbox className="rounded-sm" />
             </ControlField.Indicator>
-            <Text className="shrink" type="body" weight="semibold">
+            <Typography className="shrink" type="body" weight="semibold">
               {t('defi:description.phraseBrowse.saved.seed')}
-            </Text>
+            </Typography>
           </ControlField>
 
           <View className="mt-10 items-center">

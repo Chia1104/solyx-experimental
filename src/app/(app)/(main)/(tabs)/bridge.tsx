@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 import type { Href } from 'expo-router';
-import { Button, Text } from 'heroui-native';
+import { Button, Typography } from 'heroui-native';
 import { ScrollView, View } from 'react-native';
 
 import { Page } from '@/components/page';
@@ -16,37 +16,37 @@ export default function BridgeScreen() {
     <Page className="bg-background">
       <ScrollView contentContainerClassName="gap-5 p-6">
         <View>
-          <Text className="text-foreground" type="h1">
+          <Typography className="text-foreground" type="h1">
             Bridge
-          </Text>
-          <Text className="text-foreground/60 mt-2">
+          </Typography>
+          <Typography className="text-foreground/60 mt-2">
             Create cross-chain orders from the DeFi tab. The order form is staged here while the
             fixed-rate quote and confirmation flow are wired in.
-          </Text>
+          </Typography>
         </View>
 
         <View className="bg-content1 rounded-3xl p-5">
-          <Text className="text-foreground" type="h3">
+          <Typography className="text-foreground" type="h3">
             Supported routes
-          </Text>
+          </Typography>
           <View className="mt-4 gap-3">
             {chains.length > 0 ? (
               chains.map(chain => (
                 <View className="bg-content2 rounded-2xl p-4" key={chain.chainId}>
-                  <Text className="text-foreground" weight="medium">
+                  <Typography className="text-foreground" weight="medium">
                     {chain.name}
-                  </Text>
-                  <Text className="text-foreground/50" type="body">
+                  </Typography>
+                  <Typography className="text-foreground/50" type="body">
                     {chain.targetChains.length} target chain(s)
-                  </Text>
+                  </Typography>
                 </View>
               ))
             ) : (
-              <Text className="text-foreground/60">
+              <Typography className="text-foreground/60">
                 {supportedChainsQuery.isLoading
                   ? 'Loading bridge metadata...'
                   : 'Bridge metadata is not available yet.'}
-              </Text>
+              </Typography>
             )}
           </View>
         </View>

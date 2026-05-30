@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { Button, Text } from 'heroui-native';
+import { Button, Typography } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
@@ -35,9 +35,9 @@ export default function Login() {
       </View>
 
       <View className="w-full gap-3">
-        <Text className="text-muted mb-4 text-center text-base" weight="medium">
+        <Typography className="text-muted mb-4 text-center text-base" weight="medium">
           {t('description.login.access.full.functions')}
-        </Text>
+        </Typography>
 
         <View className="w-full flex-row gap-3">
           {actions.map(action => (

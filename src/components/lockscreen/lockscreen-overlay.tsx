@@ -1,13 +1,12 @@
 import { useCallback, useEffect, useMemo, useRef, useTransition } from 'react';
 
-import { Button, Dialog, useBottomSheetAwareHandlers } from 'heroui-native';
+import { Button, Dialog, Typography, useBottomSheetAwareHandlers } from 'heroui-native';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import {
   InteractionManager,
   Keyboard,
   Platform,
-  Text,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
@@ -79,7 +78,7 @@ const LockScreenHeader = ({ isDialog }: LockScreenPresentationProps) => {
 
   return (
     <View className="items-center">
-      <Text
+      <Typography
         className={
           isDialog
             ? 'text-foreground text-center text-xl font-semibold'
@@ -87,9 +86,11 @@ const LockScreenHeader = ({ isDialog }: LockScreenPresentationProps) => {
         }
       >
         {copy.title}
-      </Text>
+      </Typography>
       {request.type === 'password' ? null : (
-        <Text className="text-muted mt-3 max-w-xs text-center text-sm">{copy.description}</Text>
+        <Typography className="text-muted mt-3 max-w-xs text-center text-sm" type="body-sm">
+          {copy.description}
+        </Typography>
       )}
     </View>
   );

@@ -1,6 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
-import { Button, Text } from 'heroui-native';
+import { Button, Typography } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
 import { Image, View } from 'react-native';
 
@@ -31,16 +31,16 @@ export default function OnboardingDone() {
 
   return (
     <Page isBrandVisible className="justify-between px-10 py-24" edges="all">
-      <Text className="text-center text-3xl font-semibold" type="h3">
+      <Typography className="text-center text-3xl font-semibold" type="h3">
         {t('defi:title.congrats')}
-      </Text>
+      </Typography>
 
       <View className="flex-1 items-center justify-center gap-10">
         <Image source={require('@/assets/images/onboarding/congrats.png')} />
 
-        <Text className="text-foreground text-center text-lg" weight="medium">
+        <Typography className="text-foreground text-center text-lg" weight="medium">
           {t('defi:description.wallet.is.ready')}
-        </Text>
+        </Typography>
 
         <Button onPress={handleEnter} size="sm">
           <Button.Label>{t('global:action.enter')}</Button.Label>

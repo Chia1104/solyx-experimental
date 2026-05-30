@@ -1,7 +1,7 @@
 import { memo } from 'react';
 
 import BigNumber from 'bignumber.js';
-import { Alert, Button, Surface, Text } from 'heroui-native';
+import { Alert, Button, Surface, Typography } from 'heroui-native';
 import { NumberValue } from 'heroui-native-pro/number-value';
 import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
@@ -100,42 +100,42 @@ export const TransactionDetails = memo(
       <View className="mt-12 mb-9 gap-4">
         {isInModal ? (
           <View className="flex-row items-center justify-between">
-            <Text className="text-foreground" type="body">
+            <Typography className="text-foreground" type="body">
               {t('defi:title.dapp')}
-            </Text>
+            </Typography>
             <View className="bg-content2 h-6 w-6 rounded-full" />
           </View>
         ) : null}
 
         <View className="flex-row items-start justify-between gap-3">
-          <Text className="text-default-foreground shrink-0" type="body">
+          <Typography className="text-default-foreground shrink-0" type="body">
             {t('defi:label.to')}
-          </Text>
+          </Typography>
           <View className="max-w-[65%] flex-row items-center gap-1">
-            <Text className="text-foreground shrink text-right" type="body">
+            <Typography className="text-foreground shrink text-right" type="body">
               {formattedToAddress ?? toAddress}
-            </Text>
+            </Typography>
             <CopyAction value={toAddress} />
           </View>
         </View>
 
         <View className="flex-row items-center justify-between gap-3">
-          <Text className="text-default-foreground" type="body">
+          <Typography className="text-default-foreground" type="body">
             {t('defi:label.from')}
-          </Text>
-          <Text className="text-foreground text-right" type="body">
+          </Typography>
+          <Typography className="text-foreground text-right" type="body">
             {accountName} ({`${address.substring(0, 6)}...${address.substring(address.length - 4)}`}
             )
-          </Text>
+          </Typography>
         </View>
 
         <View className="flex-row items-center justify-between gap-3">
-          <Text className="text-default-foreground" type="body">
+          <Typography className="text-default-foreground" type="body">
             {t('defi:label.network')}
-          </Text>
-          <Text className="text-foreground text-right" type="body">
+          </Typography>
+          <Typography className="text-foreground text-right" type="body">
             {networkName}
-          </Text>
+          </Typography>
         </View>
       </View>
     );
@@ -167,9 +167,9 @@ export const GasFeeCard = memo(
     const content = (
       <Surface className="rounded-lg p-3">
         <View className="flex-row items-center justify-between">
-          <Text className="text-default-foreground" type="body">
+          <Typography className="text-default-foreground" type="body">
             {t('defi:label.gas.fee')}
-          </Text>
+          </Typography>
           <View className="flex-row items-center">
             <View className="mr-2">
               <GasFeeAmountDetails

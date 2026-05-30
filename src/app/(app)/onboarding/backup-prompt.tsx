@@ -1,6 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
-import { Button, Text } from 'heroui-native';
+import { Button, Typography } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
 
@@ -41,19 +41,19 @@ export default function BackupPrompt() {
     <Page isBrandVisible className="px-10 py-12" edges="all">
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <View className="flex-1 items-center justify-center">
-          <Text className="text-center text-3xl font-semibold" type="h3">
+          <Typography className="text-center text-3xl font-semibold" type="h3">
             {t('defi:title.back.up.seed.phrase')}
-          </Text>
+          </Typography>
 
           <ThemedMaterialDesignIcon name="wallet" size={48} className="text-accent mt-12" />
 
-          <Text className="text-muted mt-6 text-center" type="body">
+          <Typography className="text-muted mt-6 text-center" type="body">
             {t('defi:description.phraseBackup.back.up.seed.phrase')}
-          </Text>
+          </Typography>
 
-          <Text className="mt-12 text-center" type="body" weight="semibold">
+          <Typography className="mt-12 text-center" type="body" weight="semibold">
             {t('defi:notice.back.up.now')}
-          </Text>
+          </Typography>
 
           <View className="mt-12 w-full max-w-72 gap-4">
             <Button onPress={() => void handleGoBackup()} size="sm">

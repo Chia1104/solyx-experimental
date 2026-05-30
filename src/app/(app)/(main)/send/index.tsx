@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import BigNumber from 'bignumber.js';
 import { useRouter } from 'expo-router';
-import { Text } from 'heroui-native';
+import { Typography } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
@@ -39,9 +39,9 @@ export default function SendTokenScreen() {
           />
         ) : (
           <View className="flex-1 items-center justify-center px-6">
-            <Text className="text-foreground/60 text-center">
+            <Typography className="text-foreground/60 text-center">
               {t('description.selectToken.not.assets')}
-            </Text>
+            </Typography>
           </View>
         )}
       </KeyboardAwareScrollView>

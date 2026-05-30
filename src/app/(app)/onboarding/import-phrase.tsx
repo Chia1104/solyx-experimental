@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'expo-router';
-import { Button, FieldError, Text, TextArea, TextField } from 'heroui-native';
+import { Button, FieldError, Typography, TextArea, TextField } from 'heroui-native';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
@@ -63,14 +63,14 @@ export default function ImportPhrase() {
     <Page isBrandVisible edges="all">
       <KeyboardAwareScrollView>
         <View className="flex-1 items-center justify-center">
-          <Text className="text-center text-3xl font-semibold" type="h3">
+          <Typography className="text-center text-3xl font-semibold" type="h3">
             {t('defi:title.seed.phrase.import')}
-          </Text>
+          </Typography>
 
           <View className="mt-12 w-full max-w-sm flex-col">
-            <Text className="text-muted mb-6 text-base" weight="medium">
+            <Typography className="text-muted mb-6 text-base" weight="medium">
               {t('defi:description.import.seed.phrase')}
-            </Text>
+            </Typography>
 
             <Controller
               control={form.control}

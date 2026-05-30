@@ -1,6 +1,6 @@
 import type { Href } from 'expo-router';
 import { useRouter } from 'expo-router';
-import { Button, Text } from 'heroui-native';
+import { Button, Typography } from 'heroui-native';
 import { ScrollView, View } from 'react-native';
 
 import { Page } from '@/components/page';
@@ -17,13 +17,13 @@ export default function WithdrawKycGateScreen() {
     <Page className="bg-background">
       <ScrollView contentContainerClassName="gap-5 p-6">
         <View className="bg-content1 rounded-3xl p-5">
-          <Text className="text-foreground" type="h2">
+          <Typography className="text-foreground" type="h2">
             Withdrawal verification
-          </Text>
-          <Text className="text-foreground/60 mt-3">
+          </Typography>
+          <Typography className="text-foreground/60 mt-3">
             Current KYC status: {status ?? 'Not loaded'}. Complete verification before starting a
             withdrawal.
-          </Text>
+          </Typography>
         </View>
 
         <Button onPress={() => push(canWithdraw ? '/withdraw' : '/kyc/overview')} variant="primary">

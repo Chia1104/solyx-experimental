@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 
-import { BottomSheet, Surface, Text, cn } from 'heroui-native';
+import { BottomSheet, Surface, Typography, cn } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
 
@@ -61,10 +61,10 @@ const GasModeOption = ({
           <View className="min-w-0 flex-1 flex-row items-center gap-3">
             <GasModeIcon mode={mode} />
             <View className="min-w-0 flex-1">
-              <Text className="text-foreground" type="body" weight="semibold">
+              <Typography className="text-foreground" type="body" weight="semibold">
                 {label}
-              </Text>
-              <Text className="text-default-foreground text-sm">{`${gasPriceGwei} gwei`}</Text>
+              </Typography>
+              <Typography className="text-default-foreground text-sm">{`${gasPriceGwei} gwei`}</Typography>
             </View>
           </View>
           <GasFeeAmountDetails
@@ -156,9 +156,9 @@ export const GasSettingSheet = ({
                 ))}
               </View>
             ) : (
-              <Text className="text-default-foreground text-center" type="body-sm">
+              <Typography className="text-default-foreground text-center" type="body-sm">
                 {t('defi:error.amount.calculate.gas.fee')}
-              </Text>
+              </Typography>
             )}
           </View>
         </BottomSheet.Content>

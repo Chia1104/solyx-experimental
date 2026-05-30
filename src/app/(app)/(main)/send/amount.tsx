@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import BigNumber from 'bignumber.js';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { Button, Text } from 'heroui-native';
+import { Button, Typography } from 'heroui-native';
 import { NumberValue } from 'heroui-native-pro/number-value';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -161,9 +161,9 @@ export default function SendAmountScreen() {
           <View className="min-w-0 flex-1 flex-row items-center gap-3">
             {symbol ? <TokenMark symbol={symbol} size="lg" /> : null}
             <View className="min-w-0 flex-1">
-              <Text className="text-default-foreground" type="body-xs">
+              <Typography className="text-default-foreground" type="body-xs">
                 {t('defi:label.sendAmount.balance')}
-              </Text>
+              </Typography>
               <View className="flex-row items-baseline gap-1">
                 <NumberValue
                   classNames={{ value: 'text-foreground text-base font-bold' }}

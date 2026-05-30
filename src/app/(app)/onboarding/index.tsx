@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
-import { Text, cn } from 'heroui-native';
+import { Typography, cn } from 'heroui-native';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Image, Pressable, View } from 'react-native';
@@ -49,9 +49,9 @@ export default function DefiEntrance() {
       </View>
 
       <View className="flex-1 items-center justify-center">
-        <Text className="mb-5 text-center font-medium" type="h5">
+        <Typography className="mb-5 text-center font-medium" type="h5">
           {t('caption.start.with')}
-        </Text>
+        </Typography>
 
         <Controller
           control={form.control}
@@ -80,12 +80,12 @@ export default function DefiEntrance() {
                 resizeMode="contain"
                 className="mb-4"
               />
-              <Text className="text-center" type="body" weight="semibold">
+              <Typography className="text-center" type="body" weight="semibold">
                 {t('caption.web3.wallet')}
-              </Text>
-              <Text className="text-muted mt-1 text-center" type="body-xs">
+              </Typography>
+              <Typography className="text-muted mt-1 text-center" type="body-xs">
                 {t('relation.web3.wallet')}
-              </Text>
+              </Typography>
             </Pressable>
           )}
         />

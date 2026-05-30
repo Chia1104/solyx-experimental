@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'expo-router';
-import { Button, Text } from 'heroui-native';
+import { Button, Typography } from 'heroui-native';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
@@ -45,9 +45,9 @@ export default function CreateWallet() {
 
   return (
     <Page isBrandVisible className="items-center justify-between px-8 py-12" edges="all">
-      <Text className="text-center text-3xl font-semibold" type="h3">
+      <Typography className="text-center text-3xl font-semibold" type="h3">
         {t('defi:title.web.3.wallet')}
-      </Text>
+      </Typography>
 
       <View className="w-full flex-1 items-center justify-center gap-6">
         <Button isDisabled={createWalletMutation.isPending} onPress={handleCreateWallet} size="sm">

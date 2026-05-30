@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 import type { Href } from 'expo-router';
-import { Button, Switch, Text } from 'heroui-native';
+import { Button, Switch, Typography } from 'heroui-native';
 import { Pressable, ScrollView, View } from 'react-native';
 
 import { Page } from '@/components/page';
@@ -23,26 +23,26 @@ export default function SettingsScreen() {
     <Page className="bg-background">
       <ScrollView contentContainerClassName="gap-5 p-6">
         <View>
-          <Text className="text-foreground" type="h1">
+          <Typography className="text-foreground" type="h1">
             Settings
-          </Text>
-          <Text className="text-foreground/60 mt-2">
+          </Typography>
+          <Typography className="text-foreground/60 mt-2">
             {user?.accounts?.[0]?.account ?? 'Manage your DeFi wallet and account preferences.'}
-          </Text>
+          </Typography>
         </View>
 
         <View className="bg-content1 rounded-3xl p-5">
-          <Text className="text-foreground" type="h3">
+          <Typography className="text-foreground" type="h3">
             Security
-          </Text>
+          </Typography>
           <View className="mt-4 flex-row items-center justify-between">
             <View>
-              <Text className="text-foreground" weight="medium">
+              <Typography className="text-foreground" weight="medium">
                 Auto lock
-              </Text>
-              <Text className="text-foreground/50" type="body">
+              </Typography>
+              <Typography className="text-foreground/50" type="body">
                 Lock wallet when the app goes inactive.
-              </Text>
+              </Typography>
             </View>
             <Switch isSelected={autoLock} onSelectedChange={setAutoLock} />
           </View>
@@ -82,12 +82,12 @@ export default function SettingsScreen() {
         </View>
 
         <View className="bg-content1 rounded-3xl p-5">
-          <Text className="text-foreground/60" type="body">
+          <Typography className="text-foreground/60" type="body">
             KYC status
-          </Text>
-          <Text className="text-foreground mt-1" weight="medium">
+          </Typography>
+          <Typography className="text-foreground mt-1" weight="medium">
             {kycProfileQuery.data?.status ?? 'Not loaded'}
-          </Text>
+          </Typography>
         </View>
       </ScrollView>
     </Page>
@@ -107,9 +107,9 @@ const SettingsRow = ({ icon, label, onPress }: SettingsRowProps) => (
   >
     <View className="flex-row items-center gap-3">
       <ThemedIcon className="text-foreground/60" name={icon} size={22} />
-      <Text className="text-foreground" weight="medium">
+      <Typography className="text-foreground" weight="medium">
         {label}
-      </Text>
+      </Typography>
     </View>
     <ThemedIcon className="text-foreground/30" name="chevron-forward" size={20} />
   </Pressable>

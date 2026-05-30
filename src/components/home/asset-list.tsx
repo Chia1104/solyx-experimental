@@ -1,5 +1,5 @@
 import type BigNumber from 'bignumber.js';
-import { Skeleton, Text } from 'heroui-native';
+import { Skeleton, Typography } from 'heroui-native';
 import { NumberValue } from 'heroui-native-pro/number-value';
 import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
@@ -59,9 +59,9 @@ const AssetListItem = ({ isBalanceVisible, isLoading, onPress, row }: AssetListI
         <View className="min-w-0 flex-1 flex-row items-center gap-3">
           <TokenMark symbol={row.symbol} size="lg" />
           <View className="min-w-0 flex-1">
-            <Text className="text-foreground" numberOfLines={1} weight="medium">
+            <Typography className="text-foreground" numberOfLines={1} weight="medium">
               {row.symbol}
-            </Text>
+            </Typography>
             {isBalanceVisible ? (
               <NumberValue
                 classNames={{ value: 'text-foreground/50' }}
@@ -72,9 +72,9 @@ const AssetListItem = ({ isBalanceVisible, isLoading, onPress, row }: AssetListI
                 value={row.fiatValue.toNumber()}
               />
             ) : (
-              <Text className="text-foreground/50" numberOfLines={1} type="body-xs">
+              <Typography className="text-foreground/50" numberOfLines={1} type="body-xs">
                 ******
-              </Text>
+              </Typography>
             )}
           </View>
         </View>
@@ -92,9 +92,9 @@ const AssetListItem = ({ isBalanceVisible, isLoading, onPress, row }: AssetListI
               />
             )
           ) : (
-            <Text className="text-foreground" weight="medium" type="h5">
+            <Typography className="text-foreground" weight="medium" type="h5">
               ******
-            </Text>
+            </Typography>
           )}
         </View>
       </View>

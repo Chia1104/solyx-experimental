@@ -1,9 +1,9 @@
-import type { ComponentProps, ReactElement, ReactNode, Ref } from 'react';
+import type { ComponentProps, ComponentRef, ReactElement, ReactNode, Ref } from 'react';
 import { forwardRef, isValidElement, useImperativeHandle, useRef } from 'react';
 
-import { cn } from 'heroui-native';
+import { Typography, cn } from 'heroui-native';
 import type { StyleProp, TextProps, TextStyle } from 'react-native';
-import { I18nManager, Text } from 'react-native';
+import { I18nManager } from 'react-native';
 
 type MD3TextVariant =
   | 'displayLarge'
@@ -164,7 +164,7 @@ const ThemedTextBase = (
   }: ThemedTextProps,
   ref: Ref<ThemedTextRef>,
 ) => {
-  const root = useRef<Text | null>(null);
+  const root = useRef<ComponentRef<typeof Typography> | null>(null);
   const writingDirection = I18nManager.getConstants().isRTL ? 'rtl' : 'ltr';
   const nestedTextProps = isThemedTextElement(children) ? children.props : undefined;
 
@@ -173,7 +173,7 @@ const ThemedTextBase = (
   }));
 
   return (
-    <Text
+    <Typography
       {...props}
       ref={root}
       className={cn(
@@ -189,11 +189,11 @@ const ThemedTextBase = (
       style={[{ writingDirection }, style]}
     >
       {children}
-    </Text>
+    </Typography>
   );
 };
 
 /**
- * @deprecated Use `Text` from `heroui-native` instead.
+ * @deprecated Use `Typography` from `heroui-native` instead.
  */
 export const LegacyThemedText = forwardRef(ThemedTextBase);

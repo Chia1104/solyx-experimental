@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 
 import { useRouter } from 'expo-router';
-import { Alert, BottomSheet, Skeleton, Text, cn, useThemeColor } from 'heroui-native';
+import { Alert, BottomSheet, Skeleton, Typography, cn, useThemeColor } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
@@ -156,9 +156,9 @@ const ReceiveBottomSheetContent = ({ isOpen }: ReceiveBottomSheetContentProps) =
               value={receiveAddress}
             />
             <View className="bg-surface-secondary mt-5 w-full flex-row items-center gap-2 rounded-2xl px-3 py-3">
-              <Text className="text-foreground min-w-0 flex-1" selectable type="body-sm">
+              <Typography className="text-foreground min-w-0 flex-1" selectable type="body-sm">
                 {receiveAddress}
-              </Text>
+              </Typography>
               <CopyAction value={receiveAddress} />
             </View>
           </>
@@ -166,19 +166,19 @@ const ReceiveBottomSheetContent = ({ isOpen }: ReceiveBottomSheetContentProps) =
       </View>
 
       {chain && !errorText && (
-        <Text className="text-foreground/60 text-center" type="body-sm">
+        <Typography className="text-foreground/60 text-center" type="body-sm">
           {t('description.only.accept.ethereum', {
             network: chain.name,
           })}
-        </Text>
+        </Typography>
       )}
 
       {isLIQUID && !errorText && (
         <View className="bg-accent/10 flex-row gap-2 rounded-2xl p-3">
           <ThemedIcon className="text-accent mt-0.5" name="information-circle-outline" size={16} />
-          <Text className="text-accent min-w-0 flex-1" type="body-sm">
+          <Typography className="text-accent min-w-0 flex-1" type="body-sm">
             {t('description.liquid.receive.address.notice')}
-          </Text>
+          </Typography>
         </View>
       )}
     </View>
@@ -215,12 +215,12 @@ const QuickAction = ({
       onPress={onPress}
     >
       {renderIcon(iconClassName)}
-      <Text
+      <Typography
         className={cn('text-center', isHighlighted ? 'text-accent' : 'text-foreground')}
         type="body-sm"
       >
         {label}
-      </Text>
+      </Typography>
     </Pressable>
   );
 };

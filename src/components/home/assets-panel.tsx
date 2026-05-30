@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { useRouter } from 'expo-router';
-import { Button, Select, Text } from 'heroui-native';
+import { Button, Select, Typography } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
@@ -35,9 +35,9 @@ export const AssetsPanel = ({
   return (
     <View className="gap-3">
       <View className="flex-row items-center justify-between">
-        <Text className="text-foreground" type="h5">
+        <Typography className="text-foreground" type="h5">
           {t('caption.home.my.assets')}
-        </Text>
+        </Typography>
         <ChainSelector chain={chain} />
       </View>
 
@@ -51,7 +51,7 @@ export const AssetsPanel = ({
           />
         ) : (
           <View className="bg-content1 rounded-3xl p-5">
-            <Text className="text-foreground/60">{statusText}</Text>
+            <Typography className="text-foreground/60">{statusText}</Typography>
           </View>
         )}
       </View>
@@ -114,9 +114,9 @@ const ChainSelector = ({ chain }: ChainSelectorProps) => {
     >
       <Select.Trigger className="h-auto min-h-0 px-2 py-1">
         <ChainMark chain={chain} />
-        <Text className="text-foreground" type="body-sm">
+        <Typography className="text-foreground" type="body-sm">
           {chain?.name ?? t('caption.home.no.network')}
-        </Text>
+        </Typography>
         <Select.TriggerIndicator />
       </Select.Trigger>
       <Select.Portal>

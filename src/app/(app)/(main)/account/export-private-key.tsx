@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 
-import { Button, Text, cn } from 'heroui-native';
+import { Button, Typography, cn } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, View } from 'react-native';
 
@@ -104,24 +104,24 @@ export default function ExportPrivateKeyScreen() {
           <View className="flex-row gap-3">
             <ThemedIcon name="warning-outline" className="text-danger mt-0.5" size={22} />
             <View className="flex-1 gap-2">
-              <Text className="text-danger" weight="semibold">
+              <Typography className="text-danger" weight="semibold">
                 Never share your private key
-              </Text>
-              <Text className="text-foreground/70" type="body">
+              </Typography>
+              <Typography className="text-foreground/70" type="body">
                 Anyone with this key can control your assets. Only export it in a private place and
                 store it securely.
-              </Text>
+              </Typography>
             </View>
           </View>
         </View>
 
         <View className="bg-content1 rounded-3xl p-5">
-          <Text className="text-foreground" type="h3">
+          <Typography className="text-foreground" type="h3">
             {currentWallet?.name ?? 'Current account'}
-          </Text>
-          <Text className="text-foreground/50 mt-1" type="body">
+          </Typography>
+          <Typography className="text-foreground/50 mt-1" type="body">
             Select the network private key you want to export.
-          </Text>
+          </Typography>
 
           {options.length > 0 ? (
             <View className="mt-5 gap-3">
@@ -141,12 +141,12 @@ export default function ExportPrivateKeyScreen() {
                   >
                     <View className="flex-row items-center justify-between gap-3">
                       <View className="flex-1">
-                        <Text className="text-foreground" weight="semibold">
+                        <Typography className="text-foreground" weight="semibold">
                           {option.label}
-                        </Text>
-                        <Text className="text-foreground/50 mt-1" numberOfLines={1}>
+                        </Typography>
+                        <Typography className="text-foreground/50 mt-1" numberOfLines={1}>
                           {option.address}
-                        </Text>
+                        </Typography>
                       </View>
                       {isSelected ? (
                         <ThemedIcon name="checkmark-circle" className="text-accent" size={22} />
@@ -157,9 +157,9 @@ export default function ExportPrivateKeyScreen() {
               })}
             </View>
           ) : (
-            <Text className="text-foreground/60 mt-5">
+            <Typography className="text-foreground/60 mt-5">
               This account has no exportable EVM or TRON private key.
-            </Text>
+            </Typography>
           )}
         </View>
 
@@ -167,12 +167,12 @@ export default function ExportPrivateKeyScreen() {
           <View className="bg-content1 rounded-3xl p-5">
             <View className="flex-row items-center justify-between gap-3">
               <View className="flex-1">
-                <Text className="text-foreground" type="h3">
+                <Typography className="text-foreground" type="h3">
                   Private Key
-                </Text>
-                <Text className="text-foreground/50 mt-1" type="body">
+                </Typography>
+                <Typography className="text-foreground/50 mt-1" type="body">
                   {privateKey ? 'Keep this private key secure.' : 'Verify to reveal this key.'}
-                </Text>
+                </Typography>
               </View>
               {privateKey ? (
                 <Button isIconOnly onPress={() => setPrivateKey('')} variant="ghost">
@@ -182,15 +182,15 @@ export default function ExportPrivateKeyScreen() {
             </View>
 
             <View className="border-border bg-background mt-5 rounded-2xl border p-4">
-              <Text
+              <Typography
                 className={cn('text-foreground font-mono', !privateKey && 'text-foreground/40')}
                 selectable={Boolean(privateKey)}
               >
                 {privateKey || maskSecret(selectedOption.address)}
-              </Text>
+              </Typography>
             </View>
 
-            {error ? <Text className="text-danger mt-3 text-sm">{error}</Text> : null}
+            {error ? <Typography className="text-danger mt-3 text-sm">{error}</Typography> : null}
 
             <View className="mt-5 flex-row gap-3">
               <Button

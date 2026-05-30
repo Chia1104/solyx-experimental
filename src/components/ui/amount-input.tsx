@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 
 import BigNumber from 'bignumber.js';
-import { FieldError, Text, cn } from 'heroui-native';
+import { FieldError, Typography, cn } from 'heroui-native';
 import { NumberField } from 'heroui-native-pro/number-field';
 import { NumberValue } from 'heroui-native-pro/number-value';
 import { View } from 'react-native';
@@ -120,9 +120,9 @@ export const AmountInput = ({
           value={value}
         />
         {symbol ? (
-          <Text className={cn('text-foreground pb-2', classNames?.symbol)} type="body-sm">
+          <Typography className={cn('text-foreground pb-2', classNames?.symbol)} type="body-sm">
             {symbol}
-          </Text>
+          </Typography>
         ) : null}
       </NumberField.Group>
       <View className={cn('items-center', classNames?.valueContainer)}>

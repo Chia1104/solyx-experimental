@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'expo-router';
-import { Button, Checkbox, ControlField, Text } from 'heroui-native';
+import { Button, Checkbox, ControlField, Typography } from 'heroui-native';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
@@ -36,42 +36,42 @@ export default function BackupIntro() {
     <Page isBrandVisible className="px-6 py-12" edges="all">
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <View className="flex-1 justify-center">
-          <Text className="mb-12 text-center text-3xl font-semibold" type="h3">
+          <Typography className="mb-12 text-center text-3xl font-semibold" type="h3">
             {t('defi:title.back.up.seed.phrase')}
-          </Text>
+          </Typography>
 
           <View className="gap-9">
             <View>
-              <Text className="mb-2" type="body" weight="semibold">
+              <Typography className="mb-2" type="body" weight="semibold">
                 {t('defi:notice.what.seed.phrase')}
-              </Text>
-              <Text className="text-muted" type="body">
+              </Typography>
+              <Typography className="text-muted" type="body">
                 {t('defi:description.phraseIntroduce.back.up.seed.phrase')}
-              </Text>
+              </Typography>
             </View>
 
             <View>
-              <Text className="mb-2" type="body" weight="semibold">
+              <Typography className="mb-2" type="body" weight="semibold">
                 {t('defi:notice.how.save.my.seed')}
-              </Text>
+              </Typography>
               {[
                 t('defi:label.password.manager'),
                 t('defi:label.deposit.box'),
                 t('defi:label.secret.places'),
               ].map(item => (
-                <Text className="text-muted my-1" key={item} type="body">
+                <Typography className="text-muted my-1" key={item} type="body">
                   - {item}
-                </Text>
+                </Typography>
               ))}
             </View>
 
             <View>
-              <Text className="mb-2" type="body" weight="semibold">
+              <Typography className="mb-2" type="body" weight="semibold">
                 {t('defi:description.phraseIntroduce.should.i.share')}
-              </Text>
-              <Text className="text-muted" type="body">
+              </Typography>
+              <Typography className="text-muted" type="body">
                 {t('defi:description.phraseIntroduce.never.share')}
-              </Text>
+              </Typography>
             </View>
 
             <View className="gap-5">
@@ -87,9 +87,9 @@ export default function BackupIntro() {
                     <ControlField.Indicator>
                       <Checkbox className="rounded-sm" />
                     </ControlField.Indicator>
-                    <Text className="shrink" type="body" weight="semibold">
+                    <Typography className="shrink" type="body" weight="semibold">
                       {t('defi:description.phraseIntroduce.i.have.learned')}
-                    </Text>
+                    </Typography>
                   </ControlField>
                 )}
               />
@@ -106,9 +106,9 @@ export default function BackupIntro() {
                     <ControlField.Indicator>
                       <Checkbox className="rounded-sm" />
                     </ControlField.Indicator>
-                    <Text className="shrink" type="body" weight="semibold">
+                    <Typography className="shrink" type="body" weight="semibold">
                       {t('defi:description.phraseIntroduce.i.know')}
-                    </Text>
+                    </Typography>
                   </ControlField>
                 )}
               />

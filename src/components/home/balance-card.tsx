@@ -1,5 +1,5 @@
 import type BigNumber from 'bignumber.js';
-import { Popover, Skeleton, Text } from 'heroui-native';
+import { Popover, Skeleton, Typography } from 'heroui-native';
 import { NumberValue } from 'heroui-native-pro/number-value';
 import { useTranslation } from 'react-i18next';
 import { ImageBackground, Pressable } from 'react-native';
@@ -53,9 +53,9 @@ export const BalanceCard = ({
             />
           )
         ) : (
-          <Text className="text-accent-foreground text-[40px] tracking-[1.2px]" weight="bold">
+          <Typography className="text-accent-foreground text-[40px] tracking-[1.2px]" weight="bold">
             ******
-          </Text>
+          </Typography>
         )}
         <ThemedIcon
           className="text-accent-foreground"
@@ -82,7 +82,7 @@ const BalanceModePopover = ({ chain }: BalanceModePopoverProps) => {
   return (
     <Popover>
       <Popover.Trigger className="border-accent-foreground/20 bg-accent-foreground/15 flex-row items-center gap-1 self-start rounded-xl border px-3 py-1.5">
-        <Text className="text-accent-foreground text-xs">{label}</Text>
+        <Typography className="text-accent-foreground text-xs">{label}</Typography>
         <ThemedIcon
           className="text-accent-foreground"
           name="information-circle-outline"

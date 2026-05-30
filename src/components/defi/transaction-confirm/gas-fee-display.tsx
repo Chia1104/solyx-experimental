@@ -2,7 +2,7 @@ import { memo, useMemo } from 'react';
 import type { ComponentProps } from 'react';
 
 import BigNumber from 'bignumber.js';
-import { Text, cn } from 'heroui-native';
+import { Typography, cn } from 'heroui-native';
 import { NumberValue } from 'heroui-native-pro/number-value';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
@@ -40,9 +40,9 @@ interface GasFeeNativeDisplayProps {
 export const GasFeeNativeDisplay = memo(
   ({ className, gasFee, nativeSymbol }: GasFeeNativeDisplayProps) => {
     return (
-      <Text className={cn('text-foreground text-sm', className)} type="body">
+      <Typography className={cn('text-foreground text-sm', className)} type="body">
         {`${gasFee} ${nativeSymbol}`}
-      </Text>
+      </Typography>
     );
   },
 );
@@ -60,7 +60,11 @@ export const GasFeeFiatDisplay = memo(
     const textAlign = align === 'end' ? 'text-right' : 'text-left';
 
     if (fiatValue === null) {
-      return <Text className={cn('text-default-foreground text-xs', textAlign, className)}>-</Text>;
+      return (
+        <Typography className={cn('text-default-foreground text-xs', textAlign, className)}>
+          -
+        </Typography>
+      );
     }
 
     return (
@@ -71,7 +75,9 @@ export const GasFeeFiatDisplay = memo(
           className,
         )}
       >
-        {showApprox ? <Text className="text-default-foreground text-xs">≈ </Text> : null}
+        {showApprox ? (
+          <Typography className="text-default-foreground text-xs">≈ </Typography>
+        ) : null}
         <NumberValue
           classNames={{ value: cn('text-default-foreground text-xs', textAlign) }}
           currency="USD"
@@ -120,23 +126,23 @@ export const GasFeeAmountDetails = memo(
 
     if (showUnavailable || gasFee === 'null') {
       return (
-        <Text className={cn('text-foreground', textAlign)} type="body">
+        <Typography className={cn('text-foreground', textAlign)} type="body">
           {t('defi:label.unpredictable')}
-        </Text>
+        </Typography>
       );
     }
 
     return (
       <View className={cn('gap-0.5', align === 'end' ? 'items-end' : 'items-start')}>
         {eta ? (
-          <Text className={cn('text-foreground', textAlign)} type="body" weight="semibold">
+          <Typography className={cn('text-foreground', textAlign)} type="body" weight="semibold">
             {eta}
-          </Text>
+          </Typography>
         ) : null}
         {gasModeLabel ? (
-          <Text className={cn('text-foreground', textAlign)} type="body">
+          <Typography className={cn('text-foreground', textAlign)} type="body">
             {gasModeLabel}
-          </Text>
+          </Typography>
         ) : null}
         <GasFeeNativeDisplay
           className={cn(textAlign, !eta && !gasModeLabel && 'text-base')}
@@ -150,9 +156,9 @@ export const GasFeeAmountDetails = memo(
           showApprox={showApproxFiat}
         />
         {insufficientBalance ? (
-          <Text className={cn('text-danger', textAlign)} type="body">
+          <Typography className={cn('text-danger', textAlign)} type="body">
             {t('defi:error.amount.insufficient.balance')}
-          </Text>
+          </Typography>
         ) : null}
       </View>
     );

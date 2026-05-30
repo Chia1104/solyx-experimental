@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button, ControlField, Label, Text } from 'heroui-native';
+import { Button, ControlField, Label, Typography } from 'heroui-native';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
@@ -91,14 +91,14 @@ export const AppLockPasswordForm = ({
 
   return (
     <View className="mt-20 items-center">
-      <Text className="text-foreground text-center text-3xl font-semibold">
+      <Typography className="text-foreground text-center text-3xl font-semibold">
         {t('title.set.a.password')}
-      </Text>
+      </Typography>
 
       <View className="mt-12 w-full max-w-sm">
-        <Text className="text-muted mb-6 text-base" weight="medium">
+        <Typography className="text-muted mb-6 text-base" weight="medium">
           {t('description.set.a.password')}
-        </Text>
+        </Typography>
 
         <Controller
           control={form.control}
@@ -120,15 +120,15 @@ export const AppLockPasswordForm = ({
         />
 
         <View className="mt-2 mb-5 gap-1 px-2">
-          <Text className={isPasswordLengthValid ? 'text-success' : ''} type="body-xs">
+          <Typography className={isPasswordLengthValid ? 'text-success' : ''} type="body-xs">
             {t('validation.minimum', { number: 8 })}
-          </Text>
-          <Text className={hasPasswordLetter ? 'text-success' : ''} type="body-xs">
+          </Typography>
+          <Typography className={hasPasswordLetter ? 'text-success' : ''} type="body-xs">
             {t('validation.letter', { number: 1 })}
-          </Text>
-          <Text className={hasPasswordNumber ? 'text-success' : ''} type="body-xs">
+          </Typography>
+          <Typography className={hasPasswordNumber ? 'text-success' : ''} type="body-xs">
             {t('validation.number', { number: 1 })}
-          </Text>
+          </Typography>
         </View>
 
         <Controller
@@ -173,9 +173,9 @@ export const AppLockPasswordForm = ({
 
         <View className="mt-6 items-center">
           {form.formState.errors.root?.message ? (
-            <Text className="text-danger mb-3 text-center text-sm">
+            <Typography className="text-danger mb-3 text-center text-sm">
               {form.formState.errors.root.message}
-            </Text>
+            </Typography>
           ) : null}
           <Button
             isDisabled={!form.formState.isValid || isPending}

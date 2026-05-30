@@ -3,7 +3,7 @@ import { useCallback, useMemo } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { isAddress as isEvmAddress } from 'ethers';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { Button, FieldError, Text, TextArea, TextField } from 'heroui-native';
+import { Button, FieldError, Typography, TextArea, TextField } from 'heroui-native';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
@@ -107,9 +107,9 @@ export default function SendTokenDetailScreen() {
     <Page className="bg-background">
       <KeyboardAwareScrollView contentContainerClassName="gap-5 p-6">
         <View className="bg-content1 rounded-3xl p-5">
-          <Text className="text-muted mb-4 text-base" weight="medium">
+          <Typography className="text-muted mb-4 text-base" weight="medium">
             {t('defi:label.sendTo.input.the.address')}
-          </Text>
+          </Typography>
           <Controller
             control={form.control}
             name="address"
