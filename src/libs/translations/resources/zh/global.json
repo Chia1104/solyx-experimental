@@ -9,7 +9,10 @@
     "what.different": "有什麼不同？",
     "language": "語言",
     "notice": "通知",
-    "change.app.lock": "變更應用鎖"
+    "change.app.lock": "變更應用鎖",
+    "migration": {
+      "failed": "移轉失敗"
+    }
   },
   "caption": {
     "start.with": "開始使用",
@@ -92,6 +95,12 @@
       "lock.when.leave": "短暫離開時將應用程式上鎖",
       "reset.password.for.lock": "重置應用鎖密碼",
       "change.app.lock": "變更此應用程式的解鎖方式"
+    },
+    "migration": {
+      "database": "正在更新本機資料庫…",
+      "legacy": "正在移轉您的錢包資料…",
+      "done": "即將完成設定…",
+      "failed": "無法完成應用程式移轉，請再試一次。"
     }
   },
   "notice": {

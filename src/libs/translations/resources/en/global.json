@@ -9,7 +9,10 @@
     "what.different": "What's different?",
     "language": "Language",
     "notice": "Notice",
-    "change.app.lock": "Change app lock"
+    "change.app.lock": "Change app lock",
+    "migration": {
+      "failed": "Migration failed"
+    }
   },
   "caption": {
     "start.with": "Start with",
@@ -92,6 +95,12 @@
       "lock.when.leave": "Lock the app when you leave.",
       "reset.password.for.lock": "Reset the password for the lock.",
       "change.app.lock": "Change the unlock method for this app."
+    },
+    "migration": {
+      "database": "Updating local database…",
+      "legacy": "Migrating your wallet data…",
+      "done": "Finishing setup…",
+      "failed": "Unable to complete app migration. Please try again."
     }
   },
   "notice": {
