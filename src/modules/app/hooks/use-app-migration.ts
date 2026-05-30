@@ -22,6 +22,8 @@ export const useAppMigration = () => {
   // @ts-expect-error - expo migrator bundle shape differs from drizzle type definition
   const { success: dbMigrationSuccess, error: dbMigrationError } = useMigrations(db, migrations);
 
+  console.log('dbMigrationError', dbMigrationError);
+
   const {
     error: legacyMigrationError,
     isFetching: isLegacyMigrationFetching,

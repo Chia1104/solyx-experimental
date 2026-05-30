@@ -1,4 +1,4 @@
-import { integer, sqliteTable, text, uniqueIndex } from 'drizzle-orm/sqlite-core';
+import { index, integer, sqliteTable, text, uniqueIndex } from 'drizzle-orm/sqlite-core';
 
 import { ActionKey, RecordStatus } from '../enums/defi-record.enum';
 
@@ -8,6 +8,7 @@ export const defiRecord = sqliteTable(
     id: integer('id').primaryKey().notNull(),
     userAddress: text('userAddress').notNull(),
     chainId: text('chainId').notNull(),
+    recordKey: text('recordKey').notNull(),
     blockNumber: text('blockNumber').notNull(),
     timeStamp: text('timeStamp').notNull(),
     hash: text('hash').notNull(),
@@ -36,11 +37,13 @@ export const defiRecord = sqliteTable(
     explorerUrl: text('explorerUrl').notNull(),
   },
   table => [
-    uniqueIndex('defi_record_user_chain_hash_unique_idx').on(
+    uniqueIndex('defi_record_user_chain_record_key_idx').on(
       table.userAddress,
       table.chainId,
-      table.hash,
+      table.recordKey,
     ),
+    index('defi_record_user_chain_time_idx').on(table.userAddress, table.chainId, table.timeStamp),
+    index('defi_record_user_chain_status_idx').on(table.userAddress, table.chainId, table.status),
   ],
 );
 

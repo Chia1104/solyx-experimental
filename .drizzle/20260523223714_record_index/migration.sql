@@ -1,1 +1,0 @@
-CREATE UNIQUE INDEX `defi_record_user_chain_hash_unique_idx` ON `defiRecord` (`userAddress`,`chainId`,`hash`);

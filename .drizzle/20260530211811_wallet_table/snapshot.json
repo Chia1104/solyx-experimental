@@ -1,13 +1,17 @@
 {
   "version": "7",
   "dialect": "sqlite",
-  "id": "33881efb-1567-4785-86a6-9d1c503f3a48",
+  "id": "8ec63ee4-81f3-452b-944b-bb81617c45ac",
   "prevIds": [
     "49e66728-7349-4ad6-8a93-8ff2f4d4c45c"
   ],
   "ddl": [
     {
       "name": "defiRecord",
+      "entityType": "tables"
+    },
+    {
+      "name": "wallet",
       "entityType": "tables"
     },
     {
@@ -191,6 +195,116 @@
       "table": "defiRecord"
     },
     {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "id",
+      "entityType": "columns",
+      "table": "wallet"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "name",
+      "entityType": "columns",
+      "table": "wallet"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "evmAddress",
+      "entityType": "columns",
+      "table": "wallet"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "tronAddress",
+      "entityType": "columns",
+      "table": "wallet"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "liquidAmpId",
+      "entityType": "columns",
+      "table": "wallet"
+    },
+    {
+      "type": "integer",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "liquidSubaccountPointer",
+      "entityType": "columns",
+      "table": "wallet"
+    },
+    {
+      "type": "integer",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "imageId",
+      "entityType": "columns",
+      "table": "wallet"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "createTime",
+      "entityType": "columns",
+      "table": "wallet"
+    },
+    {
+      "type": "integer",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "isImport",
+      "entityType": "columns",
+      "table": "wallet"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "chains",
+      "entityType": "columns",
+      "table": "wallet"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "blockNumbers",
+      "entityType": "columns",
+      "table": "wallet"
+    },
+    {
       "columns": [
         "id"
       ],
@@ -201,25 +315,12 @@
     },
     {
       "columns": [
-        {
-          "value": "userAddress",
-          "isExpression": false
-        },
-        {
-          "value": "chainId",
-          "isExpression": false
-        },
-        {
-          "value": "hash",
-          "isExpression": false
-        }
+        "id"
       ],
-      "isUnique": true,
-      "where": null,
-      "origin": "manual",
-      "name": "defi_record_user_chain_hash_unique_idx",
-      "entityType": "indexes",
-      "table": "defiRecord"
+      "nameExplicit": false,
+      "name": "wallet_pk",
+      "table": "wallet",
+      "entityType": "pks"
     }
   ],
   "renames": []

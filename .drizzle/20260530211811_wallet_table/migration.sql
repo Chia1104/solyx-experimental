@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `wallet` (
+CREATE TABLE `wallet` (
 	`id` text PRIMARY KEY,
 	`name` text,
 	`evmAddress` text,
