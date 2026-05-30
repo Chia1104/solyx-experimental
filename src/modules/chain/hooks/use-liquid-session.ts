@@ -5,7 +5,6 @@ import { AppState } from 'react-native';
 import { useLockRequest } from '@/modules/app/hooks/use-lock-request';
 import { useGlobalStore } from '@/modules/app/stores/global';
 import { useUserStore } from '@/modules/user/stores/user';
-import { delay } from '@/utils/delay';
 
 import { useChainAdapterStore } from '../stores/chain-adapter';
 import type { TLiquidChain } from '../stores/chain-adapter/chains';
@@ -76,7 +75,6 @@ export const LiquidSessionInterceptor = () => {
   const handleDestroyLiquidSession = useCallback(async () => {
     try {
       await destroyLiquidSession();
-      await delay(0);
       await ensureLiquidSessionRef.current(currentChainIdRef.current);
     } catch {
       // The user may dismiss the Liquid unlock request; keep the app running and retry on next access.
