@@ -1,5 +1,5 @@
-import type { NativeStackNavigationOptions } from '@react-navigation/native-stack';
 import { isLiquidGlassAvailable } from 'expo-glass-effect';
+import type { NativeStackNavigationOptions } from 'expo-router';
 import { useThemeColor } from 'heroui-native';
 import { Platform } from 'react-native';
 import { useUniwind } from 'uniwind';

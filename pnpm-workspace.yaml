@@ -9,6 +9,7 @@ allowBuilds:
   "@firebase/util": true
   protobufjs: false
   "@sentry/cli": false
+  msgpackr-extract: false
 
 overrides:
   axios: 1.15.2
@@ -17,3 +18,9 @@ nodeLinker: hoisted
 
 minimumReleaseAgeExclude:
   - react-native-quick-crypto@1.1.5
+  - babel-preset-expo@56.0.14
+  - expo@56.0.8
+  - expo-build-properties@56.0.16
+  - expo-image-picker@56.0.15
+  - expo-notifications@56.0.15
+  - expo-task-manager@56.0.16

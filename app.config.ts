@@ -88,11 +88,10 @@ export default ({ config }: ConfigContext): ExpoConfig => {
           organization: process.env.SENTRY_ORGANIZATION,
         },
       ],
-      // enable in expo 56
-      // 'expo-font',
-      // 'expo-image',
-      // 'expo-status-bar',
-      // 'expo-web-browser',
+      'expo-font',
+      'expo-image',
+      'expo-status-bar',
+      'expo-web-browser',
     ],
     experiments: {
       typedRoutes: true,

@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 
-import { useHeaderHeight as useHeaderHeightElements } from '@react-navigation/elements';
+import { useHeaderHeight as useHeaderHeightElements } from 'expo-router/react-navigation';
 import { Platform } from 'react-native';
 
 function useHeaderHeight(): number {
