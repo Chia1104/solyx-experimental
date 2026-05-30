@@ -7,10 +7,8 @@ import { getRecords } from '@/modules/database/repos/defi-record.repo';
 import { useDefiAccount } from '@/modules/defi/hooks/use-defi-account';
 
 export default function ActivityScreen() {
-  const { currentAddress, currentChainId } = useDefiAccount();
-  const records = useLiveQuery(
-    getRecords({ userAddress: currentAddress, chainId: currentChainId.toString() }),
-  );
+  const { currentAddress, dbChainId } = useDefiAccount();
+  const records = useLiveQuery(getRecords({ userAddress: currentAddress, chainId: dbChainId }));
 
   console.log(records);
 

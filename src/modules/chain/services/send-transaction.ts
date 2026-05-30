@@ -27,21 +27,9 @@ import {
 import { ActionKey, RecordStatus } from '@/modules/database/enums/defi-record.enum';
 import { insertRecords } from '@/modules/database/repos/defi-record.repo';
 import type { NewDefiRecordRow } from '@/modules/database/schema/defi-record.schema';
+import { formatDefiRecordChainId } from '@/modules/database/utils/defi-record-chain-id';
 
 dayjs.extend(utc);
-
-const formatDefiRecordChainId = (chainType: ChainType, chainId: number) => {
-  switch (chainType) {
-    case ChainType.EVM:
-      return `eip155:${chainId}`;
-    case ChainType.LIQUID:
-      return `liquid:${chainId}`;
-    case ChainType.TRON:
-      return chainId.toString();
-    default:
-      return chainId.toString();
-  }
-};
 
 const getEvmPendingBlockNumber = async (provider?: JsonRpcProvider) => {
   if (!provider) {

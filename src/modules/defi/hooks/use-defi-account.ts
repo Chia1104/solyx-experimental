@@ -8,6 +8,7 @@ import {
 import type { ChainConfigMap } from '@/modules/chain/stores/chain-adapter/types';
 import { ChainType } from '@/modules/chain/stores/chain-adapter/types';
 import { useQueryWallets } from '@/modules/database/hooks/use-query-wallets';
+import { formatDefiRecordChainId } from '@/modules/database/utils/defi-record-chain-id';
 import { useUserStore } from '@/modules/user/stores/user';
 import type { WalletItem } from '@/modules/user/stores/user/types';
 
@@ -53,6 +54,10 @@ export const useDefiAccount = () => {
   const liquidAmpId = wallet?.liquidAmpId ?? '';
   const liquidSubaccountPointer = wallet?.liquidSubaccountPointer;
   const currentAddress = getWalletAddress(wallet, chainType ?? ChainType.EVM);
+  const dbChainId = useMemo(
+    () => (chainType != null ? formatDefiRecordChainId(chainType, currentChainId) : ''),
+    [chainType, currentChainId],
+  );
 
   return {
     addresses: {
@@ -65,6 +70,7 @@ export const useDefiAccount = () => {
     currentAddress,
     currentChainId,
     currentWalletId,
+    dbChainId,
     evmAddress,
     isEVM: chainType === ChainType.EVM,
     isLIQUID: chainType === ChainType.LIQUID,
