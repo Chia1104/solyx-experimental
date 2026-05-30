@@ -2,7 +2,6 @@ import BigNumber from 'bignumber.js';
 import { mean } from 'es-toolkit/math';
 import { formatUnits } from 'ethers';
 
-import createGdk from '@roswell/react-native-gdk';
 import type {
   CreateSubaccountReturnType,
   Input,
@@ -10,11 +9,12 @@ import type {
   Output,
   Subaccount,
 } from '@roswell/react-native-gdk';
+import createGdk from '@roswell/react-native-gdk';
 
-import { LIQUID_CHAINS } from './chains';
 import type { TLiquidChain } from './chains';
-import { LiquidError, LiquidErrorCode } from './types';
+import { LIQUID_CHAINS } from './chains';
 import type { ChainAdapterSlice, LiquidChainAdapterActions } from './types';
+import { LiquidError, LiquidErrorCode } from './types';
 import {
   DEFAULT_LIQUID_CHAIN_ID,
   DEFAULT_LIQUID_FEE_RATE,

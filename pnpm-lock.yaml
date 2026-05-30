@@ -57,8 +57,8 @@ importers:
         specifier: ^13.1.2
         version: 13.1.2(@expo/config-plugins@56.0.8(typescript@6.0.3))(@react-native/assets-registry@0.85.3)(expo-font@56.0.5)(react-native@0.85.3(@babel/core@7.29.7)(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)
       '@roswell/react-native-gdk':
-        specifier: github:Chia1104/react-native-gdk
-        version: git+https://git@github.com:Chia1104/react-native-gdk.git#b06fd684ffbe628f4a9d7a0a9d87c9a32c62a89e(react-native@0.85.3(@babel/core@7.29.7)(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)
+        specifier: github:Chia1104/react-native-gdk#v0.76.1-patch.5
+        version: git+https://git@github.com:Chia1104/react-native-gdk.git#81ea700b2113c07b11bc168ca7ffcd5de2fe7d6b(react-native@0.85.3(@babel/core@7.29.7)(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)
       '@sentry/react-native':
         specifier: ^8.13.0
         version: 8.13.0(@expo/env@2.3.0)(expo@56.0.8)(react-native@0.85.3(@babel/core@7.29.7)(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)
@@ -2354,9 +2354,9 @@ packages:
   '@rolldown/pluginutils@1.0.0-rc.17':
     resolution: {integrity: sha512-n8iosDOt6Ig1UhJ2AYqoIhHWh/isz0xpicHTzpKBeotdVsTEcxsSA/i3EVM7gQAj0rU27OLAxCjzlj15IWY7bg==}
 
-  '@roswell/react-native-gdk@git+https://git@github.com:Chia1104/react-native-gdk.git#b06fd684ffbe628f4a9d7a0a9d87c9a32c62a89e':
-    resolution: {commit: b06fd684ffbe628f4a9d7a0a9d87c9a32c62a89e, repo: git@github.com:Chia1104/react-native-gdk.git, type: git}
-    version: 0.76.1-patch.3
+  '@roswell/react-native-gdk@git+https://git@github.com:Chia1104/react-native-gdk.git#81ea700b2113c07b11bc168ca7ffcd5de2fe7d6b':
+    resolution: {commit: 81ea700b2113c07b11bc168ca7ffcd5de2fe7d6b, repo: git@github.com:Chia1104/react-native-gdk.git, type: git}
+    version: 0.76.1-patch.5
     engines: {node: '>= 18.0.0'}
     peerDependencies:
       react: '*'
@@ -8838,7 +8838,7 @@ snapshots:
 
   '@rolldown/pluginutils@1.0.0-rc.17': {}
 
-  '@roswell/react-native-gdk@git+https://git@github.com:Chia1104/react-native-gdk.git#b06fd684ffbe628f4a9d7a0a9d87c9a32c62a89e(react-native@0.85.3(@babel/core@7.29.7)(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)':
+  '@roswell/react-native-gdk@git+https://git@github.com:Chia1104/react-native-gdk.git#81ea700b2113c07b11bc168ca7ffcd5de2fe7d6b(react-native@0.85.3(@babel/core@7.29.7)(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)':
     dependencies:
       react: 19.2.3
       react-native: 0.85.3(@babel/core@7.29.7)(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3)
