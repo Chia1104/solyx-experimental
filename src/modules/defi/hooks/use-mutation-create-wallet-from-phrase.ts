@@ -11,6 +11,7 @@ import {
 } from '@/modules/chain/stores/chain-adapter/chains';
 import { ChainType } from '@/modules/chain/stores/chain-adapter/types';
 import { useMutationWalletAdd } from '@/modules/database/hooks/use-mutation-wallet-add';
+import { resolveWalletImage } from '@/modules/database/pipes/wallet.pipe';
 import { useMutationSetKeychainPhrase } from '@/modules/keychain/hooks/use-mutation-set-keychain-phrase';
 import { useMutationSetKeychainPrivateKey } from '@/modules/keychain/hooks/use-mutation-set-keychain-private-key';
 import { useUserStore } from '@/modules/user/stores/user';
@@ -32,8 +33,6 @@ type UseMutationCreateWalletFromPhraseOptions = Omit<
   UseMutationOptions<CreateWalletFromPhraseResult, Error, CreateWalletFromPhraseVariables>,
   'mutationKey' | 'mutationFn'
 >;
-
-const DEFAULT_WALLET_IMAGE = require('@/assets/images/onboarding/DefiWallet.png');
 
 const normalizePhrase = (phrase: string) => phrase.trim().toLowerCase().split(/\s+/).join(' ');
 
@@ -121,10 +120,7 @@ export const useMutationCreateWalletFromPhrase = (
           blockNumbers: getInitialBlockNumbers(),
           chains: adapters.map(adapter => adapter.chainType),
           createTime: new Date().toISOString(),
-          image: {
-            id: 1,
-            source: DEFAULT_WALLET_IMAGE,
-          },
+          image: resolveWalletImage(1),
           name: walletName,
           id: QuickCrypto.randomUUID(),
         };

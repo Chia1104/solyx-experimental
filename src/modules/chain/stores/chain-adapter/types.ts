@@ -4,16 +4,19 @@ import type { StateCreator } from 'zustand';
 
 import type {
   CreateTransactionReq,
+  GdkInterface,
   GetSubaccountReq,
   GetTransactionsReq,
   GetUnspentOutputsRes,
-  GdkInterface,
   SignedBlindedTransaction,
   SignedTransaction,
   Transaction,
   TransactionDetails,
   UnsignedTransaction,
 } from '@roswell/react-native-gdk';
+
+import type { SupportedNetwork } from '@/modules/chain/enums/supported-chain.enum';
+import type { SupportedCurrencySymbol } from '@/modules/chain/enums/supported-currency-symbol.enum';
 
 export const ChainType = {
   EVM: 'evm',
@@ -123,10 +126,10 @@ export interface ChainConfig {
   chainType: ChainType;
   chainId: number;
   name: string;
-  network: string;
+  network: SupportedNetwork;
   nativeCurrency: {
     name: string;
-    symbol: string;
+    symbol: SupportedCurrencySymbol;
     decimals: number;
     address: string;
   };

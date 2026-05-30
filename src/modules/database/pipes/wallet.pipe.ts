@@ -1,18 +1,11 @@
-import type { ImageSourcePropType } from 'react-native';
-
+import { getAvatarSourceById } from '@/modules/app/assets';
 import type { WalletItem } from '@/modules/user/stores/user/types';
 
 import type { NewWalletRow, WalletRow } from '../schema/wallet.schema';
 
-const DEFAULT_WALLET_IMAGE = require('@/assets/images/onboarding/DefiWallet.png');
-
-const WALLET_IMAGE_SOURCES: Record<number, ImageSourcePropType> = {
-  1: DEFAULT_WALLET_IMAGE,
-};
-
-export const resolveWalletImage = (imageId: number): WalletItem['image'] => ({
+export const resolveWalletImage = (imageId = 1): WalletItem['image'] => ({
   id: imageId,
-  source: WALLET_IMAGE_SOURCES[imageId] ?? DEFAULT_WALLET_IMAGE,
+  source: getAvatarSourceById(imageId),
 });
 
 export const toWalletItem = (row: WalletRow): WalletItem => ({

@@ -52,7 +52,7 @@ export const AssetsPanel = ({
           />
         ) : (
           <View className="bg-content1 rounded-3xl p-5">
-            <Typography className="text-foreground/60">{statusText}</Typography>
+            <Typography className="text-default-soft-hover">{statusText}</Typography>
           </View>
         )}
       </View>
@@ -113,14 +113,14 @@ const ChainSelector = ({ chain }: ChainSelectorProps) => {
       onOpenChange={setIsOpen}
     >
       <Select.Trigger className="h-auto min-h-0 px-2 py-1">
-        <ChainMark chain={chain} />
+        <ChainMark chain={chain} type="chain" />
         <Typography className="text-foreground" type="body-sm">
           {chain?.name ?? t('caption.home.no.network')}
         </Typography>
         <Select.TriggerIndicator />
       </Select.Trigger>
       <Select.Portal>
-        <Select.Overlay className="bg-background/50" />
+        <Select.Overlay className="bg-default-soft" />
         <Select.Content presentation="bottom-sheet" snapPoints={['35%']}>
           {options.map(option => (
             <Select.Item
@@ -153,7 +153,7 @@ const ChainSelectorButton = ({
     variant="ghost"
     {...props}
   >
-    <ChainMark chain={chain} />
+    <ChainMark chain={chain} type="chain" />
     <Button.Label className="text-foreground">{chain?.name ?? label}</Button.Label>
     {isExpandable && <Select.TriggerIndicator />}
   </Button>

@@ -1,4 +1,5 @@
 import { env } from '@/libs/env';
+import { SupportedNetwork } from '@/modules/chain/enums/supported-chain.enum';
 
 import type { ChainConfigMap } from './types';
 import { ChainType, TokenType } from './types';
@@ -28,7 +29,7 @@ export const EIP155_CHAINS = {
     chainType: ChainType.EVM,
     chainId: 1,
     name: 'Ethereum Mainnet',
-    network: 'homestead',
+    network: SupportedNetwork.Evm,
     nativeCurrency: {
       name: 'Ether',
       symbol: 'ETH',
@@ -77,50 +78,50 @@ export const EIP155_CHAINS = {
       },
     },
   },
-  'eip155:11155111': {
-    chainType: ChainType.EVM,
-    chainId: 11155111,
-    name: 'Sepolia',
-    network: 'sepolia',
-    nativeCurrency: {
-      name: 'Sepolia Ether',
-      symbol: 'ETH',
-      decimals: 18,
-      address: '0x0000000000000000000000000000000000000000',
-    },
-    supportCurrency: [
-      {
-        name: 'ETH',
-        id: 'ethereum',
-        symbol: 'ETH',
-        decimals: 18,
-        decimalPlaces: 5,
-        address: '0x0000000000000000000000000000000000000000',
-        tokenType: TokenType.Native,
-      },
-      {
-        name: 'USDT',
-        id: 'tether',
-        symbol: 'USDT',
-        decimals: 6,
-        decimalPlaces: 2,
-        address: '0x419Fe9f14Ff3aA22e46ff1d03a73EdF3b70A62ED',
-        tokenType: TokenType.ERC20,
-      },
-    ],
-    rpcUrls: {
-      default: {
-        http: ['https://1rpc.io/sepolia', 'https://ethereum-sepolia-rpc.publicnode.com'],
-      },
-    },
-    blockExplorers: {
-      default: {
-        name: 'Etherscan',
-        url: 'https://sepolia.etherscan.io',
-        apiUrl: 'https://api-sepolia.etherscan.io',
-      },
-    },
-  },
+  // 'eip155:11155111': {
+  //   chainType: ChainType.EVM,
+  //   chainId: 11155111,
+  //   name: 'Sepolia',
+  //   network: 'sepolia',
+  //   nativeCurrency: {
+  //     name: 'Sepolia Ether',
+  //     symbol: 'ETH',
+  //     decimals: 18,
+  //     address: '0x0000000000000000000000000000000000000000',
+  //   },
+  //   supportCurrency: [
+  //     {
+  //       name: 'ETH',
+  //       id: 'ethereum',
+  //       symbol: 'ETH',
+  //       decimals: 18,
+  //       decimalPlaces: 5,
+  //       address: '0x0000000000000000000000000000000000000000',
+  //       tokenType: TokenType.Native,
+  //     },
+  //     {
+  //       name: 'USDT',
+  //       id: 'tether',
+  //       symbol: 'USDT',
+  //       decimals: 6,
+  //       decimalPlaces: 2,
+  //       address: '0x419Fe9f14Ff3aA22e46ff1d03a73EdF3b70A62ED',
+  //       tokenType: TokenType.ERC20,
+  //     },
+  //   ],
+  //   rpcUrls: {
+  //     default: {
+  //       http: ['https://1rpc.io/sepolia', 'https://ethereum-sepolia-rpc.publicnode.com'],
+  //     },
+  //   },
+  //   blockExplorers: {
+  //     default: {
+  //       name: 'Etherscan',
+  //       url: 'https://sepolia.etherscan.io',
+  //       apiUrl: 'https://api-sepolia.etherscan.io',
+  //     },
+  //   },
+  // },
 } as const satisfies ChainConfigMap;
 
 export const TRON_CHAINS = {
@@ -128,7 +129,7 @@ export const TRON_CHAINS = {
     chainType: ChainType.TRON,
     chainId: 728126428,
     name: 'Tron',
-    network: 'Tron',
+    network: SupportedNetwork.Tron,
     nativeCurrency: {
       name: 'TRX',
       symbol: 'TRX',
@@ -177,50 +178,50 @@ export const TRON_CHAINS = {
       },
     },
   },
-  '2494104990': {
-    chainType: ChainType.TRON,
-    chainId: 2494104990,
-    name: 'Shasta',
-    network: 'Shasta',
-    nativeCurrency: {
-      name: 'TRX',
-      symbol: 'TRX',
-      decimals: 6,
-      address: '0x0000000000000000000000000000000000000000',
-    },
-    supportCurrency: [
-      {
-        name: 'TRX',
-        id: 'tron',
-        symbol: 'TRX',
-        decimals: 6,
-        decimalPlaces: 5,
-        address: '0x0000000000000000000000000000000000000000',
-        tokenType: TokenType.Native,
-      },
-      {
-        name: 'USDT',
-        id: 'tether',
-        symbol: 'USDT',
-        decimals: 18,
-        decimalPlaces: 2,
-        address: 'TSXkW8SwqA3MnrpN1jm8KAwMJhJLeVesJ3',
-        tokenType: TokenType.TRC20,
-      },
-    ],
-    rpcUrls: {
-      default: {
-        http: ['https://api.shasta.trongrid.io'],
-      },
-    },
-    blockExplorers: {
-      default: {
-        name: 'tronScan',
-        url: 'https://shasta.tronscan.org',
-        apiUrl: 'https://api.shasta.trongrid.io',
-      },
-    },
-  },
+  // '2494104990': {
+  //   chainType: ChainType.TRON,
+  //   chainId: 2494104990,
+  //   name: 'Shasta',
+  //   network: 'Shasta',
+  //   nativeCurrency: {
+  //     name: 'TRX',
+  //     symbol: 'TRX',
+  //     decimals: 6,
+  //     address: '0x0000000000000000000000000000000000000000',
+  //   },
+  //   supportCurrency: [
+  //     {
+  //       name: 'TRX',
+  //       id: 'tron',
+  //       symbol: 'TRX',
+  //       decimals: 6,
+  //       decimalPlaces: 5,
+  //       address: '0x0000000000000000000000000000000000000000',
+  //       tokenType: TokenType.Native,
+  //     },
+  //     {
+  //       name: 'USDT',
+  //       id: 'tether',
+  //       symbol: 'USDT',
+  //       decimals: 18,
+  //       decimalPlaces: 2,
+  //       address: 'TSXkW8SwqA3MnrpN1jm8KAwMJhJLeVesJ3',
+  //       tokenType: TokenType.TRC20,
+  //     },
+  //   ],
+  //   rpcUrls: {
+  //     default: {
+  //       http: ['https://api.shasta.trongrid.io'],
+  //     },
+  //   },
+  //   blockExplorers: {
+  //     default: {
+  //       name: 'tronScan',
+  //       url: 'https://shasta.tronscan.org',
+  //       apiUrl: 'https://api.shasta.trongrid.io',
+  //     },
+  //   },
+  // },
 } as const satisfies ChainConfigMap;
 
 export const LIQUID_CHAINS = {
@@ -228,7 +229,7 @@ export const LIQUID_CHAINS = {
     chainType: ChainType.LIQUID,
     chainId: 1776,
     name: 'Liquid Network',
-    network: 'liquid',
+    network: SupportedNetwork.Liquid,
     nativeCurrency: {
       name: 'L-BTC',
       symbol: 'L-BTC',
@@ -266,46 +267,46 @@ export const LIQUID_CHAINS = {
       },
     },
   },
-  '1777': {
-    chainType: ChainType.LIQUID,
-    chainId: 1777,
-    name: 'Liquid Testnet',
-    network: 'testnet-liquid',
-    nativeCurrency: {
-      name: 'L-BTC',
-      symbol: 'L-BTC',
-      decimals: 8,
-      address: '144c654344aa716d6f3abcc1ca90e5641e4e2a7f633bc09fe3baf64585819a49',
-    },
-    supportCurrency: [
-      {
-        name: 'L-BTC',
-        id: 'bitcoin',
-        symbol: 'L-BTC',
-        decimals: 8,
-        decimalPlaces: 8,
-        address: '144c654344aa716d6f3abcc1ca90e5641e4e2a7f633bc09fe3baf64585819a49',
-      },
-      {
-        name: 'USDT',
-        id: 'tether',
-        symbol: 'USDT',
-        decimals: 8,
-        decimalPlaces: 8,
-        address: 'fea7bf6ac3971fc0f2f0d86207d2e193615cfb1a17bd8a596deec9ce1e1b916b',
-      },
-    ],
-    rpcUrls: {
-      default: {
-        http: ['https://blockstream.info/liquidtestnet/api'],
-      },
-    },
-    blockExplorers: {
-      default: {
-        name: 'Blockstream Explorer',
-        url: 'https://blockstream.info/liquidtestnet',
-        apiUrl: 'https://blockstream.info/liquidtestnet/api',
-      },
-    },
-  },
+  // '1777': {
+  //   chainType: ChainType.LIQUID,
+  //   chainId: 1777,
+  //   name: 'Liquid Testnet',
+  //   network: 'testnet-liquid',
+  //   nativeCurrency: {
+  //     name: 'L-BTC',
+  //     symbol: 'L-BTC',
+  //     decimals: 8,
+  //     address: '144c654344aa716d6f3abcc1ca90e5641e4e2a7f633bc09fe3baf64585819a49',
+  //   },
+  //   supportCurrency: [
+  //     {
+  //       name: 'L-BTC',
+  //       id: 'bitcoin',
+  //       symbol: 'L-BTC',
+  //       decimals: 8,
+  //       decimalPlaces: 8,
+  //       address: '144c654344aa716d6f3abcc1ca90e5641e4e2a7f633bc09fe3baf64585819a49',
+  //     },
+  //     {
+  //       name: 'USDT',
+  //       id: 'tether',
+  //       symbol: 'USDT',
+  //       decimals: 8,
+  //       decimalPlaces: 8,
+  //       address: 'fea7bf6ac3971fc0f2f0d86207d2e193615cfb1a17bd8a596deec9ce1e1b916b',
+  //     },
+  //   ],
+  //   rpcUrls: {
+  //     default: {
+  //       http: ['https://blockstream.info/liquidtestnet/api'],
+  //     },
+  //   },
+  //   blockExplorers: {
+  //     default: {
+  //       name: 'Blockstream Explorer',
+  //       url: 'https://blockstream.info/liquidtestnet',
+  //       apiUrl: 'https://blockstream.info/liquidtestnet/api',
+  //     },
+  //   },
+  // },
 } as const satisfies ChainConfigMap;
