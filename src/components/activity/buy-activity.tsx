@@ -3,8 +3,6 @@ import { memo, useCallback, useMemo, useState } from 'react';
 import type { LegendListRenderItemProps } from '@legendapp/list/react-native';
 import { LegendList } from '@legendapp/list/react-native';
 import dayjs from 'dayjs';
-import isToday from 'dayjs/plugin/isToday';
-import isYesterday from 'dayjs/plugin/isYesterday';
 import { Spinner, Typography } from 'heroui-native';
 import { EmptyState } from 'heroui-native-pro/empty-state';
 import { useTranslation } from 'react-i18next';
@@ -20,9 +18,6 @@ import {
   useInfiniteQueryOnrampOrders,
 } from '@/modules/cefi/hooks/use-query-onramp-orders';
 import type { OnrampOrderListItem } from '@/modules/cefi/pipes/onramp.pipe';
-
-dayjs.extend(isToday);
-dayjs.extend(isYesterday);
 
 const ESTIMATED_ITEM_SIZE = 72;
 const LIST_END_REACHED_THRESHOLD = 0.3;
