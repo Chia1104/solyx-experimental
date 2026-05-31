@@ -7,11 +7,12 @@ import { HeroUINativeProvider } from 'heroui-native';
 import { StatusBar } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { scheduleOnRN } from 'react-native-worklets';
 import { Uniwind, useCSSVariable } from 'uniwind';
 
 import Brand from '@/components/brand';
-import { AndroidBlurTargetView } from '@/components/ui/animated-blur-view';
+import { AndroidBlurTargetView, BlurTargetProvider } from '@/components/ui/animated-blur-view';
 import { persistOptions, queryClient } from '@/libs/request/query-client';
 import { LIQUID_CHAINS } from '@/modules/chain/stores/chain-adapter/chains';
 import { useUserStore } from '@/modules/user/stores/user';
@@ -87,22 +88,26 @@ export const RootProvider = ({ children }: { children: React.ReactNode }) => {
     <PersistQueryClientProvider client={queryClient} persistOptions={persistOptions}>
       <ThemeProvider value={theme === 'dark' ? DarkTheme : DefaultTheme}>
         <GestureHandlerRootView style={{ flex: 1 }}>
-          <HeroUINativeProvider>
-            <StatusBar
-              backgroundColor={systemBackgroundColor}
-              barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
-            />
-            <AndroidBlurTargetView style={{ flex: 1 }}>{children}</AndroidBlurTargetView>
-            {isThemeTransitionVisible ? (
-              <Animated.View
-                className="absolute inset-0"
-                pointerEvents="none"
-                style={transitionStyle}
-              >
-                <Brand />
-              </Animated.View>
-            ) : null}
-          </HeroUINativeProvider>
+          <SafeAreaProvider>
+            <BlurTargetProvider>
+              <HeroUINativeProvider>
+                <StatusBar
+                  backgroundColor={systemBackgroundColor}
+                  barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
+                />
+                <AndroidBlurTargetView style={{ flex: 1 }}>{children}</AndroidBlurTargetView>
+                {isThemeTransitionVisible ? (
+                  <Animated.View
+                    className="absolute inset-0"
+                    pointerEvents="none"
+                    style={transitionStyle}
+                  >
+                    <Brand />
+                  </Animated.View>
+                ) : null}
+              </HeroUINativeProvider>
+            </BlurTargetProvider>
+          </SafeAreaProvider>
         </GestureHandlerRootView>
       </ThemeProvider>
     </PersistQueryClientProvider>

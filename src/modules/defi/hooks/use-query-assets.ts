@@ -4,6 +4,7 @@ import type { UseQueryOptions } from '@tanstack/react-query';
 import { queryOptions, useQuery } from '@tanstack/react-query';
 import BigNumber from 'bignumber.js';
 
+import type { SupportedCurrencySymbol } from '@/modules/chain/enums/supported-currency-symbol.enum';
 import { useChainAdapterStore } from '@/modules/chain/stores/chain-adapter';
 import type { ChainConfig, ChainCurrency } from '@/modules/chain/stores/chain-adapter/types';
 import { ChainType } from '@/modules/chain/stores/chain-adapter/types';
@@ -144,7 +145,7 @@ export const useQueryAssets = (options?: UseQueryAssetsBalanceOptions) => {
         fiatValue,
         name: currency.name,
         price: price.toString(),
-        symbol: currency.symbol,
+        symbol: currency.symbol as SupportedCurrencySymbol,
       };
     });
   }, [assets, balanceQuery.data, priceBySymbol]);

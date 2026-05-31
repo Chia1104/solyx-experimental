@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
 
+import { useTranslation } from 'react-i18next';
 import { AppState } from 'react-native';
 
 import { useLockRequest } from '@/modules/app/hooks/use-lock-request';
@@ -16,6 +17,7 @@ export const isLiquidChainId = (chainId: number) =>
   Boolean(LIQUID_CHAINS[`${chainId}` as TLiquidChain]);
 
 export const useLiquidSession = () => {
+  const { t } = useTranslation(['global']);
   const { requestLiquidUnlock } = useLockRequest();
   const hasActiveLockRequest = useGlobalStore(state => state.hasActiveLockRequest);
 
@@ -47,7 +49,7 @@ export const useLiquidSession = () => {
         await requestLiquidUnlock({
           chainId,
           isDismissible: false,
-          reason: 'Unlock your Liquid wallet to continue.',
+          reason: t('description.unlock.liquid.wallet'),
         });
 
         return true;
@@ -57,7 +59,7 @@ export const useLiquidSession = () => {
 
       return pendingLiquidSessionRef.current;
     },
-    [requestLiquidUnlock, hasActiveLockRequest, destroyLiquidSession, checkLiquidProviderReady],
+    [requestLiquidUnlock, hasActiveLockRequest, destroyLiquidSession, checkLiquidProviderReady, t],
   );
 
   return { ensureLiquidSession };

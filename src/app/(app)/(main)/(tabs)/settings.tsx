@@ -1,9 +1,11 @@
 import { useRouter } from 'expo-router';
 import type { Href } from 'expo-router';
 import { Button, Switch, Typography } from 'heroui-native';
-import { Pressable, ScrollView, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { Pressable, View } from 'react-native';
 
 import { Page } from '@/components/page';
+import { TabScreenScrollView } from '@/components/ui/tab-screen-scroll-view';
 import { ThemedIcon } from '@/components/ui/themed-icon';
 import { useLockRequest } from '@/modules/app/hooks/use-lock-request';
 import { useQueryKYCProfile } from '@/modules/cefi/hooks/use-query-kyc-profile';
@@ -11,6 +13,7 @@ import { useQueryMe } from '@/modules/cefi/hooks/use-query-me';
 import { useUserStore } from '@/modules/user/stores/user';
 
 export default function SettingsScreen() {
+  const { t } = useTranslation(['global']);
   const router = useRouter();
   const push = (href: string) => router.push(href as Href);
   const { requestPassword } = useLockRequest();
@@ -20,8 +23,8 @@ export default function SettingsScreen() {
   const kycProfileQuery = useQueryKYCProfile();
 
   return (
-    <Page className="bg-background">
-      <ScrollView contentContainerClassName="gap-5 p-6">
+    <Page className="bg-background" tabBarInset>
+      <TabScreenScrollView contentContainerClassName="gap-5 px-6 pt-6" tabBarAdditionalPadding={24}>
         <View>
           <Typography className="text-foreground" type="h1">
             Settings
@@ -51,7 +54,7 @@ export default function SettingsScreen() {
             onPress={() =>
               requestPassword({
                 isDismissible: false,
-                reason: 'Unlock your DeFi wallet to continue.',
+                reason: t('description.unlock.defi.wallet'),
               })
             }
             variant="secondary"
@@ -89,7 +92,7 @@ export default function SettingsScreen() {
             {kycProfileQuery.data?.status ?? 'Not loaded'}
           </Typography>
         </View>
-      </ScrollView>
+      </TabScreenScrollView>
     </Page>
   );
 }

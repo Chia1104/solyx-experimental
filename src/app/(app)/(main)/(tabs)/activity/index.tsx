@@ -28,14 +28,14 @@ export default function ActivityScreen() {
   const [activeTab, setActiveTab] = useState<ActivityTab>('transaction');
 
   return (
-    <Page className="bg-background" edges={['left', 'right']}>
+    <Page className="bg-background" edges={['left', 'right']} tabBarInset>
       <Tabs
-        className="min-h-0 flex-1"
+        className="min-h-0 flex-1 gap-0"
         value={activeTab}
         variant="secondary"
         onValueChange={value => setActiveTab(value as ActivityTab)}
       >
-        <Tabs.List className="bg-background border-separator shrink-0 border-b">
+        <Tabs.List className="bg-surface">
           <Tabs.ScrollView contentContainerClassName="gap-5 px-4 py-3" scrollAlign="start">
             <Tabs.Trigger className="px-0" value="transaction">
               {({ isSelected }) => (

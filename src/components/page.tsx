@@ -3,6 +3,8 @@ import type { ViewProps } from 'react-native';
 import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { TabBarContentInsetProvider } from '@/hooks/use-tab-bar-content-inset';
+
 import type Brand from './brand';
 import BrandRoot from './brand';
 
@@ -13,6 +15,8 @@ interface PageProps extends ViewProps {
   children?: React.ReactNode;
   edges?: SafeAreaEdge[] | 'all';
   isBrandVisible?: boolean;
+  /** Measure NativeTabs tab bar inset for scroll content padding (iOS only). */
+  tabBarInset?: boolean;
 }
 
 const DEFAULT_EDGES: SafeAreaEdge[] = ['top', 'left', 'right'];
@@ -22,6 +26,7 @@ const PageContent = ({
   className,
   edges = DEFAULT_EDGES,
   isBrandVisible = false,
+  tabBarInset = false,
   ...props
 }: PageProps) => {
   const insets = useSafeAreaInsets();
@@ -30,7 +35,7 @@ const PageContent = ({
     edges = ['top', 'bottom', 'left', 'right'];
   }
 
-  return (
+  const content = (
     <View
       className={cn('flex-1', !isBrandVisible && 'bg-background')}
       style={{
@@ -45,6 +50,12 @@ const PageContent = ({
       </View>
     </View>
   );
+
+  if (!tabBarInset) {
+    return content;
+  }
+
+  return <TabBarContentInsetProvider>{content}</TabBarContentInsetProvider>;
 };
 
 export const Page = ({
@@ -53,11 +64,12 @@ export const Page = ({
   className,
   edges,
   isBrandVisible = false,
+  tabBarInset = false,
   ...props
 }: PageProps) => {
   if (!isBrandVisible) {
     return (
-      <PageContent className={className} edges={edges} {...props}>
+      <PageContent className={className} edges={edges} tabBarInset={tabBarInset} {...props}>
         {children}
       </PageContent>
     );
@@ -65,7 +77,13 @@ export const Page = ({
 
   return (
     <BrandRoot display={['background']} {...brandProps}>
-      <PageContent className={className} edges={edges} isBrandVisible {...props}>
+      <PageContent
+        className={className}
+        edges={edges}
+        isBrandVisible
+        tabBarInset={tabBarInset}
+        {...props}
+      >
         {children}
       </PageContent>
     </BrandRoot>

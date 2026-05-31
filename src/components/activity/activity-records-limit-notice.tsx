@@ -14,16 +14,16 @@ export const ActivityRecordsLimitNotice = memo(({ limit }: ActivityRecordsLimitN
 
   return (
     <View className="flex-row flex-wrap items-center justify-center">
-      <Typography className="text-muted text-center" type="body-sm">
+      <Typography className="text-muted text-center" type="body-xs">
         {t('description.recent.records.limit.prefix')}
       </Typography>
       <NumberValue
-        classNames={{ value: 'text-muted text-sm' }}
+        classNames={{ value: 'text-muted text-xs' }}
         locale={i18n.language}
         maximumFractionDigits={0}
         value={limit}
       />
-      <Typography className="text-muted text-center" type="body-sm">
+      <Typography className="text-muted text-center" type="body-xs">
         {t('description.recent.records.limit.suffix')}
       </Typography>
     </View>

@@ -78,12 +78,12 @@ export default function ExportPrivateKeyScreen() {
         address: selectedOption.address,
         isDismissible: true,
         network: selectedOption.network,
-        reason: 'Verify your app lock before exporting this private key.',
+        reason: t('description.verify.app.lock.export.private.key'),
       });
 
       setPrivateKey(result);
     } catch {
-      setError('Unable to verify or export the private key. Please try again.');
+      setError(t('error.export.private.key.failed'));
     } finally {
       setIsRevealing(false);
     }

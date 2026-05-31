@@ -1,15 +1,9 @@
-import { useCallback, useEffect, useMemo, useRef, useTransition } from 'react';
+import { useCallback, useEffect, useEffectEvent, useMemo, useRef } from 'react';
 
 import { Button, Dialog, Typography, useBottomSheetAwareHandlers } from 'heroui-native';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import {
-  InteractionManager,
-  Keyboard,
-  Platform,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native';
+import { Keyboard, Platform, Pressable, View } from 'react-native';
 
 import { useGlobalStore } from '@/modules/app/stores/global';
 import { LockScreenError, LockScreenErrorCode } from '@/modules/app/types/log-request.type';
@@ -17,7 +11,7 @@ import { useMutationGetKeychainPassword } from '@/modules/keychain/hooks/use-mut
 import { useQueryBiometryType } from '@/modules/keychain/hooks/use-query-biometry-type';
 import { KeychainError } from '@/modules/keychain/utils';
 import { useUserStore } from '@/modules/user/stores/user';
-import { delay } from '@/utils/delay';
+import { deferToNextFrame, delay } from '@/utils/delay';
 
 import Brand, { BrandImage } from '../brand';
 import { DialogBlurBackdrop } from '../ui/dialog-blur-backdrop';
@@ -58,7 +52,9 @@ const LockScreenHeader = ({ isDialog }: LockScreenPresentationProps) => {
       case 'password':
         return {
           description: request.reason ?? t('description.verify.app.lock'),
-          title: t('title.welcome.back'),
+          title: isDialog
+            ? (request.reason ?? t('description.verify.app.lock'))
+            : t('title.welcome.back'),
         };
       case 'privateKey':
       case 'phrase':
@@ -72,7 +68,7 @@ const LockScreenHeader = ({ isDialog }: LockScreenPresentationProps) => {
           title: t('description.liquid.required.verify'),
         };
     }
-  }, [request, t]);
+  }, [isDialog, request, t]);
 
   if (!request || !copy) return null;
 
@@ -106,7 +102,6 @@ const LockScreenVerificationForm = ({ isDialog }: LockScreenPresentationProps) =
 
   const { biometryLabel } = useQueryBiometryType();
   const hasTriggeredBiometry = useRef(false);
-  const [isPending, startTransition] = useTransition();
 
   const { control, handleSubmit, setError } = useForm<LockScreenFormValues>({
     defaultValues: {
@@ -117,7 +112,7 @@ const LockScreenVerificationForm = ({ isDialog }: LockScreenPresentationProps) =
 
   const getKeychainPasswordMutation = useMutationGetKeychainPassword();
 
-  const isVerifying = getKeychainPasswordMutation.isPending || isPending;
+  const isVerifying = getKeychainPasswordMutation.isPending;
 
   const bottomSheetInputHandlers = useBottomSheetAwareHandlers();
 
@@ -147,16 +142,6 @@ const LockScreenVerificationForm = ({ isDialog }: LockScreenPresentationProps) =
     [t],
   );
 
-  const handleKeychainError = useCallback(
-    (error: unknown) => {
-      setError('password', {
-        message: getVerificationErrorMessage(error),
-        type: 'validate',
-      });
-    },
-    [getVerificationErrorMessage, setError],
-  );
-
   const handleVerificationError = useCallback(
     (error: unknown) => {
       setError('password', {
@@ -170,29 +155,26 @@ const LockScreenVerificationForm = ({ isDialog }: LockScreenPresentationProps) =
   const verifyAsync = useCallback(
     async (payload: VerifyPayload) => {
       return getKeychainPasswordMutation.mutateAsync({
-        onError: handleKeychainError,
         password: payload.method === 'password' ? payload.password : undefined,
         useBiometry: payload.method === 'biometry',
       });
     },
-    [getKeychainPasswordMutation, handleKeychainError],
+    [getKeychainPasswordMutation],
   );
 
   const verifyWithPassword = useCallback(
     async (values: LockScreenFormValues) => {
-      startTransition(async () => {
-        if (!request || isVerifying) return;
+      if (!request || isVerifying) return;
 
-        try {
-          const storedPassword = await verifyAsync({
-            method: 'password',
-            password: values.password,
-          });
-          resolveLockVerification(request, storedPassword);
-        } catch (error) {
-          handleVerificationError(error);
-        }
-      });
+      try {
+        const storedPassword = await verifyAsync({
+          method: 'password',
+          password: values.password,
+        });
+        resolveLockVerification(request, storedPassword);
+      } catch (error) {
+        handleVerificationError(error);
+      }
     },
     [handleVerificationError, isVerifying, request, resolveLockVerification, verifyAsync],
   );
@@ -202,11 +184,8 @@ const LockScreenVerificationForm = ({ isDialog }: LockScreenPresentationProps) =
 
     try {
       if (Platform.OS === 'android' && request.type === 'liquid') {
-        await new Promise<void>(resolve => {
-          InteractionManager.runAfterInteractions(() => {
-            void delay(2000).then(resolve);
-          });
-        });
+        await deferToNextFrame();
+        await delay(2000);
       }
 
       const storedPassword = await verifyAsync({
@@ -218,31 +197,35 @@ const LockScreenVerificationForm = ({ isDialog }: LockScreenPresentationProps) =
     }
   }, [handleVerificationError, isVerifying, request, resolveLockVerification, verifyAsync]);
 
+  const triggerBiometryVerification = useEffectEvent(() => {
+    void verifyWithBiometry();
+  });
+
   const handleCancel = useCallback(() => {
     rejectLockVerification(new LockScreenError(LockScreenErrorCode.Canceled));
   }, [rejectLockVerification]);
 
+  const requestId = request?.id;
+
   useEffect(() => {
     hasTriggeredBiometry.current = false;
-  }, [request?.id]);
 
-  useEffect(() => {
     const canUseBiometry = unlockMode === 'biometry' && Boolean(biometryLabel);
-
-    if (!request || !canUseBiometry || hasTriggeredBiometry.current) return;
+    if (!requestId || !canUseBiometry) return;
 
     let isCancelled = false;
 
     void delay(300).then(() => {
-      if (isCancelled) return;
+      if (isCancelled || hasTriggeredBiometry.current) return;
+
       hasTriggeredBiometry.current = true;
-      void verifyWithBiometry();
+      triggerBiometryVerification();
     });
 
     return () => {
       isCancelled = true;
     };
-  }, [biometryLabel, request, unlockMode, verifyWithBiometry]);
+  }, [biometryLabel, requestId, unlockMode]);
 
   if (!request) return null;
 
@@ -315,7 +298,7 @@ const LockScreenContent = ({ presentation = 'fullscreen' }: LockScreenContentPro
   if (!request) return null;
 
   const content = (
-    <TouchableWithoutFeedback accessible={false} onPress={Keyboard.dismiss}>
+    <Pressable accessible={false} onPress={Keyboard.dismiss}>
       <View
         className={
           isDialog
@@ -327,7 +310,7 @@ const LockScreenContent = ({ presentation = 'fullscreen' }: LockScreenContentPro
         <LockScreenHeader isDialog={isDialog} />
         <LockScreenVerificationForm isDialog={isDialog} />
       </View>
-    </TouchableWithoutFeedback>
+    </Pressable>
   );
 
   if (isDialog) return content;

@@ -76,6 +76,10 @@
     "setup.complete": "下次開啟應用時，將需要再次解鎖。",
     "change.app.lock": "選擇您要用來解鎖應用程式的方式。",
     "verify.app.lock": "變更前，請先驗證目前的應用鎖。",
+    "verify.app.lock.export.private.key": "匯出私鑰前，請先驗證應用鎖。",
+    "unlock.liquid.wallet": "請解鎖 Liquid 錢包以繼續。",
+    "unlock.defi.wallet": "請解鎖 DeFi 錢包以繼續。",
+    "unlock.app.lock.encrypt.web3.wallet": "請解鎖應用鎖以加密此 Web3 錢包。",
     "biometry.reset.password.multiple.verify": "由於您的錢包資料受生物辨識保護，重設期間可能需要進行多次生物辨識驗證。",
     "lock.app.leave": "短暫離開時將應用上鎖",
     "make.sure.owner": "確認您的身份",
@@ -182,6 +186,11 @@
       "verify": {
         "failed": "驗證未通過，請再試一次",
         "canceled": "點一下隨時重試"
+      }
+    },
+    "export": {
+      "private.key": {
+        "failed": "無法驗證或匯出私鑰，請再試一次。"
       }
     },
     "scanner": {

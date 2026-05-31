@@ -14,6 +14,7 @@ import { TokenMark } from '@/components/home/chain-mark';
 import { Page } from '@/components/page';
 import { AmountInput } from '@/components/ui/amount-input';
 import { KeyboardAwareScrollView } from '@/components/ui/keyboard-aware-scroll-view';
+import type { SupportedCurrencySymbol } from '@/modules/chain/enums/supported-currency-symbol.enum';
 import { useQueryAssets } from '@/modules/defi/hooks/use-query-assets';
 
 interface SendAmountFormValues {
@@ -73,7 +74,7 @@ export default function SendAmountScreen() {
   const decimalPlaces = getCurrencyDecimalPlaces(assetInfo);
   const balance = selectedToken?.balance ?? '0';
   const price = selectedToken?.price ?? '0';
-  const symbol = selectedToken?.symbol ?? assetInfo?.symbol ?? '';
+  const symbol = selectedToken?.symbol ?? (assetInfo?.symbol as SupportedCurrencySymbol) ?? '';
 
   const formSchema = useMemo(
     () =>
@@ -159,7 +160,7 @@ export default function SendAmountScreen() {
 
         <View className="border-border flex-row items-center justify-between rounded-lg border bg-transparent px-4 py-3">
           <View className="min-w-0 flex-1 flex-row items-center gap-3">
-            {symbol ? <TokenMark symbol={symbol} size="lg" /> : null}
+            {symbol ? <TokenMark symbol={symbol} size="lg" network="" /> : null}
             <View className="min-w-0 flex-1">
               <Typography className="text-default-foreground" type="body-xs">
                 {t('defi:label.sendAmount.balance')}

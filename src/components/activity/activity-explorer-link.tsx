@@ -49,12 +49,12 @@ export const ActivityExplorerLink = memo(
         )}
       >
         {showMessage ? (
-          <Typography className="text-warning-foreground text-center" type="body-sm">
+          <Typography className="text-warning-foreground text-center" type="body-xs">
             {t('action.need.more')}
           </Typography>
         ) : null}
         <Button
-          className="border-accent self-center rounded-lg"
+          className="border-accent h-8 self-center rounded-lg px-2"
           size="sm"
           variant="outline"
           onPress={onPress}

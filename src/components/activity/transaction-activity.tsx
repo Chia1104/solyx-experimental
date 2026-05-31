@@ -10,6 +10,7 @@ import { ActivityDetailSheet } from '@/components/activity/activity-detail-sheet
 import { ActivityExplorerLink } from '@/components/activity/activity-explorer-link';
 import { ActivityListItem } from '@/components/activity/activity-list-item';
 import { ActivityRecordsLimitNotice } from '@/components/activity/activity-records-limit-notice';
+import { useTabBarContentInset } from '@/hooks/use-tab-bar-content-inset';
 import type { DefiRecordRow } from '@/modules/database/schema/defi-record.schema';
 import { useActivityTransactionList } from '@/modules/defi/hooks/use-activity-transaction-list';
 import type { ActivityTransactionListItem } from '@/modules/defi/utils/activity-transaction.utils';
@@ -48,6 +49,7 @@ export const TransactionActivity = () => {
     recordsLimit,
     sections,
   } = useActivityTransactionList();
+  const tabBarContentInset = useTabBarContentInset(16);
 
   const handleRecordPress = useCallback((record: DefiRecordRow) => {
     setSelectedRecord(record);
@@ -64,7 +66,7 @@ export const TransactionActivity = () => {
   const listHeaderComponent = useMemo(
     () => (
       <View className="bg-surface-secondary gap-3 p-4">
-        <Typography className="text-default-foreground whitespace-pre-line" type="body-sm">
+        <Typography className="text-default-foreground whitespace-pre-line" type="body-xs">
           {isExplorerChain
             ? t('description.bridgefy.selected.transaction.types.only')
             : t('description.bridgefy.supported.transfers.only')}
@@ -89,11 +91,11 @@ export const TransactionActivity = () => {
 
     if (isExplorerChain) {
       return (
-        <View className="items-center gap-6 px-6 pt-6 pb-4">
+        <View className="items-center gap-4 px-6 pt-6 pb-4">
           <ActivityRecordsLimitNotice limit={recordsLimit} />
           <Typography
             className="text-warning-foreground text-center whitespace-pre-line"
-            type="body-sm"
+            type="body-xs"
           >
             {t('description.missing.transaction.notice')}
           </Typography>
@@ -160,7 +162,8 @@ export const TransactionActivity = () => {
   return (
     <View className="min-h-0 flex-1">
       <LegendList
-        contentContainerClassName={sections.length === 0 ? 'min-h-full grow pb-4' : 'pb-4'}
+        contentContainerClassName={sections.length === 0 ? 'min-h-full grow' : undefined}
+        contentContainerStyle={{ paddingBottom: tabBarContentInset }}
         data={listData}
         estimatedItemSize={ESTIMATED_ITEM_SIZE}
         getItemType={(item: ActivityTransactionListItem) => item.type}

@@ -1,13 +1,12 @@
 import { isLiquidGlassAvailable } from 'expo-glass-effect';
 import type { NativeStackNavigationOptions } from 'expo-router';
 import { useThemeColor } from 'heroui-native';
-import { Platform } from 'react-native';
 import { useUniwind } from 'uniwind';
 
 export const useStackScreenOptions = (): NativeStackNavigationOptions => {
   const { theme } = useUniwind();
   const isDark = theme === 'dark';
-  const [themeColorForeground, themeColorBackground] = useThemeColor(['foreground', 'background']);
+  const [themeColorForeground, themeColorBackground] = useThemeColor(['foreground', 'surface']);
 
   return {
     headerTitleAlign: 'center',
@@ -15,10 +14,7 @@ export const useStackScreenOptions = (): NativeStackNavigationOptions => {
     headerBlurEffect: isDark ? 'dark' : 'light',
     headerTintColor: themeColorForeground,
     headerStyle: {
-      backgroundColor: Platform.select({
-        ios: undefined,
-        android: themeColorBackground,
-      }),
+      backgroundColor: themeColorBackground,
     },
     headerBackButtonDisplayMode: 'generic',
     gestureEnabled: true,

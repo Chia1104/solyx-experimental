@@ -1,9 +1,10 @@
 import { useRouter } from 'expo-router';
 import type { Href } from 'expo-router';
 import { Button, Typography } from 'heroui-native';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 
 import { Page } from '@/components/page';
+import { TabScreenScrollView } from '@/components/ui/tab-screen-scroll-view';
 import { useQueryBridgeSupportedChains } from '@/modules/defi/hooks/use-query-bridge-supported-chains';
 
 export default function BridgeScreen() {
@@ -13,8 +14,8 @@ export default function BridgeScreen() {
   const chains = supportedChainsQuery.data?.chains ?? [];
 
   return (
-    <Page className="bg-background">
-      <ScrollView contentContainerClassName="gap-5 p-6">
+    <Page className="bg-background" tabBarInset>
+      <TabScreenScrollView contentContainerClassName="gap-5 px-6 pt-6" tabBarAdditionalPadding={24}>
         <View>
           <Typography className="text-foreground" type="h1">
             Bridge
@@ -59,7 +60,7 @@ export default function BridgeScreen() {
             <Button.Label>History</Button.Label>
           </Button>
         </View>
-      </ScrollView>
+      </TabScreenScrollView>
     </Page>
   );
 }

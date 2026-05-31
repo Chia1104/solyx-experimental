@@ -1,7 +1,7 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { useTranslation } from 'react-i18next';
-import { RefreshControl, ScrollView, View } from 'react-native';
+import { RefreshControl, View } from 'react-native';
 
 import { AssetsPanel } from '@/components/home/assets-panel';
 import { BalanceCard } from '@/components/home/balance-card';
@@ -9,11 +9,11 @@ import { HomeAuthActions } from '@/components/home/home-auth-actions';
 import { HomeTopBar } from '@/components/home/home-top-bar';
 import { QuickActions } from '@/components/home/quick-actions';
 import { Page } from '@/components/page';
+import { TabScreenScrollView } from '@/components/ui/tab-screen-scroll-view';
 import { useQueryAssets } from '@/modules/defi/hooks/use-query-assets';
 
 export default function HomeScreen() {
   const { t } = useTranslation(['defi']);
-  const [isBalanceVisible, setIsBalanceVisible] = useState(false);
   const {
     balanceQuery,
     chain,
@@ -48,35 +48,29 @@ export default function HomeScreen() {
   }, [balanceQuery, pricesQuery]);
 
   return (
-    <Page className="bg-background">
-      <ScrollView
-        contentContainerClassName="gap-3 px-3 pt-2 pb-8"
+    <Page className="bg-background" tabBarInset>
+      <TabScreenScrollView
+        contentContainerClassName="gap-3 px-3 pt-2"
         refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />}
+        tabBarAdditionalPadding={32}
       >
         <HomeAuthActions />
 
         <View className="gap-3">
           <HomeTopBar chain={chain} wallet={wallet} />
 
-          <BalanceCard
-            chain={chain}
-            isBalanceVisible={isBalanceVisible}
-            isLoading={isAssetsLoading}
-            totalFiatValue={totalFiatValue}
-            onToggleVisibility={() => setIsBalanceVisible(value => !value)}
-          />
+          <BalanceCard chain={chain} isLoading={isAssetsLoading} totalFiatValue={totalFiatValue} />
 
           <QuickActions />
         </View>
 
         <AssetsPanel
           chain={chain}
-          isBalanceVisible={isBalanceVisible}
           isLoading={isAssetsLoading}
           rows={rows}
           statusText={assetStatusText}
         />
-      </ScrollView>
+      </TabScreenScrollView>
     </Page>
   );
 }

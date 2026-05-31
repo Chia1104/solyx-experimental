@@ -76,6 +76,10 @@
     "setup.complete": "The next time you restart the app, you must unlock it again.",
     "change.app.lock": "Choose how you want to unlock this app.",
     "verify.app.lock": "Verify your current app lock before changing it.",
+    "verify.app.lock.export.private.key": "Verify your app lock before exporting this private key.",
+    "unlock.liquid.wallet": "Unlock your Liquid wallet to continue.",
+    "unlock.defi.wallet": "Unlock your DeFi wallet to continue.",
+    "unlock.app.lock.encrypt.web3.wallet": "Unlock your app lock to encrypt this Web3 wallet.",
     "biometry.reset.password.multiple.verify": "Because your wallet data is protected by biometrics, you may need to verify biometrics multiple times during reset.",
     "lock.app.leave": "Lock the app when you leave for a short time.",
     "make.sure.owner": "To make sure your identity",
@@ -182,6 +186,11 @@
       "verify": {
         "failed": "Couldn't verify. Please try again.",
         "canceled": "Tap to try again anytime."
+      }
+    },
+    "export": {
+      "private.key": {
+        "failed": "Unable to verify or export the private key. Please try again."
       }
     },
     "scanner": {

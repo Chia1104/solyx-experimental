@@ -17,19 +17,12 @@ import { getModeChains, getNetworkMode } from './home-chain-utils';
 
 interface AssetsPanelProps {
   chain?: ChainConfig;
-  isBalanceVisible: boolean;
   isLoading: boolean;
   rows: AssetRow[];
   statusText: string;
 }
 
-export const AssetsPanel = ({
-  chain,
-  isBalanceVisible,
-  isLoading,
-  rows,
-  statusText,
-}: AssetsPanelProps) => {
+export const AssetsPanel = ({ chain, isLoading, rows, statusText }: AssetsPanelProps) => {
   const router = useRouter();
   const { t } = useTranslation(['defi']);
 
@@ -45,7 +38,6 @@ export const AssetsPanel = ({
       <View className="gap-3">
         {rows.length > 0 ? (
           <AssetList
-            isBalanceVisible={isBalanceVisible}
             isLoading={isLoading}
             onPressAsset={row => router.push(`/assets/${row.symbol}`)}
             rows={rows}
@@ -120,7 +112,7 @@ const ChainSelector = ({ chain }: ChainSelectorProps) => {
         <Select.TriggerIndicator />
       </Select.Trigger>
       <Select.Portal>
-        <Select.Overlay className="bg-default-soft" />
+        <Select.Overlay className="bg-background/50" />
         <Select.Content presentation="bottom-sheet" snapPoints={['35%']}>
           {options.map(option => (
             <Select.Item

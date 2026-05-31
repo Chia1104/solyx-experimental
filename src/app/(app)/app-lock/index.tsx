@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 
 import { LockScreenOverlay } from '@/components/lockscreen/lockscreen-overlay';
 import { Page } from '@/components/page';
@@ -8,6 +9,7 @@ import { isLiquidChainId } from '@/modules/chain/hooks/use-liquid-session';
 import { useUserStore } from '@/modules/user/stores/user';
 
 export default function AppLockIndex() {
+  const { t } = useTranslation(['global']);
   const hasActiveLockRequest = useGlobalStore(store => store.hasActiveLockRequest);
   const lockRequest = useGlobalStore(store => store.lockRequest);
   const setStartup = useGlobalStore(store => store.setStartup);
@@ -23,11 +25,11 @@ export default function AppLockIndex() {
         ? await requestLiquidUnlock({
             chainId: currentChainId,
             isDismissible: false,
-            reason: 'Unlock your Liquid wallet to continue.',
+            reason: t('description.unlock.liquid.wallet'),
           })
         : await requestPassword({
             isDismissible: false,
-            reason: 'Unlock your DeFi wallet to continue.',
+            reason: t('description.unlock.defi.wallet'),
           });
       setStartup(true);
       return result;

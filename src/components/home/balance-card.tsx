@@ -4,28 +4,24 @@ import { NumberValue } from 'heroui-native-pro/number-value';
 import { useTranslation } from 'react-i18next';
 import { ImageBackground, Pressable } from 'react-native';
 
+import { AssetGuard } from '@/components/asset-guard';
 import { ThemedIcon } from '@/components/ui/themed-icon';
 import type { ChainConfig } from '@/modules/chain/stores/chain-adapter/types';
 import { ChainType } from '@/modules/chain/stores/chain-adapter/types';
+import { useAssetStore } from '@/modules/defi/stores/asset';
 
 const heroBackground = require('@/assets/images/home/bridgefu-hero-background.png');
 
 interface BalanceCardProps {
   chain?: ChainConfig;
-  isBalanceVisible: boolean;
   isLoading: boolean;
   totalFiatValue: BigNumber;
-  onToggleVisibility: () => void;
 }
 
-export const BalanceCard = ({
-  chain,
-  isBalanceVisible,
-  isLoading,
-  totalFiatValue,
-  onToggleVisibility,
-}: BalanceCardProps) => {
+export const BalanceCard = ({ chain, isLoading, totalFiatValue }: BalanceCardProps) => {
   const { i18n } = useTranslation(['defi']);
+  const isBalanceVisible = useAssetStore(state => state.isBalanceVisible);
+  const toggleBalanceVisibility = useAssetStore(state => state.toggleBalanceVisibility);
 
   return (
     <ImageBackground
@@ -36,9 +32,9 @@ export const BalanceCard = ({
     >
       <BalanceModePopover chain={chain} />
 
-      <Pressable className="mt-4 flex-row items-center gap-2" onPress={onToggleVisibility}>
-        {isBalanceVisible ? (
-          isLoading ? (
+      <Pressable className="mt-4 flex-row items-center gap-2" onPress={toggleBalanceVisibility}>
+        <AssetGuard className="text-accent-foreground text-[40px] tracking-[1.2px]" weight="bold">
+          {isLoading ? (
             <Skeleton className="bg-accent-foreground/20 h-12 w-52 rounded-xl" />
           ) : (
             <NumberValue
@@ -51,12 +47,8 @@ export const BalanceCard = ({
               numberStyle="currency"
               value={totalFiatValue.toNumber()}
             />
-          )
-        ) : (
-          <Typography className="text-accent-foreground text-[40px] tracking-[1.2px]" weight="bold">
-            ******
-          </Typography>
-        )}
+          )}
+        </AssetGuard>
         <ThemedIcon
           className="text-accent-foreground"
           name={isBalanceVisible ? 'eye-outline' : 'eye-off-outline'}
