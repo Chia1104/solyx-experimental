@@ -33,6 +33,7 @@ import {
   getTronTransactionErrorType,
 } from '@/modules/chain/utils/transaction-confirm';
 import { useDefiAccount } from '@/modules/defi/hooks/use-defi-account';
+import { useDefiRecordSync } from '@/modules/defi/hooks/use-defi-record-sync';
 import { useMutationTransactionCallBack } from '@/modules/defi/hooks/use-mutation-transaction-callback';
 import { useQueryAssets } from '@/modules/defi/hooks/use-query-assets';
 
@@ -79,6 +80,7 @@ export const TransactionConfirm = ({
   const { ensureLiquidSession } = useLiquidSession();
   const { chain, currentAddress, currentChainId, liquidSubaccountPointer, wallet } =
     useDefiAccount();
+  const { syncRecords } = useDefiRecordSync();
   const { assets, rows } = useQueryAssets();
   const getEvmProvider = useChainAdapterStore(state => state.getEvmProvider);
   const transactionCallBackMutation = useMutationTransactionCallBack();
@@ -389,6 +391,7 @@ export const TransactionConfirm = ({
         setIsSuccessSheetOpen(true);
       }
 
+      await syncRecords('latest');
       onSuccess?.(txHash);
     },
     onError: error => {

@@ -1,6 +1,7 @@
 import { and, desc, eq, sql } from 'drizzle-orm';
 
 import { db } from '../client';
+import { RecordStatus } from '../enums/defi-record.enum';
 import { InsertRecordsParams } from '../pipes/defi-record.pipe';
 import type { NewDefiRecordRow } from '../schema/defi-record.schema';
 import { defiRecord } from '../schema/defi-record.schema';
@@ -53,6 +54,32 @@ export const getRecords = (params: { userAddress: string; chainId: string }) =>
     .orderBy(desc(defiRecord.timeStamp));
 
 export const getAllRecords = () => db.select().from(defiRecord).orderBy(desc(defiRecord.timeStamp));
+
+export const getPendingRecordHashes = async (params: { userAddress: string; chainId: string }) => {
+  const rows = await db
+    .select({ hash: defiRecord.hash })
+    .from(defiRecord)
+    .where(
+      and(
+        eq(defiRecord.userAddress, params.userAddress),
+        eq(defiRecord.chainId, params.chainId),
+        eq(defiRecord.status, RecordStatus.Pending),
+      ),
+    );
+
+  return new Set(rows.map(row => row.hash));
+};
+
+export const getRecordKeys = async (params: { userAddress: string; chainId: string }) => {
+  const rows = await db
+    .select({ recordKey: defiRecord.recordKey })
+    .from(defiRecord)
+    .where(
+      and(eq(defiRecord.userAddress, params.userAddress), eq(defiRecord.chainId, params.chainId)),
+    );
+
+  return new Set(rows.map(row => row.recordKey));
+};
 
 export const insertMockRecords = async (mockRecord: NewDefiRecordRow) => {
   return db.insert(defiRecord).values(mockRecord).returning();

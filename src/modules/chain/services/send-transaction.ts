@@ -1,6 +1,5 @@
 import BigNumber from 'bignumber.js';
 import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
 import type { JsonRpcProvider } from 'ethers';
 import { parseUnits } from 'ethers';
 import { TronWeb } from 'tronweb';
@@ -28,8 +27,6 @@ import { ActionKey, RecordStatus } from '@/modules/database/enums/defi-record.en
 import type { InsertDefiRecordInput } from '@/modules/database/pipes/defi-record.pipe';
 import { insertRecords } from '@/modules/database/repos/defi-record.repo';
 import { formatDefiRecordChainId } from '@/modules/database/utils/defi-record-chain-id';
-
-dayjs.extend(utc);
 
 const getEvmPendingBlockNumber = async (provider?: JsonRpcProvider) => {
   if (!provider) {
