@@ -3,7 +3,7 @@ import { memo, useCallback, useMemo, useState } from 'react';
 
 import type { LegendListRenderItemProps } from '@legendapp/list/react-native';
 import { LegendList } from '@legendapp/list/react-native';
-import { Skeleton, Typography } from 'heroui-native';
+import { Separator, Skeleton, Typography } from 'heroui-native';
 import { EmptyState } from 'heroui-native-pro/empty-state';
 import { useTranslation } from 'react-i18next';
 import { RefreshControl, View } from 'react-native';
@@ -31,7 +31,7 @@ interface ActivityListRowProps {
 const ActivityListRow = memo(({ isLastInSection, onPress, record }: ActivityListRowProps) => (
   <View>
     <ActivityListItem onPress={onPress} record={record} />
-    {!isLastInSection ? <View className="bg-separator h-px" /> : null}
+    {!isLastInSection ? <Separator /> : null}
   </View>
 ));
 
@@ -89,7 +89,7 @@ const TransactionActivityLoadingState = memo(() => (
           </View>
           <Skeleton className="h-5 w-20 rounded-md" />
         </View>
-        {index < LOADING_SKELETON_ROW_COUNT - 1 ? <View className="bg-separator h-px" /> : null}
+        {index < LOADING_SKELETON_ROW_COUNT - 1 ? <Separator /> : null}
       </View>
     ))}
   </View>

@@ -3,7 +3,7 @@ import { memo, useCallback, useMemo, useState } from 'react';
 import type { LegendListRenderItemProps } from '@legendapp/list/react-native';
 import { LegendList } from '@legendapp/list/react-native';
 import dayjs from 'dayjs';
-import { Spinner, Typography } from 'heroui-native';
+import { Separator, Spinner, Typography } from 'heroui-native';
 import { EmptyState } from 'heroui-native-pro/empty-state';
 import { useTranslation } from 'react-i18next';
 import { RefreshControl, View } from 'react-native';
@@ -172,7 +172,7 @@ export const BuyActivity = memo(({ onPendingOrderHandled, pendingOrderId }: BuyA
       return (
         <View>
           <BuyActivityListItem data={item.item} onPress={openOrderDetail} />
-          {!item.isLastInSection ? <View className="bg-separator h-px" /> : null}
+          {!item.isLastInSection ? <Separator /> : null}
         </View>
       );
     },

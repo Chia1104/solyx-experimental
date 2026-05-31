@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react';
 
 import { Stack, useLocalSearchParams } from 'expo-router';
-import { Typography } from 'heroui-native';
+import { Separator, Typography } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -112,7 +112,7 @@ export default function AssetDetailScreen() {
           )}
         </View>
 
-        <View className="bg-separator h-px" />
+        <Separator />
       </>
     ),
     [

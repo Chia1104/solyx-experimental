@@ -7,17 +7,19 @@ export const BuyWarnings = () => {
 
   return (
     <View className="gap-3">
-      <Alert status="danger">
+      <Alert status="danger" className="bg-danger/10">
         <Alert.Indicator />
         <Alert.Content>
-          <Alert.Description>{t('buyModal.verifyAddressWarning')}</Alert.Description>
+          <Alert.Description className="text-danger">
+            {t('buyModal.verifyAddressWarning')}
+          </Alert.Description>
         </Alert.Content>
       </Alert>
 
-      <Alert status="warning">
+      <Alert status="warning" className="bg-accent/10">
         <Alert.Indicator />
         <Alert.Content>
-          <Alert.Description>{t('buyModal.warningText')}</Alert.Description>
+          <Alert.Description className="text-accent">{t('buyModal.warningText')}</Alert.Description>
         </Alert.Content>
       </Alert>
     </View>
