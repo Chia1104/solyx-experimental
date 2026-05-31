@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 
 import { useQueryClient } from '@tanstack/react-query';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -10,12 +10,9 @@ import { ActivityTabPanel } from '@/components/activity/activity-tab-panel';
 import { BuyActivity } from '@/components/activity/buy-activity';
 import { TransactionActivity } from '@/components/activity/transaction-activity';
 import { Page } from '@/components/page';
-import { onrampOrdersInfiniteQueryKey } from '@/modules/cefi/hooks/use-query-onramp-orders';
+import { infiniteQueryOnrampOrdersOptions } from '@/modules/cefi/hooks/use-query-onramp-orders';
 
 type ActivityTab = 'transaction' | 'withdraw' | 'swap' | 'buy';
-
-const isActivityTab = (value: string | undefined): value is ActivityTab =>
-  value === 'transaction' || value === 'withdraw' || value === 'swap' || value === 'buy';
 
 interface ActivityTabLabelProps {
   children: string;
@@ -30,14 +27,6 @@ const ActivityTabLabel = ({ children, isSelected }: ActivityTabLabelProps) => (
 
 const ActivityTabPlaceholder = () => <View className="bg-background min-h-0 flex-1" />;
 
-const getSingleParam = (value: string | string[] | undefined) => {
-  if (Array.isArray(value)) {
-    return value[0];
-  }
-
-  return value;
-};
-
 export default function ActivityScreen() {
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -47,25 +36,17 @@ export default function ActivityScreen() {
     pendingOrderId?: string;
   }>();
 
-  const initialTabParam = getSingleParam(params.initialTab);
-  const pendingOrderIdParam = getSingleParam(params.pendingOrderId);
-
-  const tabFromParams = isActivityTab(initialTabParam) ? initialTabParam : undefined;
-  const [localTab, setLocalTab] = useState<ActivityTab>('transaction');
-  const activeTab = tabFromParams ?? localTab;
+  const activeTab = params.initialTab ?? 'transaction';
 
   const handleTabChange = useCallback(
     (value: ActivityTab) => {
-      setLocalTab(value);
-      if (tabFromParams) {
-        router.setParams({ initialTab: undefined });
-      }
+      router.setParams({ initialTab: value });
     },
-    [router, tabFromParams],
+    [router],
   );
 
   const handlePendingOrderHandled = useCallback(() => {
-    void queryClient.invalidateQueries({ queryKey: [...onrampOrdersInfiniteQueryKey] });
+    void queryClient.invalidateQueries(infiniteQueryOnrampOrdersOptions());
     router.setParams({ pendingOrderId: undefined });
   }, [queryClient, router]);
 
@@ -116,7 +97,7 @@ export default function ActivityScreen() {
           </ActivityTabPanel>
           <ActivityTabPanel activeTab={activeTab} tab="buy">
             <BuyActivity
-              pendingOrderId={pendingOrderIdParam}
+              pendingOrderId={params.pendingOrderId}
               onPendingOrderHandled={handlePendingOrderHandled}
             />
           </ActivityTabPanel>

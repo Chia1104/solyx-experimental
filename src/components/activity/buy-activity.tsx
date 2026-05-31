@@ -12,11 +12,9 @@ import { BuyActivityListItem } from '@/components/activity/buy-activity-list-ite
 import { OnrampOrderDetailSheet } from '@/components/activity/onramp-order-detail-sheet';
 import { ThemedIcon } from '@/components/ui/themed-icon';
 import { useTabBarContentInset } from '@/hooks/use-tab-bar-content-inset';
+import { flattenInfiniteData } from '@/libs/request/infinite-query-options';
 import { cefiToken } from '@/modules/cefi/cefi-store';
-import {
-  flattenOnrampOrdersPages,
-  useInfiniteQueryOnrampOrders,
-} from '@/modules/cefi/hooks/use-query-onramp-orders';
+import { useInfiniteQueryOnrampOrders } from '@/modules/cefi/hooks/use-query-onramp-orders';
 import type { OnrampOrderListItem } from '@/modules/cefi/pipes/onramp.pipe';
 
 const ESTIMATED_ITEM_SIZE = 72;
@@ -99,7 +97,7 @@ export const BuyActivity = memo(({ onPendingOrderHandled, pendingOrderId }: BuyA
   const isDetailOpen = isSheetOpen || shouldAutoOpenPending;
 
   const allOrders = useMemo(
-    () => flattenOnrampOrdersPages(ordersQuery.data?.pages),
+    () => flattenInfiniteData(ordersQuery.data?.pages, 'id'),
     [ordersQuery.data?.pages],
   );
 

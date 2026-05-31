@@ -1,10 +1,8 @@
-import type { InfiniteData, UseInfiniteQueryOptions, UseQueryOptions } from '@tanstack/react-query';
-import {
-  infiniteQueryOptions,
-  queryOptions,
-  useInfiniteQuery,
-  useQuery,
-} from '@tanstack/react-query';
+import type { UseQueryOptions } from '@tanstack/react-query';
+import { queryOptions, useInfiniteQuery, useQuery } from '@tanstack/react-query';
+
+import type { UseInfiniteQueryOptions } from '@/libs/request/infinite-query-options';
+import { infiniteQueryOptions } from '@/libs/request/infinite-query-options';
 
 import type { GetOnrampOrdersRequest, OnrampOrderListItem } from '../pipes/onramp.pipe';
 import { getOnrampOrders } from '../services/onramp.service';
@@ -19,57 +17,9 @@ type UseQueryOnrampOrdersOptions = Omit<
 >;
 
 type UseInfiniteQueryOnrampOrdersOptions = Omit<
-  UseInfiniteQueryOptions<
-    OnrampOrdersResponse,
-    Error,
-    InfiniteData<OnrampOrdersResponse>,
-    readonly ['cefi/onramp-orders', 'v1/onramp-orders', 'infinite'],
-    number
-  >,
+  UseInfiniteQueryOptions<OnrampOrderListItem, Error>,
   'queryKey' | 'queryFn' | 'initialPageParam' | 'getNextPageParam'
 >;
-
-export const onrampOrdersInfiniteQueryKey = [
-  'cefi/onramp-orders',
-  'v1/onramp-orders',
-  'infinite',
-] as const;
-
-const getOnrampOrdersNextPageParam = (lastPage: OnrampOrdersResponse) => {
-  const meta = lastPage.meta;
-
-  if (!meta || meta.currentPage >= meta.totalPages) {
-    return undefined;
-  }
-
-  return meta.currentPage + 1;
-};
-
-export const flattenOnrampOrdersPages = (
-  pages: OnrampOrdersResponse[] | undefined,
-): OnrampOrderListItem[] => {
-  if (!pages) {
-    return [];
-  }
-
-  const seen = new Set<string>();
-  const orders: OnrampOrderListItem[] = [];
-
-  for (const page of pages) {
-    for (const order of page.data) {
-      const id = String(order.id);
-
-      if (seen.has(id)) {
-        continue;
-      }
-
-      seen.add(id);
-      orders.push(order);
-    }
-  }
-
-  return orders;
-};
 
 export const queryOnrampOrdersOptions = (
   request: GetOnrampOrdersRequest = {},
@@ -84,14 +34,12 @@ export const queryOnrampOrdersOptions = (
 
 export const infiniteQueryOnrampOrdersOptions = (options?: UseInfiniteQueryOnrampOrdersOptions) => {
   return infiniteQueryOptions({
-    queryKey: onrampOrdersInfiniteQueryKey,
+    queryKey: ['cefi/onramp-orders', 'v1/onramp-orders', 'infinite'],
     queryFn: ({ pageParam }) =>
       getOnrampOrders({
         finPerPage: ONRAMP_ORDERS_PER_PAGE,
         finPage: String(pageParam),
       }),
-    initialPageParam: 1,
-    getNextPageParam: getOnrampOrdersNextPageParam,
     ...options,
   });
 };
