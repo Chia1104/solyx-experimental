@@ -178,7 +178,15 @@ const ActivityDetailSheetContent = memo(({ record }: { record: DefiRecordRow }) 
               })}
             </Typography>
             {record.toAddress.toLowerCase() !== currentAddress.toLowerCase() ? (
-              <CopyAction value={record.toAddress} />
+              <CopyAction
+                value={record.toAddress}
+                iconProps={{
+                  size: 16,
+                }}
+                buttonProps={{
+                  className: 'size-7',
+                }}
+              />
             ) : null}
           </View>
         </ActivityDetailRow>
@@ -193,7 +201,15 @@ const ActivityDetailSheetContent = memo(({ record }: { record: DefiRecordRow }) 
               })}
             </Typography>
             {record.fromAddress.toLowerCase() !== currentAddress.toLowerCase() ? (
-              <CopyAction value={record.fromAddress} />
+              <CopyAction
+                value={record.fromAddress}
+                iconProps={{
+                  size: 16,
+                }}
+                buttonProps={{
+                  className: 'size-7',
+                }}
+              />
             ) : null}
           </View>
         </ActivityDetailRow>
@@ -201,7 +217,15 @@ const ActivityDetailSheetContent = memo(({ record }: { record: DefiRecordRow }) 
         <ActivityDetailRow label="TxID">
           <View className="flex-row items-center gap-1">
             <AddressDisplay address={record.hash} className="text-right" variant="compact" />
-            <CopyAction value={record.hash} />
+            <CopyAction
+              value={record.hash}
+              iconProps={{
+                size: 16,
+              }}
+              buttonProps={{
+                className: 'size-7',
+              }}
+            />
           </View>
         </ActivityDetailRow>
 

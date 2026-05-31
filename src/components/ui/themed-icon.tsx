@@ -10,9 +10,9 @@ const UniwindIonicons = withUniwind(Ionicons);
 const UniwindMaterialDesignIcons = withUniwind(MaterialDesignIcons);
 const UniwindFontAwesome = withUniwind(FontAwesome);
 
-type ThemedIconProps = ComponentProps<typeof UniwindIonicons>;
-type ThemedMaterialDesignIconProps = ComponentProps<typeof UniwindMaterialDesignIcons>;
-type ThemedFontAwesomeIconProps = ComponentProps<typeof UniwindFontAwesome>;
+export type ThemedIconProps = ComponentProps<typeof UniwindIonicons>;
+export type ThemedMaterialDesignIconProps = ComponentProps<typeof UniwindMaterialDesignIcons>;
+export type ThemedFontAwesomeIconProps = ComponentProps<typeof UniwindFontAwesome>;
 
 export const ThemedIcon = ({ className, ...props }: ThemedIconProps) => (
   <UniwindIonicons className={cn('text-muted', className)} {...props} />
