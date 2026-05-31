@@ -2,13 +2,13 @@ import { useMemo } from 'react';
 
 import BigNumber from 'bignumber.js';
 import { useRouter } from 'expo-router';
-import { Typography } from 'heroui-native';
+import { EmptyState } from 'heroui-native-pro/empty-state';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
 
 import { AssetList, AssetListSkeleton } from '@/components/home/asset-list';
 import { Page } from '@/components/page';
 import { KeyboardAwareScrollView } from '@/components/ui/keyboard-aware-scroll-view';
+import { ThemedIcon } from '@/components/ui/themed-icon';
 import { useQueryAssets } from '@/modules/defi/hooks/use-query-assets';
 
 export default function SendTokenScreen() {
@@ -38,11 +38,14 @@ export default function SendTokenScreen() {
             rows={selectableRows}
           />
         ) : (
-          <View className="flex-1 items-center justify-center px-6">
-            <Typography className="text-foreground/60 text-center">
-              {t('description.selectToken.not.assets')}
-            </Typography>
-          </View>
+          <EmptyState className="min-h-[320px] flex-1 justify-center">
+            <EmptyState.Header>
+              <EmptyState.Media variant="icon">
+                <ThemedIcon className="text-muted" name="wallet-outline" size={20} />
+              </EmptyState.Media>
+              <EmptyState.Title>{t('description.selectToken.not.assets')}</EmptyState.Title>
+            </EmptyState.Header>
+          </EmptyState>
         )}
       </KeyboardAwareScrollView>
     </Page>
