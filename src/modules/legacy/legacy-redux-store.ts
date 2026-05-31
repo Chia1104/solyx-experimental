@@ -1,14 +1,9 @@
-import { createMMKV } from 'react-native-mmkv';
-
 import type {
   AccountState,
   CefiUserAccountState,
   SettingsState,
 } from '@/modules/user/stores/user/types';
-
-export const legacyReduxStore = createMMKV({
-  id: 'redux-persist',
-});
+import { legacyReduxKv } from '@/modules/kv';
 
 interface LegacyReduxPersistRoot {
   user?: string;
@@ -83,10 +78,10 @@ const parsePersistSlice = <T>(value: string | undefined): T | null => {
   }
 };
 
-export const hasLegacyReduxStore = () => Boolean(legacyReduxStore.getString('persist:root'));
+export const hasLegacyReduxStore = () => Boolean(legacyReduxKv.getString('persist:root'));
 
 export const getLegacyReduxStore = (): LegacyReduxStore | null => {
-  const store = legacyReduxStore.getString('persist:root');
+  const store = legacyReduxKv.getString('persist:root');
   if (!store) {
     return null;
   }

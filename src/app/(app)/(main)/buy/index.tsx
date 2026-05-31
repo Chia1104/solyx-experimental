@@ -1,12 +1,10 @@
-import { Typography } from 'heroui-native';
-import { View } from 'react-native';
+import { BuyScreenContent } from '@/components/buy/buy-screen-content';
+import { Page } from '@/components/page';
 
-const BuyIndex = () => {
+export default function BuyIndexScreen() {
   return (
-    <View>
-      <Typography>Buy</Typography>
-    </View>
+    <Page className="bg-background">
+      <BuyScreenContent />
+    </Page>
   );
-};
-
-export default BuyIndex;
+}

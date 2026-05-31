@@ -47,3 +47,5 @@ app-example
 .env.local
 
 solyx-gdk-legacy.code-workspace
+
+.pnpm-store

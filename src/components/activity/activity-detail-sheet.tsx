@@ -13,8 +13,8 @@ import {
   GasFeeFiatDisplay,
   computeGasFiatValue,
 } from '@/components/defi/transaction-confirm/gas-fee-display';
+import { AddressDisplay } from '@/components/ui/address-display';
 import { CopyAction } from '@/components/ui/copy-action';
-import { shortenAddress } from '@/modules/chain/utils/transaction-confirm';
 import type { ActionKey } from '@/modules/database/enums/defi-record.enum';
 import type { DefiRecordRow } from '@/modules/database/schema/defi-record.schema';
 import { useDefiAccount } from '@/modules/defi/hooks/use-defi-account';
@@ -200,9 +200,7 @@ const ActivityDetailSheetContent = memo(({ record }: { record: DefiRecordRow }) 
 
         <ActivityDetailRow label="TxID">
           <View className="flex-row items-center gap-1">
-            <Typography className="text-foreground text-right" type="body-sm">
-              {shortenAddress(record.hash)}
-            </Typography>
+            <AddressDisplay address={record.hash} className="text-right" variant="compact" />
             <CopyAction value={record.hash} />
           </View>
         </ActivityDetailRow>

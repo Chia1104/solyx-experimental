@@ -1,21 +1,15 @@
-import { createMMKV } from 'react-native-mmkv';
-
 import { env } from '@/libs/env';
-
-export const cefiAuthStorage = createMMKV({
-  id: 'cefi-auth',
-});
+import { cefiAuthKv } from '@/modules/kv';
 
 export const cefiToken = {
-  getAccessToken: () => cefiAuthStorage.getString(env.EXPO_PUBLIC_WALLET_CEFI_TOKEN_SERVICE),
-  getRefreshToken: () =>
-    cefiAuthStorage.getString(env.EXPO_PUBLIC_WALLET_CEFI_REFRESH_TOKEN_SERVICE),
+  getAccessToken: () => cefiAuthKv.getString(env.EXPO_PUBLIC_WALLET_CEFI_TOKEN_SERVICE),
+  getRefreshToken: () => cefiAuthKv.getString(env.EXPO_PUBLIC_WALLET_CEFI_REFRESH_TOKEN_SERVICE),
   setAccessToken: (accessToken: string) =>
-    cefiAuthStorage.set(env.EXPO_PUBLIC_WALLET_CEFI_TOKEN_SERVICE, accessToken),
+    cefiAuthKv.set(env.EXPO_PUBLIC_WALLET_CEFI_TOKEN_SERVICE, accessToken),
   setRefreshToken: (refreshToken: string) =>
-    cefiAuthStorage.set(env.EXPO_PUBLIC_WALLET_CEFI_REFRESH_TOKEN_SERVICE, refreshToken),
+    cefiAuthKv.set(env.EXPO_PUBLIC_WALLET_CEFI_REFRESH_TOKEN_SERVICE, refreshToken),
   clear: () => {
-    cefiAuthStorage.remove(env.EXPO_PUBLIC_WALLET_CEFI_TOKEN_SERVICE);
-    cefiAuthStorage.remove(env.EXPO_PUBLIC_WALLET_CEFI_REFRESH_TOKEN_SERVICE);
+    cefiAuthKv.remove(env.EXPO_PUBLIC_WALLET_CEFI_TOKEN_SERVICE);
+    cefiAuthKv.remove(env.EXPO_PUBLIC_WALLET_CEFI_REFRESH_TOKEN_SERVICE);
   },
 };

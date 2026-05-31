@@ -284,22 +284,7 @@ export const formatDisplayValue = (value: string) => {
   return value?.toString() || '0';
 };
 
-export const shortenAddress = (address: string) => {
-  if (!address || address.length < 10) {
-    return address;
-  }
-  return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
-};
-
-export const formatLiquidAddress = (address: string) => {
-  if (!address) {
-    return '';
-  }
-  if (address.length <= 20) {
-    return address;
-  }
-  return `${address.slice(0, 10)}...${address.slice(-10)}`;
-};
+export { formatLiquidAddress, shortenAddress } from '@/modules/chain/utils/address-display';
 
 export const isSameAddress = (a?: string, b?: string) =>
   !!a && !!b && a.toLocaleUpperCase() === b.toLocaleUpperCase();

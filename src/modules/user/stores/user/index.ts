@@ -1,11 +1,10 @@
-import { createMMKV } from 'react-native-mmkv';
 import { create } from 'zustand';
-import type { StateStorage } from 'zustand/middleware';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 import { queryClient } from '@/libs/request/query-client';
 import { walletQueryKeys } from '@/modules/database/hooks/wallet-query-keys';
 import { resetWallets } from '@/modules/database/repos/wallet.repo';
+import { createZustandKvStorage, userStoreKv } from '@/modules/kv';
 
 import { createAccountInitialState, createAccountSlice } from './account.slice';
 import {
@@ -16,19 +15,7 @@ import { createSettingsInitialState, createSettingsSlice } from './settings.slic
 import type { UserPersistedState, UserStoreState } from './types';
 import { createWalletInitialState, createWalletSlice } from './wallet.slice';
 
-const userStoreMMKV = createMMKV({
-  id: 'user-store',
-});
-
-const userStoreStorage: StateStorage = {
-  getItem: name => userStoreMMKV.getString(name) ?? null,
-  setItem: (name, value) => {
-    userStoreMMKV.set(name, value);
-  },
-  removeItem: name => {
-    userStoreMMKV.remove(name);
-  },
-};
+const userStoreStorage = createZustandKvStorage(userStoreKv);
 
 export const createUserInitialState = (): UserPersistedState => ({
   account: createAccountInitialState(),

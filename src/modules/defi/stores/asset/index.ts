@@ -1,21 +1,9 @@
-import { createMMKV } from 'react-native-mmkv';
 import { create } from 'zustand';
-import type { StateStorage } from 'zustand/middleware';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
-const assetStoreMMKV = createMMKV({
-  id: 'asset-store',
-});
+import { assetStoreKv, createZustandKvStorage } from '@/modules/kv';
 
-const assetStoreStorage: StateStorage = {
-  getItem: name => assetStoreMMKV.getString(name) ?? null,
-  setItem: (name, value) => {
-    assetStoreMMKV.set(name, value);
-  },
-  removeItem: name => {
-    assetStoreMMKV.remove(name);
-  },
-};
+const assetStoreStorage = createZustandKvStorage(assetStoreKv);
 
 export interface AssetState {
   isBalanceVisible: boolean;

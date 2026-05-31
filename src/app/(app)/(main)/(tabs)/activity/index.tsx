@@ -1,14 +1,19 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Tabs, cn } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import { ActivityTabPanel } from '@/components/activity/activity-tab-panel';
+import { BuyActivity } from '@/components/activity/buy-activity';
 import { TransactionActivity } from '@/components/activity/transaction-activity';
 import { Page } from '@/components/page';
 
 type ActivityTab = 'transaction' | 'withdraw' | 'swap' | 'buy';
+
+const isActivityTab = (value: string | undefined): value is ActivityTab =>
+  value === 'transaction' || value === 'withdraw' || value === 'swap' || value === 'buy';
 
 interface ActivityTabLabelProps {
   children: string;
@@ -23,9 +28,56 @@ const ActivityTabLabel = ({ children, isSelected }: ActivityTabLabelProps) => (
 
 const ActivityTabPlaceholder = () => <View className="bg-background min-h-0 flex-1" />;
 
+const getSingleParam = (value: string | string[] | undefined) => {
+  if (Array.isArray(value)) {
+    return value[0];
+  }
+
+  return value;
+};
+
 export default function ActivityScreen() {
+  const router = useRouter();
   const { t } = useTranslation(['defi', 'cefi']);
-  const [activeTab, setActiveTab] = useState<ActivityTab>('transaction');
+  const params = useLocalSearchParams<{
+    initialTab?: string;
+    pendingOrderId?: string;
+  }>();
+
+  const initialTabParam = getSingleParam(params.initialTab);
+  const pendingOrderIdParam = getSingleParam(params.pendingOrderId);
+
+  const [activeTab, setActiveTab] = useState<ActivityTab>(() =>
+    isActivityTab(initialTabParam) ? initialTabParam : 'transaction',
+  );
+  const [pendingOrderId, setPendingOrderId] = useState<string | undefined>(pendingOrderIdParam);
+
+  useEffect(() => {
+    if (isActivityTab(initialTabParam)) {
+      setActiveTab(initialTabParam);
+    }
+  }, [initialTabParam]);
+
+  useEffect(() => {
+    if (pendingOrderIdParam) {
+      setPendingOrderId(pendingOrderIdParam);
+    }
+  }, [pendingOrderIdParam]);
+
+  const handlePendingOrderHandled = useCallback(() => {
+    setPendingOrderId(undefined);
+    router.setParams({ pendingOrderId: undefined });
+  }, [router]);
+
+  const buyActivity = useMemo(
+    () => (
+      <BuyActivity
+        pendingOrderId={pendingOrderId}
+        onPendingOrderHandled={handlePendingOrderHandled}
+      />
+    ),
+    [handlePendingOrderHandled, pendingOrderId],
+  );
 
   return (
     <Page className="bg-background" edges={['left', 'right']} tabBarInset>
@@ -73,7 +125,7 @@ export default function ActivityScreen() {
             <ActivityTabPlaceholder />
           </ActivityTabPanel>
           <ActivityTabPanel activeTab={activeTab} tab="buy">
-            <ActivityTabPlaceholder />
+            {buyActivity}
           </ActivityTabPanel>
         </View>
       </Tabs>

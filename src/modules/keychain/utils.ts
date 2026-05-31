@@ -1,6 +1,7 @@
 import { Platform } from 'react-native';
 import * as Keychain from 'react-native-keychain';
-import { createMMKV } from 'react-native-mmkv';
+
+import { keychainCacheKv } from '@/modules/kv';
 
 export interface BiometryItem {
   icon: React.FC | null;
@@ -42,10 +43,6 @@ export const BiometryIcons: BiometryItems = {
     },
   },
 };
-
-const cache = createMMKV({
-  id: 'fontrunaKeychainLocalStorage',
-});
 
 export async function getAllGenericPasswordServices() {
   try {
@@ -97,9 +94,9 @@ export async function setGenericPassword({
 }) {
   try {
     if (!options?.accessControl) {
-      cache.set(service, password);
+      keychainCacheKv.set(service, password);
     } else {
-      cache.remove(service);
+      keychainCacheKv.remove(service);
     }
     const result = await Keychain.setGenericPassword(service, password, {
       ...options,
@@ -114,7 +111,7 @@ export async function setGenericPassword({
 }
 
 export async function getGenericPassword(options?: Keychain.GetOptions | undefined) {
-  let data = cache.getString(options?.service || '');
+  let data = keychainCacheKv.getString(options?.service || '');
 
   if (!data) {
     try {
@@ -141,7 +138,7 @@ export async function hasKeychainGenericPassword(service: string): Promise<boole
 export async function resetGenericPassword(options?: Keychain.BaseOptions | undefined) {
   try {
     if (options?.service) {
-      cache.remove(options?.service);
+      keychainCacheKv.remove(options?.service);
     }
     await Keychain.resetGenericPassword(options);
   } catch (error) {
@@ -153,7 +150,7 @@ export async function resetGenericPassword(options?: Keychain.BaseOptions | unde
 export async function resetInternetCredentials(service: string) {
   try {
     if (service) {
-      cache.remove(service);
+      keychainCacheKv.remove(service);
     }
     await Keychain.resetInternetCredentials({ server: service });
   } catch (error) {

@@ -1,11 +1,8 @@
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister';
 import { QueryClient } from '@tanstack/react-query';
 import type { PersistQueryClientOptions } from '@tanstack/react-query-persist-client';
-import { createMMKV } from 'react-native-mmkv';
 
-export const queryStorage = createMMKV({
-  id: 'query',
-});
+import { createAsyncKvPersisterStorage, queryKv } from '@/modules/kv';
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -16,18 +13,7 @@ export const queryClient = new QueryClient({
 });
 
 export const queryPersister = createAsyncStoragePersister({
-  storage: {
-    getItem: key => {
-      const value = queryStorage.getString(key);
-      return value;
-    },
-    setItem: (key, value) => {
-      queryStorage.set(key, value);
-    },
-    removeItem: key => {
-      queryStorage.remove(key);
-    },
-  },
+  storage: createAsyncKvPersisterStorage(queryKv),
 });
 
 export const persistOptions: Omit<PersistQueryClientOptions, 'queryClient'> = {

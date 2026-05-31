@@ -35,6 +35,7 @@ export default function AppLayout() {
           </Stack.Protected>
           <Stack.Protected guard={entryState.phase === EntryPhase.Main}>
             <Stack.Screen name="(main)" options={{ headerShown: false }} />
+            <Stack.Screen name="onramp-callback" options={{ headerShown: false }} />
           </Stack.Protected>
         </Stack>
         {request && entryState.phase !== EntryPhase.AppLock ? (

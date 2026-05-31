@@ -6,7 +6,7 @@ import { TronWeb } from 'tronweb';
 
 import type { ChainConfig } from '@/modules/chain/stores/chain-adapter/types';
 import { ChainType } from '@/modules/chain/stores/chain-adapter/types';
-import { shortenAddress } from '@/modules/chain/utils/transaction-confirm';
+import { compactAddress } from '@/modules/chain/utils/address-display';
 import { ActionKey, RecordStatus } from '@/modules/database/enums/defi-record.enum';
 import type { DefiRecordRow } from '@/modules/database/schema/defi-record.schema';
 import { DEFI_RECORDS_LIMIT } from '@/modules/defi/utils/defi-record-sync.utils';
@@ -241,10 +241,10 @@ export const formatActivityDetailAddress = ({
 }) => {
   const isOwnAddress = address.toLowerCase() === userAddress.toLowerCase();
   if (isOwnAddress && walletName) {
-    return `${walletName} (${shortenAddress(address)})`;
+    return `${walletName} (${compactAddress(address)})`;
   }
 
-  return shortenAddress(address);
+  return compactAddress(address);
 };
 
 export const parseActivityRecordGasFee = ({

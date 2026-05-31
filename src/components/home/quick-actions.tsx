@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 
+import { AddressDisplay } from '@/components/ui/address-display';
 import { CopyAction } from '@/components/ui/copy-action';
 import {
   ThemedFontAwesomeIcon,
@@ -157,9 +158,12 @@ export const ReceiveBottomSheetContent = ({ isOpen }: ReceiveBottomSheetContentP
               value={receiveAddress}
             />
             <View className="bg-surface-secondary mt-5 w-full flex-row items-center gap-2 rounded-2xl px-3 py-3">
-              <Typography className="text-foreground min-w-0 flex-1" selectable type="body-sm">
-                {receiveAddress}
-              </Typography>
+              <AddressDisplay
+                address={receiveAddress}
+                className="min-w-0 flex-1"
+                selectable
+                variant="highlighted"
+              />
               <CopyAction value={receiveAddress} />
             </View>
           </>

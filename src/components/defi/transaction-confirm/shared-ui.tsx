@@ -6,6 +6,7 @@ import { NumberValue } from 'heroui-native-pro/number-value';
 import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
 
+import { AddressDisplay } from '@/components/ui/address-display';
 import { CopyAction } from '@/components/ui/copy-action';
 import { ThemedIcon } from '@/components/ui/themed-icon';
 
@@ -112,9 +113,22 @@ export const TransactionDetails = memo(
             {t('defi:label.to')}
           </Typography>
           <View className="max-w-[65%] flex-row items-center gap-1">
-            <Typography className="text-foreground shrink text-right" type="body">
-              {formattedToAddress ?? toAddress}
-            </Typography>
+            {formattedToAddress ? (
+              <AddressDisplay
+                address={toAddress}
+                className="shrink text-right"
+                compactPreset="liquid"
+                type="body"
+                variant="compact"
+              />
+            ) : (
+              <AddressDisplay
+                address={toAddress}
+                className="shrink justify-end"
+                type="body"
+                variant="highlighted"
+              />
+            )}
             <CopyAction value={toAddress} />
           </View>
         </View>
@@ -123,10 +137,15 @@ export const TransactionDetails = memo(
           <Typography className="text-default-foreground" type="body">
             {t('defi:label.from')}
           </Typography>
-          <Typography className="text-foreground text-right" type="body">
-            {accountName} ({`${address.substring(0, 6)}...${address.substring(address.length - 4)}`}
-            )
-          </Typography>
+          <View className="max-w-[65%] flex-row flex-wrap items-center justify-end gap-0.5">
+            <Typography className="text-foreground text-right" type="body">
+              {accountName} (
+            </Typography>
+            <AddressDisplay address={address} type="body" variant="compact" />
+            <Typography className="text-foreground text-right" type="body">
+              )
+            </Typography>
+          </View>
         </View>
 
         <View className="flex-row items-center justify-between gap-3">
