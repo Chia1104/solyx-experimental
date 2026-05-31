@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Tabs, cn } from 'heroui-native';
@@ -47,37 +47,23 @@ export default function ActivityScreen() {
   const initialTabParam = getSingleParam(params.initialTab);
   const pendingOrderIdParam = getSingleParam(params.pendingOrderId);
 
-  const [activeTab, setActiveTab] = useState<ActivityTab>(() =>
-    isActivityTab(initialTabParam) ? initialTabParam : 'transaction',
+  const tabFromParams = isActivityTab(initialTabParam) ? initialTabParam : undefined;
+  const [localTab, setLocalTab] = useState<ActivityTab>('transaction');
+  const activeTab = tabFromParams ?? localTab;
+
+  const handleTabChange = useCallback(
+    (value: ActivityTab) => {
+      setLocalTab(value);
+      if (tabFromParams) {
+        router.setParams({ initialTab: undefined });
+      }
+    },
+    [router, tabFromParams],
   );
-  const [pendingOrderId, setPendingOrderId] = useState<string | undefined>(pendingOrderIdParam);
-
-  useEffect(() => {
-    if (isActivityTab(initialTabParam)) {
-      setActiveTab(initialTabParam);
-    }
-  }, [initialTabParam]);
-
-  useEffect(() => {
-    if (pendingOrderIdParam) {
-      setPendingOrderId(pendingOrderIdParam);
-    }
-  }, [pendingOrderIdParam]);
 
   const handlePendingOrderHandled = useCallback(() => {
-    setPendingOrderId(undefined);
     router.setParams({ pendingOrderId: undefined });
   }, [router]);
-
-  const buyActivity = useMemo(
-    () => (
-      <BuyActivity
-        pendingOrderId={pendingOrderId}
-        onPendingOrderHandled={handlePendingOrderHandled}
-      />
-    ),
-    [handlePendingOrderHandled, pendingOrderId],
-  );
 
   return (
     <Page className="bg-background" edges={['left', 'right']} tabBarInset>
@@ -85,7 +71,7 @@ export default function ActivityScreen() {
         className="min-h-0 flex-1 gap-0"
         value={activeTab}
         variant="secondary"
-        onValueChange={value => setActiveTab(value as ActivityTab)}
+        onValueChange={value => handleTabChange(value as ActivityTab)}
       >
         <Tabs.List className="bg-surface">
           <Tabs.ScrollView contentContainerClassName="gap-5 px-4 py-3" scrollAlign="start">
@@ -125,7 +111,10 @@ export default function ActivityScreen() {
             <ActivityTabPlaceholder />
           </ActivityTabPanel>
           <ActivityTabPanel activeTab={activeTab} tab="buy">
-            {buyActivity}
+            <BuyActivity
+              pendingOrderId={pendingOrderIdParam}
+              onPendingOrderHandled={handlePendingOrderHandled}
+            />
           </ActivityTabPanel>
         </View>
       </Tabs>
