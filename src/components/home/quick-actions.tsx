@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { useCallback, useState } from 'react';
 
 import { useRouter } from 'expo-router';
@@ -104,7 +105,7 @@ interface ReceiveBottomSheetContentProps {
   isOpen: boolean;
 }
 
-const ReceiveBottomSheetContent = ({ isOpen }: ReceiveBottomSheetContentProps) => {
+export const ReceiveBottomSheetContent = ({ isOpen }: ReceiveBottomSheetContentProps) => {
   const { t } = useTranslation(['defi']);
   const [foregroundColor] = useThemeColor(['foreground']);
   const { chain, currentAddress, isLIQUID, liquidAmpId, liquidSubaccountPointer } =
@@ -185,15 +186,15 @@ const ReceiveBottomSheetContent = ({ isOpen }: ReceiveBottomSheetContentProps) =
   );
 };
 
-interface QuickActionProps {
+export interface QuickActionProps {
   disabled?: boolean;
   isHighlighted?: boolean;
   label: string;
   onPress: () => void;
-  renderIcon: (className: string) => React.ReactNode;
+  renderIcon: (className: string) => ReactNode;
 }
 
-const QuickAction = ({
+export const QuickAction = ({
   disabled = false,
   isHighlighted = false,
   label,

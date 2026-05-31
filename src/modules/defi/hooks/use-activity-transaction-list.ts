@@ -32,7 +32,20 @@ const createLiquidPaginationState = (key: string): LiquidPaginationState => ({
   nextOffset: LIQUID_RECORDS_PAGE_SIZE,
 });
 
-export const useActivityTransactionList = () => {
+interface UseActivityTransactionListOptions {
+  currencySymbol?: string;
+}
+
+const filterRecordsByCurrency = (records: DefiRecordRow[], currencySymbol?: string) => {
+  if (!currencySymbol) {
+    return records;
+  }
+
+  const normalizedCurrency = currencySymbol.toLowerCase();
+  return records.filter(record => record.tokenSymbol?.toLowerCase() === normalizedCurrency);
+};
+
+export const useActivityTransactionList = (options?: UseActivityTransactionListOptions) => {
   const { currentAddress, dbChainId, isEVM, isLIQUID, isTRON, liquidSubaccountPointer } =
     useDefiAccount();
   const liquidLoggedIn = useChainAdapterStore(state => state.liquidLoggedIn);
@@ -49,11 +62,15 @@ export const useActivityTransactionList = () => {
   );
 
   const allRecords = recordsQuery.data ?? EMPTY_RECORDS;
+  const filteredRecords = useMemo(
+    () => filterRecordsByCurrency(allRecords, options?.currencySymbol),
+    [allRecords, options?.currencySymbol],
+  );
   const isExplorerChain = isEVM || isTRON;
 
   const sections = useMemo(
-    () => groupActivityRecordsByDay(allRecords.slice(0, ACTIVITY_RECORDS_LIMIT)),
-    [allRecords],
+    () => groupActivityRecordsByDay(filteredRecords.slice(0, ACTIVITY_RECORDS_LIMIT)),
+    [filteredRecords],
   );
   const listData = useMemo(() => flattenActivitySections(sections), [sections]);
   const currentLiquidPagination =
@@ -64,9 +81,12 @@ export const useActivityTransactionList = () => {
   const isSyncEnabled =
     Boolean(context) && (context?.chainType !== ChainType.LIQUID || liquidLoggedIn);
 
-  useQueryDefiRecordSync(context, 'latest', {
+  const syncQuery = useQueryDefiRecordSync(context, 'latest', {
     enabled: isSyncEnabled,
   });
+
+  const isLoading =
+    sections.length === 0 && isSyncEnabled && (syncQuery.isPending || syncQuery.isFetching);
 
   const onRefresh = useCallback(() => {
     setLiquidPagination(createLiquidPaginationState(paginationKey));
@@ -112,6 +132,7 @@ export const useActivityTransactionList = () => {
   return {
     hasMore,
     isExplorerChain,
+    isLoading,
     isLoadingMore,
     isRefreshing: isSyncingRecords,
     listData,

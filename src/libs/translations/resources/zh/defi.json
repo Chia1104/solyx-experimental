@@ -197,6 +197,7 @@
     "bridgefy.selected.transaction.types.only": "Bridgefy 僅顯示部分交易類型（請見 FAQ：「Bridgefy 支援哪些交易紀錄？」）。\n\n完整交易紀錄請點選下方 Explorer 查看。",
     "recent.records.limit.prefix": "僅顯示最近 ",
     "recent.records.limit.suffix": " 筆交易。",
+    "recent.records.limit.only": "僅顯示最近 {{count}} 筆交易。",
     "view.full.history.on.explorer": "在 Explorer 查看完整紀錄",
     "missing.transaction.notice": "找不到交易？\n活動紀錄可能不包含每一筆鏈上交易。\n請前往 Explorer 查看完整紀錄。",
     "tap.scan.view.more": "更多紀錄請點選 Scan 查看",

@@ -8,16 +8,20 @@ import { useDefiAccount } from '@/modules/defi/hooks/use-defi-account';
 import { buildAddressExplorerUrl } from '@/modules/defi/utils/activity-transaction.utils';
 
 interface ActivityExplorerLinkProps {
+  align?: 'center' | 'start';
   applyEmptySpacing?: boolean;
   buttonLabel?: string;
+  className?: string;
   hasRecords?: boolean;
   showMessage?: boolean;
 }
 
 export const ActivityExplorerLink = memo(
   ({
+    align = 'center',
     applyEmptySpacing = true,
     buttonLabel,
+    className,
     hasRecords = false,
     showMessage = true,
   }: ActivityExplorerLinkProps) => {
@@ -44,8 +48,10 @@ export const ActivityExplorerLink = memo(
     return (
       <View
         className={cn(
+          align === 'start' ? 'items-start self-start' : 'items-center',
           applyEmptySpacing && (hasRecords ? 'mt-6 mb-8' : 'mt-4 mb-8'),
-          !applyEmptySpacing && 'items-center',
+          !applyEmptySpacing && align === 'center' && 'items-center',
+          className,
         )}
       >
         {showMessage ? (

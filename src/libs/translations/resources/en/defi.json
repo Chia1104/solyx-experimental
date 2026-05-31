@@ -197,6 +197,7 @@
     "bridgefy.selected.transaction.types.only": "Bridgefy only displays selected transaction types (see FAQ: “What transaction records are supported in Bridgefy?”).\n\nView full transaction history via the Explorer link below.",
     "recent.records.limit.prefix": "Only the latest ",
     "recent.records.limit.suffix": " transactions are displayed.",
+    "recent.records.limit.only": "Only the latest {{count}} transactions are displayed.",
     "view.full.history.on.explorer": "View full history on Explorer",
     "missing.transaction.notice": "Missing a transaction?\nActivity may not include every on-chain transaction.\nCheck Explorer for complete history.",
     "tap.scan.view.more": "Tap Scan to view more in the explorer.",
