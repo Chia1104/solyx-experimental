@@ -147,7 +147,7 @@ const OnrampOrderDetailContent = memo(({ orderId }: { orderId: string }) => {
     );
   }
 
-  const amountFormatted = new BigNumber(detail.purchaseAmount || 0).decimalPlaces(8).toFormat();
+  const purchaseAmount = new BigNumber(detail.purchaseAmount || 0).toNumber();
   const purchaseSymbol = (detail.purchaseCurrency || 'USDT') as SupportedCurrencySymbol;
 
   return (
@@ -155,9 +155,24 @@ const OnrampOrderDetailContent = memo(({ orderId }: { orderId: string }) => {
       <View className="mb-6 flex-row items-center gap-3">
         <TokenMark symbol={purchaseSymbol} network={SupportedNetwork.Evm} size="lg" />
         <View>
-          <Typography className="text-foreground" type="h3" weight="bold">
-            +{amountFormatted} {detail.purchaseCurrency}
-          </Typography>
+          <NumberValue
+            classNames={{
+              container: 'flex-row items-end',
+              value: 'text-foreground text-2xl font-bold',
+            }}
+            locale={i18n.language}
+            maximumFractionDigits={8}
+            signDisplay="never"
+            value={purchaseAmount}
+          >
+            <NumberValue.Prefix className="text-foreground text-2xl font-bold">
+              +
+            </NumberValue.Prefix>
+            <NumberValue.Value />
+            <NumberValue.Suffix className="text-foreground mb-0.5 ml-1 text-base font-bold">
+              {detail.purchaseCurrency}
+            </NumberValue.Suffix>
+          </NumberValue>
           <NumberValue
             classNames={{ value: 'text-muted text-base' }}
             currency="USD"
@@ -219,7 +234,7 @@ const OnrampOrderDetailContent = memo(({ orderId }: { orderId: string }) => {
         ) : null}
       </View>
 
-      <Button className="mt-6" onPress={handleContactSupport} variant="primary">
+      <Button className="mt-6" onPress={handleContactSupport} variant="primary" size="sm">
         <Button.Label>{t('buy.orderDetail.contactSupport')}</Button.Label>
       </Button>
     </BottomSheetScrollView>

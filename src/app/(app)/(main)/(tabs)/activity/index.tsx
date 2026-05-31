@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react';
 
+import { useQueryClient } from '@tanstack/react-query';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Tabs, cn } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
@@ -9,6 +10,7 @@ import { ActivityTabPanel } from '@/components/activity/activity-tab-panel';
 import { BuyActivity } from '@/components/activity/buy-activity';
 import { TransactionActivity } from '@/components/activity/transaction-activity';
 import { Page } from '@/components/page';
+import { onrampOrdersInfiniteQueryKey } from '@/modules/cefi/hooks/use-query-onramp-orders';
 
 type ActivityTab = 'transaction' | 'withdraw' | 'swap' | 'buy';
 
@@ -37,6 +39,7 @@ const getSingleParam = (value: string | string[] | undefined) => {
 };
 
 export default function ActivityScreen() {
+  const queryClient = useQueryClient();
   const router = useRouter();
   const { t } = useTranslation(['defi', 'cefi']);
   const params = useLocalSearchParams<{
@@ -62,8 +65,9 @@ export default function ActivityScreen() {
   );
 
   const handlePendingOrderHandled = useCallback(() => {
+    void queryClient.invalidateQueries({ queryKey: [...onrampOrdersInfiniteQueryKey] });
     router.setParams({ pendingOrderId: undefined });
-  }, [router]);
+  }, [queryClient, router]);
 
   return (
     <Page className="bg-background" edges={['left', 'right']} tabBarInset>

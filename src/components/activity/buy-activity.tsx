@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { memo, useCallback, useMemo, useState } from 'react';
 
 import type { LegendListRenderItemProps } from '@legendapp/list/react-native';
 import { LegendList } from '@legendapp/list/react-native';
@@ -15,14 +15,15 @@ import { OnrampOrderDetailSheet } from '@/components/activity/onramp-order-detai
 import { ThemedIcon } from '@/components/ui/themed-icon';
 import { useTabBarContentInset } from '@/hooks/use-tab-bar-content-inset';
 import { cefiToken } from '@/modules/cefi/cefi-store';
-import { useQueryOnrampOrder } from '@/modules/cefi/hooks/use-query-onramp-order';
-import { useQueryOnrampOrders } from '@/modules/cefi/hooks/use-query-onramp-orders';
+import {
+  flattenOnrampOrdersPages,
+  useInfiniteQueryOnrampOrders,
+} from '@/modules/cefi/hooks/use-query-onramp-orders';
 import type { OnrampOrderListItem } from '@/modules/cefi/pipes/onramp.pipe';
 
 dayjs.extend(isToday);
 dayjs.extend(isYesterday);
 
-const PER_PAGE = 20;
 const ESTIMATED_ITEM_SIZE = 72;
 const LIST_END_REACHED_THRESHOLD = 0.3;
 
@@ -90,55 +91,22 @@ export const BuyActivity = memo(({ onPendingOrderHandled, pendingOrderId }: BuyA
   const contentInsetBottom = useTabBarContentInset();
   const hasCefiToken = Boolean(cefiToken.getAccessToken());
 
-  const [page, setPage] = useState(1);
-  const [refreshing, setRefreshing] = useState(false);
-  const [allOrders, setAllOrders] = useState<OnrampOrderListItem[]>([]);
-  const [detailOrderId, setDetailOrderId] = useState<string | null>(null);
-  const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [dismissedPendingOrderId, setDismissedPendingOrderId] = useState<string | null>(null);
+  const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
 
-  const ordersQuery = useQueryOnrampOrders(
-    {
-      finPerPage: PER_PAGE,
-      finPage: page.toString(),
-    },
-    { enabled: hasCefiToken },
+  const ordersQuery = useInfiniteQueryOnrampOrders({ enabled: hasCefiToken });
+
+  const shouldAutoOpenPending = Boolean(
+    pendingOrderId && pendingOrderId !== dismissedPendingOrderId,
   );
+  const detailOrderId = selectedOrderId ?? (shouldAutoOpenPending ? pendingOrderId : null);
+  const isDetailOpen = isSheetOpen || shouldAutoOpenPending;
 
-  const pendingOrderQuery = useQueryOnrampOrder(
-    { orderId: pendingOrderId!, syncWithProvider: true },
-    { enabled: Boolean(pendingOrderId && hasCefiToken) },
+  const allOrders = useMemo(
+    () => flattenOnrampOrdersPages(ordersQuery.data?.pages),
+    [ordersQuery.data?.pages],
   );
-
-  useEffect(() => {
-    if (!pendingOrderId || !pendingOrderQuery.data) {
-      return;
-    }
-
-    setDetailOrderId(pendingOrderId);
-    setIsDetailOpen(true);
-    void ordersQuery.refetch();
-    onPendingOrderHandled?.();
-  }, [onPendingOrderHandled, ordersQuery, pendingOrderId, pendingOrderQuery.data]);
-
-  useEffect(() => {
-    const pageData = ordersQuery.data?.data;
-
-    if (!pageData) {
-      return;
-    }
-
-    if (page === 1) {
-      setAllOrders(pageData);
-      return;
-    }
-
-    setAllOrders(previous => {
-      const existingIds = new Set(previous.map(order => String(order.id)));
-      const newOrders = pageData.filter(order => !existingIds.has(String(order.id)));
-
-      return [...previous, ...newOrders];
-    });
-  }, [ordersQuery.data?.data, page]);
 
   const sections = useMemo(
     () => groupOrdersByDate(allOrders, t('global:unit.today'), t('global:unit.yesterday')),
@@ -163,38 +131,38 @@ export const BuyActivity = memo(({ onPendingOrderHandled, pendingOrderId }: BuyA
     [sections],
   );
 
-  const hasMore = useMemo(() => {
-    const meta = ordersQuery.data?.meta;
-
-    if (!meta) {
-      return false;
-    }
-
-    return meta.currentPage < meta.totalPages;
-  }, [ordersQuery.data?.meta]);
-
   const handleLoadMore = useCallback(() => {
-    if (!ordersQuery.isFetching && hasMore) {
-      setPage(previous => previous + 1);
-    }
-  }, [hasMore, ordersQuery.isFetching]);
-
-  const handleRefresh = useCallback(async () => {
-    setRefreshing(true);
-    setPage(1);
-
-    try {
-      const result = await ordersQuery.refetch();
-      setAllOrders(result.data?.data ?? []);
-    } finally {
-      setRefreshing(false);
+    if (ordersQuery.hasNextPage && !ordersQuery.isFetchingNextPage) {
+      void ordersQuery.fetchNextPage();
     }
   }, [ordersQuery]);
 
+  const handleRefresh = useCallback(() => {
+    void ordersQuery.refetch();
+  }, [ordersQuery]);
+
   const openOrderDetail = useCallback((orderId: string) => {
-    setDetailOrderId(orderId);
-    setIsDetailOpen(true);
+    setSelectedOrderId(orderId);
+    setIsSheetOpen(true);
   }, []);
+
+  const handleDetailOpenChange = useCallback(
+    (open: boolean) => {
+      if (!open) {
+        if (shouldAutoOpenPending && pendingOrderId) {
+          setDismissedPendingOrderId(pendingOrderId);
+          onPendingOrderHandled?.();
+        }
+
+        setSelectedOrderId(null);
+        setIsSheetOpen(false);
+        return;
+      }
+
+      setIsSheetOpen(true);
+    },
+    [onPendingOrderHandled, pendingOrderId, shouldAutoOpenPending],
+  );
 
   const renderItem = useCallback(
     ({ item }: LegendListRenderItemProps<BuyActivityListRow>) => {
@@ -219,7 +187,7 @@ export const BuyActivity = memo(({ onPendingOrderHandled, pendingOrderId }: BuyA
   );
 
   const listEmpty = useMemo(() => {
-    if (ordersQuery.isLoading) {
+    if (ordersQuery.isPending) {
       return (
         <View className="flex-1 items-center justify-center py-16">
           <Spinner size="lg" />
@@ -237,10 +205,10 @@ export const BuyActivity = memo(({ onPendingOrderHandled, pendingOrderId }: BuyA
         </EmptyState.Header>
       </EmptyState>
     );
-  }, [ordersQuery.isLoading, t]);
+  }, [ordersQuery.isPending, t]);
 
   const listFooter = useMemo(() => {
-    if (ordersQuery.isFetching && page > 1) {
+    if (ordersQuery.isFetchingNextPage) {
       return (
         <View className="items-center py-4">
           <Spinner size="sm" />
@@ -248,7 +216,7 @@ export const BuyActivity = memo(({ onPendingOrderHandled, pendingOrderId }: BuyA
       );
     }
 
-    if (!hasMore && allOrders.length > 0) {
+    if (!ordersQuery.hasNextPage && allOrders.length > 0) {
       return (
         <View className="items-center py-4">
           <Typography className="text-muted" type="body-sm">
@@ -259,7 +227,7 @@ export const BuyActivity = memo(({ onPendingOrderHandled, pendingOrderId }: BuyA
     }
 
     return null;
-  }, [allOrders.length, hasMore, ordersQuery.isFetching, page, t]);
+  }, [allOrders.length, ordersQuery.hasNextPage, ordersQuery.isFetchingNextPage, t]);
 
   return (
     <View className="min-h-0 flex-1">
@@ -277,19 +245,19 @@ export const BuyActivity = memo(({ onPendingOrderHandled, pendingOrderId }: BuyA
         onEndReached={handleLoadMore}
         onEndReachedThreshold={LIST_END_REACHED_THRESHOLD}
         recycleItems
-        refreshControl={<RefreshControl onRefresh={handleRefresh} refreshing={refreshing} />}
+        refreshControl={
+          <RefreshControl
+            onRefresh={handleRefresh}
+            refreshing={ordersQuery.isRefetching && !ordersQuery.isFetchingNextPage}
+          />
+        }
         renderItem={renderItem}
       />
 
       <OnrampOrderDetailSheet
         isOpen={isDetailOpen}
-        orderId={detailOrderId}
-        onOpenChange={open => {
-          setIsDetailOpen(open);
-          if (!open) {
-            setDetailOrderId(null);
-          }
-        }}
+        orderId={detailOrderId ?? null}
+        onOpenChange={handleDetailOpenChange}
       />
     </View>
   );
