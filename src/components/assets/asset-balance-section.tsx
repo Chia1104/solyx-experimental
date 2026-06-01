@@ -37,7 +37,7 @@ export const AssetBalanceSection = ({
       ) : (
         <>
           <View className="flex-row items-center gap-1">
-            <AssetGuard className="text-foreground text-[36px] leading-none" weight="medium">
+            <AssetGuard className="text-foreground" type="h1" weight="medium">
               <NumberValue
                 classNames={{ value: 'text-foreground text-[36px] font-medium leading-none' }}
                 locale={i18n.language}
@@ -45,11 +45,11 @@ export const AssetBalanceSection = ({
                 value={Number(balance)}
               />
             </AssetGuard>
-            <Typography className="text-foreground" type="body-sm">
+            <Typography className="text-foreground leading-none" type="body-sm">
               {symbol}
             </Typography>
           </View>
-          <AssetGuard className="text-foreground/50" type="body-sm">
+          <AssetGuard className="text-foreground/50 leading-none" type="body-sm">
             <NumberValue
               classNames={{ value: 'text-foreground/50' }}
               currency="USD"

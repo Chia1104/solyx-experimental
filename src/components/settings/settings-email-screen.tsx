@@ -1,7 +1,15 @@
 import { useCallback, useState } from 'react';
 
 import { Redirect, useRouter } from 'expo-router';
-import { BottomSheet, Button, ListGroup, Separator, Typography, useToast } from 'heroui-native';
+import {
+  Alert,
+  BottomSheet,
+  Button,
+  ListGroup,
+  Separator,
+  Typography,
+  useToast,
+} from 'heroui-native';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
@@ -100,7 +108,7 @@ export const SettingsEmailScreen = () => {
     <Page tabBarInset className="pt-6" edges={['left', 'right']}>
       <TabScreenScrollView
         stackHeaderInset
-        contentContainerClassName="gap-5 px-6"
+        contentContainerClassName="gap-5 px-3"
         tabBarAdditionalPadding={24}
       >
         <View className="pt-5">
@@ -138,9 +146,14 @@ export const SettingsEmailScreen = () => {
               <View className="gap-3">
                 <BottomSheet.Title className="text-center">{sheetTitle}</BottomSheet.Title>
                 <BottomSheet.Description>{sheetBody}</BottomSheet.Description>
-                <Typography className="text-danger" type="body">
-                  {t('cefi:notice.logoutMnemonicWarn')}
-                </Typography>
+                <Alert status="danger" className="bg-danger/10">
+                  <Alert.Indicator />
+                  <Alert.Content>
+                    <Alert.Description className="text-danger">
+                      {t('cefi:notice.logoutMnemonicWarn')}
+                    </Alert.Description>
+                  </Alert.Content>
+                </Alert>
                 <Typography type="body">{sheetConfirmHint}</Typography>
               </View>
               <View className="w-full flex-row gap-3">

@@ -11,7 +11,7 @@ export default function SettingsScreen() {
     <Page tabBarInset edges={['left', 'right']} className="pt-6">
       <TabScreenScrollView
         stackHeaderInset
-        contentContainerClassName="gap-5 px-6"
+        contentContainerClassName="gap-5 px-3"
         tabBarAdditionalPadding={24}
       >
         <SettingsEmailSection />

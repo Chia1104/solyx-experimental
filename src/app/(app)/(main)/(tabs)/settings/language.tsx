@@ -47,7 +47,7 @@ export default function SettingLanguageScreen() {
     <Page tabBarInset className="pt-6" edges={['left', 'right']}>
       <TabScreenScrollView
         stackHeaderInset
-        contentContainerClassName="gap-5 px-6"
+        contentContainerClassName="gap-5 px-3"
         tabBarAdditionalPadding={24}
       >
         <LegendList
