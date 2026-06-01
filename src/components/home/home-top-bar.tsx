@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import { useRouter } from 'expo-router';
 import { cn } from 'heroui-native';
 import { Segment, useSegment } from 'heroui-native-pro/segment';
@@ -7,13 +5,11 @@ import { useTranslation } from 'react-i18next';
 import { Image, Pressable, View } from 'react-native';
 
 import { ThemedIcon } from '@/components/ui/themed-icon';
-import { useLiquidSession } from '@/modules/chain/hooks/use-liquid-session';
+import { useSelectNetworkMode } from '@/hooks/use-select-network-mode';
+import type { NetworkMode } from '@/hooks/use-select-network-mode';
+import { getNetworkMode } from '@/hooks/use-select-network-mode';
 import type { ChainConfig } from '@/modules/chain/stores/chain-adapter/types';
-import { useUserStore } from '@/modules/user/stores/user';
 import type { WalletItem } from '@/modules/user/stores/user/types';
-
-import type { NetworkMode } from './home-chain-utils';
-import { getNetworkMode, PRIVATE_CHAIN_ID, PUBLIC_CHAIN_ID } from './home-chain-utils';
 
 interface HomeTopBarProps {
   chain?: ChainConfig;
@@ -49,32 +45,9 @@ const SegmentItem = ({
 
 export const HomeTopBar = ({ chain, wallet }: HomeTopBarProps) => {
   const router = useRouter();
-  const { t } = useTranslation(['defi']);
-  const [pendingMode, setPendingMode] = useState<NetworkMode | null>(null);
-  const changeNetwork = useUserStore(state => state.changeNetwork);
-  const { ensureLiquidSession } = useLiquidSession();
+  const { t } = useTranslation('defi');
   const currentMode = getNetworkMode(chain?.chainType);
-
-  const selectNetworkMode = async (mode: NetworkMode) => {
-    if (mode === currentMode || pendingMode) {
-      return;
-    }
-
-    setPendingMode(mode);
-    try {
-      if (mode === 'private') {
-        const isLiquidSessionReady = await ensureLiquidSession(PRIVATE_CHAIN_ID);
-        if (!isLiquidSessionReady) {
-          return;
-        }
-      }
-      changeNetwork(mode === 'private' ? PRIVATE_CHAIN_ID : PUBLIC_CHAIN_ID);
-    } catch {
-      // Keep the current mode when the Liquid unlock request is dismissed or fails.
-    } finally {
-      setPendingMode(null);
-    }
-  };
+  const { selectNetworkMode } = useSelectNetworkMode(currentMode);
 
   return (
     <View className="min-h-9 flex-row items-center justify-between">

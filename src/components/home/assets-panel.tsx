@@ -5,6 +5,7 @@ import { Button, Select, Typography } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
+import { getModeChains, getNetworkMode } from '@/hooks/use-select-network-mode';
 import { useLiquidSession } from '@/modules/chain/hooks/use-liquid-session';
 import type { ChainConfig } from '@/modules/chain/stores/chain-adapter/types';
 import { useDefiAccount } from '@/modules/defi/hooks/use-defi-account';
@@ -13,7 +14,6 @@ import { useUserStore } from '@/modules/user/stores/user';
 import type { AssetRow } from './asset-list';
 import { AssetList } from './asset-list';
 import { ChainMark } from './chain-mark';
-import { getModeChains, getNetworkMode } from './home-chain-utils';
 
 interface AssetsPanelProps {
   chain?: ChainConfig;

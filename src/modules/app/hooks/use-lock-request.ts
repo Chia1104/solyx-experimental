@@ -22,6 +22,7 @@ interface RequestPrivateKeyOptions extends LockRequestOptions {
 
 interface RequestLiquidUnlockOptions extends LockRequestOptions {
   chainId?: number;
+  onPasswordVerified?: () => void;
 }
 
 export const useLockRequest = () => {
@@ -110,6 +111,7 @@ export const useLockRequest = () => {
         ...options,
         type: LockRequestType.Liquid,
       });
+      options.onPasswordVerified?.();
       const phrase = await getKeychainPhraseMutation.mutateAsync({ password });
 
       await loginLiquid(phrase, options.chainId);

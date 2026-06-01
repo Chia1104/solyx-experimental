@@ -399,7 +399,8 @@
     "transaction.not.ready": "交易尚未準備好",
     "get.receive.address.error": "無法取得接收地址",
     "unknown.error": "未知錯誤",
-    "tron.resource.insufficient": "帳戶資源不足（頻寬/能量）。請質押 TRX 或等待每日額度重置後再試。"
+    "tron.resource.insufficient": "帳戶資源不足（頻寬/能量）。請質押 TRX 或等待每日額度重置後再試。",
+    "chain.switch.timeout": "切換至私密網路逾時，請再試一次。"
   },
   "amount.below.minimum.transaction": "數量小於最低交易金額",
   "tab": {

@@ -26,7 +26,7 @@ export const useLiquidSession = () => {
   const pendingLiquidSessionRef = useRef<Promise<boolean> | null>(null);
 
   const ensureLiquidSession = useCallback(
-    async (chainId: number) => {
+    async (chainId: number, options?: { onPasswordVerified?: () => void }) => {
       if (!isLiquidChainId(chainId)) {
         return true;
       }
@@ -50,6 +50,7 @@ export const useLiquidSession = () => {
           chainId,
           isDismissible: false,
           reason: t('description.unlock.liquid.wallet'),
+          onPasswordVerified: options?.onPasswordVerified,
         });
 
         return true;
