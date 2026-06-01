@@ -9,6 +9,7 @@ export default function DefiMainLayout() {
   return (
     <ChainTransitionProvider>
       <Stack screenOptions={screenOptions}>
+        <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="assets/[symbol]" options={{ presentation: 'modal' }} />
         <Stack.Screen name="send" options={{ presentation: 'modal', headerShown: false }} />

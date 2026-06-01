@@ -26,7 +26,7 @@ export default function OnboardingDone() {
     switchWalletMode('defi');
     setHasHDWallet(true);
     setStartup(true);
-    router.replace('/');
+    router.replace('/home');
   };
 
   return (

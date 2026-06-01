@@ -6,7 +6,6 @@ import { RefreshControl, View } from 'react-native';
 import { AssetsPanel } from '@/components/home/assets-panel';
 import { BalanceCard } from '@/components/home/balance-card';
 import { HomeAuthActions } from '@/components/home/home-auth-actions';
-import { HomeTopBar } from '@/components/home/home-top-bar';
 import { QuickActions } from '@/components/home/quick-actions';
 import { Page } from '@/components/page';
 import { TabScreenScrollView } from '@/components/ui/tab-screen-scroll-view';
@@ -22,7 +21,6 @@ export default function HomeScreen() {
     pricesQuery,
     rows,
     totalFiatValue,
-    wallet,
   } = useQueryAssets();
 
   const assetStatusText = useMemo(() => {
@@ -48,17 +46,16 @@ export default function HomeScreen() {
   }, [balanceQuery, pricesQuery]);
 
   return (
-    <Page className="bg-background" tabBarInset>
+    <Page edges={['left', 'right']} tabBarInset>
       <TabScreenScrollView
-        contentContainerClassName="gap-3 px-3 pt-2"
+        stackHeaderInset
+        contentContainerClassName="gap-3 px-3"
         refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />}
-        tabBarAdditionalPadding={32}
+        tabBarAdditionalPadding={24}
       >
         <HomeAuthActions />
 
         <View className="gap-3">
-          <HomeTopBar chain={chain} wallet={wallet} />
-
           <BalanceCard chain={chain} isLoading={isAssetsLoading} totalFiatValue={totalFiatValue} />
 
           <QuickActions />

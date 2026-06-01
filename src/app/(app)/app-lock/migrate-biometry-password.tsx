@@ -54,7 +54,7 @@ export default function MigrateBiometryPassword() {
     });
 
     setStartup(true);
-    router.replace('/');
+    router.replace('/home');
   };
 
   return (

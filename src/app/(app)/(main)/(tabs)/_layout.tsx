@@ -26,7 +26,7 @@ export default function DefiTabsLayout() {
       tintColor={accentColor}
       rippleColor={surfaceSecondaryColor}
     >
-      <NativeTabs.Trigger name="index" contentStyle={{ backgroundColor }}>
+      <NativeTabs.Trigger name="home" contentStyle={{ backgroundColor }}>
         <NativeTabs.Trigger.Label>{t('tab.home')}</NativeTabs.Trigger.Label>
         <NativeTabs.Trigger.Icon
           sf={{ default: 'house', selected: 'house.fill' }}

@@ -25,7 +25,7 @@ export default function AutoLock() {
     setAutoLock(autoLockEnabled);
     setStartup(true);
     setHasPassword(true);
-    router.replace('/');
+    router.replace('/home');
   };
 
   return (
