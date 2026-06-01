@@ -31,7 +31,7 @@ export default function BackupPrompt() {
   };
 
   const handleLater = () => {
-    queryClient.removeQueries({ queryKey: queryOnboardingBackupPhraseOptions(null).queryKey });
+    queryClient.removeQueries(queryOnboardingBackupPhraseOptions(null));
     resetOnboardingSession();
     setBackupPhraseState('later');
     router.replace('/onboarding/done');

@@ -66,7 +66,7 @@ export default function ConfirmPhrase() {
     }
 
     setBackupPhraseState('done');
-    queryClient.removeQueries({ queryKey: queryOnboardingBackupPhraseOptions(null).queryKey });
+    queryClient.removeQueries(queryOnboardingBackupPhraseOptions(null));
     router.replace('/onboarding/done');
   });
 

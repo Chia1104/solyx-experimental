@@ -21,7 +21,7 @@ export default function OnboardingDone() {
   const switchWalletMode = useUserStore(state => state.switchWalletMode);
 
   const handleEnter = () => {
-    queryClient.removeQueries({ queryKey: queryOnboardingBackupPhraseOptions(null).queryKey });
+    queryClient.removeQueries(queryOnboardingBackupPhraseOptions(null));
     resetOnboardingSession();
     switchWalletMode('defi');
     setHasHDWallet(true);
