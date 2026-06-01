@@ -63,7 +63,7 @@ export const QuickActions = () => {
         />
         <BottomSheet.Portal>
           <BottomSheet.Overlay className="bg-background/50" />
-          <BottomSheet.Content snapPoints={['60%']}>
+          <BottomSheet.Content>
             <ReceiveBottomSheetContent isOpen={isReceiveOpen} />
           </BottomSheet.Content>
         </BottomSheet.Portal>

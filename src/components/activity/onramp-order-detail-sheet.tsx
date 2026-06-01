@@ -254,7 +254,7 @@ export const OnrampOrderDetailSheet = ({
     <BottomSheet isOpen={isOpen} onOpenChange={onOpenChange}>
       <BottomSheet.Portal>
         <BottomSheet.Overlay className="bg-background/50" />
-        <BottomSheet.Content snapPoints={['85%']}>
+        <BottomSheet.Content>
           <BottomSheet.Title className="text-center">
             {t('buy.orderDetail.title')}
           </BottomSheet.Title>

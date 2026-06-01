@@ -113,7 +113,7 @@ const ChainSelector = ({ chain }: ChainSelectorProps) => {
       </Select.Trigger>
       <Select.Portal>
         <Select.Overlay className="bg-background/50" />
-        <Select.Content presentation="bottom-sheet" snapPoints={['35%']}>
+        <Select.Content presentation="bottom-sheet">
           {options.map(option => (
             <Select.Item
               key={option.chainId}

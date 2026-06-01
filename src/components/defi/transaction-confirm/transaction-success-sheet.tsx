@@ -21,7 +21,7 @@ export const TransactionSuccessSheet = ({
     <BottomSheet isOpen={isOpen} onOpenChange={onOpenChange}>
       <BottomSheet.Portal>
         <BottomSheet.Overlay className="bg-background/50" />
-        <BottomSheet.Content snapPoints={['42%']}>
+        <BottomSheet.Content>
           <View className="items-center gap-6 px-6 pb-8">
             <BottomSheet.Title className="text-center">
               {t('defi:title.submitted.successfully')}

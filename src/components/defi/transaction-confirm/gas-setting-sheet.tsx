@@ -131,7 +131,7 @@ export const GasSettingSheet = ({
     <BottomSheet isOpen={isOpen} onOpenChange={handleOpenChange}>
       <BottomSheet.Portal>
         <BottomSheet.Overlay className="bg-background/50" />
-        <BottomSheet.Content snapPoints={['55%']}>
+        <BottomSheet.Content>
           <View className="gap-5 px-4 pb-8">
             <BottomSheet.Title className="text-center">
               {t('defi:caption.transactionModal.gas.setting')}

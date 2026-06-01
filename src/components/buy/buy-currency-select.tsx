@@ -40,7 +40,7 @@ export const BuyCurrencySelect = ({
       </Select.Trigger>
       <Select.Portal>
         <Select.Overlay className="bg-background/50" />
-        <Select.Content presentation="bottom-sheet" snapPoints={['45%']}>
+        <Select.Content presentation="bottom-sheet">
           {currencies.map(currency => (
             <Select.Item key={currency.symbol} label={currency.symbol} value={currency.symbol}>
               <View className="flex-1 flex-row items-center gap-3">

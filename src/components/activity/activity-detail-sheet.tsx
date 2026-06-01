@@ -289,7 +289,7 @@ export const ActivityDetailSheet = memo(
             contentContainerClassName="h-full"
             enableDynamicSizing={false}
             enableOverDrag={false}
-            snapPoints={['72%']}
+            snapPoints={['75%']}
           >
             {record ? <ActivityDetailSheetContent record={record} /> : null}
           </BottomSheet.Content>
