@@ -105,10 +105,10 @@ export const SettingsEmailScreen = () => {
       : t('cefi:notice.logoutModalConfirm');
 
   return (
-    <Page tabBarInset className="pt-6" edges={['left', 'right']}>
+    <Page tabBarInset edges={['left', 'right']}>
       <TabScreenScrollView
         stackHeaderInset
-        contentContainerClassName="gap-5 px-3"
+        contentContainerClassName="gap-5 px-6"
         tabBarAdditionalPadding={24}
       >
         <View className="pt-5">

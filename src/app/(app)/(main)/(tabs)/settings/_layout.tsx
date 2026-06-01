@@ -13,12 +13,57 @@ export default function SettingsLayout() {
         name="index"
         options={{
           title: t('title.setting'),
+          headerShadowVisible: false,
+          headerStyle: {
+            backgroundColor: 'transparent',
+          },
+          headerBlurEffect: undefined,
         }}
       />
-      <Stack.Screen name="account" options={{ title: t('title.accounts') }} />
-      <Stack.Screen name="email" options={{ title: t('defi:kyc.email') }} />
-      <Stack.Screen name="language" options={{ title: t('global:title.language') }} />
-      <Stack.Screen name="contact-us" options={{ title: t('defi:label.setting.contact.us') }} />
+      <Stack.Screen
+        name="account"
+        options={{
+          title: t('title.accounts'),
+          headerShadowVisible: false,
+          headerStyle: {
+            backgroundColor: 'transparent',
+          },
+          headerBlurEffect: undefined,
+        }}
+      />
+      <Stack.Screen
+        name="email"
+        options={{
+          title: t('defi:kyc.email'),
+          headerShadowVisible: false,
+          headerStyle: {
+            backgroundColor: 'transparent',
+          },
+          headerBlurEffect: undefined,
+        }}
+      />
+      <Stack.Screen
+        name="language"
+        options={{
+          title: t('global:title.language'),
+          headerShadowVisible: false,
+          headerStyle: {
+            backgroundColor: 'transparent',
+          },
+          headerBlurEffect: undefined,
+        }}
+      />
+      <Stack.Screen
+        name="contact-us"
+        options={{
+          title: t('defi:label.setting.contact.us'),
+          headerShadowVisible: false,
+          headerStyle: {
+            backgroundColor: 'transparent',
+          },
+          headerBlurEffect: undefined,
+        }}
+      />
     </Stack>
   );
 }
