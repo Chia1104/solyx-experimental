@@ -107,6 +107,7 @@ export const protectedCefiClient = ky.create({
     ],
     afterResponse: [
       async ({ request, response, retryCount }) => {
+        console.log('Cefi client afterResponse', response, request);
         if (response.status !== 401 || retryCount > 0) {
           return;
         }
