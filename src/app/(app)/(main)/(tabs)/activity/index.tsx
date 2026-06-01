@@ -55,7 +55,7 @@ export default function ActivityScreen() {
       <Tabs
         className="min-h-0 flex-1 gap-0"
         value={activeTab}
-        variant="secondary"
+        variant="primary"
         onValueChange={value => handleTabChange(value as ActivityTab)}
       >
         <Tabs.List className="bg-surface">
