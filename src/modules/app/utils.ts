@@ -13,13 +13,13 @@ export const globalInit = () => {
   dayjs.extend(isYesterdayPlugin);
 
   install();
-  Sentry.init({
-    dsn: env.EXPO_PUBLIC_SENTRY_DSN,
-    sendDefaultPii: true,
-    enableLogs: false,
-
-    enabled: false,
-  });
+  if (env.EXPO_PUBLIC_SENTRY_DSN) {
+    Sentry.init({
+      dsn: env.EXPO_PUBLIC_SENTRY_DSN,
+      sendDefaultPii: true,
+      enableLogs: false,
+    });
+  }
 };
 
 export function compareVersions(local: string, required: string): number {
