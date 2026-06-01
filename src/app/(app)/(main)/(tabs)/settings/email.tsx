@@ -1,10 +1,5 @@
-import { DefiPlaceholderScreen } from '@/components/defi-placeholder-screen';
+import { SettingsEmailScreen } from '@/components/settings/settings-email-screen';
 
 export default function SettingEmailScreen() {
-  return (
-    <DefiPlaceholderScreen
-      description="Email settings route for showing and updating the user's bound email."
-      title="Email"
-    />
-  );
+  return <SettingsEmailScreen />;
 }

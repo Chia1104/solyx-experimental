@@ -14,3 +14,5 @@ export {
   createZustandKvStorage,
   type AsyncKvPersisterStorage,
 } from './adapters';
+
+export { clearAllAppKv } from './clear-all-app-kv';

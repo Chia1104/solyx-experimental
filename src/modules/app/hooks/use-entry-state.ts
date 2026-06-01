@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import { env } from '@/libs/env';
 import { useQueryHasKeychainGenericPassword } from '@/modules/keychain/hooks/use-query-has-keychain-generic-password';
 import { useUserStore } from '@/modules/user/stores/user';
@@ -14,9 +16,7 @@ export const useEntryState = () => {
 
   const hasPasswordCredentialQuery = useQueryHasKeychainGenericPassword(
     env.EXPO_PUBLIC_WALLET_DEFI_PASSWORD_SERVICE,
-    {
-      enabled: hasPassword,
-    },
+    { enabled: hasPassword },
   );
   const hasBiometryPasswordCredentialQuery = useQueryHasKeychainGenericPassword(
     env.EXPO_PUBLIC_WALLET_BIOMETRY_DEFI_PASSWORD_SERVICE,
@@ -25,66 +25,53 @@ export const useEntryState = () => {
     },
   );
 
-  if (
-    hasPassword &&
-    (hasPasswordCredentialQuery.isLoading ||
-      (unlockMode === 'biometry' && hasBiometryPasswordCredentialQuery.isLoading))
-  ) {
-    return {
-      hasPasswordCredential: false,
-      isLoading: true,
-      phase: EntryPhase.Loading,
-    };
-  }
+  const hasPasswordCredentialData = hasPasswordCredentialQuery.data;
+  const hasBiometryPasswordCredentialData = hasBiometryPasswordCredentialQuery.data;
+  const isPasswordCredentialLoading = hasPasswordCredentialQuery.isLoading;
+  const isBiometryPasswordCredentialLoading = hasBiometryPasswordCredentialQuery.isLoading;
 
-  const hasPasswordCredential = hasPassword ? Boolean(hasPasswordCredentialQuery.data) : false;
-  const hasBiometryPasswordCredential = hasPassword
-    ? Boolean(hasBiometryPasswordCredentialQuery.data)
-    : false;
+  return useMemo(() => {
+    const hasPasswordCredential = hasPassword && hasPasswordCredentialData === true;
+    const hasBiometryPasswordCredential =
+      hasPassword && unlockMode === 'biometry' && hasBiometryPasswordCredentialData === true;
 
-  if (!hasPasswordCredential) {
-    return {
-      hasPasswordCredential,
-      isLoading: false,
-      phase: EntryPhase.SetPassword,
-    };
-  }
+    const isKeychainLoading =
+      hasPassword &&
+      (isPasswordCredentialLoading ||
+        (unlockMode === 'biometry' && isBiometryPasswordCredentialLoading));
 
-  if (hasPassword && unlockMode === 'biometry' && !hasBiometryPasswordCredential) {
-    return {
-      hasPasswordCredential,
-      isLoading: false,
-      phase: EntryPhase.LegacyBiometryMigration,
-    };
-  }
+    let phase: EntryPhase = EntryPhase.Main;
 
-  if (hasPassword && !isStartupDone) {
-    return {
-      hasPasswordCredential,
-      isLoading: false,
-      phase: EntryPhase.AppLock,
-    };
-  }
+    if (!hasPassword) {
+      phase = EntryPhase.SetPassword;
+    } else if (isKeychainLoading) {
+      phase = EntryPhase.Loading;
+    } else if (!hasPasswordCredential) {
+      phase = EntryPhase.SetPassword;
+    } else if (unlockMode === 'biometry' && !hasBiometryPasswordCredential) {
+      phase = EntryPhase.LegacyBiometryMigration;
+    } else if (!isStartupDone) {
+      phase = EntryPhase.AppLock;
+    } else if (!hasHDWallet && !isLogin) {
+      phase = EntryPhase.Login;
+    } else if (!hasHDWallet) {
+      phase = EntryPhase.Onboarding;
+    }
 
-  if (!hasHDWallet && !isLogin) {
     return {
       hasPasswordCredential,
-      isLoading: false,
-      phase: EntryPhase.Login,
+      isLoading: phase === EntryPhase.Loading,
+      phase,
     };
-  }
-
-  if (!hasHDWallet) {
-    return {
-      hasPasswordCredential,
-      isLoading: false,
-      phase: EntryPhase.Onboarding,
-    };
-  }
-
-  return {
-    hasPasswordCredential,
-    isLoading: false,
-    phase: EntryPhase.Main,
-  };
+  }, [
+    hasBiometryPasswordCredentialData,
+    hasHDWallet,
+    hasPassword,
+    hasPasswordCredentialData,
+    isBiometryPasswordCredentialLoading,
+    isLogin,
+    isPasswordCredentialLoading,
+    isStartupDone,
+    unlockMode,
+  ]);
 };

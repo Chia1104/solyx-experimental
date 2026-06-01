@@ -395,3 +395,19 @@ export const resetKeychainCefiRefreshToken = async () => {
     service: env.EXPO_PUBLIC_WALLET_CEFI_REFRESH_TOKEN_SERVICE,
   });
 };
+
+export const resetAllAppKeychain = async (walletAddresses: string[]) => {
+  const uniqueAddresses = [...new Set(walletAddresses.filter(Boolean))];
+
+  await Promise.allSettled([
+    resetGenericPassword({ service: env.EXPO_PUBLIC_WALLET_DEFI_PASSWORD_SERVICE }),
+    resetGenericPassword({ service: env.EXPO_PUBLIC_WALLET_BIOMETRY_DEFI_PASSWORD_SERVICE }),
+    resetGenericPassword({ service: env.EXPO_PUBLIC_WALLET_DEFI_PHRASE_SERVICE }),
+    resetGenericPassword({ service: env.EXPO_PUBLIC_WALLET_BIOMETRY_DEFI_PHRASE_SERVICE }),
+    resetKeychainCefiToken(),
+    resetKeychainCefiRefreshToken(),
+    ...uniqueAddresses.map(address =>
+      resetGenericPassword({ service: getPrivateKeyService(address) }),
+    ),
+  ]);
+};

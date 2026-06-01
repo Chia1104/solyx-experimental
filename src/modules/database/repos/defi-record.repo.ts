@@ -84,3 +84,7 @@ export const getRecordKeys = async (params: { userAddress: string; chainId: stri
 export const insertMockRecords = async (mockRecord: NewDefiRecordRow) => {
   return db.insert(defiRecord).values(mockRecord).returning();
 };
+
+export const resetDefiRecords = async () => {
+  return db.delete(defiRecord).returning();
+};

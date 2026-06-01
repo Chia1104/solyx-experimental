@@ -12,6 +12,7 @@ export interface AssetState {
 export interface AssetActions {
   setBalanceVisible: (isBalanceVisible: boolean) => void;
   toggleBalanceVisibility: () => void;
+  resetAssetState: () => void;
 }
 
 export type AssetStore = AssetState & AssetActions;
@@ -31,6 +32,10 @@ export const useAssetStore = create<AssetStore>()(
 
       toggleBalanceVisibility: () => {
         set(state => ({ isBalanceVisible: !state.isBalanceVisible }));
+      },
+
+      resetAssetState: () => {
+        set(createAssetInitialState());
       },
     }),
     {
