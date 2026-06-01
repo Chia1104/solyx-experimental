@@ -44,7 +44,7 @@ export default function SettingLanguageScreen() {
   }, [t]);
 
   return (
-    <Page tabBarInset>
+    <Page tabBarInset className="pt-6" edges={['left', 'right']}>
       <TabScreenScrollView
         stackHeaderInset
         contentContainerClassName="gap-5 px-6"

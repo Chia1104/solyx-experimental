@@ -8,7 +8,7 @@ import { TabScreenScrollView } from '@/components/ui/tab-screen-scroll-view';
 
 export default function SettingsScreen() {
   return (
-    <Page tabBarInset>
+    <Page tabBarInset edges={['left', 'right']} className="pt-6">
       <TabScreenScrollView
         stackHeaderInset
         contentContainerClassName="gap-5 px-6"

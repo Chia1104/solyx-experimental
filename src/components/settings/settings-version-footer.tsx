@@ -42,7 +42,7 @@ export const SettingsVersionFooter = () => {
   }, [devMode, t, toast, toggleDevMode]);
 
   return (
-    <LinkButton onPress={handleToggleDevMode}>
+    <LinkButton onPress={handleToggleDevMode} size="sm">
       <LinkButton.Label className="text-foreground/60">
         {t('default.version', { version })}
       </LinkButton.Label>
