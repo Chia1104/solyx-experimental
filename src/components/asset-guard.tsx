@@ -1,34 +1,21 @@
-import type { ComponentProps, ReactNode } from 'react';
-
-import { Typography } from 'heroui-native';
+import type { TypographyRootProps } from 'heroui-native';
+import { Typography, cn } from 'heroui-native';
 
 import { useAssetStore } from '@/modules/defi/stores/asset';
 
 const DEFAULT_MASK = '******';
 
-type MaskTypographyProps = Pick<
-  ComponentProps<typeof Typography>,
-  'className' | 'numberOfLines' | 'type' | 'weight'
->;
-
-export interface AssetGuardProps extends MaskTypographyProps {
-  children: ReactNode;
+export interface AssetGuardProps extends TypographyRootProps {
+  children: React.ReactNode;
   /** Custom content when balance is hidden. Defaults to masked asterisks. */
-  mask?: ReactNode;
+  mask?: React.ReactNode;
 }
 
-export const AssetGuard = ({
-  children,
-  className,
-  mask,
-  numberOfLines,
-  type,
-  weight,
-}: AssetGuardProps) => {
+export const AssetGuard = ({ mask, ...props }: AssetGuardProps) => {
   const isBalanceVisible = useAssetStore(state => state.isBalanceVisible);
 
   if (isBalanceVisible) {
-    return children;
+    return props.children;
   }
 
   if (mask) {
@@ -36,7 +23,7 @@ export const AssetGuard = ({
   }
 
   return (
-    <Typography className={className} numberOfLines={numberOfLines} type={type} weight={weight}>
+    <Typography {...props} className={cn('leading-[1.5px]', props.className)}>
       {DEFAULT_MASK}
     </Typography>
   );

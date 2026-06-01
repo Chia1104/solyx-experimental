@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import * as z from 'zod';
 
+import { AssetGuard } from '@/components/asset-guard';
 import { TokenMark } from '@/components/home/chain-mark';
 import { Page } from '@/components/page';
 import { AmountInput } from '@/components/ui/amount-input';
@@ -166,21 +167,25 @@ export default function SendAmountScreen() {
                 {t('defi:label.sendAmount.balance')}
               </Typography>
               <View className="flex-row items-baseline gap-1">
-                <NumberValue
-                  classNames={{ value: 'text-foreground text-base font-bold' }}
-                  locale={i18n.language}
-                  maximumFractionDigits={8}
-                  value={Number(balance)}
-                />
+                <AssetGuard className="text-foreground" type="h5" weight="medium">
+                  <NumberValue
+                    classNames={{ value: 'text-foreground text-base font-bold' }}
+                    locale={i18n.language}
+                    maximumFractionDigits={8}
+                    value={Number(balance)}
+                  />
+                </AssetGuard>
               </View>
-              <NumberValue
-                classNames={{ value: 'text-default-foreground text-xs' }}
-                currency="USD"
-                locale={i18n.language}
-                maximumFractionDigits={2}
-                numberStyle="currency"
-                value={selectedToken?.fiatValue.toNumber() ?? 0}
-              />
+              <AssetGuard className="text-foreground/50" numberOfLines={1} type="body-xs">
+                <NumberValue
+                  classNames={{ value: 'text-default-foreground text-xs' }}
+                  currency="USD"
+                  locale={i18n.language}
+                  maximumFractionDigits={2}
+                  numberStyle="currency"
+                  value={selectedToken?.fiatValue.toNumber() ?? 0}
+                />
+              </AssetGuard>
             </View>
           </View>
           <Button onPress={handleSetMax} size="sm" variant="ghost">
