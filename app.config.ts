@@ -92,7 +92,6 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       'expo-image',
       'expo-status-bar',
       'expo-web-browser',
-      'expo-background-task',
     ],
     experiments: {
       typedRoutes: true,
