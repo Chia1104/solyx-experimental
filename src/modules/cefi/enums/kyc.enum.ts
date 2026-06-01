@@ -17,3 +17,13 @@ export const KYCUploadContentType = {
 } as const;
 
 export type KYCUploadContentType = (typeof KYCUploadContentType)[keyof typeof KYCUploadContentType];
+
+export const CefiKYCDisplayState = {
+  NotVerified: 'not_verified',
+  UnderReview: 'under_review',
+  Verified: 'verified',
+  VerifiedPlus: 'verified_plus',
+  Rejected: 'rejected',
+} as const;
+
+export type CefiKYCDisplayState = (typeof CefiKYCDisplayState)[keyof typeof CefiKYCDisplayState];

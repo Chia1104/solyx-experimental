@@ -1,3 +1,5 @@
+import { CefiKYCStatus, CefiPlusKYCStatus } from '@/modules/cefi/enums/users.enum';
+
 import type {
   CefiUserAccountActions,
   CefiUserAccountState,
@@ -12,8 +14,8 @@ export const createEmptyCefiUserData = (): CefiUserData => ({
   isBoundSms: false,
   isBoundEmail: false,
   isBound2fa: false,
-  kycStatus: 'NEW',
-  plusKYCStatus: 'NEW',
+  kycStatus: CefiKYCStatus.New,
+  plusKYCStatus: CefiPlusKYCStatus.New,
 });
 
 export const createCefiUserAccountInitialState = (): CefiUserAccountState => ({

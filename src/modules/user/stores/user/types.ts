@@ -1,6 +1,8 @@
 import type { ImageSourcePropType } from 'react-native';
 import type { StateCreator } from 'zustand';
 
+import type { CefiKYCStatus, CefiPlusKYCStatus } from '@/modules/cefi/enums/users.enum';
+
 export type BackupPhraseState = '' | 'later' | 'done';
 
 export interface AccountState {
@@ -49,23 +51,6 @@ export interface WalletPreferenceState {
   currentWalletId: string;
 }
 
-export const KYCStatus = {
-  NEW: 'Unverified',
-  PENDING_VERIFY: 'Pending',
-  PASS: 'Verified',
-  FAIL: 'Failed',
-  SUSPECTED: 'Suspected',
-} as const;
-
-export const PlusKYCStatus = {
-  NEW: 'Unverified',
-  PENDING_VERIFY: 'Pending',
-  PASS: 'Verified',
-  FAIL: 'Failed',
-  SUSPECTED: 'Suspected',
-  NOT_SUBMITTED: 'Unverified',
-} as const;
-
 export interface CefiAccount {
   id: string;
   type: string;
@@ -79,8 +64,8 @@ export interface CefiUserData {
   isBoundSms: boolean;
   isBoundEmail: boolean;
   isBound2fa: boolean;
-  kycStatus: keyof typeof KYCStatus;
-  plusKYCStatus: keyof typeof PlusKYCStatus;
+  kycStatus: CefiKYCStatus;
+  plusKYCStatus: CefiPlusKYCStatus;
 }
 
 export interface CefiUserAccountState {
