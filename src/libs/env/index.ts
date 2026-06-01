@@ -6,6 +6,7 @@ export const env = createEnv({
     EXPO_PUBLIC_CEFI_API_URL: z.url(),
     EXPO_PUBLIC_SSO_WEBSITE: z.url(),
     EXPO_PUBLIC_MEDIA_HOST: z.url(),
+    EXPO_PUBLIC_FAQ_ASSET: z.url().optional(),
 
     EXPO_PUBLIC_WALLET_MASTER_KEY: z.string(),
     EXPO_PUBLIC_WALLET_PRIVATE_KEY_SERVICE: z.string(),
