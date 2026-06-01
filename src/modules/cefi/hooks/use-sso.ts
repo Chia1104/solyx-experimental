@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 
 import type { UseQueryOptions } from '@tanstack/react-query';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -18,6 +18,7 @@ import type { SsoMode } from '../enums/sso-mode.enum';
 
 import { useMutationGetAuthorizeUrl } from './use-mutation-get-authorize-url';
 import { useMutationSignIn } from './use-mutation-sign-in';
+import { useQuerySyncLocale } from './use-query-sync-locale';
 
 export interface SsoCallbackParams {
   code: string;
@@ -135,10 +136,15 @@ export const useSsoCallback = (
 
   const setIsLogin = useUserStore(state => state.setIsLogin);
   const setUserData = useUserStore(state => state.setUserData);
+  const languageCode = useUserStore(store => store.settings.languageCode);
 
   const hasCallbackParams = Boolean(
     callbackParams.code || callbackParams.state || callbackParams.event,
   );
+
+  const querySyncLocale = useQuerySyncLocale({
+    locale: languageCode,
+  });
 
   const query = useQuery({
     enabled: hasCallbackParams,
@@ -190,10 +196,7 @@ export const useSsoCallback = (
     ...options,
   });
 
-  return useMemo(
-    () => ({
-      isHandlingCallback: query.isFetching || query.isPending,
-    }),
-    [query.isFetching, query.isPending],
-  );
+  return {
+    isHandlingCallback: query.isFetching || query.isPending || querySyncLocale.isLoading,
+  };
 };

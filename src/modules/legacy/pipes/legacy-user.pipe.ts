@@ -15,6 +15,8 @@ export const mapLegacySettings = (
 
   return {
     languageCode: settings.languageCode ?? defaults.languageCode,
+    languageWithDevice: defaults.languageWithDevice,
+    devMode: defaults.devMode,
     walletMode: settings.walletMode ?? defaults.walletMode,
     unlockMode: settings.unlockMode ?? defaults.unlockMode,
     autoLock: settings.autoLock ?? defaults.autoLock,

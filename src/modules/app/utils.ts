@@ -8,6 +8,7 @@ import { install } from 'react-native-quick-crypto';
 import { env } from '@/libs/env';
 
 import type { FAQId } from './enums/faq-id.enum';
+import type { SupportedLocale } from './enums/supported-locale.enum';
 
 export const globalInit = () => {
   dayjs.extend(utc);
@@ -48,21 +49,10 @@ export function needsUpdate(localVersion: string, requiredVersion: string): bool
   return compareVersions(localVersion, requiredVersion) < 0;
 }
 
-const FAQ_LOCALE_MAP = {
-  en: 'en',
-  zh: 'zh',
-  cn: 'cn',
-  th: 'th',
-  vn: 'vn',
-} as const;
+const FAQ_BASE_URL = env.EXPO_PUBLIC_FAQ_ASSET ?? `${env.EXPO_PUBLIC_MEDIA_HOST}/faq`;
 
-type FAQLocale = keyof typeof FAQ_LOCALE_MAP;
-
-const FAQ_BASE_URL = 'https://storage.googleapis.com/bridgefy-wallet-assets-production/faq';
-
-export function getFaqUrl(languageCode: FAQLocale, defaultOpenId?: FAQId): string {
-  const locale = FAQ_LOCALE_MAP[languageCode] ?? 'en';
-  const url = new URL(`${FAQ_BASE_URL}/faq-${locale}.html`);
+export function getFaqUrl(languageCode: SupportedLocale, defaultOpenId?: FAQId): string {
+  const url = new URL(`${FAQ_BASE_URL}/faq-${languageCode}.html`);
   if (defaultOpenId) {
     url.searchParams.set('open', defaultOpenId);
   }

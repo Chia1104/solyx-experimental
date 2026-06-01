@@ -1,6 +1,7 @@
 import type { ImageSourcePropType } from 'react-native';
 import type { StateCreator } from 'zustand';
 
+import type { SupportedLocale } from '@/modules/app/enums/supported-locale.enum';
 import type { CefiKYCStatus, CefiPlusKYCStatus } from '@/modules/cefi/enums/users.enum';
 
 export type BackupPhraseState = '' | 'later' | 'done';
@@ -20,7 +21,9 @@ export interface ModePreferenceState {
 }
 
 export interface SettingsState {
-  languageCode: string;
+  languageCode: SupportedLocale;
+  languageWithDevice: boolean;
+  devMode: boolean;
   walletMode: WalletMode;
   unlockMode: UnlockMode;
   autoLock: boolean;
@@ -94,7 +97,9 @@ export interface SettingsActions {
   setAutoLock: (enabled: boolean) => void;
   updateSwitchModeHint: (mode: Exclude<WalletMode, ''>, isDisabled: boolean) => void;
   updateNotifeeState: (mode: Exclude<WalletMode, ''>, isDisabled: boolean) => void;
-  changeLanguageCode: (code: string) => void;
+  changeLanguageCode: (code: SupportedLocale) => void;
+  toggleDevMode: (enabled?: boolean) => void;
+  toggleLanguageWithDevice: (enabled?: boolean) => void;
 }
 
 export interface WalletPreferenceActions {

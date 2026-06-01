@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useStackScreenOptions } from '@/hooks/use-stack-screen-options';
 
 export default function SettingsLayout() {
-  const { t } = useTranslation(['defi']);
+  const { t } = useTranslation(['defi', 'global']);
   const screenOptions = useStackScreenOptions();
 
   return (
@@ -17,7 +17,7 @@ export default function SettingsLayout() {
       />
       <Stack.Screen name="account" options={{ title: t('title.accounts') }} />
       <Stack.Screen name="email" options={{ headerShown: false }} />
-      <Stack.Screen name="language" options={{ headerShown: false }} />
+      <Stack.Screen name="language" options={{ title: t('global:title.language') }} />
       <Stack.Screen name="contact-us" options={{ headerShown: false }} />
     </Stack>
   );

@@ -1,5 +1,7 @@
 import * as z from 'zod';
 
+import { SupportedLocale, isSupportedLocale } from '@/modules/app/enums/supported-locale.enum';
+
 import { CefiKYCStatus, CefiLocale, CefiPlusKYCStatus } from '../enums/users.enum';
 
 export const GetAuthorizeUrlRequest = z.object({
@@ -47,8 +49,34 @@ export const User = z
 
 export type User = z.infer<typeof User>;
 
-export const ChangeLocaleRequest = z.object({
-  locale: z.enum(CefiLocale),
-});
+export const ChangeLocaleRequest = z
+  .object({
+    locale: z.enum(CefiLocale).or(z.enum(SupportedLocale)),
+  })
+  .transform(data => {
+    let locale = data.locale;
+    if (isSupportedLocale(data.locale)) {
+      switch (data.locale) {
+        case SupportedLocale.En:
+          locale = CefiLocale.EnUs;
+          break;
+        case SupportedLocale.Tw:
+          locale = CefiLocale.ZhTw;
+          break;
+        case SupportedLocale.Vn:
+          locale = CefiLocale.ViVn;
+          break;
+        case SupportedLocale.Th:
+          locale = CefiLocale.ThTh;
+          break;
+        case SupportedLocale.Cn:
+          locale = CefiLocale.ZhCn;
+          break;
+      }
+    }
+    return {
+      locale,
+    };
+  });
 
 export type ChangeLocaleRequest = z.infer<typeof ChangeLocaleRequest>;

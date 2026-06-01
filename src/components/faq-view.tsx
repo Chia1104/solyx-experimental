@@ -3,9 +3,11 @@ import { WebView } from 'react-native-webview';
 
 import type { FAQId } from '@/modules/app/enums/faq-id.enum';
 import { getFaqUrl } from '@/modules/app/utils';
+import { useUserStore } from '@/modules/user/stores/user';
 
 export const FAQView = ({ id }: { id?: FAQId }) => {
-  const uri = getFaqUrl('en', id);
+  const languageCode = useUserStore(store => store.settings.languageCode);
+  const uri = getFaqUrl(languageCode, id);
   return (
     <WebView
       originWhitelist={['*']}

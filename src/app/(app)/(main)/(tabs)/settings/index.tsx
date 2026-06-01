@@ -8,7 +8,7 @@ import { TabScreenScrollView } from '@/components/ui/tab-screen-scroll-view';
 
 export default function SettingsScreen() {
   return (
-    <Page className="bg-background" tabBarInset>
+    <Page tabBarInset>
       <TabScreenScrollView
         stackHeaderInset
         contentContainerClassName="gap-5 px-6"

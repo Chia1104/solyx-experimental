@@ -1,8 +1,8 @@
 import { CommonResponse } from '@/libs/request/pipes/commans.pipe';
 
 import { protectedCefiClient, publicCefiClient } from '../client';
-import type { ChangeLocaleRequest, GetAuthorizeUrlRequest } from '../pipes/users.pipe';
-import { AuthorizeUrl, User } from '../pipes/users.pipe';
+import type { GetAuthorizeUrlRequest } from '../pipes/users.pipe';
+import { AuthorizeUrl, ChangeLocaleRequest, User } from '../pipes/users.pipe';
 
 export const getAuthorizeUrl = async (request: GetAuthorizeUrlRequest) => {
   const response = await publicCefiClient
@@ -25,8 +25,9 @@ export const getMe = async () => {
 };
 
 export const changeLocale = async (request: ChangeLocaleRequest) => {
+  const parsed = ChangeLocaleRequest.parse(request);
   await protectedCefiClient.post('v1/me:change-locale', {
-    json: request,
+    json: parsed,
   });
 };
 

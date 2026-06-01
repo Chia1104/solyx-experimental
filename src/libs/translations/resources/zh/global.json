@@ -1,4 +1,11 @@
 {
+  "language": {
+    "en": "English",
+    "zh": "繁體中文",
+    "cn": "简体中文",
+    "th": "ภาษาไทย",
+    "vn": "Tiếng Việt"
+  },
   "title": {
     "set.app.lock": "設定應用鎖",
     "set.a.password": "設定密碼",
@@ -122,7 +129,9 @@
     "failed.title": "服務不可用",
     "failed.description": "無法連接到我們的伺服器。請稍後再試。",
     "retry.after.app.lock.verify": "請先完成應用鎖驗證，再操作一次。",
-    "app.lock.changed": "已更新應用鎖"
+    "app.lock.changed": "已更新應用鎖",
+    "dev.mode.enabled": "已開啟開發者模式",
+    "dev.mode.disabled": "已關閉開發者模式"
   },
   "action": {
     "set.app.lock": {

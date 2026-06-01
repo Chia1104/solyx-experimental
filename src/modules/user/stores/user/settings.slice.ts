@@ -1,7 +1,11 @@
+import { SupportedLocale } from '@/modules/app/enums/supported-locale.enum';
+
 import type { SettingsActions, SettingsState, UserStoreSlice } from './types';
 
 export const createSettingsInitialState = (): SettingsState => ({
-  languageCode: 'en',
+  languageCode: SupportedLocale.En,
+  languageWithDevice: false,
+  devMode: false,
   walletMode: '',
   unlockMode: 'password',
   autoLock: true,
@@ -52,5 +56,20 @@ export const createSettingsSlice: UserStoreSlice<SettingsActions> = set => ({
 
   changeLanguageCode: code => {
     set(state => ({ settings: { ...state.settings, languageCode: code } }));
+  },
+
+  toggleDevMode: enabled => {
+    set(state => ({
+      settings: { ...state.settings, devMode: enabled ?? !state.settings.devMode },
+    }));
+  },
+
+  toggleLanguageWithDevice: enabled => {
+    set(state => ({
+      settings: {
+        ...state.settings,
+        languageWithDevice: enabled ?? !state.settings.languageWithDevice,
+      },
+    }));
   },
 });

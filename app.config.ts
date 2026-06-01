@@ -92,6 +92,14 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       'expo-image',
       'expo-status-bar',
       'expo-web-browser',
+      'expo-localization',
+      // [
+      //   'expo-localization',
+      //   {
+      //     fallbackLocale: 'en_us',
+      //     availableLocales: ['en_us', 'zh_tw'],
+      //   },
+      // ],
     ],
     experiments: {
       typedRoutes: true,
