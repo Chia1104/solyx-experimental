@@ -18,12 +18,12 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       infoPlist: {
         ITSAppUsesNonExemptEncryption: false,
       },
-      buildNumber: '3',
+      buildNumber: '4',
     },
     android: {
       backgroundColor: '#F7F7F7',
-      versionCode: 3,
-      version: '4.0.0-nightly.3',
+      versionCode: 4,
+      version: '4.0.0-nightly.4',
       userInterfaceStyle: 'light',
       adaptiveIcon: {
         backgroundColor: '#E6F4FE',
