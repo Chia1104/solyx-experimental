@@ -1,10 +1,5 @@
-import { DefiPlaceholderScreen } from '@/components/defi-placeholder-screen';
+import { SettingsContactUsScreen } from '@/components/settings/settings-contact-us-screen';
 
 export default function ContactUsScreen() {
-  return (
-    <DefiPlaceholderScreen
-      description="Support and contact route for customer service links, diagnostics, and app version metadata."
-      title="Contact Us"
-    />
-  );
+  return <SettingsContactUsScreen />;
 }

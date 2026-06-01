@@ -18,7 +18,7 @@ export default function SettingsLayout() {
       <Stack.Screen name="account" options={{ title: t('title.accounts') }} />
       <Stack.Screen name="email" options={{ title: t('defi:kyc.email') }} />
       <Stack.Screen name="language" options={{ title: t('global:title.language') }} />
-      <Stack.Screen name="contact-us" options={{ headerShown: false }} />
+      <Stack.Screen name="contact-us" options={{ title: t('defi:label.setting.contact.us') }} />
     </Stack>
   );
 }
