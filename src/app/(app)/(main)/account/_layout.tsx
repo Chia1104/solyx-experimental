@@ -14,6 +14,7 @@ export default function AccountLayout() {
     <Stack screenOptions={screenOptions}>
       <Stack.Screen name="manage" options={{ title: t('defi:title.manage.accounts') }} />
       <Stack.Screen name="[id]" options={{ title: t('defi:title.account.setting') }} />
+      <Stack.Screen name="edit-info" options={{ title: t('defi:title.account.info') }} />
       <Stack.Screen name="add" options={{ title: t('defi:title.add.an.account') }} />
       <Stack.Screen name="add-info" options={{ title: t('defi:title.account.info') }} />
       <Stack.Screen name="import-private-key" options={{ title: t('defi:title.import') }} />

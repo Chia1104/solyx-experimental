@@ -2,30 +2,20 @@ import { useMemo, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'expo-router';
-import {
-  Button,
-  FieldError,
-  InputGroup,
-  Label,
-  TextField,
-  Typography,
-  useToast,
-} from 'heroui-native';
-import { Controller, useForm } from 'react-hook-form';
+import { useToast } from 'heroui-native';
+import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
 import * as z from 'zod';
 
-import { AccountAvatarPicker } from '@/components/account/account-avatar-picker';
+import { AccountInfoForm } from '@/components/account/account-info-form';
 import { Page } from '@/components/page';
-import { KeyboardAwareScrollView } from '@/components/ui/keyboard-aware-scroll-view';
 import { useLockRequest } from '@/modules/app/hooks/use-lock-request';
 import { LockScreenError } from '@/modules/app/types/log-request.type';
 import { useDefiAccount } from '@/modules/defi/hooks/use-defi-account';
 import { useMutationCreateAccount } from '@/modules/defi/hooks/use-mutation-create-account';
 
 export default function AddAccountInfoScreen() {
-  const { t } = useTranslation(['defi', 'global']);
+  const { t } = useTranslation(['defi']);
   const router = useRouter();
   const { toast } = useToast();
   const { requestPhraseUnlock } = useLockRequest();
@@ -49,9 +39,7 @@ export default function AddAccountInfoScreen() {
     [t, wallets],
   );
 
-  type AddAccountInfoFormValues = z.infer<typeof formSchema>;
-
-  const form = useForm<AddAccountInfoFormValues>({
+  const form = useForm({
     defaultValues: { name: '' },
     mode: 'onChange',
     resolver: zodResolver(formSchema),
@@ -59,15 +47,12 @@ export default function AddAccountInfoScreen() {
 
   const createAccountMutation = useMutationCreateAccount({
     onError: () => {
-      toast.show({
-        variant: 'danger',
-        description: t('defi:error.unknown.error'),
-      });
+      toast.show({ description: t('defi:error.unknown.error'), variant: 'danger' });
     },
     onSuccess: ({ wallet }) => {
       toast.show({
-        variant: 'success',
         description: t('defi:description.addAccount.has.been.create', { name: wallet.name ?? '' }),
+        variant: 'success',
       });
       router.replace('/account/manage');
     },
@@ -76,7 +61,6 @@ export default function AddAccountInfoScreen() {
   const handleSubmit = form.handleSubmit(async values => {
     try {
       const { password, phrase } = await requestPhraseUnlock({ isDismissible: true });
-
       await createAccountMutation.mutateAsync({
         avatarIndex,
         password,
@@ -89,51 +73,17 @@ export default function AddAccountInfoScreen() {
     }
   });
 
-  const isSubmitting = createAccountMutation.isPending;
-
   return (
     <Page className="bg-background">
-      <KeyboardAwareScrollView contentContainerClassName="gap-6 px-6 py-6">
-        <View className="gap-3">
-          <Label>{t('defi:label.avatar')}</Label>
-          <AccountAvatarPicker onSelect={setAvatarIndex} selectedIndex={avatarIndex} />
-        </View>
-
-        <View className="gap-3">
-          <Controller
-            control={form.control}
-            name="name"
-            render={({ field, fieldState }) => (
-              <TextField isDisabled={isSubmitting} isInvalid={fieldState.invalid}>
-                <Label>{t('defi:label.accountName')}</Label>
-                <InputGroup>
-                  <InputGroup.Input
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    onBlur={field.onBlur}
-                    onChangeText={field.onChange}
-                    value={field.value}
-                  />
-                </InputGroup>
-                {fieldState.error ? <FieldError>{fieldState.error.message}</FieldError> : null}
-              </TextField>
-            )}
-          />
-        </View>
-
-        <Typography className="text-default-foreground" type="body-sm">
-          {t('defi:description.addAccount.still.modify.info.later')}
-        </Typography>
-
-        <Button
-          isDisabled={!form.formState.isValid || isSubmitting || !form.watch('name').trim()}
-          onPress={() => void handleSubmit()}
-          size="sm"
-          className="self-center"
-        >
-          <Button.Label>{t('defi:action.create.an.account')}</Button.Label>
-        </Button>
-      </KeyboardAwareScrollView>
+      <AccountInfoForm
+        avatarIndex={avatarIndex}
+        description={t('defi:description.addAccount.still.modify.info.later')}
+        form={form}
+        isSubmitting={createAccountMutation.isPending}
+        onAvatarSelect={setAvatarIndex}
+        onSubmit={() => void handleSubmit()}
+        submitLabel={t('defi:action.create.an.account')}
+      />
     </Page>
   );
 }
