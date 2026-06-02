@@ -31,7 +31,7 @@ export const BackupPhraseNotice = (props: Props) => {
         </Alert.Description>
       </Alert.Content>
       <Button
-        onPress={() => router.push('/onboarding/backup-prompt')}
+        onPress={() => router.push('/account/backup-intro')}
         isIconOnly
         size="sm"
         variant="ghost"
