@@ -2,7 +2,6 @@ import type { UseMutationOptions } from '@tanstack/react-query';
 import { mutationOptions, useMutation, useQueryClient } from '@tanstack/react-query';
 import QuickCrypto from 'react-native-quick-crypto';
 
-import { useLockRequest } from '@/modules/app/hooks/use-lock-request';
 import { useChainAdapterStore } from '@/modules/chain/stores/chain-adapter';
 import { ChainType } from '@/modules/chain/stores/chain-adapter/types';
 import { getInitialWalletBlockNumbers } from '@/modules/chain/stores/chain-adapter/utils';
@@ -17,6 +16,8 @@ import { useMutationAddWallet } from './use-mutation-add-wallet';
 
 export interface CreateAccountVariables {
   avatarIndex: number;
+  password: string;
+  phrase?: string;
   privateKey?: string;
   protocol?: 'evm' | 'tron';
   walletName: string;
@@ -33,7 +34,6 @@ type UseMutationCreateAccountOptions = Omit<
 
 export const useMutationCreateAccount = (options?: UseMutationCreateAccountOptions) => {
   const queryClient = useQueryClient();
-  const { requestPassword, requestPhraseUnlock } = useLockRequest();
   const getAllAdapters = useChainAdapterStore(state => state.getAllAdapters);
   const loginLiquid = useChainAdapterStore(state => state.login);
   const changeCurrentWalletId = useUserStore(state => state.changeCurrentWalletId);
@@ -47,18 +47,19 @@ export const useMutationCreateAccount = (options?: UseMutationCreateAccountOptio
       mutationKey: ['defi', 'create-account'],
       mutationFn: async ({
         avatarIndex,
+        password,
+        phrase,
         privateKey,
         protocol,
         walletName,
       }: CreateAccountVariables) => {
+        if (!password) {
+          throw new Error('Password is required');
+        }
+
         const wallets = queryClient.getQueryData<WalletItem[]>(walletQueryKeys.list()) ?? [];
         const phraseWallets = wallets.filter(wallet => !wallet.isImport);
         const adapters = getAllAdapters();
-
-        const isPrivateKeyImport = Boolean(privateKey && protocol);
-        const { password, phrase } = isPrivateKeyImport
-          ? { password: await requestPassword({ isDismissible: true }), phrase: undefined }
-          : await requestPhraseUnlock({ isDismissible: true });
 
         const wallet: WalletItem = {
           blockNumbers: {},

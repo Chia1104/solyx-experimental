@@ -24,6 +24,8 @@ import { SwitchProtocolSheet } from '@/components/account/switch-protocol-sheet'
 import { Page } from '@/components/page';
 import { KeyboardAwareScrollView } from '@/components/ui/keyboard-aware-scroll-view';
 import { useClipboard } from '@/hooks/use-clipboard';
+import { useLockRequest } from '@/modules/app/hooks/use-lock-request';
+import { LockScreenError } from '@/modules/app/types/log-request.type';
 import { useChainAdapterStore } from '@/modules/chain/stores/chain-adapter';
 import { ChainType } from '@/modules/chain/stores/chain-adapter/types';
 import { isPrivateKey } from '@/modules/chain/stores/chain-adapter/utils';
@@ -35,6 +37,7 @@ export default function ImportPrivateKeyScreen() {
   const router = useRouter();
   const { toast } = useToast();
   const { pasteFromClipboard } = useClipboard();
+  const { requestPassword } = useLockRequest();
   const { wallets } = useDefiAccount();
   const getAdapter = useChainAdapterStore(state => state.getAdapter);
 
@@ -124,12 +127,23 @@ export default function ImportPrivateKeyScreen() {
   const handleConfirmProtocol = async (protocol: ImportProtocol) => {
     if (!pendingValues) return;
 
-    await createAccountMutation.mutateAsync({
-      avatarIndex,
-      privateKey: pendingValues.privateKey,
-      protocol,
-      walletName: pendingValues.name,
-    });
+    try {
+      const password = await requestPassword({
+        isDismissible: true,
+        reason: t('global:description.input.password.to.process'),
+      });
+
+      await createAccountMutation.mutateAsync({
+        avatarIndex,
+        password,
+        privateKey: pendingValues.privateKey,
+        protocol,
+        walletName: pendingValues.name,
+      });
+    } catch (error) {
+      if (error instanceof LockScreenError) return;
+      throw error;
+    }
   };
 
   const isSubmitting = createAccountMutation.isPending;

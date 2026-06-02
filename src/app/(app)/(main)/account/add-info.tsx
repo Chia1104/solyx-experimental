@@ -19,6 +19,8 @@ import * as z from 'zod';
 import { AccountAvatarPicker } from '@/components/account/account-avatar-picker';
 import { Page } from '@/components/page';
 import { KeyboardAwareScrollView } from '@/components/ui/keyboard-aware-scroll-view';
+import { useLockRequest } from '@/modules/app/hooks/use-lock-request';
+import { LockScreenError } from '@/modules/app/types/log-request.type';
 import { useDefiAccount } from '@/modules/defi/hooks/use-defi-account';
 import { useMutationCreateAccount } from '@/modules/defi/hooks/use-mutation-create-account';
 
@@ -26,6 +28,7 @@ export default function AddAccountInfoScreen() {
   const { t } = useTranslation(['defi', 'global']);
   const router = useRouter();
   const { toast } = useToast();
+  const { requestPhraseUnlock } = useLockRequest();
   const { wallets } = useDefiAccount();
 
   const [avatarIndex, setAvatarIndex] = useState(0);
@@ -70,12 +73,21 @@ export default function AddAccountInfoScreen() {
     },
   });
 
-  const handleSubmit = form.handleSubmit(values =>
-    createAccountMutation.mutate({
-      avatarIndex,
-      walletName: values.name,
-    }),
-  );
+  const handleSubmit = form.handleSubmit(async values => {
+    try {
+      const { password, phrase } = await requestPhraseUnlock({ isDismissible: true });
+
+      await createAccountMutation.mutateAsync({
+        avatarIndex,
+        password,
+        phrase,
+        walletName: values.name,
+      });
+    } catch (error) {
+      if (error instanceof LockScreenError) return;
+      throw error;
+    }
+  });
 
   const isSubmitting = createAccountMutation.isPending;
 
