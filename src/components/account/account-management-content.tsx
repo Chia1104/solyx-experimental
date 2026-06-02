@@ -3,8 +3,9 @@ import { useState } from 'react';
 import { useRouter } from 'expo-router';
 import { Label, ListGroup, useToast } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
-import { Alert, ScrollView, View } from 'react-native';
+import { Alert, View } from 'react-native';
 
+import { TabScreenScrollView } from '@/components/ui/tab-screen-scroll-view';
 import { ChainType } from '@/modules/chain/stores/chain-adapter/types';
 import { compactAddress } from '@/modules/chain/utils/address-display';
 import { useMutationWalletDelete } from '@/modules/database/hooks/use-mutation-wallet-delete';
@@ -79,7 +80,7 @@ export const AccountManagementContent = ({ wallet }: AccountManagementContentPro
 
   return (
     <>
-      <ScrollView contentContainerClassName="gap-5 px-3 py-4">
+      <TabScreenScrollView contentContainerClassName="gap-5 px-3 py-10">
         <View className="items-center gap-2 py-4">
           <WalletAvatar className="h-16 w-16" wallet={wallet} />
           {wallet?.name ? <Label className="text-foreground text-base">{wallet.name}</Label> : null}
@@ -123,7 +124,7 @@ export const AccountManagementContent = ({ wallet }: AccountManagementContentPro
             </ListGroup.Item>
           </ListGroup>
         ) : null}
-      </ScrollView>
+      </TabScreenScrollView>
 
       <SwitchProtocolSheet
         isOpen={isProtocolSheetOpen}
