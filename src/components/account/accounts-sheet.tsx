@@ -1,9 +1,11 @@
 import { useState } from 'react';
 
+import { BottomSheetScrollView } from '@gorhom/bottom-sheet';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
-import { BottomSheet, Button } from 'heroui-native';
+import { BottomSheet, Button, ScrollShadow } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 
 import { AccountsList } from './accounts-list';
 import { BackupPhraseNotice } from './backup-phrase-notice';
@@ -27,16 +29,22 @@ export const AccountsSheet = ({ trigger }: AccountsSheetProps) => {
       <BottomSheet.Trigger asChild>{trigger}</BottomSheet.Trigger>
       <BottomSheet.Portal>
         <BottomSheet.Overlay className="bg-background/50" />
-        <BottomSheet.Content>
+        <BottomSheet.Content
+          enableDynamicSizing={false}
+          snapPoints={['70%']}
+          contentContainerClassName="h-full px-0"
+        >
           <BottomSheet.Title className="mb-2 text-center">
             {t('defi:title.accounts')}
           </BottomSheet.Title>
 
           <BackupPhraseNotice />
 
-          <ScrollView nestedScrollEnabled style={{ maxHeight: 360 }}>
-            <AccountsList onAccountSelected={() => setIsOpen(false)} />
-          </ScrollView>
+          <ScrollShadow LinearGradientComponent={LinearGradient} className="flex-1">
+            <BottomSheetScrollView className="px-4">
+              <AccountsList onAccountSelected={() => setIsOpen(false)} />
+            </BottomSheetScrollView>
+          </ScrollShadow>
 
           <View className="items-center px-6 py-5">
             <Button onPress={handleManagePress} size="sm" variant="ghost">
