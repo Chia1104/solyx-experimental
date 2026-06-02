@@ -78,7 +78,7 @@
     --surface-tertiary: oklch(0.2404 0.0015 17.26);
     --surface-tertiary-foreground: oklch(0.9148 0.0035 39.48);
 
-    --overlay: oklch(0.2857 0.0084 317.72);
+    --overlay: oklch(0.1754 0.011 39.26);
     --overlay-foreground: oklch(0.8298 0.0163 319.45);
     --backdrop: oklch(0.1892 0.025 45.54 / 0.7);
 
