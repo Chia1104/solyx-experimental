@@ -1,87 +1,54 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 
-import { Button, Typography, cn } from 'heroui-native';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { Button, Typography } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
-import { Pressable, ScrollView, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { Page } from '@/components/page';
+import { TabScreenScrollView } from '@/components/ui/tab-screen-scroll-view';
 import { ThemedIcon } from '@/components/ui/themed-icon';
 import { useClipboard } from '@/hooks/use-clipboard';
 import { useLockRequest } from '@/modules/app/hooks/use-lock-request';
 import { SupportedNetwork } from '@/modules/chain/enums/supported-chain.enum';
 import { useDefiAccount } from '@/modules/defi/hooks/use-defi-account';
 
-type ExportableNetwork = typeof SupportedNetwork.Evm | typeof SupportedNetwork.Tron;
-
-interface ExportablePrivateKeyOption {
-  address: string;
-  label: string;
-  network: ExportableNetwork;
-}
-
-const maskSecret = (value: string) => {
-  if (!value) return '';
-  return '•'.repeat(Math.min(Math.max(value.length, 32), 96));
-};
-
 export default function ExportPrivateKeyScreen() {
-  const { t } = useTranslation(['global']);
+  const { t } = useTranslation(['global', 'defi']);
   const { copyToClipboard } = useClipboard();
+  const router = useRouter();
+  const { walletId, protocol } = useLocalSearchParams<{ walletId?: string; protocol?: string }>();
 
   const { requestPrivateKey } = useLockRequest();
-  const { wallet: currentWallet } = useDefiAccount();
-  const options = useMemo<ExportablePrivateKeyOption[]>(() => {
-    if (!currentWallet) return [];
+  const { wallet: currentWallet, wallets } = useDefiAccount();
+  const wallet = walletId ? (wallets.find(w => w.id === walletId) ?? currentWallet) : currentWallet;
 
-    return [
-      currentWallet.evmAddress
-        ? {
-            address: currentWallet.evmAddress,
-            label: 'EVM',
-            network: SupportedNetwork.Evm,
-          }
-        : null,
-      currentWallet.tronAddress
-        ? {
-            address: currentWallet.tronAddress,
-            label: 'TRON',
-            network: SupportedNetwork.Tron,
-          }
-        : null,
-    ].filter((item): item is ExportablePrivateKeyOption => Boolean(item));
-  }, [currentWallet]);
+  const network = protocol === 'tron' ? SupportedNetwork.Tron : SupportedNetwork.Evm;
+  const address = network === SupportedNetwork.Tron ? wallet?.tronAddress : wallet?.evmAddress;
 
-  const [selectedNetwork, setSelectedNetwork] = useState<ExportableNetwork | undefined>(
-    options[0]?.network,
-  );
   const [privateKey, setPrivateKey] = useState('');
+  const [show, setShow] = useState(false);
   const [error, setError] = useState('');
   const [isRevealing, setIsRevealing] = useState(false);
 
-  const selectedOption =
-    options.find(option => option.network === selectedNetwork) ?? options[0] ?? null;
-
-  const handleSelectNetwork = (network: ExportableNetwork) => {
-    setSelectedNetwork(network);
-    setPrivateKey('');
-    setError('');
-  };
-
   const handleReveal = async () => {
-    if (!selectedOption || isRevealing) return;
-
+    if (isRevealing) return;
+    if (privateKey) {
+      setShow(true);
+      return;
+    }
+    if (!address) return;
     setError('');
     setIsRevealing(true);
-
     try {
       const result = await requestPrivateKey({
-        address: selectedOption.address,
+        address,
         isDismissible: true,
-        network: selectedOption.network,
+        network,
         reason: t('description.verify.app.lock.export.private.key'),
       });
-
-      setPrivateKey(result);
+      setPrivateKey(result.replace('0x', ''));
+      setShow(true);
     } catch {
       setError(t('error.export.private.key.failed'));
     } finally {
@@ -89,125 +56,64 @@ export default function ExportPrivateKeyScreen() {
     }
   };
 
-  const handleCopy = () => {
-    if (!privateKey) return;
-    copyToClipboard(privateKey);
-  };
-
   return (
-    <Page className="bg-background">
-      <ScrollView contentContainerClassName="gap-5 p-6">
-        <View className="bg-danger/10 border-danger/30 rounded-3xl border p-5">
-          <View className="flex-row gap-3">
-            <ThemedIcon name="warning-outline" className="text-danger mt-0.5" size={22} />
-            <View className="flex-1 gap-2">
-              <Typography className="text-danger" weight="semibold">
-                Never share your private key
-              </Typography>
-              <Typography className="text-foreground/70" type="body">
-                Anyone with this key can control your assets. Only export it in a private place and
-                store it securely.
-              </Typography>
-            </View>
-          </View>
-        </View>
+    <Page className="bg-background flex-1">
+      <TabScreenScrollView stackHeaderInset contentContainerClassName="gap-6 p-6">
+        <Typography className="text-default-foreground" type="body">
+          {t('defi:notice.export.private.key.keep.it.safe')}
+        </Typography>
 
-        <View className="bg-content1 rounded-3xl p-5">
-          <Typography className="text-foreground" type="h3">
-            {currentWallet?.name ?? 'Current account'}
-          </Typography>
-          <Typography className="text-foreground/50 mt-1" type="body">
-            Select the network private key you want to export.
-          </Typography>
-
-          {options.length > 0 ? (
-            <View className="mt-5 gap-3">
-              {options.map(option => {
-                const isSelected = selectedOption?.network === option.network;
-
-                return (
-                  <Pressable
-                    accessibilityRole="radio"
-                    accessibilityState={{ checked: isSelected }}
-                    className={cn(
-                      'border-border bg-background rounded-2xl border p-4 active:opacity-80',
-                      isSelected && 'border-accent',
-                    )}
-                    key={option.network}
-                    onPress={() => handleSelectNetwork(option.network)}
-                  >
-                    <View className="flex-row items-center justify-between gap-3">
-                      <View className="flex-1">
-                        <Typography className="text-foreground" weight="semibold">
-                          {option.label}
-                        </Typography>
-                        <Typography className="text-foreground/50 mt-1" numberOfLines={1}>
-                          {option.address}
-                        </Typography>
-                      </View>
-                      {isSelected ? (
-                        <ThemedIcon name="checkmark-circle" className="text-accent" size={22} />
-                      ) : null}
-                    </View>
-                  </Pressable>
-                );
-              })}
-            </View>
-          ) : (
-            <Typography className="text-foreground/60 mt-5">
-              This account has no exportable EVM or TRON private key.
-            </Typography>
-          )}
-        </View>
-
-        {selectedOption ? (
-          <View className="bg-content1 rounded-3xl p-5">
-            <View className="flex-row items-center justify-between gap-3">
-              <View className="flex-1">
-                <Typography className="text-foreground" type="h3">
-                  Private Key
-                </Typography>
-                <Typography className="text-foreground/50 mt-1" type="body">
-                  {privateKey ? 'Keep this private key secure.' : 'Verify to reveal this key.'}
-                </Typography>
+        {address ? (
+          <View className="gap-6">
+            <View className="border-border bg-content1 relative min-h-44 overflow-hidden rounded-2xl border">
+              <View className="flex-1 items-center justify-center p-4">
+                {show && privateKey ? (
+                  <Typography className="text-foreground text-center font-mono" selectable>
+                    {privateKey}
+                  </Typography>
+                ) : null}
               </View>
-              {privateKey ? (
-                <Button isIconOnly onPress={() => setPrivateKey('')} variant="ghost">
-                  <ThemedIcon name="eye-off-outline" className="text-foreground" size={22} />
-                </Button>
+
+              {!show ? (
+                <Pressable
+                  className="bg-content1 absolute inset-0 items-center justify-center gap-3"
+                  disabled={isRevealing}
+                  onPress={() => void handleReveal()}
+                >
+                  <ThemedIcon className="text-foreground/60" name="eye-off-outline" size={32} />
+                  <Typography className="text-foreground/60 text-center" type="body">
+                    {isRevealing ? 'Verifying...' : t('defi:notice.nobody.looking')}
+                  </Typography>
+                  {!isRevealing ? (
+                    <Typography className="text-foreground/60 text-center" type="body">
+                      {t('defi:notice.reveal.private.key')}
+                    </Typography>
+                  ) : null}
+                </Pressable>
               ) : null}
             </View>
 
-            <View className="border-border bg-background mt-5 rounded-2xl border p-4">
-              <Typography
-                className={cn('text-foreground font-mono', !privateKey && 'text-foreground/40')}
-                selectable={Boolean(privateKey)}
-              >
-                {privateKey || maskSecret(selectedOption.address)}
-              </Typography>
-            </View>
+            {error ? <Typography className="text-danger text-sm">{error}</Typography> : null}
 
-            {error ? <Typography className="text-danger mt-3 text-sm">{error}</Typography> : null}
-
-            <View className="mt-5 flex-row gap-3">
-              <Button
-                className="flex-1"
-                isDisabled={isRevealing}
-                onPress={privateKey ? handleCopy : handleReveal}
-              >
-                {privateKey ? (
-                  <ThemedIcon name="copy-outline" className="text-primary-foreground" size={18} />
-                ) : (
-                  <ThemedIcon name="eye-outline" className="text-primary-foreground" size={18} />
-                )}
-                <Button.Label>
-                  {privateKey ? t('action.copy') : isRevealing ? 'Verifying...' : 'Reveal'}
-                </Button.Label>
-              </Button>
-            </View>
+            {show ? (
+              <View className="flex-row justify-center gap-4">
+                <Button onPress={() => setShow(false)} variant="ghost">
+                  <ThemedIcon className="text-foreground" name="eye-off-outline" size={18} />
+                  <Button.Label>{t('defi:action.hide.private.key')}</Button.Label>
+                </Button>
+                <Button onPress={() => copyToClipboard(privateKey)} variant="ghost">
+                  <ThemedIcon className="text-foreground" name="copy-outline" size={18} />
+                  <Button.Label>{t('global:action.copy')}</Button.Label>
+                </Button>
+              </View>
+            ) : null}
           </View>
         ) : null}
-      </ScrollView>
+
+        <Button onPress={() => router.back()} size="sm">
+          <Button.Label>{t('global:action.finish')}</Button.Label>
+        </Button>
+      </TabScreenScrollView>
     </Page>
   );
 }

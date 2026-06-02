@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Label, ListGroup, useToast } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
 import { Alert, ScrollView, View } from 'react-native';
@@ -12,17 +12,20 @@ import { Page } from '@/components/page';
 import { ChainType } from '@/modules/chain/stores/chain-adapter/types';
 import { compactAddress } from '@/modules/chain/utils/address-display';
 import { useMutationWalletDelete } from '@/modules/database/hooks/use-mutation-wallet-delete';
-import { useDefiAccount } from '@/modules/defi/hooks/use-defi-account';
+import { useQueryWallets } from '@/modules/database/hooks/use-query-wallets';
 
-export default function SettingAccountScreen() {
+export default function AccountDetailScreen() {
+  const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const { t } = useTranslation(['defi']);
   const { toast } = useToast();
-  const { wallet } = useDefiAccount();
+  const { data: wallets = [] } = useQueryWallets();
 
   const [isProtocolSheetOpen, setIsProtocolSheetOpen] = useState(false);
 
+  const wallet = wallets.find(w => w.id === id);
   const walletAddress = wallet?.evmAddress ?? wallet?.tronAddress ?? wallet?.liquidAmpId ?? '';
+
   const canExportPrivateKey = Boolean(wallet?.evmAddress || wallet?.tronAddress);
   const canDelete = Boolean(wallet?.isImport);
 
@@ -30,14 +33,20 @@ export default function SettingAccountScreen() {
     if (!wallet) return;
     if (wallet.isImport) {
       const protocol: ImportProtocol = wallet.chains.includes(ChainType.EVM) ? 'evm' : 'tron';
-      router.push({ params: { protocol }, pathname: '/account/export-private-key' });
+      router.push({
+        params: { protocol, walletId: id },
+        pathname: '/account/export-private-key',
+      });
     } else {
       setIsProtocolSheetOpen(true);
     }
   };
 
   const handleProtocolConfirm = (protocol: ImportProtocol) => {
-    router.push({ params: { protocol }, pathname: '/account/export-private-key' });
+    router.push({
+      params: { protocol, walletId: id },
+      pathname: '/account/export-private-key',
+    });
   };
 
   const deleteMutation = useMutationWalletDelete({

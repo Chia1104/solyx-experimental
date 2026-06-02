@@ -14,6 +14,7 @@ import { WalletAvatar } from './wallet-avatar';
 interface AccountsListProps {
   onAccountSelected?: () => void;
   isSelectable?: boolean;
+  onAccountPress?: (walletId: string) => void;
 }
 
 interface WalletListGroupItemProps {
@@ -103,12 +104,20 @@ const WalletListGroup = ({
   );
 };
 
-export const AccountsList = ({ onAccountSelected, isSelectable = true }: AccountsListProps) => {
+export const AccountsList = ({
+  onAccountSelected,
+  isSelectable = true,
+  onAccountPress: onAccountPressProp,
+}: AccountsListProps) => {
   const { t } = useTranslation(['defi']);
   const { changeAccount } = useChangeAccount();
   const { currentWalletId, mnemonicWallets, privateKeyWallets } = useDefiAccount();
 
   const handleAccountPress = async (walletId: string) => {
+    if (onAccountPressProp) {
+      onAccountPressProp(walletId);
+      return;
+    }
     const changed = await changeAccount(walletId);
     if (changed) {
       onAccountSelected?.();

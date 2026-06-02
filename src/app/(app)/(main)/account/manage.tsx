@@ -20,7 +20,10 @@ export default function ManageAccountsScreen() {
           <BackupPhraseNotice root={{ className: 'rounded-none' }} />
 
           <View className="px-4">
-            <AccountsList isSelectable={false} />
+            <AccountsList
+              isSelectable={false}
+              onAccountPress={id => router.push(`/account/${id}`)}
+            />
           </View>
         </TabScreenScrollView>
       </ScrollShadow>
