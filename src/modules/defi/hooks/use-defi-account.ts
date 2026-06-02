@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import {
   EIP155_CHAINS,
@@ -59,6 +59,27 @@ export const useDefiAccount = () => {
     [chainType, currentChainId],
   );
 
+  const mnemonicWallets = useMemo(() => wallets.filter(item => !item.isImport), [wallets]);
+  const privateKeyWallets = useMemo(() => wallets.filter(item => item.isImport), [wallets]);
+  const sortedWallets = useMemo(
+    () => [...mnemonicWallets, ...privateKeyWallets],
+    [mnemonicWallets, privateKeyWallets],
+  );
+
+  const getAccountNameByAddress = useCallback(
+    (targetAddress: string) => {
+      const matchedWallet = sortedWallets.find(
+        item =>
+          item.evmAddress?.toLowerCase() === targetAddress.toLowerCase() ||
+          item.tronAddress?.toLowerCase() === targetAddress.toLowerCase() ||
+          item.liquidAmpId?.toLowerCase() === targetAddress.toLowerCase(),
+      );
+
+      return matchedWallet?.name ?? '';
+    },
+    [sortedWallets],
+  );
+
   return {
     addresses: {
       evm: evmAddress,
@@ -78,6 +99,10 @@ export const useDefiAccount = () => {
     liquidAmpId,
     liquidSubaccountPointer,
     tronAddress,
+    getAccountNameByAddress,
+    mnemonicWallets,
+    privateKeyWallets,
+    sortedWallets,
     wallet,
     wallets,
   };

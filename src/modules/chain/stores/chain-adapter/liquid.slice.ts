@@ -11,6 +11,8 @@ import type {
 } from '@roswell/react-native-gdk';
 import createGdk from '@roswell/react-native-gdk';
 
+import { delay } from '@/utils/delay';
+
 import type { TLiquidChain } from './chains';
 import { LIQUID_CHAINS } from './chains';
 import type { ChainAdapterSlice, LiquidChainAdapterActions } from './types';
@@ -19,7 +21,6 @@ import {
   DEFAULT_LIQUID_CHAIN_ID,
   DEFAULT_LIQUID_FEE_RATE,
   DESTROY_SESSION_DELAY_MS,
-  sleep,
   toErrorMessage,
 } from './utils';
 
@@ -536,7 +537,7 @@ export const createLiquidChainAdapterSlice: ChainAdapterSlice<LiquidChainAdapter
     const gdk = get().liquidGdk;
     if (gdk) {
       try {
-        await sleep(DESTROY_SESSION_DELAY_MS);
+        await delay(DESTROY_SESSION_DELAY_MS);
         await gdk.destroySession();
       } catch {
         // Ignore cleanup failures; state below becomes the source of truth.

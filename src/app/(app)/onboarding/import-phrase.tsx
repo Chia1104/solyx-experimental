@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'expo-router';
-import { Button, FieldError, TextArea, TextField, Typography } from 'heroui-native';
+import { Button, FieldError, Label, TextArea, TextField, Typography } from 'heroui-native';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
@@ -68,10 +68,6 @@ export default function ImportPhrase() {
           </Typography>
 
           <View className="mt-12 w-full max-w-sm flex-col">
-            <Typography className="text-muted mb-6 text-base" weight="medium">
-              {t('defi:description.import.seed.phrase')}
-            </Typography>
-
             <Controller
               control={form.control}
               name="phrase"
@@ -80,6 +76,7 @@ export default function ImportPhrase() {
                   isDisabled={importPhraseMutation.isPending}
                   isInvalid={fieldState.invalid}
                 >
+                  <Label>{t('defi:description.import.seed.phrase')}</Label>
                   <View>
                     <TextArea
                       onBlur={field.onBlur}

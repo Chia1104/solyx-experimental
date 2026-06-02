@@ -64,16 +64,26 @@ export const useLockRequest = () => {
     [requestLockVerification],
   );
 
-  const requestPhrase = useCallback(
+  const requestPhraseUnlock = useCallback(
     async (options: LockRequestOptions = {}) => {
       const password = await requestLockVerification({
         ...options,
         type: LockRequestType.Phrase,
       });
 
-      return getKeychainPhraseMutation.mutateAsync({ password });
+      const phrase = await getKeychainPhraseMutation.mutateAsync({ password });
+
+      return { password, phrase };
     },
     [getKeychainPhraseMutation, requestLockVerification],
+  );
+
+  const requestPhrase = useCallback(
+    async (options: LockRequestOptions = {}) => {
+      const { phrase } = await requestPhraseUnlock(options);
+      return phrase;
+    },
+    [requestPhraseUnlock],
   );
 
   const requestPrivateKey = useCallback(
@@ -125,6 +135,7 @@ export const useLockRequest = () => {
     requestLiquidUnlock,
     requestPassword,
     requestPhrase,
+    requestPhraseUnlock,
     requestPrivateKey,
   };
 };

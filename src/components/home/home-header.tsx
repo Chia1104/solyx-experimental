@@ -1,9 +1,11 @@
 import { useRouter } from 'expo-router';
-import { Avatar, cn } from 'heroui-native';
+import { cn } from 'heroui-native';
 import { Segment, useSegment } from 'heroui-native-pro/segment';
 import { useTranslation } from 'react-i18next';
-import { Image, Pressable } from 'react-native';
+import { Pressable } from 'react-native';
 
+import { AccountsSheet } from '@/components/account/accounts-sheet';
+import { WalletAvatar } from '@/components/account/wallet-avatar';
 import { ThemedIcon } from '@/components/ui/themed-icon';
 import type { NetworkMode } from '@/hooks/use-select-network-mode';
 import { getNetworkMode, useSelectNetworkMode } from '@/hooks/use-select-network-mode';
@@ -57,26 +59,18 @@ export const SwitchMode = ({ chain }: { chain?: ChainConfig }) => {
   );
 };
 
-export const AccountAvatar = ({ wallet }: { wallet?: WalletItem }) => {
-  const router = useRouter();
-
-  return (
-    <Pressable
-      className="h-9 w-9 items-center justify-center overflow-hidden rounded-full"
-      onPress={() => router.push('/account/manage')}
-    >
-      <Avatar className="h-9 w-9 bg-transparent">
-        <Avatar.Fallback>
-          {wallet?.image.source ? (
-            <Image className="h-6 w-6" source={wallet.image.source} />
-          ) : (
-            <ThemedIcon className="text-foreground/70" name="person" size={20} />
-          )}
-        </Avatar.Fallback>
-      </Avatar>
-    </Pressable>
-  );
-};
+export const AccountAvatar = ({ wallet }: { wallet?: WalletItem }) => (
+  <AccountsSheet
+    trigger={
+      <Pressable
+        accessibilityRole="button"
+        className="h-9 w-9 items-center justify-center overflow-hidden rounded-full"
+      >
+        <WalletAvatar className="h-9 w-9" wallet={wallet} />
+      </Pressable>
+    }
+  />
+);
 
 export const ScannerHeaderButton = () => {
   const router = useRouter();

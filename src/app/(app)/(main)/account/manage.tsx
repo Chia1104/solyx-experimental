@@ -1,24 +1,32 @@
-import { DefiPlaceholderScreen } from '@/components/defi-placeholder-screen';
+import { useRouter } from 'expo-router';
+import { Button } from 'heroui-native';
+import { useTranslation } from 'react-i18next';
+import { View } from 'react-native';
+
+import { AccountsList } from '@/components/account/accounts-list';
+import { BackupPhraseNotice } from '@/components/account/backup-phrase-notice';
+import { Page } from '@/components/page';
+import { TabScreenScrollView } from '@/components/ui/tab-screen-scroll-view';
 
 export default function ManageAccountsScreen() {
+  const { t } = useTranslation(['defi']);
+  const router = useRouter();
+
   return (
-    <DefiPlaceholderScreen
-      actions={[
-        {
-          href: '/account/add',
-          label: 'Add account',
-        },
-        {
-          href: '/account/import-private-key',
-          label: 'Import private key',
-        },
-        {
-          href: '/account/export-private-key',
-          label: 'Export private key',
-        },
-      ]}
-      description="Wallet account management route for switching accounts, editing names, and private key operations."
-      title="Manage Accounts"
-    />
+    <Page className="bg-background" edges={['left', 'right']}>
+      <TabScreenScrollView stackHeaderInset contentContainerClassName="gap-4 pb-6">
+        <BackupPhraseNotice root={{ className: 'rounded-none' }} />
+
+        <View className="px-4">
+          <AccountsList isSelectable={false} />
+        </View>
+
+        <View className="items-center px-6">
+          <Button onPress={() => router.push('/account/add')} size="sm" variant="ghost">
+            <Button.Label>{t('defi:action.add.an.account')}</Button.Label>
+          </Button>
+        </View>
+      </TabScreenScrollView>
+    </Page>
   );
 }

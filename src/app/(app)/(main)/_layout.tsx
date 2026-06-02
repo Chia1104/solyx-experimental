@@ -28,11 +28,7 @@ export default function DefiMainLayout() {
         <Stack.Screen name="settings/email" />
         <Stack.Screen name="settings/language" />
         <Stack.Screen name="settings/contact-us" />
-        <Stack.Screen name="account/manage" />
-        <Stack.Screen name="account/add" />
-        <Stack.Screen name="account/import-private-key" />
-        <Stack.Screen name="account/export-private-key" />
-        <Stack.Screen name="account/security" />
+        <Stack.Screen name="account" options={{ headerShown: false }} />
       </Stack>
     </ChainTransitionProvider>
   );

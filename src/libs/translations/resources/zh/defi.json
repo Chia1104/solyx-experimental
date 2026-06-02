@@ -128,6 +128,7 @@
       "balance": "餘額"
     },
     "accountName": "帳戶名稱",
+    "private.key.wallet": "私鑰錢包",
     "back.up": "備份",
     "slow": "慢",
     "average": "普通",

@@ -80,6 +80,8 @@
     "gas.fee": "Gas fee",
     "interact.with": "Interact with",
     "unpredictable": "Unpredictable",
+    "accountName": "Account name",
+    "private.key.wallet": "Private key wallet",
     "setting": {
       "current.account": "Current Account",
       "walletConnect": "WalletConnect",
