@@ -28,7 +28,7 @@ export default function DefiMainLayout() {
         <Stack.Screen name="settings/email" />
         <Stack.Screen name="settings/language" />
         <Stack.Screen name="settings/contact-us" />
-        <Stack.Screen name="account" options={{ headerShown: false }} />
+        <Stack.Screen name="account" options={{ headerShown: false, presentation: 'modal' }} />
       </Stack>
     </ChainTransitionProvider>
   );
