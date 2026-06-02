@@ -10,6 +10,8 @@ import { ThemedIcon } from '@/components/ui/themed-icon';
 import type { NetworkMode } from '@/hooks/use-select-network-mode';
 import { getNetworkMode, useSelectNetworkMode } from '@/hooks/use-select-network-mode';
 import type { ChainConfig } from '@/modules/chain/stores/chain-adapter/types';
+import { ChainType } from '@/modules/chain/stores/chain-adapter/types';
+import { useDefiAccount } from '@/modules/defi/hooks/use-defi-account';
 import type { WalletItem } from '@/modules/user/stores/user/types';
 
 const SegmentItem = ({
@@ -43,6 +45,9 @@ export const SwitchMode = ({ chain }: { chain?: ChainConfig }) => {
   const { t } = useTranslation('defi');
   const currentMode = getNetworkMode(chain?.chainType);
   const { selectNetworkMode } = useSelectNetworkMode(currentMode);
+  const { wallet } = useDefiAccount();
+  const supportsLiquid = wallet?.chains.includes(ChainType.LIQUID) ?? false;
+
   return (
     <Segment
       size="sm"
@@ -52,8 +57,12 @@ export const SwitchMode = ({ chain }: { chain?: ChainConfig }) => {
       <Segment.Group className="bg-surface">
         <Segment.Indicator className="bg-accent text-accent-foreground" />
         <SegmentItem value="public" label={t('chain.type.public')} icon="earth" />
-        <Segment.Separator betweenValues={['public', 'private']} />
-        <SegmentItem value="private" label={t('chain.type.private')} icon="shield-checkmark" />
+        {supportsLiquid && (
+          <>
+            <Segment.Separator betweenValues={['public', 'private']} />
+            <SegmentItem value="private" label={t('chain.type.private')} icon="shield-checkmark" />
+          </>
+        )}
       </Segment.Group>
     </Segment>
   );
