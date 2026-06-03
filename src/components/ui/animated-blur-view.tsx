@@ -39,7 +39,7 @@ export const BlurTargetProvider = ({ children }: PropsWithChildren) => {
   return <BlurTargetContext value={value}>{children}</BlurTargetContext>;
 };
 
-const useBlurTarget = () => {
+export const useBlurTarget = () => {
   const context = use(BlurTargetContext);
 
   if (!context) {

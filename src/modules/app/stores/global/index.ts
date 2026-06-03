@@ -12,11 +12,18 @@ interface PendingLockResolver {
   resolve: (verifiedPassword: string) => void;
 }
 
+export interface LoadingStep {
+  title: string;
+  description?: string;
+}
+
 export interface GlobalState {
   isStartupDone: boolean;
   lockRequest: LockRequest | null;
   network?: SupportedNetwork;
-  isLoading?: boolean;
+  isLoading: boolean;
+  loadingSteps: LoadingStep[] | null;
+  currentLoadingStep: number;
 }
 
 export interface GlobalActions {
@@ -26,7 +33,8 @@ export interface GlobalActions {
   resolveLockVerification: (request: LockRequest, verifiedPassword: string) => void;
   setStartup: (isStartupDone: boolean) => void;
   setNetwork: (network?: SupportedNetwork) => void;
-  setLoading: (isLoading?: boolean) => void;
+  withLoading: <T>(fn: () => Promise<T>) => Promise<T>;
+  withStepLoading: <T>(steps: LoadingStep[], fn: (advance: () => void) => Promise<T>) => Promise<T>;
   resetGlobalState: () => void;
 }
 
@@ -37,10 +45,13 @@ export const createGlobalInitialState = (): GlobalState => ({
   lockRequest: null,
   network: undefined,
   isLoading: false,
+  loadingSteps: null,
+  currentLoadingStep: 0,
 });
 
 export const useGlobalStore = create<GlobalStoreState>()((set, get) => {
   let pendingLockResolver: PendingLockResolver | null = null;
+  let loadingCount = 0;
 
   const clearLockRequest = () => {
     pendingLockResolver = null;
@@ -103,14 +114,42 @@ export const useGlobalStore = create<GlobalStoreState>()((set, get) => {
       set({ network });
     },
 
-    setLoading: isLoading => {
-      set({ isLoading });
+    withLoading: async fn => {
+      loadingCount++;
+      set({ isLoading: true });
+      try {
+        return await fn();
+      } finally {
+        loadingCount = Math.max(0, loadingCount - 1);
+        if (loadingCount === 0) set({ isLoading: false });
+      }
+    },
+
+    withStepLoading: async (steps, fn) => {
+      loadingCount++;
+      set({ isLoading: true, loadingSteps: steps, currentLoadingStep: 0 });
+
+      const advance = () => {
+        set(state => ({
+          currentLoadingStep: Math.min(state.currentLoadingStep + 1, steps.length - 1),
+        }));
+      };
+
+      try {
+        return await fn(advance);
+      } finally {
+        loadingCount = Math.max(0, loadingCount - 1);
+        if (loadingCount === 0) {
+          set({ isLoading: false, loadingSteps: null, currentLoadingStep: 0 });
+        }
+      }
     },
 
     resetGlobalState: () => {
       const resolver = pendingLockResolver;
 
       pendingLockResolver = null;
+      loadingCount = 0;
       set(createGlobalInitialState());
 
       resolver?.reject(new LockScreenError(LockScreenErrorCode.Canceled));

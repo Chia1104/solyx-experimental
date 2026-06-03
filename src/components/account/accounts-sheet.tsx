@@ -38,7 +38,11 @@ export const AccountsSheet = ({ trigger }: AccountsSheetProps) => {
             {t('defi:title.accounts')}
           </BottomSheet.Title>
 
-          <BackupPhraseNotice />
+          <BackupPhraseNotice
+            root={{
+              className: 'rounded-none',
+            }}
+          />
 
           <ScrollShadow LinearGradientComponent={LinearGradient} className="flex-1">
             <BottomSheetScrollView className="px-4">

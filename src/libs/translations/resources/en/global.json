@@ -55,6 +55,13 @@
       "fingerprint": {
         "unlock": "Fingerprint unlock"
       }
+    },
+    "wallet": {
+      "step": {
+        "generate": "Generating wallet",
+        "secure": "Securing keys",
+        "register": "Registering wallet"
+      }
     }
   },
   "default": {

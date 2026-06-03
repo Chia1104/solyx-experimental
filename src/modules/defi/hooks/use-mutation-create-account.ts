@@ -1,7 +1,9 @@
 import type { UseMutationOptions } from '@tanstack/react-query';
 import { mutationOptions, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import QuickCrypto from 'react-native-quick-crypto';
 
+import { useGlobalStore } from '@/modules/app/stores/global';
 import { useChainAdapterStore } from '@/modules/chain/stores/chain-adapter';
 import { ChainType } from '@/modules/chain/stores/chain-adapter/types';
 import { getInitialWalletBlockNumbers } from '@/modules/chain/stores/chain-adapter/utils';
@@ -33,10 +35,12 @@ type UseMutationCreateAccountOptions = Omit<
 >;
 
 export const useMutationCreateAccount = (options?: UseMutationCreateAccountOptions) => {
+  const { t } = useTranslation(['global']);
   const queryClient = useQueryClient();
   const getAllAdapters = useChainAdapterStore(state => state.getAllAdapters);
   const loginLiquid = useChainAdapterStore(state => state.login);
   const changeCurrentWalletId = useUserStore(state => state.changeCurrentWalletId);
+  const withStepLoading = useGlobalStore(state => state.withStepLoading);
 
   const addWalletMutation = useMutationAddWallet();
   const addLocalWalletMutation = useMutationWalletAdd();
@@ -57,6 +61,10 @@ export const useMutationCreateAccount = (options?: UseMutationCreateAccountOptio
           throw new Error('Password is required');
         }
 
+        if (!phrase && !(privateKey && protocol)) {
+          throw new Error('Missing account credentials');
+        }
+
         const wallets = queryClient.getQueryData<WalletItem[]>(walletQueryKeys.list()) ?? [];
         const phraseWallets = wallets.filter(wallet => !wallet.isImport);
         const adapters = getAllAdapters();
@@ -70,105 +78,129 @@ export const useMutationCreateAccount = (options?: UseMutationCreateAccountOptio
           name: walletName,
         };
 
-        if (!phrase && !(privateKey && protocol)) {
-          throw new Error('Missing account credentials');
-        }
+        const register = async (): Promise<CreateAccountResult> => {
+          wallet.blockNumbers = getInitialWalletBlockNumbers();
+
+          const apiWallets = wallet.chains.flatMap(chainType => {
+            if (chainType === ChainType.LIQUID) return [];
+
+            const address =
+              chainType === ChainType.EVM
+                ? wallet.evmAddress
+                : chainType === ChainType.TRON
+                  ? wallet.tronAddress
+                  : undefined;
+
+            return address ? [{ address, chainType }] : [];
+          });
+
+          if (apiWallets.length) {
+            await addWalletMutation.mutateAsync(apiWallets);
+          }
+
+          await addLocalWalletMutation.mutateAsync(wallet);
+          changeCurrentWalletId(wallet.id);
+
+          return { wallet };
+        };
 
         if (phrase) {
           const derivationIndex = phraseWallets.length;
 
-          if (adapters.some(adapter => adapter.chainType === ChainType.LIQUID)) {
-            await loginLiquid(phrase);
-          }
+          return withStepLoading(
+            [
+              { title: t('label.wallet.step.generate') },
+              { title: t('label.wallet.step.secure') },
+              { title: t('label.wallet.step.register') },
+            ],
+            async advance => {
+              // Step 0: Generate accounts from phrase
+              if (adapters.some(adapter => adapter.chainType === ChainType.LIQUID)) {
+                await loginLiquid(phrase);
+              }
 
-          const accounts = await Promise.all(
-            adapters.map(adapter => adapter.createAccountFromMnemonic(phrase, derivationIndex)),
+              const accounts = await Promise.all(
+                adapters.map(adapter => adapter.createAccountFromMnemonic(phrase, derivationIndex)),
+              );
+
+              wallet.chains = adapters.map(adapter => adapter.chainType);
+
+              accounts.forEach((account, index) => {
+                const adapter = adapters[index];
+
+                switch (adapter.chainType) {
+                  case ChainType.EVM:
+                    wallet.evmAddress = account.address;
+                    break;
+                  case ChainType.TRON:
+                    wallet.tronAddress = account.address;
+                    break;
+                  case ChainType.LIQUID:
+                    wallet.liquidAmpId = account.address;
+                    wallet.liquidSubaccountPointer = account.subaccountPointer;
+                    break;
+                  case ChainType.BTC:
+                    break;
+                }
+              });
+
+              // Step 1: Store private keys securely
+              advance();
+
+              await Promise.all(
+                accounts.map(account =>
+                  setKeychainPrivateKeyMutation.mutateAsync({
+                    address: account.address,
+                    key: account.privateKey,
+                    password,
+                  }),
+                ),
+              );
+
+              // Step 2: Register wallet
+              advance();
+
+              return register();
+            },
           );
+        }
 
-          await Promise.all(
-            accounts.map(account =>
-              setKeychainPrivateKeyMutation.mutateAsync({
-                address: account.address,
-                key: account.privateKey,
-                password,
-              }),
-            ),
-          );
+        // Private key path
+        const adapter = adapters.find(item =>
+          protocol === 'evm' ? item.chainType === ChainType.EVM : item.chainType === ChainType.TRON,
+        );
 
-          wallet.chains = adapters.map(adapter => adapter.chainType);
+        if (!adapter) {
+          throw new Error('Unsupported protocol');
+        }
 
-          accounts.forEach((account, index) => {
-            const adapter = adapters[index];
+        return withStepLoading(
+          [{ title: t('label.wallet.step.secure') }, { title: t('label.wallet.step.register') }],
+          async advance => {
+            // Step 0: Derive account and store key
+            const account = adapter.createAccountFromPrivateKey(privateKey!);
 
-            switch (adapter.chainType) {
-              case ChainType.EVM:
-                wallet.evmAddress = account.address;
-                break;
-              case ChainType.TRON:
-                wallet.tronAddress = account.address;
-                break;
-              case ChainType.LIQUID:
-                wallet.liquidAmpId = account.address;
-                wallet.liquidSubaccountPointer = account.subaccountPointer;
-                break;
-              case ChainType.BTC:
-                break;
+            wallet.chains = [adapter.chainType];
+            wallet.isImport = true;
+
+            if (protocol === 'evm') {
+              wallet.evmAddress = account.address;
+            } else {
+              wallet.tronAddress = account.address;
             }
-          });
-        }
 
-        if (privateKey && protocol) {
-          const adapter = adapters.find(item =>
-            protocol === 'evm'
-              ? item.chainType === ChainType.EVM
-              : item.chainType === ChainType.TRON,
-          );
+            await setKeychainPrivateKeyMutation.mutateAsync({
+              address: account.address,
+              key: privateKey!,
+              password,
+            });
 
-          if (!adapter) {
-            throw new Error('Unsupported protocol');
-          }
+            // Step 1: Register wallet
+            advance();
 
-          const account = adapter.createAccountFromPrivateKey(privateKey);
-
-          wallet.chains = [adapter.chainType];
-          wallet.isImport = true;
-
-          if (protocol === 'evm') {
-            wallet.evmAddress = account.address;
-          } else {
-            wallet.tronAddress = account.address;
-          }
-
-          await setKeychainPrivateKeyMutation.mutateAsync({
-            address: account.address,
-            key: privateKey,
-            password,
-          });
-        }
-
-        wallet.blockNumbers = getInitialWalletBlockNumbers();
-
-        const apiWallets = wallet.chains.flatMap(chainType => {
-          if (chainType === ChainType.LIQUID) return [];
-
-          const address =
-            chainType === ChainType.EVM
-              ? wallet.evmAddress
-              : chainType === ChainType.TRON
-                ? wallet.tronAddress
-                : undefined;
-
-          return address ? [{ address, chainType }] : [];
-        });
-
-        if (apiWallets.length) {
-          await addWalletMutation.mutateAsync(apiWallets);
-        }
-
-        await addLocalWalletMutation.mutateAsync(wallet);
-        changeCurrentWalletId(wallet.id);
-
-        return { wallet };
+            return register();
+          },
+        );
       },
       ...options,
       onSuccess: (...args) => {

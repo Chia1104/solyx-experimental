@@ -14,6 +14,8 @@ import { persistOptions, queryClient } from '@/libs/request/query-client';
 import { LIQUID_CHAINS } from '@/modules/chain/stores/chain-adapter/chains';
 import { useUserStore } from '@/modules/user/stores/user';
 
+import { AppLoading } from './app-loading';
+
 const INITIAL_LIGHT_BACKGROUND_COLOR = '#F7F7F7';
 
 Uniwind.setTheme('light');
@@ -48,6 +50,7 @@ export const RootProvider = ({ children }: { children: React.ReactNode }) => {
                   barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
                 />
                 <AndroidBlurTargetView style={{ flex: 1 }}>{children}</AndroidBlurTargetView>
+                <AppLoading />
               </HeroUINativeProvider>
             </BlurTargetProvider>
           </SafeAreaProvider>

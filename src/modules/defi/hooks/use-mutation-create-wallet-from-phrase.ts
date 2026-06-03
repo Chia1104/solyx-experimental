@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import QuickCrypto from 'react-native-quick-crypto';
 
 import { useLockRequest } from '@/modules/app/hooks/use-lock-request';
+import { useGlobalStore } from '@/modules/app/stores/global';
 import { useChainAdapterStore } from '@/modules/chain/stores/chain-adapter';
 import {
   EIP155_CHAINS,
@@ -19,6 +20,7 @@ import { useUserStore } from '@/modules/user/stores/user';
 import type { BackupPhraseState, WalletItem } from '@/modules/user/stores/user/types';
 
 import { useMutationAddWallet } from './use-mutation-add-wallet';
+
 interface CreateWalletFromPhraseVariables {
   backupPhraseState?: BackupPhraseState;
   phrase?: string;
@@ -64,6 +66,7 @@ export const useMutationCreateWalletFromPhrase = (
   const { t } = useTranslation(['global']);
   const { requestPassword } = useLockRequest();
   const getAllAdapters = useChainAdapterStore(state => state.getAllAdapters);
+  const withStepLoading = useGlobalStore(state => state.withStepLoading);
 
   const switchWalletMode = useUserStore(state => state.switchWalletMode);
   const setBackupPhraseState = useUserStore(state => state.setBackupPhraseState);
@@ -94,84 +97,100 @@ export const useMutationCreateWalletFromPhrase = (
           reason: t('description.unlock.app.lock.encrypt.web3.wallet'),
         });
 
-        const sourcePhrase = normalizedInputPhrase ?? (await adapters[0].createWallet()).mnemonic;
-        const normalizedPhrase = normalizePhrase(sourcePhrase);
+        return withStepLoading(
+          [
+            { title: t('label.wallet.step.generate') },
+            { title: t('label.wallet.step.secure') },
+            { title: t('label.wallet.step.register') },
+          ],
+          async advance => {
+            // Step 0: Generate wallet keys
+            const sourcePhrase =
+              normalizedInputPhrase ?? (await adapters[0].createWallet()).mnemonic;
+            const normalizedPhrase = normalizePhrase(sourcePhrase);
+            assertValidPhraseLength(normalizedPhrase);
 
-        assertValidPhraseLength(normalizedPhrase);
+            const accounts = await Promise.all(
+              adapters.map(adapter => adapter.createAccountFromMnemonic(normalizedPhrase, 0)),
+            );
 
-        const accounts = await Promise.all(
-          adapters.map(adapter => adapter.createAccountFromMnemonic(normalizedPhrase, 0)),
-        );
+            // Step 1: Store to keychain securely
+            advance();
 
-        await setKeychainPhraseMutation.mutateAsync({
-          password,
-          value: normalizedPhrase,
-        });
-
-        await Promise.all(
-          accounts.map(account =>
-            setKeychainPrivateKeyMutation.mutateAsync({
-              address: account.address,
-              key: account.privateKey,
+            await setKeychainPhraseMutation.mutateAsync({
               password,
-            }),
-          ),
+              value: normalizedPhrase,
+            });
+
+            await Promise.all(
+              accounts.map(account =>
+                setKeychainPrivateKeyMutation.mutateAsync({
+                  address: account.address,
+                  key: account.privateKey,
+                  password,
+                }),
+              ),
+            );
+
+            // Step 2: Register wallet
+            advance();
+
+            const wallet: WalletItem = {
+              blockNumbers: getInitialBlockNumbers(),
+              chains: adapters.map(adapter => adapter.chainType),
+              createTime: new Date().toISOString(),
+              image: resolveWalletImage(1),
+              name: walletName,
+              id: QuickCrypto.randomUUID(),
+            };
+
+            accounts.forEach((account, index) => {
+              const adapter = adapters[index];
+
+              switch (adapter.chainType) {
+                case ChainType.EVM:
+                  wallet.evmAddress = account.address;
+                  break;
+                case ChainType.TRON:
+                  wallet.tronAddress = account.address;
+                  break;
+                case ChainType.LIQUID:
+                  wallet.liquidAmpId = account.address;
+                  wallet.liquidSubaccountPointer = account.subaccountPointer;
+                  break;
+                case ChainType.BTC:
+                  break;
+              }
+            });
+
+            const apiWallets = adapters.flatMap(adapter => {
+              if (adapter.chainType === ChainType.LIQUID) return [];
+
+              const address =
+                adapter.chainType === ChainType.EVM
+                  ? wallet.evmAddress
+                  : adapter.chainType === ChainType.TRON
+                    ? wallet.tronAddress
+                    : undefined;
+
+              return address ? [{ address, chainType: adapter.chainType }] : [];
+            });
+
+            if (apiWallets.length) {
+              await addWalletMutation.mutateAsync(apiWallets);
+            }
+
+            await addLocalWalletMutation.mutateAsync(wallet);
+            setBackupPhraseState(backupPhraseState);
+            switchWalletMode('defi');
+            changeCurrentWalletId(wallet.id);
+
+            return {
+              phrase: normalizedPhrase,
+              wallet,
+            };
+          },
         );
-
-        const wallet: WalletItem = {
-          blockNumbers: getInitialBlockNumbers(),
-          chains: adapters.map(adapter => adapter.chainType),
-          createTime: new Date().toISOString(),
-          image: resolveWalletImage(1),
-          name: walletName,
-          id: QuickCrypto.randomUUID(),
-        };
-
-        accounts.forEach((account, index) => {
-          const adapter = adapters[index];
-
-          switch (adapter.chainType) {
-            case ChainType.EVM:
-              wallet.evmAddress = account.address;
-              break;
-            case ChainType.TRON:
-              wallet.tronAddress = account.address;
-              break;
-            case ChainType.LIQUID:
-              wallet.liquidAmpId = account.address;
-              wallet.liquidSubaccountPointer = account.subaccountPointer;
-              break;
-            case ChainType.BTC:
-              break;
-          }
-        });
-
-        const apiWallets = adapters.flatMap(adapter => {
-          if (adapter.chainType === ChainType.LIQUID) return [];
-
-          const address =
-            adapter.chainType === ChainType.EVM
-              ? wallet.evmAddress
-              : adapter.chainType === ChainType.TRON
-                ? wallet.tronAddress
-                : undefined;
-
-          return address ? [{ address, chainType: adapter.chainType }] : [];
-        });
-
-        if (apiWallets.length) {
-          await addWalletMutation.mutateAsync(apiWallets);
-        }
-
-        await addLocalWalletMutation.mutateAsync(wallet);
-        setBackupPhraseState(backupPhraseState);
-        switchWalletMode('defi');
-        changeCurrentWalletId(wallet.id);
-
-        return {
-          phrase: normalizedPhrase,
-          wallet,
-        };
       },
       ...options,
     }),

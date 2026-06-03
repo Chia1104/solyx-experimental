@@ -55,6 +55,13 @@
       "fingerprint": {
         "unlock": "指紋解鎖"
       }
+    },
+    "wallet": {
+      "step": {
+        "generate": "產生錢包金鑰",
+        "secure": "加密儲存金鑰",
+        "register": "註冊錢包"
+      }
     }
   },
   "default": {
