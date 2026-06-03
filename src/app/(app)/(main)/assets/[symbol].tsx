@@ -3,7 +3,7 @@ import { useCallback, useMemo } from 'react';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { Separator, Typography } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
+import { Platform, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { TransactionActivity } from '@/components/activity/transaction-activity';
@@ -129,14 +129,18 @@ export default function AssetDetailScreen() {
   );
 
   return (
-    <Page className="bg-background" edges={['left', 'right']}>
-      <Stack.Screen options={{ title: resolvedCurrency?.symbol ?? resolvedSymbol }} />
+    <Page edges={['left', 'right']}>
+      <Stack.Screen
+        options={{
+          title: resolvedCurrency?.symbol ?? resolvedSymbol,
+        }}
+      />
 
       <View className="min-h-0 flex-1">
         {resolvedSymbol ? (
           <TransactionActivity
             contentInsetBottom={insets.bottom + 16}
-            contentInsetTop={headerHeight}
+            contentInsetTop={Platform.OS === 'ios' ? headerHeight : 0}
             currencySymbol={resolvedSymbol}
             emptyText={t('description.no.activity')}
             headerComponent={headerComponent}

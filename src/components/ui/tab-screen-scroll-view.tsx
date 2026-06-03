@@ -1,5 +1,5 @@
 import type { ScrollViewProps } from 'react-native';
-import { ScrollView } from 'react-native';
+import { Platform, ScrollView } from 'react-native';
 
 import useHeaderHeight from '@/hooks/use-header-height';
 import { useTabBarContentInset } from '@/hooks/use-tab-bar-content-inset';
@@ -23,7 +23,7 @@ export const TabScreenScrollView = ({
     <ScrollView
       {...props}
       contentContainerStyle={[
-        stackHeaderInset ? { paddingTop: headerHeight } : undefined,
+        stackHeaderInset && Platform.OS === 'ios' ? { paddingTop: headerHeight } : undefined,
         { paddingBottom },
         contentContainerStyle,
       ]}

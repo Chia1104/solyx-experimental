@@ -44,7 +44,7 @@ export default function SettingLanguageScreen() {
   }, [t]);
 
   return (
-    <Page tabBarInset className="pt-6" edges={['left', 'right']}>
+    <Page.Tab>
       <TabScreenScrollView
         stackHeaderInset
         contentContainerClassName="gap-5 px-3"
@@ -61,6 +61,6 @@ export default function SettingLanguageScreen() {
           )}
         />
       </TabScreenScrollView>
-    </Page>
+    </Page.Tab>
   );
 }

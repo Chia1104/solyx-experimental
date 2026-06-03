@@ -21,7 +21,7 @@ export default function SendTokenScreen() {
   }, [rows]);
 
   return (
-    <Page className="bg-background">
+    <Page.Stack>
       <KeyboardAwareScrollView contentContainerStyle={{ padding: 24 }}>
         {isAssetsLoading ? (
           <AssetListSkeleton />
@@ -48,6 +48,6 @@ export default function SendTokenScreen() {
           </EmptyState>
         )}
       </KeyboardAwareScrollView>
-    </Page>
+    </Page.Stack>
   );
 }

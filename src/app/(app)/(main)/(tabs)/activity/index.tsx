@@ -4,12 +4,13 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Tabs, cn } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
+import { Platform, View } from 'react-native';
 
 import { ActivityTabPanel } from '@/components/activity/activity-tab-panel';
 import { BuyActivity } from '@/components/activity/buy-activity';
 import { TransactionActivity } from '@/components/activity/transaction-activity';
 import { Page } from '@/components/page';
+import useHeaderHeight from '@/hooks/use-header-height';
 import { infiniteQueryOnrampOrdersOptions } from '@/modules/cefi/hooks/use-query-onramp-orders';
 
 type ActivityTab = 'transaction' | 'withdraw' | 'swap' | 'buy';
@@ -50,59 +51,68 @@ export default function ActivityScreen() {
     router.setParams({ pendingOrderId: undefined });
   }, [queryClient, router]);
 
-  return (
-    <Page className="bg-background" edges={['left', 'right']} tabBarInset>
-      <Tabs
-        className="min-h-0 flex-1 gap-0"
-        value={activeTab}
-        variant="secondary"
-        onValueChange={value => handleTabChange(value as ActivityTab)}
-      >
-        <Tabs.List className="bg-surface">
-          <Tabs.ScrollView contentContainerClassName="gap-5 px-4 py-3" scrollAlign="start">
-            <Tabs.Trigger className="px-0" value="transaction">
-              {({ isSelected }) => (
-                <ActivityTabLabel isSelected={isSelected}>{t('tab.transaction')}</ActivityTabLabel>
-              )}
-            </Tabs.Trigger>
-            <Tabs.Trigger className="px-0" value="withdraw">
-              {({ isSelected }) => (
-                <ActivityTabLabel isSelected={isSelected}>
-                  {t('cefi:tab.withdraw')}
-                </ActivityTabLabel>
-              )}
-            </Tabs.Trigger>
-            <Tabs.Trigger className="px-0" value="swap">
-              {({ isSelected }) => (
-                <ActivityTabLabel isSelected={isSelected}>{t('tab.bridge')}</ActivityTabLabel>
-              )}
-            </Tabs.Trigger>
-            <Tabs.Trigger className="px-0" value="buy">
-              {({ isSelected }) => (
-                <ActivityTabLabel isSelected={isSelected}>{t('tab.buy')}</ActivityTabLabel>
-              )}
-            </Tabs.Trigger>
-          </Tabs.ScrollView>
-        </Tabs.List>
+  const headerHeight = useHeaderHeight();
 
-        <View className="relative min-h-0 flex-1">
-          <ActivityTabPanel activeTab={activeTab} tab="transaction">
-            <TransactionActivity />
-          </ActivityTabPanel>
-          <ActivityTabPanel activeTab={activeTab} tab="withdraw">
-            <ActivityTabPlaceholder />
-          </ActivityTabPanel>
-          <ActivityTabPanel activeTab={activeTab} tab="swap">
-            <ActivityTabPlaceholder />
-          </ActivityTabPanel>
-          <ActivityTabPanel activeTab={activeTab} tab="buy">
-            <BuyActivity
-              pendingOrderId={params.pendingOrderId}
-              onPendingOrderHandled={handlePendingOrderHandled}
-            />
-          </ActivityTabPanel>
-        </View>
-      </Tabs>
-    </Page>
+  return (
+    <Page.Tab>
+      <View
+        className="min-h-0 flex-1"
+        style={Platform.OS === 'ios' ? { paddingTop: headerHeight } : undefined}
+      >
+        <Tabs
+          className="min-h-0 flex-1 gap-0"
+          value={activeTab}
+          variant="secondary"
+          onValueChange={value => handleTabChange(value as ActivityTab)}
+        >
+          <Tabs.List className="bg-background">
+            <Tabs.ScrollView contentContainerClassName="gap-5 px-4 py-3" scrollAlign="start">
+              <Tabs.Trigger className="px-0" value="transaction">
+                {({ isSelected }) => (
+                  <ActivityTabLabel isSelected={isSelected}>
+                    {t('tab.transaction')}
+                  </ActivityTabLabel>
+                )}
+              </Tabs.Trigger>
+              <Tabs.Trigger className="px-0" value="withdraw">
+                {({ isSelected }) => (
+                  <ActivityTabLabel isSelected={isSelected}>
+                    {t('cefi:tab.withdraw')}
+                  </ActivityTabLabel>
+                )}
+              </Tabs.Trigger>
+              <Tabs.Trigger className="px-0" value="swap">
+                {({ isSelected }) => (
+                  <ActivityTabLabel isSelected={isSelected}>{t('tab.bridge')}</ActivityTabLabel>
+                )}
+              </Tabs.Trigger>
+              <Tabs.Trigger className="px-0" value="buy">
+                {({ isSelected }) => (
+                  <ActivityTabLabel isSelected={isSelected}>{t('tab.buy')}</ActivityTabLabel>
+                )}
+              </Tabs.Trigger>
+            </Tabs.ScrollView>
+          </Tabs.List>
+
+          <View className="relative min-h-0 flex-1">
+            <ActivityTabPanel activeTab={activeTab} tab="transaction">
+              <TransactionActivity />
+            </ActivityTabPanel>
+            <ActivityTabPanel activeTab={activeTab} tab="withdraw">
+              <ActivityTabPlaceholder />
+            </ActivityTabPanel>
+            <ActivityTabPanel activeTab={activeTab} tab="swap">
+              <ActivityTabPlaceholder />
+            </ActivityTabPanel>
+            <ActivityTabPanel activeTab={activeTab} tab="buy">
+              <BuyActivity
+                pendingOrderId={params.pendingOrderId}
+                onPendingOrderHandled={handlePendingOrderHandled}
+              />
+            </ActivityTabPanel>
+          </View>
+        </Tabs>
+      </View>
+    </Page.Tab>
   );
 }

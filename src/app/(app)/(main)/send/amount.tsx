@@ -137,7 +137,7 @@ export default function SendAmountScreen() {
   });
 
   return (
-    <Page className="bg-background">
+    <Page.Stack>
       <KeyboardAwareScrollView contentContainerClassName="gap-6 px-6 pt-6 pb-8">
         <View className="items-center">
           <Controller
@@ -204,6 +204,6 @@ export default function SendAmountScreen() {
           </Button.Label>
         </Button>
       </KeyboardAwareScrollView>
-    </Page>
+    </Page.Stack>
   );
 }

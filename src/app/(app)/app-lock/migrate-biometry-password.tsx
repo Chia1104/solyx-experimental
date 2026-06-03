@@ -58,7 +58,7 @@ export default function MigrateBiometryPassword() {
   };
 
   return (
-    <Page isBrandVisible className="px-6 py-12" edges="all">
+    <Page.Brand className="px-6 py-12">
       <KeyboardAwareScrollView>
         <AppLockPasswordForm
           isPending={isPending}
@@ -66,6 +66,6 @@ export default function MigrateBiometryPassword() {
           submitErrorMessage={t('error.keychain.verify.failed')}
         />
       </KeyboardAwareScrollView>
-    </Page>
+    </Page.Brand>
   );
 }

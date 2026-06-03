@@ -1,11 +1,16 @@
 import { Stack } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
-import { useStackScreenOptions } from '@/hooks/use-stack-screen-options';
+import {
+  iosTransparentHeaderOptions,
+  useStackScreenOptions,
+} from '@/hooks/use-stack-screen-options';
 import { useQueryWallets } from '@/modules/database/hooks/use-query-wallets';
 import { useOnboardingSessionStore } from '@/modules/onboarding/stores/onboarding-session';
 import { useUserStore } from '@/modules/user/stores/user';
 
 export default function OnboardingLayout() {
+  const { t } = useTranslation(['defi']);
   const screenOptions = useStackScreenOptions();
   const hasHDWallet = useUserStore(state => state.account.hasHDWallet);
   const { data: wallets = [] } = useQueryWallets();
@@ -21,7 +26,13 @@ export default function OnboardingLayout() {
       <Stack.Protected guard={!hasPendingBackup}>
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="create-wallet" options={{ headerShown: false }} />
-        <Stack.Screen name="import-phrase" />
+        <Stack.Screen
+          name="import-phrase"
+          options={{
+            title: t('title.seed.phrase.import'),
+            ...iosTransparentHeaderOptions,
+          }}
+        />
       </Stack.Protected>
       <Stack.Screen name="backup-prompt" options={{ headerShown: false }} />
       <Stack.Protected guard={hasAppLockPassword}>

@@ -14,7 +14,7 @@ export default function ManageAccountsScreen() {
   const router = useRouter();
 
   return (
-    <Page className="bg-background flex-1" edges={['left', 'right', 'bottom']}>
+    <Page.Stack>
       <ScrollShadow LinearGradientComponent={LinearGradient} className="flex-1">
         <TabScreenScrollView stackHeaderInset contentContainerClassName="gap-4 pb-6">
           <BackupPhraseNotice root={{ className: 'rounded-none' }} />
@@ -33,6 +33,6 @@ export default function ManageAccountsScreen() {
           <Button.Label>{t('defi:action.add.an.account')}</Button.Label>
         </Button>
       </View>
-    </Page>
+    </Page.Stack>
   );
 }

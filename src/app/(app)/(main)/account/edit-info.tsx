@@ -69,7 +69,7 @@ export default function EditAccountInfoScreen() {
   });
 
   return (
-    <Page className="bg-background">
+    <Page.Stack>
       <AccountInfoForm
         avatarIndex={avatarIndex}
         form={form}
@@ -78,6 +78,6 @@ export default function EditAccountInfoScreen() {
         onSubmit={() => void handleSubmit()}
         submitLabel={t('defi:action.save')}
       />
-    </Page>
+    </Page.Stack>
   );
 }

@@ -29,7 +29,7 @@ export default function Login() {
   );
 
   return (
-    <Page isBrandVisible className="justify-between px-6 pt-36 pb-28">
+    <Page.Brand edges={['top', 'left', 'right']} className="justify-between px-6 pt-36 pb-28">
       <View className="flex-1 items-center justify-center">
         <LogoVertical />
       </View>
@@ -54,6 +54,6 @@ export default function Login() {
           ))}
         </View>
       </View>
-    </Page>
+    </Page.Brand>
   );
 }

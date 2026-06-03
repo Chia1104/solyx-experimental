@@ -39,7 +39,7 @@ export default function SetPassword() {
   };
 
   return (
-    <Page isBrandVisible className="px-6 py-12" edges="all">
+    <Page.Brand className="px-6 py-12">
       <KeyboardAwareScrollView>
         <AppLockPasswordForm
           isPending={setPasswordMutation.isPending}
@@ -47,6 +47,6 @@ export default function SetPassword() {
           submitErrorMessage={t('error.keychain.incorrect')}
         />
       </KeyboardAwareScrollView>
-    </Page>
+    </Page.Brand>
   );
 }

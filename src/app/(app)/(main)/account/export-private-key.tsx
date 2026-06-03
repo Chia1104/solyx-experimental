@@ -57,7 +57,7 @@ export default function ExportPrivateKeyScreen() {
   };
 
   return (
-    <Page className="bg-background flex-1">
+    <Page.Stack>
       <TabScreenScrollView stackHeaderInset contentContainerClassName="gap-6 p-6">
         <Typography className="text-default-foreground" type="body">
           {t('defi:notice.export.private.key.keep.it.safe')}
@@ -114,6 +114,6 @@ export default function ExportPrivateKeyScreen() {
           <Button.Label>{t('global:action.finish')}</Button.Label>
         </Button>
       </TabScreenScrollView>
-    </Page>
+    </Page.Stack>
   );
 }

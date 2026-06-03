@@ -11,8 +11,8 @@ export default function AccountDetailScreen() {
   const wallet = wallets.find(w => w.id === id);
 
   return (
-    <Page className="bg-background">
-      <AccountManagementContent wallet={wallet} />
-    </Page>
+    <Page.Stack>
+      <AccountManagementContent tabBarAdditionalPadding={0} wallet={wallet} />
+    </Page.Stack>
   );
 }

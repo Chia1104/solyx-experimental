@@ -40,7 +40,7 @@ export default function SendConfirmScreen() {
   const activeChainType = chainType ?? ChainType.EVM;
 
   return (
-    <Page className="bg-background">
+    <Page.Stack>
       <KeyboardAwareScrollView contentContainerClassName="pt-6 pb-8">
         <TransactionConfirm
           chainType={activeChainType}
@@ -54,6 +54,6 @@ export default function SendConfirmScreen() {
           sendParams={sendParams}
         />
       </KeyboardAwareScrollView>
-    </Page>
+    </Page.Stack>
   );
 }

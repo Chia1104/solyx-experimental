@@ -1,9 +1,10 @@
 import { useRouter } from 'expo-router';
 
 import {
-  BackupPromptScreen,
+  BackupPromptContent,
   useResetBackupPhraseQuery,
 } from '@/components/backup/backup-prompt-screen';
+import { Page } from '@/components/page';
 import { useOnboardingSessionStore } from '@/modules/onboarding/stores/onboarding-session';
 import { useUserStore } from '@/modules/user/stores/user';
 
@@ -21,6 +22,8 @@ export default function BackupPrompt() {
   };
 
   return (
-    <BackupPromptScreen introHref="/onboarding/backup-intro" isBrandVisible onLater={handleLater} />
+    <Page brand className="px-10 py-12" edges="all">
+      <BackupPromptContent introHref="/onboarding/backup-intro" onLater={handleLater} />
+    </Page>
   );
 }

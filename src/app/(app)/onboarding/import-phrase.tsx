@@ -60,7 +60,7 @@ export default function ImportPhrase() {
   );
 
   return (
-    <Page isBrandVisible edges="all">
+    <Page.Brand>
       <KeyboardAwareScrollView>
         <View className="flex-1 items-center justify-center">
           <Typography className="text-center text-3xl font-semibold" type="h3">
@@ -113,6 +113,6 @@ export default function ImportPhrase() {
           </View>
         </View>
       </KeyboardAwareScrollView>
-    </Page>
+    </Page.Brand>
   );
 }

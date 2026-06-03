@@ -5,23 +5,17 @@ import { Button, Typography } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
 
-import { Page } from '@/components/page';
 import { ThemedMaterialDesignIcon } from '@/components/ui/themed-icon';
 import { useLockRequest } from '@/modules/app/hooks/use-lock-request';
 import { queryOnboardingBackupPhraseOptions } from '@/modules/onboarding/hooks/use-query-onboarding-backup-phrase';
 import { useOnboardingSessionStore } from '@/modules/onboarding/stores/onboarding-session';
 
-interface BackupPromptScreenProps {
+interface BackupPromptContentProps {
   introHref: Href;
-  isBrandVisible?: boolean;
   onLater: () => void;
 }
 
-export const BackupPromptScreen = ({
-  introHref,
-  isBrandVisible = false,
-  onLater,
-}: BackupPromptScreenProps) => {
+export const BackupPromptContent = ({ introHref, onLater }: BackupPromptContentProps) => {
   const { t } = useTranslation(['defi', 'global']);
   const router = useRouter();
   const { requestPassword } = useLockRequest();
@@ -38,34 +32,32 @@ export const BackupPromptScreen = ({
   };
 
   return (
-    <Page className="px-10 py-12" edges="all" isBrandVisible={isBrandVisible}>
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <View className="flex-1 items-center justify-center">
-          <Typography className="text-center text-3xl font-semibold" type="h3">
-            {t('defi:title.back.up.seed.phrase')}
-          </Typography>
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <View className="flex-1 items-center justify-center">
+        <Typography className="text-center text-3xl font-semibold" type="h3">
+          {t('defi:title.back.up.seed.phrase')}
+        </Typography>
 
-          <ThemedMaterialDesignIcon name="wallet" size={48} className="text-accent mt-12" />
+        <ThemedMaterialDesignIcon name="wallet" size={48} className="text-accent mt-12" />
 
-          <Typography className="text-muted mt-6 text-center" type="body">
-            {t('defi:description.phraseBackup.back.up.seed.phrase')}
-          </Typography>
+        <Typography className="text-muted mt-6 text-center" type="body">
+          {t('defi:description.phraseBackup.back.up.seed.phrase')}
+        </Typography>
 
-          <Typography className="mt-12 text-center" type="body" weight="semibold">
-            {t('defi:notice.back.up.now')}
-          </Typography>
+        <Typography className="mt-12 text-center" type="body" weight="semibold">
+          {t('defi:notice.back.up.now')}
+        </Typography>
 
-          <View className="mt-12 w-full max-w-72 gap-4">
-            <Button onPress={() => void handleGoBackup()} size="sm">
-              <Button.Label>{t('defi:action.go.back.up')}</Button.Label>
-            </Button>
-            <Button onPress={onLater} variant="outline" size="sm">
-              <Button.Label>{t('defi:action.later')}</Button.Label>
-            </Button>
-          </View>
+        <View className="mt-12 w-full max-w-72 gap-4">
+          <Button onPress={() => void handleGoBackup()} size="sm">
+            <Button.Label>{t('defi:action.go.back.up')}</Button.Label>
+          </Button>
+          <Button onPress={onLater} variant="outline" size="sm">
+            <Button.Label>{t('defi:action.later')}</Button.Label>
+          </Button>
         </View>
-      </ScrollView>
-    </Page>
+      </View>
+    </ScrollView>
   );
 };
 

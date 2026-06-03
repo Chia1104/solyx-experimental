@@ -149,7 +149,7 @@ export default function ImportPrivateKeyScreen() {
   const isSubmitting = createAccountMutation.isPending;
 
   return (
-    <Page className="bg-background">
+    <Page.Stack>
       <KeyboardAwareScrollView contentContainerClassName="gap-6 px-6 py-6">
         <View className="gap-3">
           <Typography className="text-foreground" weight="medium">
@@ -233,6 +233,6 @@ export default function ImportPrivateKeyScreen() {
         onConfirm={protocol => void handleConfirmProtocol(protocol)}
         onOpenChange={setIsProtocolOpen}
       />
-    </Page>
+    </Page.Stack>
   );
 }

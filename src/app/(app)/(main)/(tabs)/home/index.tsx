@@ -46,7 +46,7 @@ export default function HomeScreen() {
   }, [balanceQuery, pricesQuery]);
 
   return (
-    <Page edges={['left', 'right']} tabBarInset>
+    <Page.Tab>
       <TabScreenScrollView
         stackHeaderInset
         contentContainerClassName="gap-3 px-3"
@@ -68,6 +68,6 @@ export default function HomeScreen() {
           statusText={assetStatusText}
         />
       </TabScreenScrollView>
-    </Page>
+    </Page.Tab>
   );
 }

@@ -7,7 +7,6 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
 
-import { Page } from '@/components/page';
 import { useQueryOnboardingBackupPhrase } from '@/modules/onboarding/hooks/use-query-onboarding-backup-phrase';
 import { buildConfirmPhraseQuestions } from '@/modules/onboarding/utils/confirm-phrase-questions';
 import type { ConfirmPhraseQuestion } from '@/modules/onboarding/utils/confirm-phrase-questions';
@@ -19,17 +18,12 @@ interface ConfirmPhraseFormValues {
   answers: Record<string, number>;
 }
 
-interface ConfirmPhraseScreenProps {
+interface ConfirmPhraseContentProps {
   completeHref: Href;
-  isBrandVisible?: boolean;
   onComplete?: () => void;
 }
 
-export const ConfirmPhraseScreen = ({
-  completeHref,
-  isBrandVisible = false,
-  onComplete,
-}: ConfirmPhraseScreenProps) => {
+export const ConfirmPhraseContent = ({ completeHref, onComplete }: ConfirmPhraseContentProps) => {
   const { t } = useTranslation(['defi', 'global']);
   const router = useRouter();
   const resetBackupPhraseQuery = useResetBackupPhraseQuery();
@@ -85,58 +79,56 @@ export const ConfirmPhraseScreen = ({
   }
 
   return (
-    <Page className="px-6 py-12" edges="all" isBrandVisible={isBrandVisible}>
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <View className="flex-1 justify-center">
-          <Typography className="mb-12 text-center text-3xl font-semibold" type="h3">
-            {t('defi:title.seed.phrase.confirm')}
-          </Typography>
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <View className="flex-1 justify-center">
+        <Typography className="mb-12 text-center text-3xl font-semibold" type="h3">
+          {t('defi:title.seed.phrase.confirm')}
+        </Typography>
 
-          <View className="gap-8">
-            {questions.map((question, questionIndex) => (
-              <View key={`question-${question.answerIndex}`}>
-                <Typography className="mb-3" type="body" weight="semibold">
-                  {t('defi:label.phraseConfirm.seed.phrase', {
-                    index: question.answerIndex + 1,
-                  })}
-                </Typography>
-
-                <View className="flex-row flex-wrap gap-2">
-                  {question.options.map(optionIndex => {
-                    const isSelected = answers[questionIndex] === optionIndex;
-                    return (
-                      <Button
-                        key={`${question.answerIndex}-${optionIndex}`}
-                        onPress={() => handleSelect(questionIndex, optionIndex)}
-                        size="sm"
-                        variant={isSelected ? 'primary' : 'outline'}
-                      >
-                        <Button.Label>{words[optionIndex]}</Button.Label>
-                      </Button>
-                    );
-                  })}
-                </View>
-              </View>
-            ))}
-          </View>
-
-          <View className="mt-10 items-center">
-            {isWrong ? (
-              <Typography className="text-danger mb-4 text-center" type="body">
-                {t('defi:error.seed.phrase.wrong.answers')}
+        <View className="gap-8">
+          {questions.map((question, questionIndex) => (
+            <View key={`question-${question.answerIndex}`}>
+              <Typography className="mb-3" type="body" weight="semibold">
+                {t('defi:label.phraseConfirm.seed.phrase', {
+                  index: question.answerIndex + 1,
+                })}
               </Typography>
-            ) : null}
 
-            <Button
-              isDisabled={Object.keys(answers).length < questions.length}
-              onPress={handleConfirm}
-              size="sm"
-            >
-              <Button.Label>{t('global:action.confirm')}</Button.Label>
-            </Button>
-          </View>
+              <View className="flex-row flex-wrap gap-2">
+                {question.options.map(optionIndex => {
+                  const isSelected = answers[questionIndex] === optionIndex;
+                  return (
+                    <Button
+                      key={`${question.answerIndex}-${optionIndex}`}
+                      onPress={() => handleSelect(questionIndex, optionIndex)}
+                      size="sm"
+                      variant={isSelected ? 'primary' : 'outline'}
+                    >
+                      <Button.Label>{words[optionIndex]}</Button.Label>
+                    </Button>
+                  );
+                })}
+              </View>
+            </View>
+          ))}
         </View>
-      </ScrollView>
-    </Page>
+
+        <View className="mt-10 items-center">
+          {isWrong ? (
+            <Typography className="text-danger mb-4 text-center" type="body">
+              {t('defi:error.seed.phrase.wrong.answers')}
+            </Typography>
+          ) : null}
+
+          <Button
+            isDisabled={Object.keys(answers).length < questions.length}
+            onPress={handleConfirm}
+            size="sm"
+          >
+            <Button.Label>{t('global:action.confirm')}</Button.Label>
+          </Button>
+        </View>
+      </View>
+    </ScrollView>
   );
 };

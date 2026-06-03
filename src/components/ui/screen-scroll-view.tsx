@@ -2,7 +2,7 @@ import type { FC, PropsWithChildren } from 'react';
 
 import { cn } from 'heroui-native';
 import type { ScrollViewProps } from 'react-native';
-import { ScrollView } from 'react-native';
+import { Platform, ScrollView } from 'react-native';
 import type { AnimatedProps } from 'react-native-reanimated';
 import Animated from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -32,7 +32,7 @@ export const ScreenScrollView: FC<PropsWithChildren<Props>> = ({
       contentContainerStyle={[
         {
           flexGrow: 1,
-          paddingTop: headerHeight,
+          paddingTop: Platform.OS === 'ios' ? headerHeight : 0,
           paddingBottom: insets.bottom + 32,
         },
         contentContainerStyle,

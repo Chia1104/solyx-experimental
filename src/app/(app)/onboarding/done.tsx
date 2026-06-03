@@ -30,7 +30,7 @@ export default function OnboardingDone() {
   };
 
   return (
-    <Page isBrandVisible className="justify-between px-10 py-24" edges="all">
+    <Page.Brand className="justify-between px-10 py-24">
       <Typography className="text-center text-3xl font-semibold" type="h3">
         {t('defi:title.congrats')}
       </Typography>
@@ -46,6 +46,6 @@ export default function OnboardingDone() {
           <Button.Label>{t('global:action.enter')}</Button.Label>
         </Button>
       </View>
-    </Page>
+    </Page.Brand>
   );
 }

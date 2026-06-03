@@ -151,7 +151,7 @@ const OnrampOrderDetailContent = memo(({ orderId }: { orderId: string }) => {
   const purchaseSymbol = (detail.purchaseCurrency || 'USDT') as SupportedCurrencySymbol;
 
   return (
-    <BottomSheetScrollView contentContainerStyle={{ padding: 20, paddingBottom: 32 }}>
+    <BottomSheetScrollView contentContainerClassName="px-3 pb-10 pt-2">
       <View className="mb-6 flex-row items-center gap-3">
         <TokenMark symbol={purchaseSymbol} network={SupportedNetwork.Evm} size="lg" />
         <View>

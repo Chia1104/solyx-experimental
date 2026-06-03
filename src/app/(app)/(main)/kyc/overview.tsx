@@ -1,16 +1,23 @@
-import { DefiPlaceholderScreen } from '@/components/defi-placeholder-screen';
+import { useTranslation } from 'react-i18next';
+
+import { DefiPlaceholderContent } from '@/components/defi-placeholder-screen';
+import { Page } from '@/components/page';
 
 export default function KycOverviewScreen() {
+  const { t } = useTranslation(['defi']);
+
   return (
-    <DefiPlaceholderScreen
-      actions={[
-        {
-          href: '/kyc/verification',
-          label: 'Start verification',
-        },
-      ]}
-      description="KYC overview route for basic and plus verification state, rejection reasons, and document upload entry points."
-      title="KYC Overview"
-    />
+    <Page.Stack>
+      <DefiPlaceholderContent
+        actions={[
+          {
+            href: '/kyc/verification',
+            label: t('kyc.overview.startVerification'),
+          },
+        ]}
+        description="KYC overview route for basic and plus verification state, rejection reasons, and document upload entry points."
+        title={t('title.kyc.overview')}
+      />
+    </Page.Stack>
   );
 }

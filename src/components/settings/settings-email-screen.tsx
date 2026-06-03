@@ -13,7 +13,6 @@ import {
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
-import { Page } from '@/components/page';
 import { TabScreenScrollView } from '@/components/ui/tab-screen-scroll-view';
 import { useCheckBackupPhrase } from '@/hooks/use-check-backup-phrase';
 import { useMutationResetApp } from '@/modules/app/hooks/use-reset-app';
@@ -22,7 +21,7 @@ import { useUserStore } from '@/modules/user/stores/user';
 
 type ConfirmAction = 'logout' | 'delete';
 
-export const SettingsEmailScreen = () => {
+export const SettingsEmailContent = () => {
   const { t } = useTranslation(['cefi', 'defi', 'global']);
   const router = useRouter();
   const { checkBackupPhrase } = useCheckBackupPhrase();
@@ -105,7 +104,7 @@ export const SettingsEmailScreen = () => {
       : t('cefi:notice.logoutModalConfirm');
 
   return (
-    <Page tabBarInset edges={['left', 'right']}>
+    <>
       <TabScreenScrollView
         stackHeaderInset
         contentContainerClassName="gap-5 px-6"
@@ -142,7 +141,7 @@ export const SettingsEmailScreen = () => {
         <BottomSheet.Portal>
           <BottomSheet.Overlay className="bg-background/50" isCloseOnPress={!isPending} />
           <BottomSheet.Content enablePanDownToClose={!isPending}>
-            <View className="gap-5 px-6 pb-8">
+            <View className="gap-5 px-3 pb-8">
               <View className="gap-3">
                 <BottomSheet.Title className="text-center">{sheetTitle}</BottomSheet.Title>
                 <BottomSheet.Description>{sheetBody}</BottomSheet.Description>
@@ -180,6 +179,6 @@ export const SettingsEmailScreen = () => {
           </BottomSheet.Content>
         </BottomSheet.Portal>
       </BottomSheet>
-    </Page>
+    </>
   );
 };

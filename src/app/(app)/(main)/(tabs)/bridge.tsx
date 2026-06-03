@@ -6,7 +6,7 @@ import { TabScreenScrollView } from '@/components/ui/tab-screen-scroll-view';
 
 export default function BridgeScreen() {
   return (
-    <Page className="bg-background" tabBarInset>
+    <Page.Tab>
       <TabScreenScrollView contentContainerClassName="gap-5 px-6 pt-6" tabBarAdditionalPadding={24}>
         <View>
           <Typography className="text-foreground" type="h1">
@@ -18,6 +18,6 @@ export default function BridgeScreen() {
           </Typography>
         </View>
       </TabScreenScrollView>
-    </Page>
+    </Page.Tab>
   );
 }

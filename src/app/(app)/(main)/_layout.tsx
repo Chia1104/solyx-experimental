@@ -1,33 +1,131 @@
 import { Stack } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
 import { ChainTransitionProvider } from '@/components/chain-transition';
-import { useStackScreenOptions } from '@/hooks/use-stack-screen-options';
+import {
+  iosTransparentHeaderOptions,
+  useStackScreenOptions,
+} from '@/hooks/use-stack-screen-options';
 
 export default function DefiMainLayout() {
   const screenOptions = useStackScreenOptions();
+  const { t } = useTranslation(['defi', 'global']);
 
   return (
     <ChainTransitionProvider>
       <Stack screenOptions={screenOptions}>
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="assets/[symbol]" options={{ presentation: 'modal' }} />
+        <Stack.Screen
+          name="assets/[symbol]"
+          options={{
+            presentation: 'modal',
+            ...iosTransparentHeaderOptions,
+          }}
+        />
         <Stack.Screen name="send" options={{ presentation: 'modal', headerShown: false }} />
-        <Stack.Screen name="receive/index" options={{ presentation: 'modal' }} />
-        <Stack.Screen name="scanner/index" options={{ presentation: 'modal' }} />
+        <Stack.Screen
+          name="receive/index"
+          options={{
+            presentation: 'modal',
+            title: t('title.receive'),
+            ...iosTransparentHeaderOptions,
+          }}
+        />
+        <Stack.Screen
+          name="scanner/index"
+          options={{
+            presentation: 'modal',
+            title: t('title.scan.QR.Code'),
+            ...iosTransparentHeaderOptions,
+          }}
+        />
         <Stack.Screen name="buy" options={{ presentation: 'modal', headerShown: false }} />
-        <Stack.Screen name="bridge/confirm" />
-        <Stack.Screen name="bridge/orders" />
-        <Stack.Screen name="withdraw/index" />
-        <Stack.Screen name="withdraw/detail" />
-        <Stack.Screen name="withdraw/resubmit" />
-        <Stack.Screen name="kyc/gate" options={{ presentation: 'modal' }} />
-        <Stack.Screen name="kyc/overview" />
-        <Stack.Screen name="kyc/verification" />
-        <Stack.Screen name="settings/account" />
-        <Stack.Screen name="settings/email" />
-        <Stack.Screen name="settings/language" />
-        <Stack.Screen name="settings/contact-us" />
+        <Stack.Screen
+          name="bridge/confirm"
+          options={{
+            title: t('title.bridge.confirm.order'),
+            ...iosTransparentHeaderOptions,
+          }}
+        />
+        <Stack.Screen
+          name="bridge/orders"
+          options={{
+            title: t('title.bridge.orders'),
+            ...iosTransparentHeaderOptions,
+          }}
+        />
+        <Stack.Screen
+          name="withdraw/index"
+          options={{
+            title: t('title.withdraw'),
+            ...iosTransparentHeaderOptions,
+          }}
+        />
+        <Stack.Screen
+          name="withdraw/detail"
+          options={{
+            title: t('title.withdraw.detail'),
+            ...iosTransparentHeaderOptions,
+          }}
+        />
+        <Stack.Screen
+          name="withdraw/resubmit"
+          options={{
+            title: t('title.withdraw.resubmit'),
+            ...iosTransparentHeaderOptions,
+          }}
+        />
+        <Stack.Screen
+          name="kyc/gate"
+          options={{
+            presentation: 'modal',
+            title: t('title.kyc.gate'),
+            ...iosTransparentHeaderOptions,
+          }}
+        />
+        <Stack.Screen
+          name="kyc/overview"
+          options={{
+            title: t('title.kyc.overview'),
+            ...iosTransparentHeaderOptions,
+          }}
+        />
+        <Stack.Screen
+          name="kyc/verification"
+          options={{
+            title: t('title.kyc.verification'),
+            ...iosTransparentHeaderOptions,
+          }}
+        />
+        <Stack.Screen
+          name="settings/account"
+          options={{
+            title: t('title.account.setting'),
+            ...iosTransparentHeaderOptions,
+          }}
+        />
+        <Stack.Screen
+          name="settings/email"
+          options={{
+            title: t('defi:kyc.email'),
+            ...iosTransparentHeaderOptions,
+          }}
+        />
+        <Stack.Screen
+          name="settings/language"
+          options={{
+            title: t('global:title.language'),
+            ...iosTransparentHeaderOptions,
+          }}
+        />
+        <Stack.Screen
+          name="settings/contact-us"
+          options={{
+            title: t('defi:label.setting.contact.us'),
+            ...iosTransparentHeaderOptions,
+          }}
+        />
         <Stack.Screen name="account" options={{ headerShown: false, presentation: 'modal' }} />
       </Stack>
     </ChainTransitionProvider>

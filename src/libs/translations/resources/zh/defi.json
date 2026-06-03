@@ -34,11 +34,17 @@
     "choose.network.and.wallet": "選擇網路和錢包",
     "bridge.create.order": "閃兌",
     "bridge.confirm.order": "確認閃兌",
+    "bridge.orders": "閃兌訂單",
     "enter.transaction.password": "輸入交易密碼",
     "wallet.not.imported": "您有一個尚未匯入的錢包",
     "kyc.verification": "KYC 身份驗證",
+    "kyc.overview": "KYC 總覽",
+    "kyc.gate": "提款驗證",
     "address.book": "地址簿",
-    "withdraw": "提領"
+    "withdraw": "提領",
+    "withdraw.detail": "提款詳情",
+    "withdraw.resubmit": "重新提交提款",
+    "security": "安全性"
   },
   "caption": {
     "welcome.to.web3": "歡迎來到 \nWeb3",

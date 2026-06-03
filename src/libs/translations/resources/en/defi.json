@@ -34,11 +34,17 @@
     "choose.network.and.wallet": "Choose network and wallet",
     "bridge.create.order": "Swap",
     "bridge.confirm.order": "Confirm Swap",
+    "bridge.orders": "Bridge orders",
     "enter.transaction.password": "Enter transaction password",
     "wallet.not.imported": "You have a wallet that hasn't been imported.",
     "kyc.verification": "KYC Verification",
+    "kyc.overview": "KYC overview",
+    "kyc.gate": "Withdrawal verification",
     "address.book": "Address Book",
-    "withdraw": "Withdraw"
+    "withdraw": "Withdraw",
+    "withdraw.detail": "Withdrawal details",
+    "withdraw.resubmit": "Resubmit withdrawal",
+    "security": "Security"
   },
   "caption": {
     "welcome.to.web3": "Ｗelcome to \nWeb3",

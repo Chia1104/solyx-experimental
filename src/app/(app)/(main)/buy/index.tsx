@@ -3,8 +3,8 @@ import { Page } from '@/components/page';
 
 export default function BuyIndexScreen() {
   return (
-    <Page className="bg-background">
+    <Page.Stack>
       <BuyScreenContent />
-    </Page>
+    </Page.Stack>
   );
 }

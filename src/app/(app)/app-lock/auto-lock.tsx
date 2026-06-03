@@ -29,7 +29,7 @@ export default function AutoLock() {
   };
 
   return (
-    <Page isBrandVisible className="justify-between px-10 py-24" edges="all">
+    <Page.Brand className="justify-between px-10 py-24">
       <Typography className="text-foreground text-center text-3xl font-semibold">
         {t('title.setup.complete')}
       </Typography>
@@ -78,6 +78,6 @@ export default function AutoLock() {
       <Button onPress={handleEnter} size="sm">
         <Button.Label>{t('action.fortuna.enter')}</Button.Label>
       </Button>
-    </Page>
+    </Page.Brand>
   );
 }

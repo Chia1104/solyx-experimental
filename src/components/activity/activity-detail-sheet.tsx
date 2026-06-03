@@ -125,7 +125,7 @@ const ActivityDetailSheetContent = memo(({ record }: { record: DefiRecordRow }) 
 
   return (
     <BottomSheetScrollView
-      contentContainerClassName="gap-8 px-6 pb-10 pt-2"
+      contentContainerClassName="gap-8 px-3 pb-10 pt-2"
       showsVerticalScrollIndicator={false}
     >
       <View className="items-center gap-2">

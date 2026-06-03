@@ -26,8 +26,8 @@ export default function Callback() {
   useSsoCallback(callbackParams);
 
   return (
-    <Page isBrandVisible className="items-center justify-center px-6">
+    <Page.Brand edges={['top', 'left', 'right']} className="items-center justify-center px-6">
       <ActivityIndicator />
-    </Page>
+    </Page.Brand>
   );
 }

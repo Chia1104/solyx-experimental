@@ -1,5 +1,10 @@
-import { SettingsEmailScreen } from '@/components/settings/settings-email-screen';
+import { Page } from '@/components/page';
+import { SettingsEmailContent } from '@/components/settings/settings-email-screen';
 
 export default function SettingEmailScreen() {
-  return <SettingsEmailScreen />;
+  return (
+    <Page.Tab>
+      <SettingsEmailContent />
+    </Page.Tab>
+  );
 }

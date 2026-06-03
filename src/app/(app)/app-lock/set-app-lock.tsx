@@ -8,7 +8,7 @@ export default function SetAppLock() {
   const { t } = useTranslation(['global']);
 
   return (
-    <Page isBrandVisible className="justify-between px-10 py-24" edges="all">
+    <Page.Brand className="justify-between px-10 py-24">
       <Typography className="text-foreground text-center text-3xl font-semibold">
         {t('title.set.app.lock')}
       </Typography>
@@ -27,6 +27,6 @@ export default function SetAppLock() {
           <Button.Label>{t('action.set.app.lock.password')}</Button.Label>
         </Button>
       </View>
-    </Page>
+    </Page.Brand>
   );
 }

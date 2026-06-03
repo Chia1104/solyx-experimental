@@ -1,5 +1,10 @@
-import { BackupPhraseScreen } from '@/components/backup/backup-phrase-screen';
+import { BackupPhraseContent } from '@/components/backup/backup-phrase-screen';
+import { Page } from '@/components/page';
 
 export default function AccountBackupPhraseScreen() {
-  return <BackupPhraseScreen confirmHref="/account/backup-confirm-phrase" />;
+  return (
+    <Page className="p-6" edges="all">
+      <BackupPhraseContent confirmHref="/account/backup-confirm-phrase" />
+    </Page>
+  );
 }

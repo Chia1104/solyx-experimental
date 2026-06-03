@@ -1,5 +1,10 @@
-import { BackupIntroScreen } from '@/components/backup/backup-intro-screen';
+import { BackupIntroContent } from '@/components/backup/backup-intro-screen';
+import { Page } from '@/components/page';
 
 export default function AccountBackupIntroScreen() {
-  return <BackupIntroScreen phraseHref="/account/backup-phrase" unlockBeforeNext />;
+  return (
+    <Page className="p-6" edges="all">
+      <BackupIntroContent phraseHref="/account/backup-phrase" unlockBeforeNext />
+    </Page>
+  );
 }

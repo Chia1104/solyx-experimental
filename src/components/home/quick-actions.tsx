@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import { useCallback, useState } from 'react';
 
 import { useRouter } from 'expo-router';
-import { Alert, BottomSheet, Skeleton, Typography, cn, useThemeColor } from 'heroui-native';
+import { Alert, BottomSheet, Card, Skeleton, Typography, cn, useThemeColor } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
@@ -133,42 +133,40 @@ export const ReceiveBottomSheetContent = ({ isOpen }: ReceiveBottomSheetContentP
         : '';
 
   return (
-    <View className="items-center gap-5 px-5 pb-8">
+    <View className="items-center gap-5 px-3 pb-8">
       <BottomSheet.Title className="text-center">{t('title.receive')}</BottomSheet.Title>
 
-      <View className="bg-surface min-h-[236px] w-full items-center justify-center rounded-3xl p-6">
-        {errorText ? (
-          <Alert className="w-full" status={liquidReceiveAddressQuery.error ? 'danger' : 'warning'}>
-            <Alert.Indicator />
-            <Alert.Content>
-              <Alert.Description>{errorText}</Alert.Description>
-            </Alert.Content>
-          </Alert>
-        ) : isLoading ? (
-          <View className="w-full items-center">
-            <Skeleton className="h-[180px] w-[180px] rounded-2xl" />
-            <Skeleton className="mt-5 h-12 w-full rounded-2xl" />
-          </View>
-        ) : (
-          <>
-            <QRCode
-              backgroundColor="transparent"
-              color={foregroundColor}
-              size={180}
-              value={receiveAddress}
+      {errorText ? (
+        <Alert className="w-full" status={liquidReceiveAddressQuery.error ? 'danger' : 'warning'}>
+          <Alert.Indicator />
+          <Alert.Content>
+            <Alert.Description>{errorText}</Alert.Description>
+          </Alert.Content>
+        </Alert>
+      ) : isLoading ? (
+        <View className="w-full items-center">
+          <Skeleton className="h-[180px] w-[180px] rounded-2xl" />
+          <Skeleton className="mt-5 h-12 w-full rounded-2xl" />
+        </View>
+      ) : (
+        <>
+          <QRCode
+            backgroundColor="transparent"
+            color={foregroundColor}
+            size={180}
+            value={receiveAddress}
+          />
+          <Card className="flex-row items-center gap-2">
+            <AddressDisplay
+              address={receiveAddress}
+              className="min-w-0 flex-1"
+              selectable
+              variant="highlighted"
             />
-            <View className="bg-surface-secondary mt-5 w-full flex-row items-center gap-2 rounded-2xl px-3 py-3">
-              <AddressDisplay
-                address={receiveAddress}
-                className="min-w-0 flex-1"
-                selectable
-                variant="highlighted"
-              />
-              <CopyAction value={receiveAddress} />
-            </View>
-          </>
-        )}
-      </View>
+            <CopyAction value={receiveAddress} />
+          </Card>
+        </>
+      )}
 
       {chain && !errorText && (
         <Typography className="text-foreground/60 text-center" type="body-sm">

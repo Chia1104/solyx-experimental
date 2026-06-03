@@ -8,7 +8,7 @@ import { TabScreenScrollView } from '@/components/ui/tab-screen-scroll-view';
 
 export default function SettingsScreen() {
   return (
-    <Page tabBarInset edges={['left', 'right']}>
+    <Page.Tab>
       <TabScreenScrollView
         stackHeaderInset
         contentContainerClassName="gap-5 px-3"
@@ -24,6 +24,6 @@ export default function SettingsScreen() {
 
         <SettingsVersionFooter />
       </TabScreenScrollView>
-    </Page>
+    </Page.Tab>
   );
 }

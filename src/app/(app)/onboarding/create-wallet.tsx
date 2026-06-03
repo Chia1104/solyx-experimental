@@ -44,7 +44,7 @@ export default function CreateWallet() {
   );
 
   return (
-    <Page isBrandVisible className="items-center justify-between px-8 py-12" edges="all">
+    <Page.Brand className="items-center justify-between px-8 py-12">
       <Typography className="text-center text-3xl font-semibold" type="h3">
         {t('defi:title.web.3.wallet')}
       </Typography>
@@ -63,6 +63,6 @@ export default function CreateWallet() {
           <Button.Label>{t('defi:action.already.have.wallet')}</Button.Label>
         </Button>
       </View>
-    </Page>
+    </Page.Brand>
   );
 }

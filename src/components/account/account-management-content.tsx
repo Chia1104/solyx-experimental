@@ -18,10 +18,14 @@ import { SwitchProtocolSheet } from './switch-protocol-sheet';
 import { WalletAvatar } from './wallet-avatar';
 
 interface AccountManagementContentProps {
+  tabBarAdditionalPadding?: number;
   wallet: WalletItem | undefined;
 }
 
-export const AccountManagementContent = ({ wallet }: AccountManagementContentProps) => {
+export const AccountManagementContent = ({
+  tabBarAdditionalPadding = 24,
+  wallet,
+}: AccountManagementContentProps) => {
   const router = useRouter();
   const { t } = useTranslation(['defi']);
   const { toast } = useToast();
@@ -80,8 +84,12 @@ export const AccountManagementContent = ({ wallet }: AccountManagementContentPro
 
   return (
     <>
-      <TabScreenScrollView contentContainerClassName="gap-5 px-3 py-10">
-        <View className="items-center gap-2 py-4">
+      <TabScreenScrollView
+        stackHeaderInset
+        contentContainerClassName="gap-5 px-3 pb-6"
+        tabBarAdditionalPadding={tabBarAdditionalPadding}
+      >
+        <View className="items-center gap-2">
           <WalletAvatar className="h-16 w-16" wallet={wallet} />
           {wallet?.name ? <Label className="text-foreground text-base">{wallet.name}</Label> : null}
           {walletAddress ? (

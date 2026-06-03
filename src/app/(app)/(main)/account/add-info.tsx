@@ -74,7 +74,7 @@ export default function AddAccountInfoScreen() {
   });
 
   return (
-    <Page className="bg-background">
+    <Page.Stack>
       <AccountInfoForm
         avatarIndex={avatarIndex}
         description={t('defi:description.addAccount.still.modify.info.later')}
@@ -84,6 +84,6 @@ export default function AddAccountInfoScreen() {
         onSubmit={() => void handleSubmit()}
         submitLabel={t('defi:action.create.an.account')}
       />
-    </Page>
+    </Page.Stack>
   );
 }

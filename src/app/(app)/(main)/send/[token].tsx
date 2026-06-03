@@ -104,7 +104,7 @@ export default function SendTokenDetailScreen() {
   });
 
   return (
-    <Page className="bg-background">
+    <Page.Stack>
       <KeyboardAwareScrollView contentContainerClassName="gap-5 p-6">
         <View className="bg-content1 rounded-3xl p-5">
           <Controller
@@ -144,6 +144,6 @@ export default function SendTokenDetailScreen() {
           <Button.Label>{t('global:action.next')}</Button.Label>
         </Button>
       </KeyboardAwareScrollView>
-    </Page>
+    </Page.Stack>
   );
 }

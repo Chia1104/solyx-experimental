@@ -6,8 +6,8 @@ export default function SettingAccountScreen() {
   const { wallet } = useDefiAccount();
 
   return (
-    <Page className="bg-background">
+    <Page.Tab>
       <AccountManagementContent wallet={wallet} />
-    </Page>
+    </Page.Tab>
   );
 }

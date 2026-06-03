@@ -43,7 +43,7 @@ export default function DefiEntrance() {
   const handleSubmit = form.handleSubmit(values => onboardingMutation.mutate(values));
 
   return (
-    <Page isBrandVisible className="px-6 pt-14 pb-10" edges="all">
+    <Page.Brand className="px-6 pt-14 pb-10">
       <View className="items-center">
         <LogoHorizontal />
       </View>
@@ -90,6 +90,6 @@ export default function DefiEntrance() {
           )}
         />
       </View>
-    </Page>
+    </Page.Brand>
   );
 }

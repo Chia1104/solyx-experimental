@@ -45,6 +45,6 @@ export default function AppLockIndex() {
   return lockRequest ? (
     <LockScreenOverlay key={lockRequest.id} />
   ) : (
-    <Page isBrandVisible brandProps={{ display: ['brand', 'background'] }} />
+    <Page.Brand brandProps={{ display: ['brand', 'background'] }} />
   );
 }

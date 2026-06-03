@@ -1,7 +1,10 @@
 import { Stack } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
-import { useStackScreenOptions } from '@/hooks/use-stack-screen-options';
+import {
+  iosTransparentHeaderOptions,
+  useStackScreenOptions,
+} from '@/hooks/use-stack-screen-options';
 
 export default function BuyLayout() {
   const { t } = useTranslation(['defi']);
@@ -9,7 +12,13 @@ export default function BuyLayout() {
 
   return (
     <Stack screenOptions={screenOptions}>
-      <Stack.Screen name="index" options={{ title: t('buyModal.title') }} />
+      <Stack.Screen
+        name="index"
+        options={{
+          title: t('buyModal.title'),
+          ...iosTransparentHeaderOptions,
+        }}
+      />
     </Stack>
   );
 }

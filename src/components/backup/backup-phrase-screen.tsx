@@ -6,7 +6,6 @@ import { Button, Checkbox, ControlField, Skeleton, Typography } from 'heroui-nat
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, View } from 'react-native';
 
-import { Page } from '@/components/page';
 import { ThemedIcon } from '@/components/ui/themed-icon';
 import { useClipboard } from '@/hooks/use-clipboard';
 import { useQueryOnboardingBackupPhrase } from '@/modules/onboarding/hooks/use-query-onboarding-backup-phrase';
@@ -41,15 +40,11 @@ const PhraseGridSkeleton = ({
   </View>
 );
 
-interface BackupPhraseScreenProps {
+interface BackupPhraseContentProps {
   confirmHref: Href;
-  isBrandVisible?: boolean;
 }
 
-export const BackupPhraseScreen = ({
-  confirmHref,
-  isBrandVisible = false,
-}: BackupPhraseScreenProps) => {
+export const BackupPhraseContent = ({ confirmHref }: BackupPhraseContentProps) => {
   const { t } = useTranslation(['defi', 'global']);
   const router = useRouter();
   const { copyToClipboard } = useClipboard();
@@ -81,110 +76,104 @@ export const BackupPhraseScreen = ({
   };
 
   return (
-    <Page className="px-6 py-12" edges="all" isBrandVisible={isBrandVisible}>
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <View className="flex-1 justify-center">
-          <Typography className="mb-10 text-center text-3xl font-semibold" type="h3">
-            {t('defi:title.back.up.seed.phrase')}
-          </Typography>
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <View className="flex-1 justify-center">
+        <Typography className="mb-10 text-center text-3xl font-semibold" type="h3">
+          {t('defi:title.back.up.seed.phrase')}
+        </Typography>
 
-          <Typography className="text-muted mb-8" type="body">
-            {t('defi:description.phraseBrowse.back.up.seed.phrase', {
-              count: words.length || 12,
-            })}
-          </Typography>
+        <Typography className="text-muted mb-8" type="body">
+          {t('defi:description.phraseBrowse.back.up.seed.phrase', {
+            count: words.length || 12,
+          })}
+        </Typography>
 
-          <View className="border-border bg-surface-secondary relative overflow-hidden rounded-xl border px-4 py-5">
-            {isLoading ? (
-              <PhraseGridSkeleton columnCount={columnCount} wordsPerColumn={wordsPerColumn} />
-            ) : (
-              <>
-                {!hasRevealed ? (
-                  <Pressable
-                    accessibilityRole="button"
-                    className="bg-surface-secondary absolute inset-0 z-10 items-center justify-center gap-2"
-                    onPress={() => setHasRevealed(true)}
-                  >
-                    <ThemedIcon className="text-muted" name="eye-off-outline" size={24} />
-                    <Typography className="text-center" type="body">
-                      {t('defi:notice.nobody.looking')}
-                    </Typography>
-                    <Typography className="text-muted mt-1 text-center" type="body">
-                      {t('defi:notice.reveal.seed')}
-                    </Typography>
-                  </Pressable>
-                ) : null}
+        <View className="border-border bg-surface-secondary relative overflow-hidden rounded-xl border px-4 py-5">
+          {isLoading ? (
+            <PhraseGridSkeleton columnCount={columnCount} wordsPerColumn={wordsPerColumn} />
+          ) : (
+            <>
+              {!hasRevealed ? (
+                <Pressable
+                  accessibilityRole="button"
+                  className="bg-surface-secondary absolute inset-0 z-10 items-center justify-center gap-2"
+                  onPress={() => setHasRevealed(true)}
+                >
+                  <ThemedIcon className="text-muted" name="eye-off-outline" size={24} />
+                  <Typography className="text-center" type="body">
+                    {t('defi:notice.nobody.looking')}
+                  </Typography>
+                  <Typography className="text-muted mt-1 text-center" type="body">
+                    {t('defi:notice.reveal.seed')}
+                  </Typography>
+                </Pressable>
+              ) : null}
 
-                <View className="flex-row justify-center gap-3">
-                  {columns.map((column, columnIndex) => {
-                    const startIndex = columnIndex * wordsPerColumn;
+              <View className="flex-row justify-center gap-3">
+                {columns.map((column, columnIndex) => {
+                  const startIndex = columnIndex * wordsPerColumn;
 
-                    return (
-                      <View className="flex-1" key={`phrase-column-${columnIndex}`}>
-                        {column.map((word, index) => (
-                          <Typography
-                            className="py-1 text-sm"
-                            key={`${startIndex + index}-${word}`}
-                            type="body"
-                            weight="semibold"
-                          >
-                            <Typography
-                              className="text-accent text-sm"
-                              type="body"
-                              weight="semibold"
-                            >
-                              {startIndex + index + 1}.
-                            </Typography>{' '}
-                            {word}
-                          </Typography>
-                        ))}
-                      </View>
-                    );
-                  })}
-                </View>
-              </>
-            )}
-          </View>
+                  return (
+                    <View className="flex-1" key={`phrase-column-${columnIndex}`}>
+                      {column.map((word, index) => (
+                        <Typography
+                          className="py-1 text-sm"
+                          key={`${startIndex + index}-${word}`}
+                          type="body"
+                          weight="semibold"
+                        >
+                          <Typography className="text-accent text-sm" type="body" weight="semibold">
+                            {startIndex + index + 1}.
+                          </Typography>{' '}
+                          {word}
+                        </Typography>
+                      ))}
+                    </View>
+                  );
+                })}
+              </View>
+            </>
+          )}
+        </View>
 
-          {hasRevealed ? (
-            <View className="mt-4 flex-row items-center justify-center gap-2">
-              <Button onPress={() => setHasRevealed(false)} size="sm" variant="ghost">
-                <ThemedIcon className="text-accent" name="eye-off-outline" size={18} />
-                <Button.Label className="text-accent">
-                  {t('defi:action.hide.seed.phrase')}
-                </Button.Label>
-              </Button>
-              <Button onPress={handleCopy} size="sm" variant="ghost">
-                <ThemedIcon className="text-accent" name="copy-outline" size={18} />
-                <Button.Label className="text-accent">{t('global:action.copy')}</Button.Label>
-              </Button>
-            </View>
-          ) : null}
-
-          <ControlField
-            className="mt-8 flex-row items-center gap-3"
-            isSelected={hasSavedPhrase}
-            onSelectedChange={setHasSavedPhrase}
-          >
-            <ControlField.Indicator>
-              <Checkbox className="rounded-sm" />
-            </ControlField.Indicator>
-            <Typography className="shrink" type="body" weight="semibold">
-              {t('defi:description.phraseBrowse.saved.seed')}
-            </Typography>
-          </ControlField>
-
-          <View className="mt-10 items-center">
-            <Button
-              isDisabled={!hasRevealed || !hasSavedPhrase || !backupPhrase}
-              onPress={() => router.push(confirmHref)}
-              size="sm"
-            >
-              <Button.Label>{t('global:action.next')}</Button.Label>
+        {hasRevealed ? (
+          <View className="mt-4 flex-row items-center justify-center gap-2">
+            <Button onPress={() => setHasRevealed(false)} size="sm" variant="ghost">
+              <ThemedIcon className="text-accent" name="eye-off-outline" size={18} />
+              <Button.Label className="text-accent">
+                {t('defi:action.hide.seed.phrase')}
+              </Button.Label>
+            </Button>
+            <Button onPress={handleCopy} size="sm" variant="ghost">
+              <ThemedIcon className="text-accent" name="copy-outline" size={18} />
+              <Button.Label className="text-accent">{t('global:action.copy')}</Button.Label>
             </Button>
           </View>
+        ) : null}
+
+        <ControlField
+          className="mt-8 flex-row items-center gap-3"
+          isSelected={hasSavedPhrase}
+          onSelectedChange={setHasSavedPhrase}
+        >
+          <ControlField.Indicator>
+            <Checkbox className="rounded-sm" />
+          </ControlField.Indicator>
+          <Typography className="shrink" type="body" weight="semibold">
+            {t('defi:description.phraseBrowse.saved.seed')}
+          </Typography>
+        </ControlField>
+
+        <View className="mt-10 items-center">
+          <Button
+            isDisabled={!hasRevealed || !hasSavedPhrase || !backupPhrase}
+            onPress={() => router.push(confirmHref)}
+            size="sm"
+          >
+            <Button.Label>{t('global:action.next')}</Button.Label>
+          </Button>
         </View>
-      </ScrollView>
-    </Page>
+      </View>
+    </ScrollView>
   );
 };
