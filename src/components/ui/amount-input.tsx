@@ -1,10 +1,9 @@
 import type { ReactNode } from 'react';
 
-import BigNumber from 'bignumber.js';
-import { FieldError, Typography, cn } from 'heroui-native';
-import { NumberField } from 'heroui-native-pro/number-field';
+import { Typography, cn } from 'heroui-native';
 import { NumberValue } from 'heroui-native-pro/number-value';
-import { View } from 'react-native';
+
+import { AmountNumberField } from './amount-number-field';
 
 interface AmountInputClassNames {
   errorContainer?: string;
@@ -30,45 +29,6 @@ interface AmountInputProps {
   value: string;
 }
 
-const toCommittedAmountValue = (value: number | string, decimals: number) => {
-  try {
-    if (!new BigNumber(value).isFinite()) {
-      return '';
-    }
-
-    return new BigNumber(value).decimalPlaces(decimals, BigNumber.ROUND_DOWN).toString();
-  } catch {
-    return '';
-  }
-};
-
-const normalizeAmountText = (value: string, decimals: number) => {
-  const normalized = value.replace(/[^\d.]/g, '');
-  const [integer = '', ...fractionParts] = normalized.split('.');
-  const fraction = fractionParts.join('');
-
-  if (!normalized.includes('.')) {
-    return integer;
-  }
-
-  return `${integer || '0'}.${fraction.slice(0, decimals)}`;
-};
-
-const toBigNumberOrNull = (value: string) => {
-  if (!value.trim()) {
-    return null;
-  }
-
-  try {
-    const amount = new BigNumber(value);
-    return amount.isFinite() ? amount : null;
-  } catch {
-    return null;
-  }
-};
-
-const toNumberFieldValue = (value: string) => toBigNumberOrNull(value)?.toNumber() ?? Number.NaN;
-
 export const AmountInput = ({
   classNames,
   decimals,
@@ -83,49 +43,20 @@ export const AmountInput = ({
   value,
 }: AmountInputProps) => {
   return (
-    <NumberField
-      className={cn('w-full', classNames?.root)}
-      formatOptions={{
-        maximumFractionDigits: decimals,
-        minimumFractionDigits: 0,
-        useGrouping: false,
-      }}
-      isInvalid={isInvalid}
-      minValue={0}
-      onChange={nextValue => onChange(toCommittedAmountValue(nextValue, decimals))}
-      step={new BigNumber(10).pow(-Math.min(decimals, 8)).toNumber()}
-      value={toNumberFieldValue(value)}
-    >
-      <NumberField.Group
-        className={cn(
-          'min-h-11 flex-row items-end justify-center bg-transparent',
+    <AmountNumberField
+      classNames={{
+        errorContainer: cn('h-12 items-center justify-center', classNames?.errorContainer),
+        footer: cn('items-center', classNames?.valueContainer),
+        input: cn('text-center text-4xl font-normal', classNames?.input),
+        inputGroup: cn(
+          'min-h-11 max-w-1/2 items-end justify-center self-center border-0 bg-transparent px-0 shadow-none',
           classNames?.group,
-        )}
-      >
-        <NumberField.Input
-          autoCapitalize="none"
-          autoCorrect={false}
-          className={cn(
-            'text-foreground max-w-[220px] border-0 bg-transparent px-0 py-0 text-center text-4xl font-normal',
-            classNames?.input,
-          )}
-          isAutoPaddingActive={false}
-          keyboardType="decimal-pad"
-          onBlur={() => {
-            onChange(toCommittedAmountValue(value, decimals));
-            onBlur?.();
-          }}
-          onChangeText={nextValue => onChange(normalizeAmountText(nextValue, decimals))}
-          placeholder={placeholder}
-          value={value}
-        />
-        {symbol ? (
-          <Typography className={cn('text-foreground pb-2', classNames?.symbol)} type="body-sm">
-            {symbol}
-          </Typography>
-        ) : null}
-      </NumberField.Group>
-      <View className={cn('items-center', classNames?.valueContainer)}>
+        ),
+        root: classNames?.root,
+      }}
+      decimalPlaces={decimals}
+      error={error}
+      footer={
         <NumberValue
           classNames={{
             value: cn('text-default-foreground text-xs', classNames?.fiatValue),
@@ -136,10 +67,19 @@ export const AmountInput = ({
           numberStyle="currency"
           value={fiatAmount}
         />
-        <View className={cn('h-12 items-center justify-center', classNames?.errorContainer)}>
-          <FieldError>{error}</FieldError>
-        </View>
-      </View>
-    </NumberField>
+      }
+      isInvalid={isInvalid}
+      onBlur={onBlur}
+      onChange={onChange}
+      placeholder={placeholder}
+      suffix={
+        symbol ? (
+          <Typography className={cn('text-foreground pb-2', classNames?.symbol)} type="body-sm">
+            {symbol}
+          </Typography>
+        ) : null
+      }
+      value={value}
+    />
   );
 };

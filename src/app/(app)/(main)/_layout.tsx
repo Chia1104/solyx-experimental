@@ -42,20 +42,6 @@ export default function DefiMainLayout() {
         />
         <Stack.Screen name="buy" options={{ presentation: 'modal', headerShown: false }} />
         <Stack.Screen
-          name="bridge/confirm"
-          options={{
-            title: t('title.bridge.confirm.order'),
-            ...iosTransparentHeaderOptions,
-          }}
-        />
-        <Stack.Screen
-          name="bridge/orders"
-          options={{
-            title: t('title.bridge.orders'),
-            ...iosTransparentHeaderOptions,
-          }}
-        />
-        <Stack.Screen
           name="withdraw/index"
           options={{
             title: t('title.withdraw'),
@@ -95,34 +81,6 @@ export default function DefiMainLayout() {
           name="kyc/verification"
           options={{
             title: t('title.kyc.verification'),
-            ...iosTransparentHeaderOptions,
-          }}
-        />
-        <Stack.Screen
-          name="settings/account"
-          options={{
-            title: t('title.account.setting'),
-            ...iosTransparentHeaderOptions,
-          }}
-        />
-        <Stack.Screen
-          name="settings/email"
-          options={{
-            title: t('defi:kyc.email'),
-            ...iosTransparentHeaderOptions,
-          }}
-        />
-        <Stack.Screen
-          name="settings/language"
-          options={{
-            title: t('global:title.language'),
-            ...iosTransparentHeaderOptions,
-          }}
-        />
-        <Stack.Screen
-          name="settings/contact-us"
-          options={{
-            title: t('defi:label.setting.contact.us'),
             ...iosTransparentHeaderOptions,
           }}
         />
