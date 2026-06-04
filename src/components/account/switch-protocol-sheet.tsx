@@ -38,7 +38,7 @@ export const SwitchProtocolSheet = ({
   return (
     <BottomSheet isOpen={isOpen} onOpenChange={onOpenChange}>
       <BottomSheet.Portal>
-        <BottomSheet.Overlay className="bg-background/50" />
+        <BottomSheet.Overlay className="bg-backdrop/50" />
         <BottomSheet.Content>
           <BottomSheet.Title className="mb-4 text-center">
             {t('defi:title.select.a.network')}

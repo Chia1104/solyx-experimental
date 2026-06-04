@@ -64,7 +64,7 @@ export const ChainSelector = (props: ChainSelectorProps) => {
           <Select.TriggerIndicator />
         </Select.Trigger>
         <Select.Portal>
-          <Select.Overlay className="bg-background/50" />
+          <Select.Overlay className="bg-backdrop/50" />
           <Select.Content presentation="bottom-sheet">
             {props.options.map(option => (
               <Select.Item key={option.value} value={option.value} label={option.label}>

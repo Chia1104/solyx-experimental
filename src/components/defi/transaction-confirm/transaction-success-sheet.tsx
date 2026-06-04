@@ -20,7 +20,7 @@ export const TransactionSuccessSheet = ({
   return (
     <BottomSheet isOpen={isOpen} onOpenChange={onOpenChange}>
       <BottomSheet.Portal>
-        <BottomSheet.Overlay className="bg-background/50" />
+        <BottomSheet.Overlay className="bg-backdrop/50" />
         <BottomSheet.Content>
           <View className="items-center gap-6 px-6 pb-8">
             <BottomSheet.Title className="text-center">

@@ -112,7 +112,7 @@ const ChainSelector = ({ chain }: ChainSelectorProps) => {
         <Select.TriggerIndicator />
       </Select.Trigger>
       <Select.Portal>
-        <Select.Overlay className="bg-background/50" />
+        <Select.Overlay className="bg-backdrop/50" />
         <Select.Content presentation="bottom-sheet">
           {options.map(option => (
             <Select.Item

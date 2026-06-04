@@ -28,7 +28,7 @@ export const AccountsSheet = ({ trigger }: AccountsSheetProps) => {
     <BottomSheet isOpen={isOpen} onOpenChange={setIsOpen}>
       <BottomSheet.Trigger asChild>{trigger}</BottomSheet.Trigger>
       <BottomSheet.Portal>
-        <BottomSheet.Overlay className="bg-background/50" />
+        <BottomSheet.Overlay className="bg-backdrop/50" />
         <BottomSheet.Content
           enableDynamicSizing={false}
           snapPoints={['70%']}

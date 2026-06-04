@@ -253,7 +253,7 @@ export const OnrampOrderDetailSheet = ({
   return (
     <BottomSheet isOpen={isOpen} onOpenChange={onOpenChange}>
       <BottomSheet.Portal>
-        <BottomSheet.Overlay className="bg-background/50" />
+        <BottomSheet.Overlay className="bg-backdrop/50" />
         <BottomSheet.Content>
           <BottomSheet.Title className="text-center">
             {t('buy.orderDetail.title')}

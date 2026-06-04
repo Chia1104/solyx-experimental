@@ -139,7 +139,7 @@ export const SettingsEmailContent = () => {
 
       <BottomSheet isOpen={isConfirmOpen} onOpenChange={handleSheetOpenChange}>
         <BottomSheet.Portal>
-          <BottomSheet.Overlay className="bg-background/50" isCloseOnPress={!isPending} />
+          <BottomSheet.Overlay className="bg-backdrop/50" isCloseOnPress={!isPending} />
           <BottomSheet.Content enablePanDownToClose={!isPending}>
             <View className="gap-5 px-3 pb-8">
               <View className="gap-3">

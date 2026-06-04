@@ -87,7 +87,7 @@ export const AssetActionButtons = memo(
           renderIcon={className => <ThemedIcon className={className} name="arrow-down" size={24} />}
         />
         <BottomSheet.Portal>
-          <BottomSheet.Overlay className="bg-background/50" />
+          <BottomSheet.Overlay className="bg-backdrop/50" />
           <BottomSheet.Content>
             <ReceiveBottomSheetContent isOpen={isReceiveOpen} />
           </BottomSheet.Content>

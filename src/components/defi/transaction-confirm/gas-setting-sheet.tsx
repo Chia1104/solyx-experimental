@@ -130,7 +130,7 @@ export const GasSettingSheet = ({
   return (
     <BottomSheet isOpen={isOpen} onOpenChange={handleOpenChange}>
       <BottomSheet.Portal>
-        <BottomSheet.Overlay className="bg-background/50" />
+        <BottomSheet.Overlay className="bg-backdrop/50" />
         <BottomSheet.Content>
           <View className="gap-5 px-4 pb-8">
             <BottomSheet.Title className="text-center">

@@ -39,7 +39,7 @@ export const BuyCurrencySelect = ({
         <Select.TriggerIndicator />
       </Select.Trigger>
       <Select.Portal>
-        <Select.Overlay className="bg-background/50" />
+        <Select.Overlay className="bg-backdrop/50" />
         <Select.Content presentation="bottom-sheet">
           {currencies.map(currency => (
             <Select.Item key={currency.symbol} label={currency.symbol} value={currency.symbol}>

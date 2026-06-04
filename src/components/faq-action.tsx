@@ -15,7 +15,7 @@ export const FAQAction = ({ id, trigger }: Props) => {
     <BottomSheet>
       <BottomSheet.Trigger asChild>{trigger}</BottomSheet.Trigger>
       <BottomSheet.Portal>
-        <BottomSheet.Overlay className="bg-background/50" />
+        <BottomSheet.Overlay className="bg-backdrop/50" />
         <BottomSheet.Content
           contentContainerClassName="h-full"
           enableDynamicSizing={false}
