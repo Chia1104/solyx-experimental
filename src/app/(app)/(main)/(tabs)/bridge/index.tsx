@@ -1,6 +1,5 @@
 import { useCallback, useState } from 'react';
 
-import BigNumber from 'bignumber.js';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useToast } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
@@ -50,9 +49,9 @@ export default function BridgeScreen() {
           orderId: order.id,
           bridgeOrderId: order.bridgeOrderId,
           paymentTargetAddress: order.paymentTargetAddress,
-          amount: new BigNumber(order.amount).toString(),
-          receivedAmount: new BigNumber(order.receivedAmount).toString(),
-          platformFee: new BigNumber(order.platformFee).toString(),
+          amount: order.amount,
+          receivedAmount: order.receivedAmount,
+          platformFee: order.platformFee,
           feeAmountToken: order.feeAmountToken ?? '',
           expiresAt: order.expiresAt,
           fromChainId: values.fromChainId,

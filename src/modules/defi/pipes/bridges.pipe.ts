@@ -114,9 +114,9 @@ export const CreateBridgeOrder = z.object({
   id: z.string(),
   bridgeOrderId: z.string(),
   paymentTargetAddress: z.string(),
-  amount: z.number(),
-  receivedAmount: z.number(),
-  platformFee: z.number(),
+  amount: z.string(),
+  receivedAmount: z.string(),
+  platformFee: z.string(),
   feeAmountToken: z.string().optional(),
   expiresAt: z.string(),
 });
