@@ -11,6 +11,6 @@ export const ChainSymbolToLiquidChainID = {
 };
 
 export const toBridgeApiChainId = (chainId: SupportedChainID) =>
-  ChainSymbolToLiquidChainID[chainId as keyof typeof ChainSymbolToLiquidChainID] ?? chainId;
+  LiquidChainIDToChainSymbol[chainId as keyof typeof LiquidChainIDToChainSymbol] ?? chainId;
 export const fromBridgeApiChainId = (apiChainId: SupportedChainID) =>
-  LiquidChainIDToChainSymbol[apiChainId as keyof typeof LiquidChainIDToChainSymbol] ?? apiChainId;
+  ChainSymbolToLiquidChainID[apiChainId as keyof typeof ChainSymbolToLiquidChainID] ?? apiChainId;

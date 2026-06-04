@@ -71,14 +71,9 @@ export const createBridgeFixedRateOrder = async (request: CreateBridgeFixedRateO
   const response = await protectedCefiClient
     .post('v1/bridges/orders:create-fixed-rate', {
       json: {
+        ...request,
         fromChainId: toBridgeApiChainId(request.fromChainId),
         toChainId: toBridgeApiChainId(request.toChainId),
-        fromToken: request.fromToken,
-        toToken: request.toToken,
-        ...(request.fromAddress ? { fromAddress: request.fromAddress } : {}),
-        toAddress: request.toAddress,
-        amount: request.amount,
-        rateId: request.rateId,
       },
     })
     .json();

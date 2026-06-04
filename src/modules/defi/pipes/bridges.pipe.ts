@@ -62,7 +62,7 @@ export type BridgeOrdersMeta = z.infer<typeof BridgeOrdersMeta>;
 
 export const GetBridgeOrdersRequest = z.object({
   statuses: z.array(z.enum(BridgeOrderStatus)).optional(),
-  finPerPage: z.number().optional(),
+  finPerPage: z.string().optional(),
   finPage: z.string().optional(),
 });
 
@@ -105,6 +105,7 @@ export const CreateBridgeFixedRateOrderRequest = z.object({
   toAddress: z.string(),
   amount: z.string(),
   rateId: z.string(),
+  refundAddress: z.string(),
 });
 
 export type CreateBridgeFixedRateOrderRequest = z.infer<typeof CreateBridgeFixedRateOrderRequest>;

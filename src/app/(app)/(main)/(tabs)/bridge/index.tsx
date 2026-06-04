@@ -7,37 +7,13 @@ import type { OrderFormSubmitValues } from '@/components/bridge/order-form';
 import { OrderForm } from '@/components/bridge/order-form';
 import { Page } from '@/components/page';
 import { TabScreenScrollView } from '@/components/ui/tab-screen-scroll-view';
-import { SupportedChainID } from '@/modules/chain/enums/supported-chain.enum';
-import { useDefiAccount } from '@/modules/defi/hooks/use-defi-account';
 import { useMutationCreateBridgeFixedRateOrder } from '@/modules/defi/hooks/use-mutation-create-bridge-fixed-rate-order';
 import { useQueryBridgeMetaPairs } from '@/modules/defi/hooks/use-query-bridge-meta-pairs';
-
-const getBridgeFromAddress = (
-  chainId: string,
-  addresses: ReturnType<typeof useDefiAccount>['addresses'],
-) => {
-  switch (chainId) {
-    case SupportedChainID.EthereumMainnet:
-    case SupportedChainID.EthereumTestnet:
-      return addresses.evm;
-    case SupportedChainID.TronMainnet:
-    case SupportedChainID.TronShasta:
-      return addresses.tron;
-    case SupportedChainID.LiquidMainnet:
-    case SupportedChainID.LiquidTestnet:
-    case SupportedChainID.LiquidMainnetID:
-    case SupportedChainID.LiquidTestnetID:
-      return addresses.liquid;
-    default:
-      return '';
-  }
-};
 
 export default function BridgeScreen() {
   const router = useRouter();
   const { t } = useTranslation(['defi']);
   const { toast } = useToast();
-  const { addresses } = useDefiAccount();
   const { data: orderPairs = [] } = useQueryBridgeMetaPairs();
   const createOrder = useMutationCreateBridgeFixedRateOrder();
 
@@ -48,7 +24,8 @@ export default function BridgeScreen() {
         toChainId: values.toChainId,
         fromToken: values.fromToken,
         toToken: values.toToken,
-        fromAddress: getBridgeFromAddress(values.fromChainId, addresses),
+        fromAddress: values.fromAddress,
+        refundAddress: values.refundAddress,
         toAddress: values.takerAddress,
         amount: values.amount,
         rateId: values.estimatedFee.rateId,

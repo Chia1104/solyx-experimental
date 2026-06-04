@@ -37,6 +37,7 @@ export const personalIcon = {
 export const tokenIcon = {
   BTC: require('@/assets/images/token/BTC.png') as ImageSourcePropType,
   'L-BTC': require('@/assets/images/token/BTC.png') as ImageSourcePropType,
+  LBTC: require('@/assets/images/token/BTC.png') as ImageSourcePropType,
   ETH: require('@/assets/images/token/ETH.png') as ImageSourcePropType,
   USDT: require('@/assets/images/token/USDT.png') as ImageSourcePropType,
   TRX: require('@/assets/images/token/TRX.png') as ImageSourcePropType,

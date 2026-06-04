@@ -56,13 +56,11 @@ export const ChainSelector = (props: ChainSelectorProps) => {
         value={value}
         onValueChange={handleValueChange}
       >
-        <Select.Trigger className="border-separator border shadow-none">
-          <View className="min-w-0 flex-1 flex-row items-center gap-2">
-            {selectedNetwork ? (
-              <TokenMark network={selectedNetwork} size="lg" symbol="" type="chain" />
-            ) : null}
-            <Select.Value placeholder={props.placeholder} />
-          </View>
+        <Select.Trigger className="border-border min-h-12 min-w-0 flex-1 flex-row items-center gap-2 border-[1.5px] p-2 shadow">
+          {selectedNetwork ? (
+            <TokenMark network={selectedNetwork} size="lg" symbol="" type="chain" />
+          ) : null}
+          <Select.Value placeholder={props.placeholder} />
           <Select.TriggerIndicator />
         </Select.Trigger>
         <Select.Portal>

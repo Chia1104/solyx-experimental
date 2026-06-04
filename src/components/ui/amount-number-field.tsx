@@ -94,7 +94,7 @@ export const AmountNumberField = ({
   >
     <InputGroup
       className={cn(
-        'border-separator bg-surface w-full flex-row items-center rounded-2xl border px-3',
+        'border-border bg-surface w-full flex-row items-center rounded-2xl border px-3',
         isInvalid && 'border-danger',
         classNames?.inputGroup,
       )}

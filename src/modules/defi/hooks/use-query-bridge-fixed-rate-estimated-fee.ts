@@ -19,7 +19,7 @@ export const queryBridgeFixedRateEstimatedFeeOptions = (
   return queryOptions({
     queryKey: ['defi/bridges/fixed-rate-fee', request],
     queryFn: () => getBridgeFixedRateEstimatedFee(request),
-    staleTime: Infinity,
+    staleTime: 0,
     gcTime: 0,
     retry: false,
     ...options,

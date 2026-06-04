@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react';
 
-import { Button, FieldError, Label, Select, Typography } from 'heroui-native';
+import { Button, cn, FieldError, Label, Select, Typography } from 'heroui-native';
 import { NumberValue } from 'heroui-native-pro/number-value';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
@@ -128,6 +128,7 @@ export const TokenAmountField = ({
   ...props
 }: TokenAmountFieldProps) => {
   const { i18n, t } = useTranslation(['defi']);
+  const isDisabled = props.isDisabled || isReadOnly;
 
   return (
     <View className="gap-2">
@@ -151,17 +152,18 @@ export const TokenAmountField = ({
       <AmountNumberField
         classNames={{
           input: 'text-xl',
+          inputGroup: cn('border-[1.5px] shadow', showMaxButton ? 'pr-0' : ''),
         }}
         decimalPlaces={decimalPlaces}
         error={error}
-        isDisabled={isReadOnly}
+        isDisabled={isDisabled}
         isInvalid={isInvalid}
         onBlur={onAmountBlur}
         onChange={onAmountChange}
         prefix={<TokenSelector {...props} label="" />}
         suffix={
           showMaxButton ? (
-            <Button variant="ghost" onPress={onMaxPress} size="sm">
+            <Button isDisabled={isDisabled} variant="ghost" onPress={onMaxPress} size="sm">
               <Button.Label>{t('defi:status.max')}</Button.Label>
             </Button>
           ) : null
