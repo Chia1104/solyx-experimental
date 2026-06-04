@@ -51,6 +51,7 @@ export const useTransactionGasFee = ({
 }: UseTransactionGasFeeOptions) => {
   const { t } = useTranslation(['defi', 'global']);
   const getEvmProvider = useChainAdapterStore(state => state.getEvmProvider);
+  const liquidLoggedIn = useChainAdapterStore(state => state.liquidLoggedIn);
 
   const toAddress = sendParams.to;
   const value = formatDisplayValue(sendParams.value);
@@ -104,10 +105,10 @@ export const useTransactionGasFee = ({
       sendParams,
       subaccountPointer: liquidSubaccountPointer,
     },
-    { enabled: chainType === ChainType.LIQUID },
+    { enabled: chainType === ChainType.LIQUID && liquidLoggedIn },
   );
   const liquidFeeFallbackQuery = useQueryLiquidFeeFallback({
-    enabled: chainType === ChainType.LIQUID && liquidPreparedQuery.isError,
+    enabled: chainType === ChainType.LIQUID && liquidLoggedIn && liquidPreparedQuery.isError,
   });
 
   const gasFee = useMemo(() => {

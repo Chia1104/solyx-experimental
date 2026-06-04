@@ -18,16 +18,29 @@ import { Page } from '@/components/page';
 import { AddressDisplay } from '@/components/ui/address-display';
 import { CopyAction } from '@/components/ui/copy-action';
 import { KeyboardAwareScrollView } from '@/components/ui/keyboard-aware-scroll-view';
+import { SupportedChainID } from '@/modules/chain/enums/supported-chain.enum';
 import { ChainType } from '@/modules/chain/stores/chain-adapter/types';
+import { fromBridgeApiChainId } from '@/modules/chain/utils';
 import type { TransactionConfirmParams } from '@/modules/chain/utils/transaction-confirm';
-import { useDefiAccount } from '@/modules/defi/hooks/use-defi-account';
+import { getChainConfig, useDefiAccount } from '@/modules/defi/hooks/use-defi-account';
 import { useMutationUpdateBridgePaymentTxHash } from '@/modules/defi/hooks/use-mutation-update-bridge-payment-tx-hash';
+
+const BRIDGE_CHAIN_ID_TO_CHAIN_TYPE: Partial<Record<string, ChainType>> = {
+  [SupportedChainID.EthereumMainnet]: ChainType.EVM,
+  [SupportedChainID.EthereumTestnet]: ChainType.EVM,
+  [SupportedChainID.TronMainnet]: ChainType.TRON,
+  [SupportedChainID.TronShasta]: ChainType.TRON,
+  [SupportedChainID.LiquidMainnet]: ChainType.LIQUID,
+  [SupportedChainID.LiquidTestnet]: ChainType.LIQUID,
+  [SupportedChainID.LiquidMainnetID]: ChainType.LIQUID,
+  [SupportedChainID.LiquidTestnetID]: ChainType.LIQUID,
+};
 
 export default function BridgeConfirmScreen() {
   const { i18n, t } = useTranslation(['defi', 'global']);
   const { toast } = useToast();
   const router = useRouter();
-  const { chain, chainType, currentAddress, wallet } = useDefiAccount();
+  const { chain, currentAddress, wallet } = useDefiAccount();
   const accountName = wallet?.name ?? t('defi:label.setting.current.account');
 
   const params = useLocalSearchParams<{
@@ -74,17 +87,28 @@ export default function BridgeConfirmScreen() {
     },
   });
 
+  const fromTokenAddress = useMemo(() => {
+    if (!fromToken || !fromChainId) return fromToken;
+    const appChainId = Number(fromBridgeApiChainId(fromChainId as SupportedChainID));
+    const chainConfig = getChainConfig(appChainId);
+    if (!chainConfig) return fromToken;
+
+    const normalizedSymbol = fromToken === 'LBTC' ? 'L-BTC' : fromToken;
+    const allCurrencies = [chainConfig.nativeCurrency, ...(chainConfig.supportCurrency ?? [])];
+    return allCurrencies.find(c => c.symbol === normalizedSymbol)?.address ?? fromToken;
+  }, [fromToken, fromChainId]);
+
   const sendParams = useMemo<TransactionConfirmParams>(
     () => ({
       to: paymentTargetAddress ?? '',
       value: amount ?? '0',
-      tokenAddress: fromToken,
+      tokenAddress: fromTokenAddress,
       suppressSuccessModal: true,
     }),
-    [paymentTargetAddress, amount, fromToken],
+    [paymentTargetAddress, amount, fromTokenAddress],
   );
 
-  const activeChainType = chainType ?? ChainType.EVM;
+  const activeChainType = BRIDGE_CHAIN_ID_TO_CHAIN_TYPE[fromChainId ?? ''] ?? ChainType.EVM;
 
   const gasFeeRef = useRef<string>('0');
 
