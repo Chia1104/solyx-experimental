@@ -1,5 +1,7 @@
+import { useCallback, useState } from 'react';
+
 import BigNumber from 'bignumber.js';
-import { useRouter } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 import { useToast } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
 
@@ -14,8 +16,19 @@ export default function BridgeScreen() {
   const router = useRouter();
   const { t } = useTranslation(['defi']);
   const { toast } = useToast();
-  const { data: orderPairs = [] } = useQueryBridgeMetaPairs();
+  const [isFocused, setIsFocused] = useState(false);
+  const { data: orderPairs = [] } = useQueryBridgeMetaPairs({
+    enabled: isFocused,
+  });
   const createOrder = useMutationCreateBridgeFixedRateOrder();
+
+  useFocusEffect(
+    useCallback(() => {
+      setIsFocused(true);
+
+      return () => setIsFocused(false);
+    }, []),
+  );
 
   const handleSubmit = async (values: OrderFormSubmitValues) => {
     try {
@@ -64,11 +77,13 @@ export default function BridgeScreen() {
         contentContainerClassName="gap-5 px-3"
         tabBarAdditionalPadding={24}
       >
-        <OrderForm
-          isSubmitting={createOrder.isPending}
-          orderPairs={orderPairs}
-          onSubmit={handleSubmit}
-        />
+        {isFocused ? (
+          <OrderForm
+            isSubmitting={createOrder.isPending}
+            orderPairs={orderPairs}
+            onSubmit={handleSubmit}
+          />
+        ) : null}
       </TabScreenScrollView>
     </Page.Tab>
   );
