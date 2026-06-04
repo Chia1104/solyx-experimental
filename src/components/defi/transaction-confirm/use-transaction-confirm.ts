@@ -4,7 +4,6 @@ import { useAsyncThrottledCallback } from '@tanstack/react-pacer';
 import BigNumber from 'bignumber.js';
 import { useToast } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
-import { is } from 'zod/v4/locales';
 
 import { LockScreenError } from '@/modules/app/types/log-request.type';
 import { useLiquidSession } from '@/modules/chain/hooks/use-liquid-session';
@@ -60,8 +59,7 @@ export const useTransactionConfirm = ({
   const [isGasSheetOpen, setIsGasSheetOpen] = useState(false);
 
   const { ensureLiquidSession } = useLiquidSession();
-  const { chain, currentAddress, currentChainId, liquidSubaccountPointer, wallet } =
-    useDefiAccount();
+  const { chain, currentAddress, currentChainId, liquidSubaccountPointer } = useDefiAccount();
   const { syncRecords } = useDefiRecordSync();
   const { assets, rows } = useQueryAssets();
   const transactionCallBackMutation = useMutationTransactionCallBack();
