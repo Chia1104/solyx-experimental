@@ -208,7 +208,7 @@ export const QuickAction = ({
   return (
     <Pressable
       className={cn(
-        'min-h-[80px] flex-1 items-center justify-center gap-1 rounded-xl border py-3',
+        'min-h-[80px] flex-1 items-center justify-center gap-1 rounded-2xl border py-3',
         isHighlighted
           ? 'border-accent bg-surface-tertiary'
           : 'bg-surface-tertiary border-transparent',

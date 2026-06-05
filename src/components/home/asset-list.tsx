@@ -49,7 +49,7 @@ const AssetListItem = ({ isLoading, onPress, row }: AssetListItemProps) => {
   const { i18n } = useTranslation();
 
   return (
-    <Pressable className="bg-surface justify-center rounded-xl px-4 py-3" onPress={onPress}>
+    <Pressable className="bg-surface justify-center rounded-2xl px-4 py-3" onPress={onPress}>
       <View className="flex-row items-center justify-between gap-3">
         <View className="min-w-0 flex-1 flex-row items-center gap-3">
           <TokenMark symbol={row.symbol} network="" size="lg" />

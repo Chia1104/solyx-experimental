@@ -25,7 +25,7 @@ export const BalanceCard = ({ chain, isLoading, totalFiatValue }: BalanceCardPro
 
   return (
     <ImageBackground
-      className="bg-accent min-h-[154px] overflow-hidden rounded-xl px-4 pt-5 pb-7"
+      className="bg-accent min-h-[154px] overflow-hidden rounded-2xl px-4 pt-5 pb-7"
       imageStyle={{ opacity: 0.78, transform: [{ translateX: 84 }] }}
       resizeMode="cover"
       source={heroBackground}
