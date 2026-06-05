@@ -1,5 +1,5 @@
-import { memo, useMemo } from 'react';
 import type { ComponentProps } from 'react';
+import { memo, useMemo } from 'react';
 
 import BigNumber from 'bignumber.js';
 import { Typography, cn } from 'heroui-native';
@@ -126,7 +126,7 @@ export const GasFeeAmountDetails = memo(
 
     if (showUnavailable || gasFee === 'null') {
       return (
-        <Typography className={cn('text-foreground', textAlign)} type="body">
+        <Typography className={cn('text-foreground', textAlign)} type="body-sm">
           {t('defi:label.unpredictable')}
         </Typography>
       );
@@ -135,17 +135,17 @@ export const GasFeeAmountDetails = memo(
     return (
       <View className={cn('gap-0.5', align === 'end' ? 'items-end' : 'items-start')}>
         {eta ? (
-          <Typography className={cn('text-foreground', textAlign)} type="body" weight="semibold">
+          <Typography className={cn('text-foreground', textAlign)} type="body-sm" weight="semibold">
             {eta}
           </Typography>
         ) : null}
         {gasModeLabel ? (
-          <Typography className={cn('text-foreground', textAlign)} type="body">
+          <Typography className={cn('text-foreground', textAlign)} type="body-sm">
             {gasModeLabel}
           </Typography>
         ) : null}
         <GasFeeNativeDisplay
-          className={cn(textAlign, !eta && !gasModeLabel && 'text-base')}
+          className={cn(textAlign, !eta && !gasModeLabel && 'text-sm')}
           gasFee={gasFee}
           nativeSymbol={nativeSymbol}
         />
@@ -156,7 +156,7 @@ export const GasFeeAmountDetails = memo(
           showApprox={showApproxFiat}
         />
         {insufficientBalance ? (
-          <Typography className={cn('text-danger', textAlign)} type="body">
+          <Typography className={cn('text-danger', textAlign)} type="body-sm">
             {t('defi:error.amount.insufficient.balance')}
           </Typography>
         ) : null}

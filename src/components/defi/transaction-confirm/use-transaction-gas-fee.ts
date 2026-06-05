@@ -16,8 +16,10 @@ import type { ChainConfig } from '@/modules/chain/stores/chain-adapter/types';
 import { ChainType } from '@/modules/chain/stores/chain-adapter/types';
 import type { EvmGasMode } from '@/modules/chain/utils/evm-gas-settings';
 import { getEvmGasModeLabelKey } from '@/modules/chain/utils/evm-gas-settings';
-import type { TransactionConfirmParams } from '@/modules/chain/utils/transaction-confirm';
-import type { TransactionCurrency } from '@/modules/chain/utils/transaction-confirm';
+import type {
+  TransactionConfirmParams,
+  TransactionCurrency,
+} from '@/modules/chain/utils/transaction-confirm';
 import { formatDisplayValue } from '@/modules/chain/utils/transaction-confirm';
 
 interface TokenRow {
@@ -88,7 +90,9 @@ export const useTransactionGasFee = ({
 
   const tronFeeQuery = useQueryTronTransactionFee(
     {
+      chainId: chain?.chainId,
       currency,
+      fromAddress: currentAddress,
       isNativeCurrency,
       sendParams,
       toAddress,
@@ -142,7 +146,7 @@ export const useTransactionGasFee = ({
     if (nativeCurrencyToken?.balance) {
       return new BigNumber(nativeCurrencyToken.balance);
     }
-    return new BigNumber('-');
+    return new BigNumber(0);
   }, [nativeCurrencyToken?.balance]);
 
   const isMaximum = useMemo(() => {

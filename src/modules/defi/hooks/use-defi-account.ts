@@ -21,6 +21,9 @@ const chainConfigs: ChainConfigMap = {
 export const getChainConfig = (chainId: number) =>
   Object.values(chainConfigs).find(chain => chain.chainId === chainId);
 
+export const getChainConfigByChain = (chain: ChainType) =>
+  Object.values(chainConfigs).find(item => item.chainType === chain);
+
 export const getWalletAddress = (wallet: WalletItem | undefined, chainType: ChainType) => {
   if (!wallet) {
     return '';

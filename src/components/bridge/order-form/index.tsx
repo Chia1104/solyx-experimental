@@ -26,7 +26,7 @@ import type { SupportedChainID } from '@/modules/chain/enums/supported-chain.enu
 import { useLiquidReceiveAddress } from '@/modules/chain/hooks/use-liquid-receive-address';
 import { useLiquidSession } from '@/modules/chain/hooks/use-liquid-session';
 import { ChainType } from '@/modules/chain/stores/chain-adapter/types';
-import { fromBridgeApiChainId } from '@/modules/chain/utils';
+import { fromBridgeApiChainId, toBridgeApiChainId } from '@/modules/chain/utils';
 import { getChainConfig, useDefiAccount } from '@/modules/defi/hooks/use-defi-account';
 import { useQueryBridgeFixedRateEstimatedFee } from '@/modules/defi/hooks/use-query-bridge-fixed-rate-estimated-fee';
 import { useQueryBridgeFromTokenBalance } from '@/modules/defi/hooks/use-query-bridge-from-token-balance';
@@ -471,8 +471,15 @@ export const OrderForm = (props: OrderFormProps) => {
     fromChainId,
     fromToken: effectiveFromToken,
   });
-  const isLiquidFromChain = fromChain?.chainType === ChainType.LIQUID;
-  const fromChainWalletAddress = getWalletAddressByChainType(fromChain?.chainType, addresses);
+  const fromChainType = useMemo(() => {
+    if (!fromChainId) return fromChain?.chainType;
+    const numericId = Number(toBridgeApiChainId(fromChainId as SupportedChainID));
+    if (isNaN(numericId)) return fromChain?.chainType;
+    return getChainConfig(numericId)?.chainType ?? fromChain?.chainType;
+  }, [fromChainId, fromChain?.chainType]);
+
+  const isLiquidFromChain = fromChainType === ChainType.LIQUID;
+  const fromChainWalletAddress = getWalletAddressByChainType(fromChainType, addresses);
   const liquidRefundAddressQuery = useLiquidReceiveAddress(
     {
       ampId: liquidAmpId,
@@ -567,14 +574,7 @@ export const OrderForm = (props: OrderFormProps) => {
   const { isExpired: isRateExpired, remainingSeconds } = useCountDown(
     currentEstimatedFee?.rateExpiresAt,
   );
-  const isSubmitDisabled =
-    !form.formState.isValid ||
-    !!amountValidationError ||
-    !currentEstimatedFee ||
-    !refundAddress ||
-    isFetching ||
-    props.isSubmitting ||
-    isRateExpired;
+  const isSubmitDisabled = isFetching || props.isSubmitting || isRateExpired;
 
   const handleSubmit = form.handleSubmit(async values => {
     if (amountValidationError) {

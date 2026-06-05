@@ -92,7 +92,7 @@ export const LiquidSessionInterceptor = () => {
       return;
     }
 
-    ensureLiquidSession(currentChainId).catch(() => undefined);
+    ensureLiquidSession(currentChainId);
   }, [currentChainId, ensureLiquidSession]);
 
   useEffect(() => {

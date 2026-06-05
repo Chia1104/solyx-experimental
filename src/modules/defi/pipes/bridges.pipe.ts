@@ -1,7 +1,7 @@
 import * as z from 'zod';
 
 import { SupportedChainID } from '@/modules/chain/enums/supported-chain.enum';
-import { fromBridgeApiChainId } from '@/modules/chain/utils';
+import { fromBridgeApiChainId, toBridgeApiChainId } from '@/modules/chain/utils';
 
 import { BridgeOrderStatus } from '../enums/bridges.enum';
 
@@ -96,19 +96,26 @@ export const CreateBridgeOrderRequest = z.object({
 
 export type CreateBridgeOrderRequest = z.infer<typeof CreateBridgeOrderRequest>;
 
-export const CreateBridgeFixedRateOrderRequest = z.object({
-  fromChainId: z.enum(SupportedChainID),
-  toChainId: z.enum(SupportedChainID),
-  fromToken: z.string(),
-  toToken: z.string(),
-  fromAddress: z.string().optional(),
-  toAddress: z.string(),
-  amount: z.string(),
-  rateId: z.string(),
-  refundAddress: z.string(),
-});
+export const CreateBridgeFixedRateOrderRequest = z
+  .object({
+    fromChainId: z.enum(SupportedChainID),
+    toChainId: z.enum(SupportedChainID),
+    fromToken: z.string(),
+    toToken: z.string(),
+    fromAddress: z.string().optional(),
+    toAddress: z.string(),
+    amount: z.string(),
+    rateId: z.string(),
+    refundAddress: z.string(),
+  })
+  .transform(data => ({
+    ...data,
+    fromChainId: toBridgeApiChainId(data.fromChainId),
+    toChainId: toBridgeApiChainId(data.toChainId),
+  }));
 
-export type CreateBridgeFixedRateOrderRequest = z.infer<typeof CreateBridgeFixedRateOrderRequest>;
+// z.input preserves the pre-transform (app-format) type for callers
+export type CreateBridgeFixedRateOrderRequest = z.input<typeof CreateBridgeFixedRateOrderRequest>;
 
 export const CreateBridgeOrder = z.object({
   id: z.string(),
@@ -129,15 +136,21 @@ export const GetBridgeOrderRequest = z.object({
 
 export type GetBridgeOrderRequest = z.infer<typeof GetBridgeOrderRequest>;
 
-export const GetBridgeEstimatedFeeRequest = z.object({
-  fromChainId: z.enum(SupportedChainID).optional(),
-  toChainId: z.enum(SupportedChainID),
-  fromToken: z.string().optional(),
-  toToken: z.string().optional(),
-  amount: z.string(),
-});
+export const GetBridgeEstimatedFeeRequest = z
+  .object({
+    fromChainId: z.enum(SupportedChainID).optional(),
+    toChainId: z.enum(SupportedChainID),
+    fromToken: z.string().optional(),
+    toToken: z.string().optional(),
+    amount: z.string(),
+  })
+  .transform(data => ({
+    ...data,
+    fromChainId: data.fromChainId ? toBridgeApiChainId(data.fromChainId) : undefined,
+    toChainId: toBridgeApiChainId(data.toChainId),
+  }));
 
-export type GetBridgeEstimatedFeeRequest = z.infer<typeof GetBridgeEstimatedFeeRequest>;
+export type GetBridgeEstimatedFeeRequest = z.input<typeof GetBridgeEstimatedFeeRequest>;
 
 export const BridgeEstimatedFee = z.object({
   amount: z.string(),
@@ -149,15 +162,21 @@ export const BridgeEstimatedFee = z.object({
 
 export type BridgeEstimatedFee = z.infer<typeof BridgeEstimatedFee>;
 
-export const GetBridgeFixedRateEstimatedFeeRequest = z.object({
-  fromChainId: z.enum(SupportedChainID),
-  toChainId: z.enum(SupportedChainID),
-  fromToken: z.string(),
-  toToken: z.string(),
-  amount: z.string(),
-});
+export const GetBridgeFixedRateEstimatedFeeRequest = z
+  .object({
+    fromChainId: z.enum(SupportedChainID),
+    toChainId: z.enum(SupportedChainID),
+    fromToken: z.string(),
+    toToken: z.string(),
+    amount: z.string(),
+  })
+  .transform(data => ({
+    ...data,
+    fromChainId: toBridgeApiChainId(data.fromChainId),
+    toChainId: toBridgeApiChainId(data.toChainId),
+  }));
 
-export type GetBridgeFixedRateEstimatedFeeRequest = z.infer<
+export type GetBridgeFixedRateEstimatedFeeRequest = z.input<
   typeof GetBridgeFixedRateEstimatedFeeRequest
 >;
 
@@ -182,14 +201,20 @@ export const UpdateBridgePaymentTxHashRequest = z.object({
 
 export type UpdateBridgePaymentTxHashRequest = z.infer<typeof UpdateBridgePaymentTxHashRequest>;
 
-export const GetBridgeOrderMetaRequest = z.object({
-  fromChainId: z.enum(SupportedChainID).optional(),
-  toChainId: z.enum(SupportedChainID),
-  fromToken: z.string().optional(),
-  toToken: z.string().optional(),
-});
+export const GetBridgeOrderMetaRequest = z
+  .object({
+    fromChainId: z.enum(SupportedChainID).optional(),
+    toChainId: z.enum(SupportedChainID),
+    fromToken: z.string().optional(),
+    toToken: z.string().optional(),
+  })
+  .transform(data => ({
+    ...data,
+    fromChainId: data.fromChainId ? toBridgeApiChainId(data.fromChainId) : undefined,
+    toChainId: toBridgeApiChainId(data.toChainId),
+  }));
 
-export type GetBridgeOrderMetaRequest = z.infer<typeof GetBridgeOrderMetaRequest>;
+export type GetBridgeOrderMetaRequest = z.input<typeof GetBridgeOrderMetaRequest>;
 
 export const BridgeOrderMeta = z.object({
   minimumAmount: z.string(),

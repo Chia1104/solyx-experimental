@@ -27,6 +27,13 @@ type UseQueryAssetsBalanceOptions = Omit<
   'queryKey' | 'queryFn'
 >;
 
+interface UseQueryAssetsOverrides {
+  chain?: ChainConfig;
+  currentAddress?: string;
+  currentChainId?: number;
+  liquidSubaccountPointer?: number;
+}
+
 const EMPTY_BALANCES: TokenBalances = {};
 
 const getCurrencies = (chain: ChainConfig) =>
@@ -89,9 +96,16 @@ export const queryAssetsOptions = (
   });
 };
 
-export const useQueryAssets = (options?: UseQueryAssetsBalanceOptions) => {
-  const { chain, currentAddress, currentChainId, liquidSubaccountPointer, wallet } =
-    useDefiAccount();
+export const useQueryAssets = (
+  options?: UseQueryAssetsBalanceOptions,
+  overrides?: UseQueryAssetsOverrides,
+) => {
+  const account = useDefiAccount();
+  const chain = overrides?.chain ?? account.chain;
+  const currentAddress = overrides?.currentAddress ?? account.currentAddress;
+  const currentChainId = overrides?.currentChainId ?? account.currentChainId;
+  const liquidSubaccountPointer =
+    overrides?.liquidSubaccountPointer ?? account.liquidSubaccountPointer;
   const getAdapterByChainId = useChainAdapterStore(state => state.getAdapterByChainId);
   const liquidLoggedIn = useChainAdapterStore(state => state.liquidLoggedIn);
   const pricesQuery = useQueryPrices();
@@ -164,6 +178,6 @@ export const useQueryAssets = (options?: UseQueryAssetsBalanceOptions) => {
     pricesQuery,
     rows,
     totalFiatValue,
-    wallet,
+    wallet: account.wallet,
   };
 };

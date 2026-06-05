@@ -1,13 +1,8 @@
 import { CommonResponse } from '@/libs/request/pipes/commans.pipe';
-import { toBridgeApiChainId } from '@/modules/chain/utils';
 
 import { protectedCefiClient } from '../../cefi/client';
 import type {
-  CreateBridgeFixedRateOrderRequest,
   CreateBridgeOrderRequest,
-  GetBridgeEstimatedFeeRequest,
-  GetBridgeFixedRateEstimatedFeeRequest,
-  GetBridgeOrderMetaRequest,
   GetBridgeOrderRequest,
   GetBridgeOrdersRequest,
   UpdateBridgePaymentTxHashRequest,
@@ -21,6 +16,10 @@ import {
   BridgeOrdersResponse,
   BridgeSupportedChains,
   CreateBridgeOrder,
+  CreateBridgeFixedRateOrderRequest,
+  GetBridgeEstimatedFeeRequest,
+  GetBridgeFixedRateEstimatedFeeRequest,
+  GetBridgeOrderMetaRequest,
 } from '../pipes/bridges.pipe';
 
 const createBridgeOrdersSearchParams = ({
@@ -70,11 +69,7 @@ export const createBridgeOrder = async (request: CreateBridgeOrderRequest) => {
 export const createBridgeFixedRateOrder = async (request: CreateBridgeFixedRateOrderRequest) => {
   const response = await protectedCefiClient
     .post('v1/bridges/orders:create-fixed-rate', {
-      json: {
-        ...request,
-        fromChainId: toBridgeApiChainId(request.fromChainId),
-        toChainId: toBridgeApiChainId(request.toChainId),
-      },
+      json: CreateBridgeFixedRateOrderRequest.parse(request),
     })
     .json();
 
@@ -94,13 +89,7 @@ export const getBridgeOrder = async ({ id }: GetBridgeOrderRequest) => {
 export const getBridgeEstimatedFee = async (request: GetBridgeEstimatedFeeRequest) => {
   const response = await protectedCefiClient
     .post('v1/bridges/orders:get-estimated-fee', {
-      json: {
-        ...request,
-        ...(request.fromChainId !== undefined
-          ? { fromChainId: toBridgeApiChainId(request.fromChainId) }
-          : {}),
-        toChainId: toBridgeApiChainId(request.toChainId),
-      },
+      json: GetBridgeEstimatedFeeRequest.parse(request),
     })
     .json();
 
@@ -114,11 +103,7 @@ export const getBridgeFixedRateEstimatedFee = async (
 ) => {
   const response = await protectedCefiClient
     .post('v1/bridges/orders:get-fixed-rate-estimated-fee', {
-      json: {
-        ...request,
-        fromChainId: toBridgeApiChainId(request.fromChainId),
-        toChainId: toBridgeApiChainId(request.toChainId),
-      },
+      json: GetBridgeFixedRateEstimatedFeeRequest.parse(request),
     })
     .json();
 
@@ -137,20 +122,12 @@ export const updateBridgePaymentTxHash = async ({
   });
 };
 
-export const getBridgeOrderMeta = async ({
-  fromChainId,
-  toChainId,
-  fromToken,
-  toToken,
-}: GetBridgeOrderMetaRequest) => {
+export const getBridgeOrderMeta = async (request: GetBridgeOrderMetaRequest) => {
+  const { fromChainId, toChainId, fromToken, toToken } = GetBridgeOrderMetaRequest.parse(request);
+
   const response = await protectedCefiClient
     .get('v1/bridges/meta', {
-      searchParams: {
-        ...(fromChainId !== undefined ? { fromChainId: toBridgeApiChainId(fromChainId) } : {}),
-        toChainId: toBridgeApiChainId(toChainId),
-        fromToken,
-        toToken,
-      },
+      searchParams: { fromChainId, toChainId, fromToken, toToken },
     })
     .json();
 

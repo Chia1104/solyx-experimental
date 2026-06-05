@@ -253,13 +253,15 @@ export const estimateSendTrc20Fee = async (
 
 export const useTronTransactionFee = (
   chainId?: number,
+  tronAddressOverride?: string,
   options?: UseQueryTronFeeContextOptions,
 ) => {
   const { chainType, currentAddress, currentChainId, tronAddress } = useDefiAccount();
   const getTronProvider = useChainAdapterStore(state => state.getTronProvider);
 
   const targetChainId = chainId ?? currentChainId;
-  const isTron = chainType === ChainType.TRON;
+  const targetTronAddress = tronAddressOverride ?? tronAddress;
+  const isTron = chainId != null || chainType === ChainType.TRON;
 
   const provider = useMemo(() => {
     if (!isTron) {
@@ -274,27 +276,27 @@ export const useTronTransactionFee = (
   }, [getTronProvider, isTron, targetChainId]);
 
   const request = useMemo((): QueryTronFeeContextRequest | null => {
-    if (!isTron || !provider || !tronAddress) {
+    if (!isTron || !provider || !targetTronAddress) {
       return null;
     }
 
     return {
       chainId: targetChainId,
       provider,
-      tronAddress,
+      tronAddress: targetTronAddress,
     };
-  }, [isTron, provider, targetChainId, tronAddress]);
+  }, [isTron, provider, targetChainId, targetTronAddress]);
 
   const contextQuery = useQuery(queryTronFeeContextOptions(request, options));
   const context = contextQuery.data;
 
   const estimatorDeps = useMemo((): TronFeeEstimatorDeps | null => {
-    if (!provider || !context || !tronAddress) {
+    if (!provider || !context || !targetTronAddress) {
       return null;
     }
 
-    return { context, provider, tronAddress };
-  }, [context, provider, tronAddress]);
+    return { context, provider, tronAddress: targetTronAddress };
+  }, [context, provider, targetTronAddress]);
 
   const getSendTrxFee = useCallback(
     async (toAddress: string) => {

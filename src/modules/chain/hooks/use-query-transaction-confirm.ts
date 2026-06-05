@@ -56,7 +56,9 @@ interface TronTransactionFeeDeps {
 }
 
 export interface QueryTronTransactionFeeRequest extends TronTransactionFeeDeps {
+  chainId?: number;
   currency?: TransactionCurrency;
+  fromAddress?: string;
   isNativeCurrency: boolean;
   sendParams: TransactionConfirmParams;
   toAddress: string;
@@ -301,6 +303,8 @@ export const queryTronTransactionFeeOptions = (
     queryKey: [
       TRANSACTION_CONFIRM_QUERY_KEY,
       'tron-fee',
+      request.chainId,
+      request.fromAddress,
       request.isReady,
       request.isNativeCurrency,
       request.toAddress,
@@ -316,7 +320,9 @@ export const queryTronTransactionFeeOptions = (
 };
 
 export interface UseQueryTronTransactionFeeInput {
+  chainId?: number;
   currency?: TransactionCurrency;
+  fromAddress?: string;
   isNativeCurrency: boolean;
   sendParams: TransactionConfirmParams;
   toAddress: string;
@@ -327,12 +333,17 @@ export const useQueryTronTransactionFee = (
   input: UseQueryTronTransactionFeeInput,
   options?: UseQueryTronTransactionFeeOptions,
 ) => {
-  const { getSendTrc20Fee, getSendTrxFee, isReady } = useTronTransactionFee();
+  const { getSendTrc20Fee, getSendTrxFee, isReady } = useTronTransactionFee(
+    input.chainId,
+    input.fromAddress,
+  );
 
   return useQuery(
     queryTronTransactionFeeOptions(
       {
+        chainId: input.chainId,
         currency: input.currency,
+        fromAddress: input.fromAddress,
         getSendTrc20Fee,
         getSendTrxFee,
         isNativeCurrency: input.isNativeCurrency,

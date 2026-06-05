@@ -1,32 +1,32 @@
-import { useTranslation } from 'react-i18next';
+import { useState } from 'react';
+
 import { View } from 'react-native';
 
-import { ChainType } from '@/modules/chain/stores/chain-adapter/types';
+import type { EvmGasMode } from '@/modules/chain/utils/evm-gas-settings';
 import type { TransactionConfirmParams } from '@/modules/chain/utils/transaction-confirm';
-import { useDefiAccount } from '@/modules/defi/hooks/use-defi-account';
 
-import { GasSettingSheet } from './transaction-confirm/gas-setting-sheet';
-import {
-  GasFeeCard,
-  TransactionActions,
-  TransactionAmountSummary,
-  TransactionDetails,
-  TransactionWarning,
-} from './transaction-confirm/shared-ui';
-import { TransactionSuccessSheet } from './transaction-confirm/transaction-success-sheet';
+import { TransactionActions } from './transaction-confirm/transaction-actions';
+import { TransactionAmountSummary } from './transaction-confirm/transaction-amount-summary';
+import { TransactionDetails } from './transaction-confirm/transaction-details';
+import { TransactionGasFeeSection } from './transaction-confirm/transaction-gas-fee-section';
+import { TransactionWarning } from './transaction-confirm/transaction-warning';
 import type {
   TransactionCallback,
   UseTransactionConfirmOptions,
 } from './transaction-confirm/use-transaction-confirm';
-import { useTransactionConfirm } from './transaction-confirm/use-transaction-confirm';
 
 export type { TransactionCallback, TransactionConfirmParams };
 
-export interface TransactionConfirmProps extends Omit<UseTransactionConfirmOptions, 'isInModal'> {
+export interface TransactionConfirmProps extends UseTransactionConfirmOptions {
+  chainId?: number | string;
   isInModal?: boolean;
+  onCancel?: () => void;
+  onDismissAfterSuccess?: () => void;
+  onGoToActivity?: () => void;
 }
 
 export const TransactionConfirm = ({
+  chainId,
   chainType,
   sendParams,
   isInModal = false,
@@ -36,107 +36,44 @@ export const TransactionConfirm = ({
   onSuccess,
   transactionCallBack,
 }: TransactionConfirmProps) => {
-  const { i18n, t } = useTranslation(['defi', 'global']);
-  const { chain, currentAddress, wallet } = useDefiAccount();
-  const accountName = wallet?.name ?? t('defi:label.setting.current.account');
-
-  const {
-    nativeCurrencyToken,
-    currencySymbol,
-    fiatAmount,
-    formattedToAddress,
-    value,
-    toAddress,
-    gasFee,
-    evmGasMode,
-    setEvmGasMode,
-    evmGasSettings,
-    isEvmGasReady,
-    isGasSheetOpen,
-    setIsGasSheetOpen,
-    evmGasModeLabel,
-    isSending,
-    isConfirmDisabled,
-    isMaximum,
-    hasTransactionWarning,
-    onSendTransaction,
-    handleCancel,
-    isSuccessSheetOpen,
-    handleSuccessSheetOpenChange,
-    handleGoToActivity,
-  } = useTransactionConfirm({
-    chainType,
-    sendParams,
-    isInModal,
-    onCancel,
-    onDismissAfterSuccess,
-    onGoToActivity,
-    onSuccess,
-    transactionCallBack,
-  });
-
-  if (!chain) {
-    return null;
-  }
+  const [evmGasMode, setEvmGasMode] = useState<EvmGasMode>('average');
 
   return (
     <View className="px-6 pb-6">
-      <TransactionAmountSummary
-        currencySymbol={currencySymbol}
-        fiatAmount={fiatAmount}
-        locale={i18n.language}
-        nativeCurrencySymbol={chain.nativeCurrency.symbol}
-        value={value}
-      />
+      <TransactionAmountSummary chainId={chainId} chainType={chainType} sendParams={sendParams} />
 
       <TransactionDetails
-        accountName={accountName}
-        address={currentAddress}
-        formattedToAddress={formattedToAddress}
+        chainId={chainId}
+        chainType={chainType}
         isInModal={isInModal}
-        networkName={chain.name}
-        toAddress={toAddress}
+        sendParams={sendParams}
       />
 
-      {chainType === ChainType.EVM ? (
-        <GasSettingSheet
-          gasSettings={evmGasSettings}
-          isOpen={isGasSheetOpen}
-          locale={i18n.language}
-          nativePrice={nativeCurrencyToken?.price}
-          nativeSymbol={chain.nativeCurrency.symbol}
-          onOpenChange={setIsGasSheetOpen}
-          onSelect={setEvmGasMode}
-          selectedMode={evmGasMode}
-        />
-      ) : null}
-
-      <TransactionSuccessSheet
-        isOpen={isSuccessSheetOpen}
-        onGoToActivity={handleGoToActivity}
-        onOpenChange={handleSuccessSheetOpenChange}
+      <TransactionGasFeeSection
+        chainId={chainId}
+        chainType={chainType}
+        evmGasMode={evmGasMode}
+        onSelectGasMode={setEvmGasMode}
+        sendParams={sendParams}
       />
 
-      <GasFeeCard
-        gasFee={gasFee}
-        gasModeLabel={evmGasModeLabel}
-        isMaximum={isMaximum}
-        isPressable={chainType === ChainType.EVM && isEvmGasReady}
-        locale={i18n.language}
-        nativeCurrency={chain.nativeCurrency}
-        nativeCurrencyToken={nativeCurrencyToken}
-        onPress={
-          chainType === ChainType.EVM && isEvmGasReady ? () => setIsGasSheetOpen(true) : undefined
-        }
+      <TransactionWarning
+        chainId={chainId}
+        chainType={chainType}
+        evmGasMode={evmGasMode}
+        sendParams={sendParams}
       />
-
-      {hasTransactionWarning ? <TransactionWarning /> : null}
 
       <TransactionActions
-        disabled={isConfirmDisabled}
-        isSending={isSending}
-        onCancel={handleCancel}
-        onConfirm={onSendTransaction}
+        chainId={chainId}
+        chainType={chainType}
+        evmGasMode={evmGasMode}
+        onDismissAfterSuccess={onDismissAfterSuccess}
+        onCancel={onCancel}
+        onGoToActivity={onGoToActivity}
+        onSuccess={onSuccess}
+        sendParams={sendParams}
+        transactionCallBack={transactionCallBack}
       />
     </View>
   );
