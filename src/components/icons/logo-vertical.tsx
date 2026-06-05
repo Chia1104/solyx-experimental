@@ -2,9 +2,14 @@ import type { SvgProps } from 'react-native-svg';
 import Svg, { ClipPath, Defs, G, Path } from 'react-native-svg';
 import { useCSSVariable } from 'uniwind';
 
-const LogoVertical = (props: SvgProps) => {
-  const textColor = useCSSVariable('--foreground') as string;
-  const iconColor = useCSSVariable('--accent') as string;
+interface LogoVerticalProps extends SvgProps {
+  foreground?: string;
+  accent?: string;
+}
+
+const LogoVertical = ({ foreground, accent, ...props }: LogoVerticalProps) => {
+  const textColor = foreground ?? (useCSSVariable('--foreground') as string);
+  const iconColor = accent ?? (useCSSVariable('--accent') as string);
 
   return (
     <Svg width={214} height={172} fill="none" {...props}>

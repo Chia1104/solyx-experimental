@@ -9,6 +9,7 @@ import LogoVerticalBlack from './icons/logo-vertical';
 interface BrandProps extends ViewProps {
   display?: ('brand' | 'background')[];
   wrapperProps?: ViewProps;
+  overrideColors?: { background: string; foreground: string; accent: string };
 }
 
 export const Background = ({
@@ -69,14 +70,19 @@ export const Background = ({
   );
 };
 
-export const BrandImage = ({ className, ...props }: ViewProps) => {
+interface BrandImageProps extends ViewProps {
+  foreground?: string;
+  accent?: string;
+}
+
+export const BrandImage = ({ foreground, accent, className, ...props }: BrandImageProps) => {
   return (
     <View
       className={cn('w-full flex-1 items-center justify-center', className)}
       {...props}
       pointerEvents="none"
     >
-      <LogoVerticalBlack />
+      <LogoVerticalBlack foreground={foreground} accent={accent} />
     </View>
   );
 };
@@ -86,6 +92,7 @@ const Brand = ({
   className,
   display = ['brand', 'background'],
   wrapperProps,
+  overrideColors,
   ...props
 }: BrandProps) => {
   return (
@@ -95,11 +102,14 @@ const Brand = ({
         display.includes('brand') && 'items-center justify-center',
         className,
       )}
+      style={overrideColors ? { backgroundColor: overrideColors.background } : undefined}
       {...props}
     >
       {display.includes('background') && <Background />}
       <View className={cn('absolute inset-0 z-20', wrapperProps?.className)} {...wrapperProps}>
-        {display.includes('brand') && <BrandImage />}
+        {display.includes('brand') && (
+          <BrandImage foreground={overrideColors?.foreground} accent={overrideColors?.accent} />
+        )}
         {children}
       </View>
     </View>
