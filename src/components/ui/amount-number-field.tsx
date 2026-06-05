@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 
 import BigNumber from 'bignumber.js';
-import { FieldError, InputGroup, cn } from 'heroui-native';
+import { FieldError, cn } from 'heroui-native';
 import { NumberField } from 'heroui-native-pro/number-field';
 import { View } from 'react-native';
 
@@ -92,7 +92,7 @@ export const AmountNumberField = ({
     step={new BigNumber(10).pow(-Math.min(decimalPlaces, 8)).toNumber()}
     value={toNumberFieldValue(value)}
   >
-    <InputGroup
+    <NumberField.Group
       className={cn(
         'border-border bg-surface w-full flex-row items-center rounded-2xl border px-3',
         isInvalid && 'border-danger',
@@ -119,7 +119,7 @@ export const AmountNumberField = ({
         value={value}
       />
       {suffix ? <View className="shrink-0">{suffix}</View> : null}
-    </InputGroup>
+    </NumberField.Group>
     {footer ? <View className={classNames?.footer}>{footer}</View> : null}
     {classNames?.errorContainer ? (
       <View className={classNames.errorContainer}>

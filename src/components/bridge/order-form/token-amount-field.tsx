@@ -152,7 +152,7 @@ export const TokenAmountField = ({
       <AmountNumberField
         classNames={{
           input: 'text-xl',
-          inputGroup: cn('border-[1.5px] shadow', showMaxButton ? 'pr-0' : ''),
+          inputGroup: cn('border-[1.5px] shadow-none', showMaxButton ? 'pr-0' : ''),
         }}
         decimalPlaces={decimalPlaces}
         error={error}
