@@ -26,7 +26,7 @@ export const AutoLockEffect = () => {
 
     if (isBackground) {
       lastBackgroundAtRef.current = Date.now();
-      if (autoLock && hasPassword && !isLiquidChainId(currentChainId)) {
+      if (autoLock && hasPassword) {
         setPrivacyCoverVisible(true);
       }
       return;
