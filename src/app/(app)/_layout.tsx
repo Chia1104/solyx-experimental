@@ -1,4 +1,7 @@
+import { BlurView } from 'expo-blur';
 import { Stack } from 'expo-router';
+import { Platform, StyleSheet } from 'react-native';
+import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 
 import { AutoLockEffect } from '@/components/lockscreen/auto-lock-effect';
 import { LockScreenDialog } from '@/components/lockscreen/lockscreen-overlay';
@@ -13,6 +16,7 @@ import { LiquidSessionInterceptor } from '@/modules/chain/hooks/use-liquid-sessi
 
 export default function AppLayout() {
   const request = useGlobalStore(store => store.lockRequest);
+  const privacyCoverVisible = useGlobalStore(store => store.privacyCoverVisible);
   const entryState = useEntryState();
   const migration = useAppMigration();
 
@@ -34,7 +38,7 @@ export default function AppLayout() {
             entryState.phase === EntryPhase.AppLock
           }
         >
-          <Stack.Screen name="app-lock" options={{ headerShown: false }} />
+          <Stack.Screen name="app-lock" options={{ headerShown: false, animation: 'none' }} />
         </Stack.Protected>
         <Stack.Protected guard={entryState.phase === EntryPhase.Login}>
           <Stack.Screen name="login/index" options={{ headerShown: false }} />
@@ -53,6 +57,27 @@ export default function AppLayout() {
       ) : null}
       {entryState.phase === EntryPhase.Main ? <LiquidSessionInterceptor /> : null}
       <AutoLockEffect />
+      {privacyCoverVisible && entryState.phase !== EntryPhase.AppLock ? (
+        <Animated.View
+          entering={FadeIn.duration(200)}
+          exiting={FadeOut.duration(250)}
+          style={styles.blurCover}
+          pointerEvents="auto"
+        >
+          <BlurView
+            intensity={80}
+            tint={Platform.OS === 'ios' ? 'systemMaterialDark' : 'dark'}
+            style={StyleSheet.absoluteFill}
+          />
+        </Animated.View>
+      ) : null}
     </LockScreenProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  blurCover: {
+    ...StyleSheet.absoluteFill,
+    zIndex: 50,
+  },
+});

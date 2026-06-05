@@ -14,6 +14,7 @@ const AUTO_LOCK_BACKGROUND_TIMEOUT_MS = 30_000;
 export const AutoLockEffect = () => {
   const hasActiveRequest = useGlobalStore(store => store.hasActiveLockRequest);
   const setStartup = useGlobalStore(store => store.setStartup);
+  const setPrivacyCoverVisible = useGlobalStore(store => store.setPrivacyCoverVisible);
   const autoLock = useUserStore(state => state.settings.autoLock);
   const hasPassword = useUserStore(state => state.account.hasPassword);
   const currentChainId = useUserStore(state => state.wallet.currentChainId);
@@ -25,6 +26,9 @@ export const AutoLockEffect = () => {
 
     if (isBackground) {
       lastBackgroundAtRef.current = Date.now();
+      if (autoLock && hasPassword && !isLiquidChainId(currentChainId)) {
+        setPrivacyCoverVisible(true);
+      }
       return;
     }
 
@@ -44,12 +48,16 @@ export const AutoLockEffect = () => {
       hasActiveRequest() ||
       elapsed < AUTO_LOCK_BACKGROUND_TIMEOUT_MS
     ) {
+      setPrivacyCoverVisible(false);
       return;
     }
 
     void hasKeychainGenericPassword(env.EXPO_PUBLIC_WALLET_DEFI_PASSWORD_SERVICE).then(
       hasCredential => {
-        if (!hasCredential || hasActiveRequest()) return;
+        if (!hasCredential || hasActiveRequest()) {
+          setPrivacyCoverVisible(false);
+          return;
+        }
 
         setStartup(false);
       },

@@ -24,6 +24,7 @@ export interface GlobalState {
   isLoading: boolean;
   loadingSteps: LoadingStep[] | null;
   currentLoadingStep: number;
+  privacyCoverVisible: boolean;
 }
 
 export interface GlobalActions {
@@ -33,6 +34,7 @@ export interface GlobalActions {
   resolveLockVerification: (request: LockRequest, verifiedPassword: string) => void;
   setStartup: (isStartupDone: boolean) => void;
   setNetwork: (network?: SupportedNetwork) => void;
+  setPrivacyCoverVisible: (visible: boolean) => void;
   withLoading: <T>(fn: () => Promise<T>) => Promise<T>;
   withStepLoading: <T>(steps: LoadingStep[], fn: (advance: () => void) => Promise<T>) => Promise<T>;
   resetGlobalState: () => void;
@@ -47,6 +49,7 @@ export const createGlobalInitialState = (): GlobalState => ({
   isLoading: false,
   loadingSteps: null,
   currentLoadingStep: 0,
+  privacyCoverVisible: false,
 });
 
 export const useGlobalStore = create<GlobalStoreState>()((set, get) => {
@@ -107,11 +110,15 @@ export const useGlobalStore = create<GlobalStoreState>()((set, get) => {
     },
 
     setStartup: isStartupDone => {
-      set({ isStartupDone });
+      set({ isStartupDone, ...(isStartupDone && { privacyCoverVisible: false }) });
     },
 
     setNetwork: network => {
       set({ network });
+    },
+
+    setPrivacyCoverVisible: visible => {
+      set({ privacyCoverVisible: visible });
     },
 
     withLoading: async fn => {
