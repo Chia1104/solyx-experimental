@@ -1,6 +1,6 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 
-import { TransactionConfirm } from '@/components/defi/transisaction-confirm';
+import { TransactionConfirm } from '@/components/defi/transaction-confirm';
 import { Page } from '@/components/page';
 import { KeyboardAwareScrollView } from '@/components/ui/keyboard-aware-scroll-view';
 import { ChainType } from '@/modules/chain/stores/chain-adapter/types';

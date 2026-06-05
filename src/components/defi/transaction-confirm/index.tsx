@@ -5,15 +5,12 @@ import { View } from 'react-native';
 import type { EvmGasMode } from '@/modules/chain/utils/evm-gas-settings';
 import type { TransactionConfirmParams } from '@/modules/chain/utils/transaction-confirm';
 
-import { TransactionActions } from './transaction-confirm/transaction-actions';
-import { TransactionAmountSummary } from './transaction-confirm/transaction-amount-summary';
-import { TransactionDetails } from './transaction-confirm/transaction-details';
-import { TransactionGasFeeSection } from './transaction-confirm/transaction-gas-fee-section';
-import { TransactionWarning } from './transaction-confirm/transaction-warning';
-import type {
-  TransactionCallback,
-  UseTransactionConfirmOptions,
-} from './transaction-confirm/use-transaction-confirm';
+import { TransactionActions } from './transaction-actions';
+import { TransactionAmountSummary } from './transaction-amount-summary';
+import { TransactionDetails } from './transaction-details';
+import { TransactionGasFeeSection } from './transaction-gas-fee-section';
+import { TransactionWarning } from './transaction-warning';
+import type { TransactionCallback, UseTransactionConfirmOptions } from './use-transaction-confirm';
 
 export type { TransactionCallback, TransactionConfirmParams };
 

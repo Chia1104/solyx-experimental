@@ -25,14 +25,6 @@ export default function DefiMainLayout() {
         />
         <Stack.Screen name="send" options={{ presentation: 'modal', headerShown: false }} />
         <Stack.Screen
-          name="receive/index"
-          options={{
-            presentation: 'modal',
-            title: t('title.receive'),
-            ...iosTransparentHeaderOptions,
-          }}
-        />
-        <Stack.Screen
           name="scanner/index"
           options={{
             presentation: 'modal',

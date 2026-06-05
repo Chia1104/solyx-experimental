@@ -1,8 +1,7 @@
 import { Redirect, useLocalSearchParams } from 'expo-router';
 
+import { BridgeConfirmContent } from '@/components/defi/bridge/confirm';
 import type { SupportedChainID } from '@/modules/chain/enums/supported-chain.enum';
-
-import { BridgeConfirmContent } from './bridge-confirm-content';
 
 export default function BridgeConfirmScreen() {
   const params = useLocalSearchParams<{
