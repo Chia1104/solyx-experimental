@@ -1,6 +1,7 @@
 import { Stack } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
+import { backButtonScreenOptions } from '@/components/ui/back-button';
 import {
   iosTransparentHeaderOptions,
   useStackScreenOptions,
@@ -19,7 +20,11 @@ export default function AccountLayout() {
     <Stack screenOptions={screenOptions}>
       <Stack.Screen
         name="manage"
-        options={{ title: t('defi:title.manage.accounts'), ...headerOptions }}
+        options={{
+          title: t('defi:title.manage.accounts'),
+          ...backButtonScreenOptions,
+          ...headerOptions,
+        }}
       />
       <Stack.Screen
         name="[id]"

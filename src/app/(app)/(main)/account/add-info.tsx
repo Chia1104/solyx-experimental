@@ -54,7 +54,7 @@ export default function AddAccountInfoScreen() {
         description: t('defi:description.addAccount.has.been.create', { name: wallet.name ?? '' }),
         variant: 'success',
       });
-      router.replace('/account/manage');
+      router.dismissTo('/account/manage');
     },
   });
 

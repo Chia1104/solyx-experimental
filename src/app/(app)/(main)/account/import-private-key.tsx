@@ -104,7 +104,7 @@ export default function ImportPrivateKeyScreen() {
         variant: 'success',
         description: t('defi:description.addAccount.has.been.create', { name: wallet.name ?? '' }),
       });
-      router.replace('/account/manage');
+      router.dismissTo('/account/manage');
     },
   });
 

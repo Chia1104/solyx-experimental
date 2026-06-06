@@ -46,10 +46,11 @@ export default function SendConfirmScreen() {
           chainType={activeChainType}
           onCancel={router.back}
           onDismissAfterSuccess={() => {
-            router.replace('/send');
+            router.dismissAll();
           }}
           onGoToActivity={() => {
-            router.replace('/activity');
+            router.dismissAll();
+            router.navigate('/activity');
           }}
           sendParams={sendParams}
         />

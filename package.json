@@ -34,6 +34,7 @@
     "@react-native-firebase/crashlytics": "^24.0.0",
     "@react-native-firebase/messaging": "^24.0.0",
     "@react-native-vector-icons/fontawesome": "^13.1.2",
+    "@react-native-vector-icons/get-image": "^13.0.0",
     "@react-native-vector-icons/ionicons": "^13.1.2",
     "@react-native-vector-icons/material-design-icons": "^13.1.2",
     "@roswell/react-native-gdk": "github:Chia1104/react-native-gdk#v0.76.1-patch.5",

@@ -1,8 +1,11 @@
+import { Ionicons } from '@react-native-vector-icons/ionicons/static';
 import { isLiquidGlassAvailable } from 'expo-glass-effect';
 import type { NativeStackNavigationOptions } from 'expo-router';
 import { useThemeColor } from 'heroui-native';
 import { Platform } from 'react-native';
 import { useUniwind } from 'uniwind';
+
+import { BACK_ICON_NAME, BACK_ICON_SIZE } from '@/components/ui/back-button';
 
 /** iOS: transparent header without blur. Android: omit — use `useStackScreenOptions` solid header. */
 export const iosTransparentHeaderOptions = Platform.select({
@@ -31,6 +34,10 @@ export const useStackScreenOptions = (): NativeStackNavigationOptions => {
       backgroundColor: isIos ? 'transparent' : themeColorBackground,
     },
     headerBackButtonDisplayMode: 'generic',
+    headerBackIcon: {
+      type: 'image',
+      source: Ionicons.getImageSourceSync(BACK_ICON_NAME, BACK_ICON_SIZE, themeColorForeground),
+    },
     gestureEnabled: true,
     gestureDirection: 'horizontal',
     fullScreenGestureEnabled: isLiquidGlassAvailable() ? false : true,

@@ -5,6 +5,7 @@ import { Spinner } from 'heroui-native';
 import { Stepper } from 'heroui-native-pro/stepper';
 import { Platform, StyleSheet, View } from 'react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
+import { FullWindowOverlay } from 'react-native-screens';
 import { useUniwind } from 'uniwind';
 
 import { useBlurTarget } from '@/components/ui/animated-blur-view';
@@ -29,7 +30,7 @@ export const AppLoading = ({
 
   if (!isLoading) return null;
 
-  return (
+  const overlay = (
     <Animated.View
       entering={FadeIn.duration(200)}
       exiting={FadeOut.duration(150)}
@@ -67,6 +68,12 @@ export const AppLoading = ({
       </BlurView>
     </Animated.View>
   );
+
+  if (Platform.OS === 'ios') {
+    return <FullWindowOverlay>{overlay}</FullWindowOverlay>;
+  }
+
+  return overlay;
 };
 
 const styles = StyleSheet.create({
