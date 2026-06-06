@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { Platform, View } from 'react-native';
 
 import { ActivityTabPanel } from '@/components/activity/activity-tab-panel';
+import { BridgeActivity } from '@/components/activity/bridge-activity';
 import { BuyActivity } from '@/components/activity/buy-activity';
 import { TransactionActivity } from '@/components/activity/transaction-activity';
 import { Page } from '@/components/page';
@@ -102,7 +103,7 @@ export default function ActivityScreen() {
               <ActivityTabPlaceholder />
             </ActivityTabPanel>
             <ActivityTabPanel activeTab={activeTab} tab="swap">
-              <ActivityTabPlaceholder />
+              <BridgeActivity />
             </ActivityTabPanel>
             <ActivityTabPanel activeTab={activeTab} tab="buy">
               <BuyActivity

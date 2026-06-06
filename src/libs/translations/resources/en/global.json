@@ -17,6 +17,7 @@
     "language": "Language",
     "notice": "Notice",
     "change.app.lock": "Change app lock",
+    "something.went.wrong": "Oops! Something went wrong.",
     "migration": {
       "failed": "Migration failed"
     }
@@ -100,6 +101,7 @@
     "liquid.required.verify": "Liquid Network Requires Verification",
     "for.liquid.security.reasons": "For security reasons, verification is required each time you open the app or switch to Liquid Network.",
     "input.password.to.process": "Input password to process",
+    "something.went.wrong": "Sorry, an error occurred.",
     "what.different": "Bridgefy wallet & Web3 wallet are both crypto wallets. You can store cryptocurrency in them.",
     "fortuna.wallet": "Create one address with email & password. Bridgefy wallet will keep the private key. Once you lose your password, we will send you an email to reset your password. You can only use this wallet in the Bridgefy wallet application.",
     "web3.wallet": "Generate addresses from seed phrase. You can also access your funds in another wallet service.",
@@ -178,7 +180,9 @@
     "update": "Update Now",
     "later": "Later",
     "update-now": "Update Now",
-    "retry": "Retry"
+    "retry": "Retry",
+    "reload": "Reload",
+    "more": "More"
   },
   "validation": {
     "minimum": "Minimum {{number}} characters",

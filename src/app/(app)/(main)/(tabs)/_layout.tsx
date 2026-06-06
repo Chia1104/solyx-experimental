@@ -1,12 +1,19 @@
+import type { ErrorBoundaryProps } from 'expo-router';
 import { NativeTabs } from 'expo-router/unstable-native-tabs';
 import { useThemeColor } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
+
+import { ExpoError } from '@/components/expo-error';
 
 const tabLabelStyle = {
   fontSize: 12,
   fontWeight: '500',
   lineHeight: 16,
 } as const;
+
+export function ErrorBoundary(props: ErrorBoundaryProps) {
+  return <ExpoError {...props} />;
+}
 
 export default function DefiTabsLayout() {
   const { t } = useTranslation(['defi']);
