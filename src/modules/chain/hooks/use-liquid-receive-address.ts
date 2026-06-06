@@ -21,6 +21,8 @@ export const useLiquidReceiveAddress = (
       queryFn: () => {
         return getLiquidReceiveAddresses(subaccount);
       },
+      staleTime: 0,
+      gcTime: 0,
       ...options,
     }),
   );
