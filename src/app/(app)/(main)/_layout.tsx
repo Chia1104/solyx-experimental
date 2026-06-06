@@ -2,6 +2,7 @@ import { Stack } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
 import { ChainTransitionProvider } from '@/components/chain-transition';
+import { backButtonScreenOptions } from '@/components/ui/back-button';
 import {
   iosTransparentHeaderOptions,
   useStackScreenOptions,
@@ -27,9 +28,14 @@ export default function DefiMainLayout() {
         <Stack.Screen
           name="scanner/index"
           options={{
-            presentation: 'modal',
+            presentation: 'fullScreenModal',
             title: t('title.scan.QR.Code'),
-            ...iosTransparentHeaderOptions,
+            headerStyle: {
+              backgroundColor: 'transparent',
+            },
+            headerBlurEffect: undefined,
+            headerTransparent: true,
+            ...backButtonScreenOptions,
           }}
         />
         <Stack.Screen name="buy" options={{ presentation: 'modal', headerShown: false }} />
