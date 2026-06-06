@@ -7,7 +7,7 @@ import { infiniteQueryOptions } from '@/libs/request/infinite-query-options';
 import type { GetOnrampOrdersRequest, OnrampOrderListItem } from '../pipes/onramp.pipe';
 import { getOnrampOrders } from '../services/onramp.service';
 
-export const ONRAMP_ORDERS_PER_PAGE = 20;
+export const ONRAMP_ORDERS_PER_PAGE = '20';
 
 type OnrampOrdersResponse = Awaited<ReturnType<typeof getOnrampOrders>>;
 
@@ -38,7 +38,7 @@ export const infiniteQueryOnrampOrdersOptions = (options?: UseInfiniteQueryOnram
     queryFn: ({ pageParam }) =>
       getOnrampOrders({
         finPerPage: ONRAMP_ORDERS_PER_PAGE,
-        finPage: String(pageParam),
+        finPage: pageParam,
       }),
     ...options,
   });

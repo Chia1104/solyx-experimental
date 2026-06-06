@@ -38,7 +38,7 @@ const createBridgeOrdersSearchParams = ({
   }
 
   if (finPage !== undefined) {
-    searchParams.set('finPage', finPage);
+    searchParams.set('finPage', String(finPage));
   }
 
   return searchParams;

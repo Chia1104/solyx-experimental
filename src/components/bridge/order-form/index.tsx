@@ -22,6 +22,7 @@ import Animated, { FadeInDown, FadeOutUp } from 'react-native-reanimated';
 
 import { ThemedIcon } from '@/components/ui/themed-icon';
 import { useClipboard } from '@/hooks/use-clipboard';
+import { useCountDown } from '@/hooks/use-count-down';
 import type { SupportedChainID } from '@/modules/chain/enums/supported-chain.enum';
 import { useLiquidReceiveAddress } from '@/modules/chain/hooks/use-liquid-receive-address';
 import { useLiquidSession } from '@/modules/chain/hooks/use-liquid-session';
@@ -38,7 +39,6 @@ import type {
 
 import { ChainSelector } from './chain-selector';
 import { TokenAmountField } from './token-amount-field';
-import { useCountDown } from './use-count-down';
 import type { OrderFormValues } from './utils';
 import { useFormSchema } from './utils';
 

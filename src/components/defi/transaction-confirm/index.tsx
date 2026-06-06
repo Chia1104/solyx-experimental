@@ -10,7 +10,7 @@ import { TransactionAmountSummary } from './transaction-amount-summary';
 import { TransactionDetails } from './transaction-details';
 import { TransactionGasFeeSection } from './transaction-gas-fee-section';
 import { TransactionWarning } from './transaction-warning';
-import type { TransactionCallback, UseTransactionConfirmOptions } from './use-transaction-confirm';
+import type { TransactionCallback, UseTransactionConfirmOptions } from './types';
 
 export type { TransactionCallback, TransactionConfirmParams };
 

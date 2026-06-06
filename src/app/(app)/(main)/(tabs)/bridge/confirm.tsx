@@ -1,6 +1,8 @@
 import { Redirect, useLocalSearchParams } from 'expo-router';
 
-import { BridgeConfirmContent } from '@/components/defi/bridge/confirm';
+import { BridgeConfirmContent } from '@/components/bridge/confirm';
+import { Page } from '@/components/page';
+import { KeyboardAwareScrollView } from '@/components/ui/keyboard-aware-scroll-view';
 import type { SupportedChainID } from '@/modules/chain/enums/supported-chain.enum';
 
 export default function BridgeConfirmScreen() {
@@ -25,5 +27,11 @@ export default function BridgeConfirmScreen() {
     return <Redirect href="/bridge" />;
   }
 
-  return <BridgeConfirmContent {...params} />;
+  return (
+    <Page.Stack>
+      <KeyboardAwareScrollView contentContainerClassName="p-6">
+        <BridgeConfirmContent {...params} />
+      </KeyboardAwareScrollView>
+    </Page.Stack>
+  );
 }

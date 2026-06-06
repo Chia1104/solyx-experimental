@@ -19,8 +19,8 @@ export const CreateOnrampOrder = z.object({
 export type CreateOnrampOrder = z.infer<typeof CreateOnrampOrder>;
 
 export const GetOnrampOrdersRequest = z.object({
-  finPerPage: z.number().optional(),
-  finPage: z.string().optional(),
+  finPerPage: z.string().or(z.number()).optional(),
+  finPage: z.string().or(z.number()).optional(),
 });
 
 export type GetOnrampOrdersRequest = z.infer<typeof GetOnrampOrdersRequest>;

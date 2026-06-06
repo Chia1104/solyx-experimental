@@ -29,7 +29,7 @@ export const getOnrampOrders = async (request: GetOnrampOrdersRequest = {}) => {
   const response = await protectedCefiClient
     .get('v1/onramp-orders', {
       searchParams: {
-        finPerPage: request.finPerPage?.toString(),
+        finPerPage: request.finPerPage,
         finPage: request.finPage,
       },
     })
