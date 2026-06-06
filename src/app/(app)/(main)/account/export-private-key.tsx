@@ -1,9 +1,12 @@
 import { useState } from 'react';
 
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { Button, Typography } from 'heroui-native';
+import { Button, FieldError, Typography } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
+import Animated, { FadeIn, FadeInDown, FadeOut } from 'react-native-reanimated';
+
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 import { Page } from '@/components/page';
 import { TabScreenScrollView } from '@/components/ui/tab-screen-scroll-view';
@@ -68,16 +71,20 @@ export default function ExportPrivateKeyScreen() {
             <View className="border-border bg-content1 relative min-h-44 overflow-hidden rounded-2xl border">
               <View className="flex-1 items-center justify-center p-4">
                 {show && privateKey ? (
-                  <Typography className="text-foreground text-center font-mono" selectable>
-                    {privateKey}
-                  </Typography>
+                  <Animated.View entering={FadeIn.duration(400).delay(120)}>
+                    <Typography className="text-foreground text-center font-mono" selectable>
+                      {privateKey}
+                    </Typography>
+                  </Animated.View>
                 ) : null}
               </View>
 
               {!show ? (
-                <Pressable
+                <AnimatedPressable
                   className="bg-content1 absolute inset-0 items-center justify-center gap-3"
                   disabled={isRevealing}
+                  entering={FadeIn.duration(250)}
+                  exiting={FadeOut.duration(300)}
                   onPress={() => void handleReveal()}
                 >
                   <ThemedIcon className="text-foreground/60" name="eye-off-outline" size={32} />
@@ -89,24 +96,30 @@ export default function ExportPrivateKeyScreen() {
                       {t('defi:notice.reveal.private.key')}
                     </Typography>
                   ) : null}
-                </Pressable>
+                </AnimatedPressable>
               ) : null}
             </View>
 
-            {error ? <Typography className="text-danger text-sm">{error}</Typography> : null}
+            <FieldError isInvalid={!!error}>{error}</FieldError>
 
-            {show ? (
-              <View className="flex-row justify-center gap-4">
-                <Button onPress={() => setShow(false)} variant="ghost">
-                  <ThemedIcon className="text-foreground" name="eye-off-outline" size={18} />
-                  <Button.Label>{t('defi:action.hide.private.key')}</Button.Label>
-                </Button>
-                <Button onPress={() => copyToClipboard(privateKey)} variant="ghost">
-                  <ThemedIcon className="text-foreground" name="copy-outline" size={18} />
-                  <Button.Label>{t('global:action.copy')}</Button.Label>
-                </Button>
-              </View>
-            ) : null}
+            <View className="min-h-10">
+              {show ? (
+                <Animated.View
+                  className="flex-row justify-center gap-4"
+                  entering={FadeInDown.duration(350).delay(220)}
+                  exiting={FadeOut.duration(200)}
+                >
+                  <Button onPress={() => setShow(false)} variant="ghost" size="sm">
+                    <ThemedIcon className="text-foreground" name="eye-off-outline" size={18} />
+                    <Button.Label>{t('defi:action.hide.private.key')}</Button.Label>
+                  </Button>
+                  <Button onPress={() => copyToClipboard(privateKey)} variant="ghost" size="sm">
+                    <ThemedIcon className="text-foreground" name="copy-outline" size={18} />
+                    <Button.Label>{t('global:action.copy')}</Button.Label>
+                  </Button>
+                </Animated.View>
+              ) : null}
+            </View>
           </View>
         ) : null}
 
