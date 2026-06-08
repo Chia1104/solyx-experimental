@@ -2,6 +2,7 @@ import { useLayoutEffect, useMemo } from 'react';
 
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router/react-navigation';
+import { usePreventScreenCapture } from 'expo-screen-capture';
 import * as SystemUI from 'expo-system-ui';
 import { HeroUINativeProvider } from 'heroui-native';
 import { StatusBar } from 'react-native';
@@ -25,6 +26,7 @@ const getChainTheme = (chainId: number) =>
   Object.hasOwn(LIQUID_CHAINS, `${chainId}`) ? 'dark' : 'light';
 
 export const RootProvider = ({ children }: { children: React.ReactNode }) => {
+  usePreventScreenCapture();
   const currentChainId = useUserStore(state => state.wallet.currentChainId);
   const theme = useMemo(() => getChainTheme(currentChainId), [currentChainId]);
   const systemBackgroundColor =
