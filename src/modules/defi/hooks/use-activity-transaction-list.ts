@@ -34,6 +34,7 @@ const createLiquidPaginationState = (key: string): LiquidPaginationState => ({
 
 interface UseActivityTransactionListOptions {
   currencySymbol?: string;
+  enable?: boolean;
 }
 
 const filterRecordsByCurrency = (records: DefiRecordRow[], currencySymbol?: string) => {
@@ -79,7 +80,9 @@ export const useActivityTransactionList = (options?: UseActivityTransactionListO
       : createLiquidPaginationState(paginationKey);
   const hasMore = isLIQUID && currentLiquidPagination.hasMore;
   const isSyncEnabled =
-    Boolean(context) && (context?.chainType !== ChainType.LIQUID || liquidLoggedIn);
+    Boolean(context) &&
+    (context?.chainType !== ChainType.LIQUID || liquidLoggedIn) &&
+    (options?.enable ?? true);
 
   const syncQuery = useQueryDefiRecordSync(context, 'latest', {
     enabled: isSyncEnabled,

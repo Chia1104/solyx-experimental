@@ -3,6 +3,7 @@ import { memo, useCallback, useMemo, useState } from 'react';
 import type { LegendListRenderItemProps } from '@legendapp/list/react-native';
 import { LegendList } from '@legendapp/list/react-native';
 import dayjs from 'dayjs';
+import { useIsFocused } from 'expo-router';
 import { Separator, Spinner, Typography } from 'heroui-native';
 import { EmptyState } from 'heroui-native-pro/empty-state';
 import { useTranslation } from 'react-i18next';
@@ -83,12 +84,12 @@ export const BuyActivity = memo(({ onPendingOrderHandled, pendingOrderId }: BuyA
   const { t } = useTranslation(['defi', 'global', 'cefi']);
   const contentInsetBottom = useTabBarContentInset();
   const hasCefiToken = Boolean(cefiToken.getAccessToken());
-
+  const isFocused = useIsFocused();
   const [dismissedPendingOrderId, setDismissedPendingOrderId] = useState<string | null>(null);
   const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
-  const ordersQuery = useInfiniteQueryOnrampOrders({ enabled: hasCefiToken });
+  const ordersQuery = useInfiniteQueryOnrampOrders({ enabled: hasCefiToken && isFocused });
 
   const shouldAutoOpenPending = Boolean(
     pendingOrderId && pendingOrderId !== dismissedPendingOrderId,

@@ -3,6 +3,7 @@ import { memo, useCallback, useMemo, useState } from 'react';
 
 import type { LegendListRenderItemProps } from '@legendapp/list/react-native';
 import { LegendList } from '@legendapp/list/react-native';
+import { useIsFocused } from 'expo-router';
 import { Separator, Skeleton, Typography } from 'heroui-native';
 import { EmptyState } from 'heroui-native-pro/empty-state';
 import { useTranslation } from 'react-i18next';
@@ -121,6 +122,7 @@ export const TransactionActivity = ({
   showRecordsLimitFooter = true,
 }: TransactionActivityProps = {}) => {
   const { t } = useTranslation(['defi']);
+  const isFocused = useIsFocused();
   const [selectedRecord, setSelectedRecord] = useState<DefiRecordRow | null>(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const {
@@ -134,7 +136,7 @@ export const TransactionActivity = ({
     onRefresh: onRefreshFromHook,
     recordsLimit,
     sections,
-  } = useActivityTransactionList({ currencySymbol });
+  } = useActivityTransactionList({ currencySymbol, enable: isFocused });
   const tabBarContentInset = useTabBarContentInset(16);
   const bottomInset = contentInsetBottom ?? tabBarContentInset;
   const isRefreshing = refreshingProp ?? isRefreshingFromHook;
