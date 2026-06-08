@@ -218,7 +218,7 @@ export const createLiquidChainAdapterSlice: ChainAdapterSlice<LiquidChainAdapter
 
     try {
       await gdk.login({}, { mnemonic, password: '' });
-      set({ liquidLoggedIn: true });
+      set({ liquidLoggedIn: true, liquidStaleSinceBackground: false });
     } catch (error) {
       set({ liquidLoggedIn: false });
       throw new LiquidError(
@@ -237,8 +237,14 @@ export const createLiquidChainAdapterSlice: ChainAdapterSlice<LiquidChainAdapter
 
     try {
       await get().internal_ensureLiquidConnected({ chainId });
+      // A reconnected socket alone doesn't mean we're still logged in — the server may have expired
+      // the session while the app was suspended. Probe with a cached subaccounts read (an
+      // authenticated call that throws if login is gone) so callers don't trust a dead session.
+      await get().internal_getLiquidGdk().getSubaccounts({ refresh: false });
+      set({ liquidLoggedIn: true, liquidStaleSinceBackground: false });
       return true;
     } catch {
+      set({ liquidLoggedIn: false });
       return false;
     }
   },
@@ -285,9 +291,17 @@ export const createLiquidChainAdapterSlice: ChainAdapterSlice<LiquidChainAdapter
     return get().internal_getLiquidGdk();
   },
 
-  checkLiquidProviderReady: async () => {
-    return !!get().liquidGdk && get().liquidConnected && get().liquidLoggedIn;
+  isLiquidSessionUsable: () =>
+    !!get().liquidGdk &&
+    get().liquidConnected &&
+    get().liquidLoggedIn &&
+    !get().liquidStaleSinceBackground,
+
+  markLiquidSessionStale: () => {
+    set({ liquidStaleSinceBackground: true });
   },
+
+  checkLiquidProviderReady: async () => get().isLiquidSessionUsable(),
 
   signLiquidMessage: async () => {
     throw new LiquidError(
@@ -535,21 +549,27 @@ export const createLiquidChainAdapterSlice: ChainAdapterSlice<LiquidChainAdapter
 
   destroyLiquidSession: async () => {
     const gdk = get().liquidGdk;
-    if (gdk) {
-      try {
-        await delay(DESTROY_SESSION_DELAY_MS);
-        await gdk.destroySession();
-      } catch {
-        // Ignore cleanup failures; state below becomes the source of truth.
-      }
-    }
 
+    // Flip the readiness flags synchronously so `checkLiquidProviderReady` returns false immediately.
+    // The native teardown below is slow (delay + destroySession); without this, a quick navigation
+    // back to Liquid right after a background-timeout destroy could slip through on stale flags and
+    // skip re-verification.
     set({
       liquidInitialized: false,
       liquidConnected: false,
       liquidLoggedIn: false,
       liquidSessionCreated: false,
       liquidNetworkNames: new Map(),
+      liquidStaleSinceBackground: false,
     });
+
+    if (gdk) {
+      try {
+        await delay(DESTROY_SESSION_DELAY_MS);
+        await gdk.destroySession();
+      } catch {
+        // Ignore cleanup failures; the state above is already the source of truth.
+      }
+    }
   },
 });

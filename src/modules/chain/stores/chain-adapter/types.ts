@@ -208,6 +208,11 @@ export interface CoreChainAdapterState {
   liquidLoggedIn: boolean;
   liquidSessionCreated: boolean;
   liquidNetworkNames: Map<number, string>;
+  /**
+   * Set when the app was backgrounded while off Liquid (where the session isn't maintained). Makes
+   * the session unusable until the next verify, even though `liquidLoggedIn` is still cached true.
+   */
+  liquidStaleSinceBackground: boolean;
 }
 
 export interface CoreChainAdapterActions {
@@ -260,6 +265,10 @@ export interface LiquidChainAdapterActions extends LiquidActions {
   createLiquidAccountFromPrivateKey: (privateKey: string) => Account;
   getLiquidProvider: (chainId: number, options?: { connect?: boolean }) => Promise<GdkInterface>;
   checkLiquidProviderReady: (chainId?: number) => Promise<boolean>;
+  /** Single synchronous predicate for whether the Liquid session can be used without a re-verify. */
+  isLiquidSessionUsable: () => boolean;
+  /** Flag the session stale so the next access re-verifies, without tearing down the native session. */
+  markLiquidSessionStale: () => void;
   signLiquidMessage: (params: SignMessageParams) => Promise<string>;
   signLiquidTransaction: (
     params: UnsignedTransaction,

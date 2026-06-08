@@ -17,6 +17,7 @@ export const createCoreChainAdapterInitialState = (): CoreChainAdapterState => (
   liquidLoggedIn: false,
   liquidSessionCreated: false,
   liquidNetworkNames: new Map(),
+  liquidStaleSinceBackground: false,
 });
 
 export const createCoreChainAdapterSlice: ChainAdapterSlice<CoreChainAdapterActions> = (
