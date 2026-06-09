@@ -56,6 +56,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       'expo-localization',
       'expo-system-ui',
       'react-native-quick-crypto',
+      'react-native-notify-kit',
       '@react-native-vector-icons/fontawesome',
       '@react-native-vector-icons/ionicons',
       '@react-native-vector-icons/material-design-icons',
