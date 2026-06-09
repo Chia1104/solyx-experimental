@@ -94,6 +94,9 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       'expo-status-bar',
       'expo-web-browser',
       'expo-localization',
+      // iOS 27 (Xcode 27 SDK) Scene-based life cycle (TN3187). Must run after
+      // @react-native-firebase/app so its AppDelegate @generated block already exists.
+      './plugins/with-ios-scene-delegate',
       // [
       //   'expo-localization',
       //   {
