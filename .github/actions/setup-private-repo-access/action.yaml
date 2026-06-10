@@ -1,0 +1,16 @@
+name: 'Setup private repo access'
+description: 'Rewrite GitHub SSH URLs to token-authenticated HTTPS so pnpm can install private git dependencies'
+
+inputs:
+  token:
+    description: 'GitHub PAT with read access to the private repos (e.g. fine-grained PAT with Contents: Read-only)'
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: 'Rewrite git URLs with token'
+      shell: bash
+      run: |
+        git config --global url."https://x-access-token:${{ inputs.token }}@github.com/".insteadOf "git@github.com:"
+        git config --global url."https://x-access-token:${{ inputs.token }}@github.com/".insteadOf "ssh://git@github.com/"

@@ -41,6 +41,11 @@ jobs:
       - name: '🐙️ Check out code'
         uses: actions/checkout@v6
 
+      - name: '🔑 Setup private repo access'
+        uses: ./.github/actions/setup-private-repo-access
+        with:
+          token: ${{ secrets.GH_PRIVATE_REPO_TOKEN }}
+
       - name: '💽️ Setup'
         id: init
         uses: chia1104/chiastack.dev/.github/actions/setup-node-with-pnpm@main
@@ -60,6 +65,11 @@ jobs:
       - name: '🐙️ Check out code'
         uses: actions/checkout@v6
 
+      - name: '🔑 Setup private repo access'
+        uses: ./.github/actions/setup-private-repo-access
+        with:
+          token: ${{ secrets.GH_PRIVATE_REPO_TOKEN }}
+
       - name: '💽️ Setup'
         id: init
         uses: chia1104/chiastack.dev/.github/actions/setup-node-with-pnpm@main
@@ -78,6 +88,11 @@ jobs:
     steps:
       - name: '🐙️ Check out code'
         uses: actions/checkout@v6
+
+      - name: '🔑 Setup private repo access'
+        uses: ./.github/actions/setup-private-repo-access
+        with:
+          token: ${{ secrets.GH_PRIVATE_REPO_TOKEN }}
 
       - name: '💽️ Setup'
         id: init
