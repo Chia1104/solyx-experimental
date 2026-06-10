@@ -13,6 +13,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
+  GH_TOKEN: ${{ github.token }}
   EXPO_PUBLIC_CEFI_API_URL: ${{ secrets.EXPO_PUBLIC_CEFI_API_URL }}
   EXPO_PUBLIC_SSO_WEBSITE: ${{ secrets.EXPO_PUBLIC_SSO_WEBSITE }}
   EXPO_PUBLIC_WALLET_MASTER_KEY: EXPO_PUBLIC_WALLET_MASTER_KEY
