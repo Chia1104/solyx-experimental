@@ -1,0 +1,89 @@
+name: CI
+
+on:
+  pull_request:
+    types: [opened, labeled, unlabeled, synchronize]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: pull-${{ github.ref }}-ci
+  cancel-in-progress: true
+
+env:
+  EXPO_PUBLIC_CEFI_API_URL: ${{ secrets.EXPO_PUBLIC_CEFI_API_URL }}
+  EXPO_PUBLIC_SSO_WEBSITE: ${{ secrets.EXPO_PUBLIC_SSO_WEBSITE }}
+  EXPO_PUBLIC_WALLET_MASTER_KEY: EXPO_PUBLIC_WALLET_MASTER_KEY
+  EXPO_PUBLIC_WALLET_PRIVATE_KEY_SERVICE: EXPO_PUBLIC_WALLET_PRIVATE_KEY_SERVICE
+  EXPO_PUBLIC_WALLET_DEFI_PASSWORD_SERVICE: EXPO_PUBLIC_WALLET_DEFI_PASSWORD_SERVICE
+  EXPO_PUBLIC_WALLET_DEFI_PHRASE_SERVICE: EXPO_PUBLIC_WALLET_DEFI_PHRASE_SERVICE
+  EXPO_PUBLIC_WALLET_BIOMETRY_PRIVATE_KEY_SERVICE: EXPO_PUBLIC_WALLET_BIOMETRY_PRIVATE_KEY_SERVICE
+  EXPO_PUBLIC_WALLET_BIOMETRY_DEFI_PASSWORD_SERVICE: EXPO_PUBLIC_WALLET_BIOMETRY_DEFI_PASSWORD_SERVICE
+  EXPO_PUBLIC_WALLET_BIOMETRY_DEFI_PHRASE_SERVICE: EXPO_PUBLIC_WALLET_BIOMETRY_DEFI_PHRASE_SERVICE
+  EXPO_PUBLIC_WALLET_CEFI_TOKEN_SERVICE: EXPO_PUBLIC_WALLET_CEFI_TOKEN_SERVICE
+  EXPO_PUBLIC_WALLET_CEFI_REFRESH_TOKEN_SERVICE: EXPO_PUBLIC_WALLET_CEFI_REFRESH_TOKEN_SERVICE
+  EXPO_PUBLIC_EVM_RPC_URL: ${{ secrets.EXPO_PUBLIC_EVM_RPC_URL }}
+  EXPO_PUBLIC_TRON_RPC_URL: ${{ secrets.EXPO_PUBLIC_TRON_RPC_URL }}
+  EXPO_PUBLIC_ONRAMP_ENCRYPTION_PASSPHRASE: ${{ secrets.EXPO_PUBLIC_ONRAMP_ENCRYPTION_PASSPHRASE }}
+  EXPO_PUBLIC_ONRAMP_ENCRYPTION_IV: ${{ secrets.EXPO_PUBLIC_ONRAMP_ENCRYPTION_IV }}
+  EXPO_PUBLIC_ENABLE_COINBASE_ONRAMP: true
+
+jobs:
+  service-lint:
+    name: 'lint'
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
+
+    steps:
+      - name: '🐙️ Check out code'
+        uses: actions/checkout@v6
+
+      - name: '💽️ Setup'
+        id: init
+        uses: chia1104/chiastack.dev/.github/actions/setup-node-with-pnpm@main
+
+      - name: '🧹  Lint'
+        shell: bash
+        run: |
+          pnpm lint
+
+  service-type-check:
+    name: 'type check'
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
+
+    steps:
+      - name: '🐙️ Check out code'
+        uses: actions/checkout@v6
+
+      - name: '💽️ Setup'
+        id: init
+        uses: chia1104/chiastack.dev/.github/actions/setup-node-with-pnpm@main
+
+      - name: '🧹 Type check'
+        shell: bash
+        run: |
+          pnpm type-check
+
+  service-test:
+    name: 'test'
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
+
+    steps:
+      - name: '🐙️ Check out code'
+        uses: actions/checkout@v6
+
+      - name: '💽️ Setup'
+        id: init
+        uses: chia1104/chiastack.dev/.github/actions/setup-node-with-pnpm@main
+
+      - name: '🧹 Test'
+        shell: bash
+        run: |
+          pnpm test
