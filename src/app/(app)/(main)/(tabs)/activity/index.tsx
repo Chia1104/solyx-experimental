@@ -97,7 +97,12 @@ export default function ActivityScreen() {
 
           <View className="relative min-h-0 flex-1">
             <ActivityTabPanel activeTab={activeTab} tab="transaction">
-              <TransactionActivity />
+              <TransactionActivity>
+                <TransactionActivity.List
+                  footer={<TransactionActivity.RecordsLimitFooter />}
+                  header={<TransactionActivity.Notice />}
+                />
+              </TransactionActivity>
             </ActivityTabPanel>
             <ActivityTabPanel activeTab={activeTab} tab="withdraw">
               <ActivityTabPlaceholder />

@@ -1,4 +1,4 @@
-import { SupportedChainID } from './enums/supported-chain.enum';
+import { SupportedChainID } from '../enums/supported-chain.enum';
 
 export const LiquidChainIDToChainSymbol = {
   [SupportedChainID.LiquidMainnetID]: SupportedChainID.LiquidMainnet,

@@ -1,6 +1,6 @@
 import type { ChainConfig, ChainType } from '@/modules/chain/stores/chain-adapter/types';
-import type { InsertDefiRecordInput } from '@/modules/database/pipes/defi-record.pipe';
 import { insertRecords } from '@/modules/database/repos/defi-record.repo';
+import type { InsertDefiRecordInput } from '@/modules/database/schema/defi-record.schema';
 
 export const DEFI_RECORDS_PER_PAGE = 50;
 export const DEFI_RECORDS_LIMIT = 200;

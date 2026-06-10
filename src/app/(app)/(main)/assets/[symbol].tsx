@@ -17,7 +17,6 @@ import {
   isDefiWithdrawalEnabled,
 } from '@/modules/cefi/utils/app-features';
 import { useDefiAccount } from '@/modules/defi/hooks/use-defi-account';
-import { useDefiRecordSync } from '@/modules/defi/hooks/use-defi-record-sync';
 import { useQueryAssets } from '@/modules/defi/hooks/use-query-assets';
 import {
   getAssetActionFlags,
@@ -32,7 +31,6 @@ export default function AssetDetailScreen() {
   const { data: meta } = useQueryMeta();
   const { assets, balanceQuery, isAssetsLoading, pricesQuery, rows } = useQueryAssets();
   const { chain, currentChainId, isEVM, isLIQUID, isTRON } = useDefiAccount();
-  const { isSyncingRecords, syncRecords } = useDefiRecordSync();
 
   const resolvedSymbol = symbol?.toUpperCase() ?? '';
 
@@ -76,11 +74,10 @@ export default function AssetDetailScreen() {
     [currentChainId, isEVM, isLIQUID, isNativeToken, isTRON, meta, resolvedCurrency?.symbol],
   );
 
-  const isRefreshing = balanceQuery.isRefetching || pricesQuery.isRefetching || isSyncingRecords;
-
-  const onRefresh = useCallback(() => {
-    void Promise.all([balanceQuery.refetch(), pricesQuery.refetch(), syncRecords('latest')]);
-  }, [balanceQuery, pricesQuery, syncRecords]);
+  const refreshAssetQueries = useCallback(
+    () => Promise.all([balanceQuery.refetch(), pricesQuery.refetch()]),
+    [balanceQuery, pricesQuery],
+  );
 
   const headerComponent = useMemo(
     () => (
@@ -138,17 +135,15 @@ export default function AssetDetailScreen() {
 
       <View className="min-h-0 flex-1">
         {resolvedSymbol ? (
-          <TransactionActivity
-            contentInsetBottom={insets.bottom + 16}
-            contentInsetTop={Platform.OS === 'ios' ? headerHeight : 0}
-            currencySymbol={resolvedSymbol}
-            emptyText={t('description.no.activity')}
-            headerComponent={headerComponent}
-            onRefresh={onRefresh}
-            refreshing={isRefreshing}
-            showRecordsLimitFooter={false}
-            showTransactionNotice={false}
-          />
+          <TransactionActivity currencySymbol={resolvedSymbol} extraRefresh={refreshAssetQueries}>
+            <TransactionActivity.List
+              contentInsetBottom={insets.bottom + 16}
+              contentInsetTop={Platform.OS === 'ios' ? headerHeight : 0}
+              emptyText={t('description.no.activity')}
+              footer={<TransactionActivity.ExplorerFooter />}
+              header={headerComponent}
+            />
+          </TransactionActivity>
         ) : null}
       </View>
     </Page>
