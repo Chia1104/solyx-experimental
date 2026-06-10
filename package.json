@@ -127,5 +127,6 @@
     "*.{js,jsx,cjs,mjs,ts,mts,tsx}": [
       "oxfmt --no-error-on-unmatched-pattern"
     ]
-  }
+  },
+  "packageManager": "pnpm@11.5.2"
 }
