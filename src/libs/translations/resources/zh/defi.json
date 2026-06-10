@@ -221,7 +221,9 @@
     },
     "scanner": {
       "select.walletConnect": "選擇 WalletConnect 並",
-      "scan.QR.Code": "掃描 QR code"
+      "scan.QR.Code": "掃描 QR code",
+      "camera.permission.title": "需要相機權限",
+      "camera.permission.description": "請授予相機存取權限以掃描 QR Code"
     },
     "home": {
       "asset.unavailable": "暫時無法取得資產餘額，請下拉重新整理後再試。",
@@ -339,6 +341,7 @@
     "go.to.activity": "活動紀錄",
     "go.to.home": "首頁",
     "album": "相簿",
+    "request.permission": "申請權限",
     "create.from.seed.phrase": "使用助記詞建立",
     "import.private.key": "匯入私鑰",
     "back.to.account.list": "返回帳戶列表",
@@ -407,7 +410,8 @@
     "get.receive.address.error": "無法取得接收地址",
     "unknown.error": "未知錯誤",
     "tron.resource.insufficient": "帳戶資源不足（頻寬/能量）。請質押 TRX 或等待每日額度重置後再試。",
-    "chain.switch.timeout": "切換至私密網路逾時，請再試一次。"
+    "chain.switch.timeout": "切換至私密網路逾時，請再試一次。",
+    "permission.media.library": "需要媒體庫存取權限"
   },
   "amount.below.minimum.transaction": "數量小於最低交易金額",
   "tab": {

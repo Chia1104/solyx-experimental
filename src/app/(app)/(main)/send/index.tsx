@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
 import BigNumber from 'bignumber.js';
-import { useRouter } from 'expo-router';
+import { useRouter, useLocalSearchParams } from 'expo-router';
 import { EmptyState } from 'heroui-native-pro/empty-state';
 import { useTranslation } from 'react-i18next';
 
@@ -15,6 +15,7 @@ export default function SendTokenScreen() {
   const router = useRouter();
   const { t } = useTranslation(['defi']);
   const { isAssetsLoading, rows } = useQueryAssets();
+  const { address } = useLocalSearchParams<{ address?: string }>();
 
   const selectableRows = useMemo(() => {
     return rows.filter(row => new BigNumber(row.balance).isGreaterThan(0));
@@ -28,6 +29,16 @@ export default function SendTokenScreen() {
         ) : selectableRows.length > 0 ? (
           <AssetList
             onPressAsset={row => {
+              if (address) {
+                router.push({
+                  pathname: '/send/amount',
+                  params: {
+                    to: address,
+                    tokenAddress: row.address,
+                  },
+                });
+                return;
+              }
               router.push({
                 pathname: '/send/[token]',
                 params: {
@@ -38,7 +49,7 @@ export default function SendTokenScreen() {
             rows={selectableRows}
           />
         ) : (
-          <EmptyState className="min-h-[320px] flex-1 justify-center">
+          <EmptyState className="min-h-80 flex-1 justify-center">
             <EmptyState.Header>
               <EmptyState.Media variant="icon">
                 <ThemedIcon className="text-muted" name="wallet-outline" size={20} />

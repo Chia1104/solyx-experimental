@@ -2,7 +2,7 @@ import type { Transaction } from '@roswell/react-native-gdk';
 
 import { useChainAdapterStore } from '@/modules/chain/stores/chain-adapter';
 import { ChainType } from '@/modules/chain/stores/chain-adapter/types';
-import { getPendingRecordHashes } from '@/modules/database/repos/defi-record.repo';
+import { countRecords, getPendingRecordHashes } from '@/modules/database/repos/defi-record.repo';
 import { getTransactions } from '@/modules/defi/services/wallets.service';
 import { mapApiTransactions } from '@/modules/defi/utils/defi-record-sync-api-transaction.utils';
 import { mapLiquidTransactions } from '@/modules/defi/utils/defi-record-sync-liquid-transaction.utils';
@@ -19,10 +19,23 @@ import {
   upsertRecordsInBatches,
 } from '@/modules/defi/utils/defi-record-sync.utils';
 
-const fullSyncedExplorerContextKeys = new Set<string>();
+// The explorer backend may not have finished indexing an address when the first
+// sync runs (e.g. right after login), so "history is complete" can never be a
+// one-shot flag — re-derive it from local count vs upstream total on every sync.
+const isLocalHistoryIncomplete = async ({
+  address,
+  chainId,
+  upstreamTotalRows,
+}: {
+  address: string;
+  chainId: string;
+  upstreamTotalRows: number;
+}) => {
+  const syncTarget = Math.min(upstreamTotalRows, DEFI_RECORDS_LIMIT);
+  const localCount = await countRecords({ userAddress: address, chainId });
 
-const getExplorerSyncContextKey = (context: DefiRecordSyncContext) =>
-  `${context.dbChainId}:${context.address.toLowerCase()}`;
+  return localCount < syncTarget;
+};
 
 const syncExplorerRecords = async ({
   apiChainId,
@@ -54,7 +67,18 @@ const syncExplorerRecords = async ({
     const hasFullPage = response.data.length >= DEFI_RECORDS_PER_PAGE;
     const hasMoreByMeta = response.meta.totalPages > 0 && page < response.meta.totalPages;
 
-    if (mode === 'latest' || reachedRecordLimit || (!hasFullPage && !hasMoreByMeta)) {
+    if (reachedRecordLimit || (!hasFullPage && !hasMoreByMeta)) {
+      break;
+    }
+
+    if (
+      mode === 'latest' &&
+      !(await isLocalHistoryIncomplete({
+        address: context.address,
+        chainId: context.chainId,
+        upstreamTotalRows: response.meta.totalRows,
+      }))
+    ) {
       break;
     }
 
@@ -70,11 +94,6 @@ const resolveExplorerMode = async (
 ): Promise<ExplorerRecordsSyncMode> => {
   if (mode === 'full') {
     return mode;
-  }
-
-  const contextKey = getExplorerSyncContextKey(context);
-  if (!fullSyncedExplorerContextKeys.has(contextKey)) {
-    return 'full';
   }
 
   const pendingHashes = await getPendingRecordHashes({
@@ -129,7 +148,7 @@ export const syncExplorerDefiRecords = async (
 ) => {
   const effectiveMode = await resolveExplorerMode(context, mode);
 
-  const result = await syncExplorerRecords({
+  return syncExplorerRecords({
     address: context.address,
     chainId: context.dbChainId,
     chain: context.chain,
@@ -138,12 +157,6 @@ export const syncExplorerDefiRecords = async (
     apiChainId: toTransactionsApiChainId(context.dbChainId),
     mode: effectiveMode,
   });
-
-  if (effectiveMode === 'full') {
-    fullSyncedExplorerContextKeys.add(getExplorerSyncContextKey(context));
-  }
-
-  return result;
 };
 
 export const syncLiquidDefiRecords = async ({

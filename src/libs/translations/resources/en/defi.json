@@ -222,7 +222,9 @@
     },
     "scanner": {
       "select.walletConnect": "Select WalletConnect and",
-      "scan.QR.Code": "scan the QR code"
+      "scan.QR.Code": "scan the QR code",
+      "camera.permission.title": "Camera Permission Required",
+      "camera.permission.description": "Please grant camera access to scan QR codes"
     },
     "home": {
       "asset.unavailable": "Asset balances are temporarily unavailable. Pull to refresh and try again.",
@@ -340,6 +342,7 @@
     "go.to.activity": "Activity",
     "go.to.home": "Home",
     "album": "Album",
+    "request.permission": "Request Permission",
     "create.from.seed.phrase": "Create from seed phrase",
     "import.private.key": "Import private key",
     "back.to.account.list": "Back to the account list",
@@ -408,7 +411,8 @@
     "get.receive.address.error": "Failed to get receive address",
     "unknown.error": "Unknown error",
     "tron.resource.insufficient": "Insufficient bandwidth or energy. Stake TRX or wait for daily resource reset and try again.",
-    "chain.switch.timeout": "Switching to Private network timed out. Please try again."
+    "chain.switch.timeout": "Switching to Private network timed out. Please try again.",
+    "permission.media.library": "Permission to access media library is required"
   },
   "amount.below.minimum.transaction": "Amount is below the minimum transaction amount",
   "tab": {

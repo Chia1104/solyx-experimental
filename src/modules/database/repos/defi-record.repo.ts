@@ -1,14 +1,35 @@
-import { and, desc, eq, sql } from 'drizzle-orm';
+import type { SQL } from 'drizzle-orm';
+import { and, count, desc, eq, getColumns, sql } from 'drizzle-orm';
 
 import { db } from '../client';
 import { RecordStatus } from '../enums/defi-record.enum';
-import { InsertRecordsParams } from '../pipes/defi-record.pipe';
-import type { NewDefiRecordRow } from '../schema/defi-record.schema';
+import type { InsertDefiRecordInput, NewDefiRecordRow } from '../schema/defi-record.schema';
 import { defiRecord } from '../schema/defi-record.schema';
 import { buildDefiRecordKey } from '../utils/defi-record-key';
 
-export const insertRecords = async (params: InsertRecordsParams) => {
-  const records = InsertRecordsParams.parse(params).map(record => ({
+type DefiRecordColumnName = keyof typeof defiRecord._.columns;
+
+const conflictUpdateAllExcept = (except: DefiRecordColumnName[]) => {
+  const columns = getColumns(defiRecord);
+
+  return Object.entries(columns).reduce<Partial<Record<DefiRecordColumnName, SQL>>>(
+    (set, [columnKey, column]) => {
+      if (!except.includes(columnKey as DefiRecordColumnName)) {
+        set[columnKey as DefiRecordColumnName] = sql.raw(`excluded.${column.name}`);
+      }
+
+      return set;
+    },
+    {},
+  );
+};
+
+export const insertRecords = async (params: InsertDefiRecordInput[]) => {
+  if (params.length === 0) {
+    return [];
+  }
+
+  const records = params.map(record => ({
     ...record,
     recordKey: buildDefiRecordKey({
       chainId: record.chainId,
@@ -23,23 +44,7 @@ export const insertRecords = async (params: InsertRecordsParams) => {
     .values(records)
     .onConflictDoUpdate({
       target: [defiRecord.userAddress, defiRecord.chainId, defiRecord.recordKey],
-      set: {
-        blockNumber: sql`excluded.blockNumber`,
-        timeStamp: sql`excluded.timeStamp`,
-        hash: sql`excluded.hash`,
-        nonce: sql`excluded.nonce`,
-        fromAddress: sql`excluded.fromAddress`,
-        toAddress: sql`excluded.toAddress`,
-        value: sql`excluded.value`,
-        tokenSymbol: sql`excluded.tokenSymbol`,
-        tokenDecimal: sql`excluded.tokenDecimal`,
-        gas: sql`excluded.gas`,
-        gasPrice: sql`excluded.gasPrice`,
-        status: sql`excluded.status`,
-        input: sql`excluded.input`,
-        functionName: sql`excluded.functionName`,
-        explorerUrl: sql`excluded.explorerUrl`,
-      },
+      set: conflictUpdateAllExcept(['id', 'userAddress', 'chainId', 'recordKey']),
     })
     .returning();
 };
@@ -68,6 +73,17 @@ export const getPendingRecordHashes = async (params: { userAddress: string; chai
     );
 
   return new Set(rows.map(row => row.hash));
+};
+
+export const countRecords = async (params: { userAddress: string; chainId: string }) => {
+  const rows = await db
+    .select({ value: count() })
+    .from(defiRecord)
+    .where(
+      and(eq(defiRecord.userAddress, params.userAddress), eq(defiRecord.chainId, params.chainId)),
+    );
+
+  return rows[0]?.value ?? 0;
 };
 
 export const getRecordKeys = async (params: { userAddress: string; chainId: string }) => {

@@ -2,7 +2,7 @@ import { Stack } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
 import { ChainTransitionProvider } from '@/components/chain-transition';
-import { backButtonScreenOptions } from '@/components/ui/back-button';
+import { BackButton } from '@/components/ui/back-button';
 import {
   iosTransparentHeaderOptions,
   useStackScreenOptions,
@@ -35,7 +35,17 @@ export default function DefiMainLayout() {
             },
             headerBlurEffect: undefined,
             headerTransparent: true,
-            ...backButtonScreenOptions,
+            headerTitleStyle: {
+              color: '#fff',
+            },
+            headerLeft: () => (
+              <BackButton
+                classnames={{
+                  icon: 'text-white',
+                }}
+              />
+            ),
+            headerBackVisible: false,
           }}
         />
         <Stack.Screen name="buy" options={{ presentation: 'modal', headerShown: false }} />

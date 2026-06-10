@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 
 import type { ChainConfig, ChainCurrency } from '@/modules/chain/stores/chain-adapter/types';
 import { ActionKey, RecordStatus } from '@/modules/database/enums/defi-record.enum';
-import type { InsertDefiRecordInput } from '@/modules/database/pipes/defi-record.pipe';
+import type { InsertDefiRecordInput } from '@/modules/database/schema/defi-record.schema';
 import { TransactionAPIType, TransactionStatus } from '@/modules/defi/enums/transactions.enum';
 import type { TransactionItem } from '@/modules/defi/pipes/wallets.pipe';
 

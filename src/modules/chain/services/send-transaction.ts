@@ -24,8 +24,8 @@ import {
   isTronRpcErrorResponse,
 } from '@/modules/chain/utils/transaction-confirm';
 import { ActionKey, RecordStatus } from '@/modules/database/enums/defi-record.enum';
-import type { InsertDefiRecordInput } from '@/modules/database/pipes/defi-record.pipe';
 import { insertRecords } from '@/modules/database/repos/defi-record.repo';
+import type { InsertDefiRecordInput } from '@/modules/database/schema/defi-record.schema';
 import { formatDefiRecordChainId } from '@/modules/database/utils/defi-record-chain-id';
 
 const getEvmPendingBlockNumber = async (provider?: JsonRpcProvider) => {

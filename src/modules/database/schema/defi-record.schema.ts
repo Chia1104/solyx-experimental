@@ -49,3 +49,5 @@ export const defiRecord = sqliteTable(
 
 export type DefiRecordRow = typeof defiRecord.$inferSelect;
 export type NewDefiRecordRow = typeof defiRecord.$inferInsert;
+/** Insert payload from sync/send flows — `recordKey` is derived on insert. */
+export type InsertDefiRecordInput = Omit<NewDefiRecordRow, 'id' | 'recordKey'>;

@@ -4,7 +4,7 @@ import type { Input, Output, Transaction } from '@roswell/react-native-gdk';
 
 import type { ChainConfig } from '@/modules/chain/stores/chain-adapter/types';
 import { ActionKey, RecordStatus } from '@/modules/database/enums/defi-record.enum';
-import type { InsertDefiRecordInput } from '@/modules/database/pipes/defi-record.pipe';
+import type { InsertDefiRecordInput } from '@/modules/database/schema/defi-record.schema';
 
 export interface MapLiquidTransactionsContext {
   address: string;
