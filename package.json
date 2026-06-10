@@ -37,7 +37,7 @@
     "@react-native-vector-icons/get-image": "^13.0.0",
     "@react-native-vector-icons/ionicons": "^13.1.2",
     "@react-native-vector-icons/material-design-icons": "^13.1.2",
-    "@roswell/react-native-gdk": "github:Chia1104/react-native-gdk#v0.76.1-patch.5",
+    "@roswell/react-native-gdk": "github:Chia1104/react-native-gdk#v0.76.1-patch.6",
     "@sentry/react-native": "^8.13.0",
     "@shopify/react-native-skia": "^2.6.2",
     "@t3-oss/env-core": "^0.13.11",
