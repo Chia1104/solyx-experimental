@@ -14,6 +14,7 @@ concurrency:
 
 env:
   GH_TOKEN: ${{ secrets.GH_PRIVATE_REPO_TOKEN }}
+  HEROUI_AUTH_TOKEN: ${{ secrets.HEROUI_AUTH_TOKEN }}
   EXPO_PUBLIC_CEFI_API_URL: ${{ secrets.EXPO_PUBLIC_CEFI_API_URL }}
   EXPO_PUBLIC_SSO_WEBSITE: ${{ secrets.EXPO_PUBLIC_SSO_WEBSITE }}
   EXPO_PUBLIC_WALLET_MASTER_KEY: EXPO_PUBLIC_WALLET_MASTER_KEY
@@ -45,7 +46,7 @@ jobs:
       - name: '🔑 Setup private repo access'
         uses: ./.github/actions/setup-private-repo-access
         with:
-          token: ${{ secrets.GH_PRIVATE_REPO_TOKEN }}
+          token: ${{ env.GH_TOKEN }}
 
       - name: '💽️ Setup'
         id: init
@@ -69,7 +70,7 @@ jobs:
       - name: '🔑 Setup private repo access'
         uses: ./.github/actions/setup-private-repo-access
         with:
-          token: ${{ secrets.GH_PRIVATE_REPO_TOKEN }}
+          token: ${{ env.GH_TOKEN }}
 
       - name: '💽️ Setup'
         id: init
@@ -93,7 +94,7 @@ jobs:
       - name: '🔑 Setup private repo access'
         uses: ./.github/actions/setup-private-repo-access
         with:
-          token: ${{ secrets.GH_PRIVATE_REPO_TOKEN }}
+          token: ${{ env.GH_TOKEN }}
 
       - name: '💽️ Setup'
         id: init
