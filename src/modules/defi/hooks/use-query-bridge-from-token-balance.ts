@@ -5,11 +5,12 @@ import BigNumber from 'bignumber.js';
 
 import type { SupportedChainID } from '@/modules/chain/enums/supported-chain.enum';
 import { useChainAdapterStore } from '@/modules/chain/stores/chain-adapter';
+import { getChainConfig } from '@/modules/chain/stores/chain-adapter/chains';
 import type { ChainConfig, ChainCurrency } from '@/modules/chain/stores/chain-adapter/types';
 import { ChainType } from '@/modules/chain/stores/chain-adapter/types';
 import { fromBridgeApiChainId } from '@/modules/chain/utils';
 
-import { getChainConfig, useDefiAccount } from './use-defi-account';
+import { useDefiAccount } from './use-defi-account';
 
 type ChainCurrencyOption = ChainConfig['nativeCurrency'] | ChainCurrency;
 

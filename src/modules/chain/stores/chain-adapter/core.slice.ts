@@ -81,6 +81,30 @@ export const createCoreChainAdapterSlice: ChainAdapterSlice<CoreChainAdapterActi
     }
   },
 
+  validateAddress: async ({ chainId, address, assetId }) => {
+    if (!address || !get().isChainIdSupported(chainId)) {
+      return false;
+    }
+
+    switch (get().getChainType(chainId)) {
+      case ChainType.EVM:
+        return get().isValidEvmAddress(address);
+      case ChainType.TRON:
+        return get().isValidTronAddress(address);
+      case ChainType.LIQUID:
+        if (!assetId) {
+          return false;
+        }
+        try {
+          return await get().validateLiquidAddress(address, assetId, chainId);
+        } catch {
+          return false;
+        }
+      default:
+        return false;
+    }
+  },
+
   clearCache: () => {
     set({ adapters: new Map() });
   },

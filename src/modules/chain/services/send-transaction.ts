@@ -6,7 +6,7 @@ import { TronWeb } from 'tronweb';
 
 import type { UnsignedTransaction } from '@roswell/react-native-gdk';
 
-import { SupportedNetwork } from '@/modules/chain/enums/supported-chain.enum';
+import { useChainAdapterStore } from '@/modules/chain/stores/chain-adapter';
 import type { ChainAdapter, ChainConfig } from '@/modules/chain/stores/chain-adapter/types';
 import { ChainType } from '@/modules/chain/stores/chain-adapter/types';
 import type { EvmGasSettingItem } from '@/modules/chain/utils/evm-gas-settings';
@@ -20,8 +20,6 @@ import {
   TransactionNotReadyError,
   TronTransactionNotReadyError,
   buildEvmTransactionDraft,
-  getTronTransactionResult,
-  isTronRpcErrorResponse,
 } from '@/modules/chain/utils/transaction-confirm';
 import { ActionKey, RecordStatus } from '@/modules/database/enums/defi-record.enum';
 import { insertRecords } from '@/modules/database/repos/defi-record.repo';
@@ -194,47 +192,6 @@ const insertPendingLiquidTransaction = async ({
   });
 };
 
-export interface ResolveTransactionPrivateKeyParams {
-  chainType: ChainType;
-  currentChainId: number;
-  reason: string;
-  requestLiquidUnlock: (options: {
-    chainId?: number;
-    isDismissible?: boolean;
-    reason?: string;
-  }) => Promise<boolean>;
-  requestPrivateKey: (options: {
-    isDismissible?: boolean;
-    network?: SupportedNetwork;
-    reason?: string;
-  }) => Promise<string>;
-}
-
-export const resolveTransactionPrivateKey = async ({
-  chainType,
-  currentChainId,
-  reason,
-  requestLiquidUnlock,
-  requestPrivateKey,
-}: ResolveTransactionPrivateKeyParams) => {
-  if (chainType === ChainType.LIQUID) {
-    await requestLiquidUnlock({
-      chainId: currentChainId,
-      isDismissible: true,
-      reason,
-    });
-    return '';
-  }
-
-  const network = chainType === ChainType.TRON ? SupportedNetwork.Tron : SupportedNetwork.Evm;
-
-  return requestPrivateKey({
-    isDismissible: true,
-    network,
-    reason,
-  });
-};
-
 export interface SendEvmTransactionInput {
   chain: ChainConfig;
   currency?: TransactionCurrency;
@@ -312,7 +269,6 @@ export interface SendTronTransactionInput {
   chain: ChainConfig;
   currency?: TransactionCurrency;
   gasFee: string;
-  getAdapterByChainId: (chainId: number) => ChainAdapter;
   isNativeCurrency: boolean;
   privateKey: string;
   sendParams: TransactionConfirmParams;
@@ -324,7 +280,6 @@ export const sendTronTransaction = async ({
   chain,
   currency,
   gasFee,
-  getAdapterByChainId,
   isNativeCurrency,
   privateKey,
   sendParams,
@@ -335,59 +290,21 @@ export const sendTronTransaction = async ({
     throw new TronTransactionNotReadyError();
   }
 
-  const adapter = getAdapterByChainId(chain.chainId);
-  const provider = adapter.getProvider(chain.chainId) as TronWeb;
-  const wallet = new TronWeb({
-    fullNode: provider.fullNode,
-    solidityNode: provider.solidityNode,
-    eventServer: provider.eventServer,
-    privateKey: privateKey.replace(/^0x/, ''),
-  });
-  const fromAddress = wallet.defaultAddress.base58;
-
-  if (!fromAddress) {
+  if (!isNativeCurrency && (!sendParams.tokenAddress || !currency)) {
     throw new TronTransactionNotReadyError();
   }
 
-  let result: unknown;
+  const { sendTronTransfer, getTronProvider } = useChainAdapterStore.getState();
+  const transaction = await sendTronTransfer({
+    chainId: chain.chainId,
+    from: '', // derived from the private key inside the adapter
+    to: toAddress,
+    value,
+    privateKey,
+    tokenAddress: isNativeCurrency ? undefined : sendParams.tokenAddress,
+    tokenDecimals: currency?.decimals,
+  });
 
-  if (isNativeCurrency) {
-    const sunValue = TronWeb.toSun(new BigNumber(value).toNumber());
-    const tx = await wallet.transactionBuilder.sendTrx(
-      toAddress,
-      new BigNumber(sunValue).toNumber(),
-      fromAddress,
-    );
-    const signedTx = await wallet.trx.sign(tx);
-    result = await wallet.trx.sendRawTransaction(signedTx);
-  } else {
-    if (!sendParams.tokenAddress || !currency) {
-      throw new TronTransactionNotReadyError();
-    }
-
-    const tx = await wallet.transactionBuilder.triggerSmartContract(
-      TronWeb.address.toHex(sendParams.tokenAddress),
-      'transfer(address,uint256)',
-      { feeLimit: 100000000, callValue: 0 },
-      [
-        { type: 'address', value: toAddress },
-        {
-          type: 'uint256',
-          value: parseUnits(value, currency.decimals).toString(),
-        },
-      ],
-      fromAddress,
-    );
-
-    const signedTx = await wallet.trx.sign(tx.transaction);
-    result = await wallet.trx.sendRawTransaction(signedTx);
-  }
-
-  if (isTronRpcErrorResponse(result)) {
-    throw result;
-  }
-
-  const transaction = getTronTransactionResult(result);
   if (!transaction) {
     return null;
   }
@@ -395,11 +312,11 @@ export const sendTronTransaction = async ({
   await insertPendingTronTransaction({
     chain,
     currency,
-    fromAddress,
+    fromAddress: transaction.fromAddress,
     gasFee,
-    provider,
+    provider: getTronProvider(chain.chainId),
     toAddress,
-    transaction,
+    transaction: { rawDataHex: transaction.rawDataHex, txID: transaction.txID },
     value,
   });
   return transaction.txID;
@@ -460,10 +377,7 @@ export type SendEvmTransactionVariables = Omit<
   currentChainId: number;
 };
 
-export type SendTronTransactionVariables = Omit<
-  SendTronTransactionInput,
-  'getAdapterByChainId' | 'privateKey'
-> & {
+export type SendTronTransactionVariables = Omit<SendTronTransactionInput, 'privateKey'> & {
   chainType: typeof ChainType.TRON;
   currentChainId: number;
 };
@@ -502,7 +416,6 @@ export const executeSendTransaction = async ({
       return sendTronTransaction({
         ...(variables as SendTronTransactionVariables),
         privateKey,
-        getAdapterByChainId,
       });
     case ChainType.LIQUID:
       return sendLiquidTransaction({

@@ -1,14 +1,11 @@
-import { Contract, HDNodeWallet, JsonRpcProvider, Mnemonic, Wallet } from 'ethers';
+import { Contract, HDNodeWallet, JsonRpcProvider, Mnemonic, Wallet, isAddress } from 'ethers';
 import type { TransactionRequest } from 'ethers';
 import QuickCrypto from 'react-native-quick-crypto';
 
-import { delay } from '@/utils/delay';
-
-import { EIP155_CHAINS, EVM_DERIVATION_PATH, JSON_RPC_METHODS } from './chains';
+import { EIP155_CHAINS, EVM_DERIVATION_PATH } from './chains';
 import type { TEIP155Chain } from './chains';
 import type { ChainAdapterSlice, EvmChainAdapterActions } from './types';
-import { convertHexToUtf8, normalizeEvmPrivateKey } from './utils';
-import type { Eip712TypedData } from './utils';
+import { normalizeEvmPrivateKey } from './utils';
 
 const EVM_MNEMONIC_ENTROPY_BYTES = 16;
 const ERC20_BALANCE_OF_ABI = ['function balanceOf(address owner) view returns (uint256)'] as const;
@@ -86,44 +83,6 @@ export const createEvmChainAdapterSlice: ChainAdapterSlice<EvmChainAdapterAction
       evmProviders: new Map(state.evmProviders).set(chainId, provider),
     }));
     return provider;
-  },
-
-  checkEvmProviderReady: async rpcUrl => {
-    try {
-      const provider = new JsonRpcProvider(rpcUrl);
-      const result = await Promise.race([
-        provider.getNetwork(),
-        (async () => {
-          await delay(5000);
-          throw new Error('Provider timeout');
-        })(),
-      ]);
-      return !!result;
-    } catch {
-      return false;
-    }
-  },
-
-  signEvmMessage: async params => {
-    const wallet = new Wallet(normalizeEvmPrivateKey(params.privateKey));
-    const method = params.method ?? JSON_RPC_METHODS.PERSONAL_SIGN;
-
-    switch (method) {
-      case JSON_RPC_METHODS.PERSONAL_SIGN:
-      case JSON_RPC_METHODS.ETH_SIGN:
-        return wallet.signMessage(convertHexToUtf8(params.message));
-
-      case JSON_RPC_METHODS.ETH_SIGN_TYPED_DATA:
-      case JSON_RPC_METHODS.ETH_SIGN_TYPED_DATA_V3:
-      case JSON_RPC_METHODS.ETH_SIGN_TYPED_DATA_V4: {
-        const typedData = JSON.parse(params.message) as Eip712TypedData;
-        const { EIP712Domain: _eip712Domain, ...types } = typedData.types;
-        return wallet.signTypedData(typedData.domain, types, typedData.message);
-      }
-
-      default:
-        throw new Error(`Unsupported signing method: ${method}`);
-    }
   },
 
   signEvmTransaction: async params => {
@@ -236,7 +195,5 @@ export const createEvmChainAdapterSlice: ChainAdapterSlice<EvmChainAdapterAction
     return balances;
   },
 
-  getEvmBlockNumber: async chainId => {
-    return get().getEvmProvider(chainId).getBlockNumber();
-  },
+  isValidEvmAddress: address => isAddress(address),
 });

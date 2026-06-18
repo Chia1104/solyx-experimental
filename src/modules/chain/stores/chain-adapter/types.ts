@@ -47,7 +47,7 @@ export interface WalletCreationResult {
   account: Account;
 }
 
-export interface TransactionParams {
+export interface EvmTransactionParams {
   from: string;
   to: string;
   value: string;
@@ -58,26 +58,38 @@ export interface TransactionParams {
   maxFeePerGas?: string;
   maxPriorityFeePerGas?: string;
   privateKey: string;
-  feeLimit?: string;
 }
 
-export interface SignMessageParams {
-  message: string;
-  address: string;
+export interface TronTransactionParams {
+  from: string;
+  to: string;
+  value: string;
+  chainId: number;
   privateKey: string;
-  method?: string;
-  chainId?: number;
+  feeLimit?: string;
+  /** TRC20 contract address. When set, the transfer targets this token instead of TRX. */
+  tokenAddress?: string;
+  /** TRC20 token decimals, used to convert the human-readable `value` to the smallest unit. */
+  tokenDecimals?: number;
 }
 
-export interface GasEstimate {
+export interface TronTransactionResult {
+  txID: string;
+  rawDataHex: string;
+  fromAddress: string;
+}
+
+export interface EvmGasEstimate {
   gasLimit: string;
   gasPrice: string;
   maxFeePerGas?: string;
   maxPriorityFeePerGas?: string;
   totalFee: string;
-  bandwidth?: string;
-  energy?: string;
-  feeRate?: string;
+}
+
+export interface LiquidGasEstimate {
+  totalFee: string;
+  feeRate: string;
 }
 
 export interface LiquidReceiveAddresses {
@@ -153,27 +165,20 @@ export type ChainTokenBalances = Record<string, string>;
 
 export interface ChainAdapter {
   chainType: ChainType;
-  derivationPath: string;
   createWallet: (mnemonic?: string) => Promise<WalletCreationResult>;
   createAccountFromMnemonic: (mnemonic: string, index: number) => Promise<Account>;
   createAccountFromPrivateKey: (privateKey: string) => Account;
-  getProvider: (chainId: number) => GdkInterface | Promise<GdkInterface> | unknown;
-  checkProviderReady: (rpcUrl: string) => Promise<boolean>;
-  signMessage: (params: SignMessageParams) => Promise<string>;
   signTransaction: (
-    params: TransactionParams | UnsignedTransaction,
+    params: EvmTransactionParams | TronTransactionParams | UnsignedTransaction,
   ) => Promise<string | SignedBlindedTransaction | SignedTransaction>;
   sendTransaction: (
-    params: TransactionParams | SignedBlindedTransaction | SignedTransaction,
+    params:
+      | EvmTransactionParams
+      | TronTransactionParams
+      | SignedBlindedTransaction
+      | SignedTransaction,
   ) => Promise<string>;
-  estimateGas: (params?: TransactionParams) => Promise<GasEstimate>;
-  getBalance: (
-    address: string,
-    chainId: number,
-    index?: number,
-  ) => Promise<string | Record<string, number>>;
   getBalances: (address: string, chainId: number, index?: number) => Promise<ChainTokenBalances>;
-  getBlockNumber: (chainId: number) => Promise<number>;
 }
 
 export type LiquidTransaction = SignedBlindedTransaction | SignedTransaction | UnsignedTransaction;
@@ -182,9 +187,8 @@ export interface LiquidActions {
   login: (mnemonic: string, chainId?: number) => Promise<void>;
   tryReconnect: (chainId?: number) => Promise<boolean>;
   getLiquidReceiveAddresses: (index: number) => Promise<LiquidReceiveAddresses>;
-  getReceiveAddress: (index: number) => Promise<string>;
   getUnspentOutputs: (params: GetSubaccountReq) => Promise<GetUnspentOutputsRes>;
-  validateAddress: (address: string, assetId: string, chainId: number) => Promise<boolean>;
+  validateLiquidAddress: (address: string, assetId: string, chainId: number) => Promise<boolean>;
   createTransaction: (params: CreateTransactionReq) => Promise<UnsignedTransaction>;
   getTransactions: (params: GetTransactionsReq) => Promise<Transaction[]>;
   getTransactionDetails: (txHash: string) => Promise<TransactionDetails>;
@@ -215,6 +219,13 @@ export interface CoreChainAdapterState {
   liquidStaleSinceBackground: boolean;
 }
 
+export interface ValidateAddressParams {
+  chainId: number;
+  address: string;
+  /** Required for Liquid: the asset/token id the address must be valid for. */
+  assetId?: string;
+}
+
 export interface CoreChainAdapterActions {
   getChainType: (chainId: number) => ChainType;
   getAdapter: (chainType: ChainType) => ChainAdapter;
@@ -222,6 +233,8 @@ export interface CoreChainAdapterActions {
   getAllAdapters: () => ChainAdapter[];
   isChainTypeSupported: (chainType: ChainType) => boolean;
   isChainIdSupported: (chainId: number) => boolean;
+  /** Single entry point for recipient-address validation; dispatches by chain type internally. */
+  validateAddress: (params: ValidateAddressParams) => Promise<boolean>;
   clearCache: () => void;
   clearProviderCache: (chainType?: ChainType) => void;
 }
@@ -231,14 +244,12 @@ export interface EvmChainAdapterActions {
   createEvmAccountFromMnemonic: (mnemonic: string, index: number) => Promise<Account>;
   createEvmAccountFromPrivateKey: (privateKey: string) => Account;
   getEvmProvider: (chainId: number) => JsonRpcProvider;
-  checkEvmProviderReady: (rpcUrl: string) => Promise<boolean>;
-  signEvmMessage: (params: SignMessageParams) => Promise<string>;
-  signEvmTransaction: (params: TransactionParams) => Promise<string>;
-  sendEvmTransaction: (params: TransactionParams) => Promise<string>;
-  estimateEvmGas: (params: TransactionParams) => Promise<GasEstimate>;
+  signEvmTransaction: (params: EvmTransactionParams) => Promise<string>;
+  sendEvmTransaction: (params: EvmTransactionParams) => Promise<string>;
+  estimateEvmGas: (params: EvmTransactionParams) => Promise<EvmGasEstimate>;
   getEvmBalance: (address: string, chainId: number) => Promise<string>;
   getEvmBalances: (address: string, chainId: number) => Promise<ChainTokenBalances>;
-  getEvmBlockNumber: (chainId: number) => Promise<number>;
+  isValidEvmAddress: (address: string) => boolean;
 }
 
 export interface TronChainAdapterActions {
@@ -246,16 +257,15 @@ export interface TronChainAdapterActions {
   createTronAccountFromMnemonic: (mnemonic: string, index: number) => Promise<Account>;
   createTronAccountFromPrivateKey: (privateKey: string) => Account;
   getTronProvider: (chainId: number) => TronWeb;
-  checkTronProviderReady: (rpcUrl: string) => Promise<boolean>;
-  signTronMessage: (params: SignMessageParams) => Promise<string>;
-  signTronTransaction: (params: TransactionParams) => Promise<string>;
-  sendTronTransaction: (params: TransactionParams) => Promise<string>;
-  estimateTronGas: (params: TransactionParams) => Promise<GasEstimate>;
+  signTronTransaction: (params: TronTransactionParams) => Promise<string>;
+  sendTronTransaction: (params: TronTransactionParams) => Promise<string>;
+  /**
+   * Builds, signs and broadcasts a TRX/TRC20 transfer, returning the data the activity log needs
+   * (`txID`, `rawDataHex`, derived `fromAddress`). The unified `sendTronTransaction` delegates here.
+   */
+  sendTronTransfer: (params: TronTransactionParams) => Promise<TronTransactionResult | null>;
   getTronBalance: (address: string, chainId: number) => Promise<string>;
   getTronBalances: (address: string, chainId: number) => Promise<ChainTokenBalances>;
-  getTronBlockNumber: (chainId: number) => Promise<number>;
-  toSun: (trx: string | number) => string;
-  fromSun: (sun: string | number) => string;
   isValidTronAddress: (address: string) => boolean;
 }
 
@@ -264,28 +274,20 @@ export interface LiquidChainAdapterActions extends LiquidActions {
   createLiquidAccountFromMnemonic: (mnemonic: string, index: number) => Promise<Account>;
   createLiquidAccountFromPrivateKey: (privateKey: string) => Account;
   getLiquidProvider: (chainId: number, options?: { connect?: boolean }) => Promise<GdkInterface>;
-  checkLiquidProviderReady: (chainId?: number) => Promise<boolean>;
   /** Single synchronous predicate for whether the Liquid session can be used without a re-verify. */
   isLiquidSessionUsable: () => boolean;
   /** Flag the session stale so the next access re-verifies, without tearing down the native session. */
   markLiquidSessionStale: () => void;
-  signLiquidMessage: (params: SignMessageParams) => Promise<string>;
   signLiquidTransaction: (
     params: UnsignedTransaction,
   ) => Promise<SignedBlindedTransaction | SignedTransaction>;
   sendLiquidTransaction: (params: SignedBlindedTransaction | SignedTransaction) => Promise<string>;
-  estimateLiquidGas: () => Promise<GasEstimate>;
-  getLiquidBalance: (
-    address: string,
-    chainId: number,
-    index?: number,
-  ) => Promise<Record<string, number>>;
+  estimateLiquidGas: () => Promise<LiquidGasEstimate>;
   getLiquidBalances: (
     address: string,
     chainId: number,
     index?: number,
   ) => Promise<ChainTokenBalances>;
-  getLiquidBlockNumber: () => Promise<number>;
   internal_getLiquidGdk: () => GdkInterface;
   internal_ensureLiquidInitialized: () => Promise<void>;
   internal_ensureLiquidConnected: (options?: { chainId?: number }) => Promise<void>;

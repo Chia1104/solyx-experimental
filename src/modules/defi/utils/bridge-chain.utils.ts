@@ -1,5 +1,5 @@
 import type { SupportedChainID } from '@/modules/chain/enums/supported-chain.enum';
-import { getChainConfig } from '@/modules/defi/hooks/use-defi-account';
+import { getChainConfig } from '@/modules/chain/stores/chain-adapter/chains';
 
 /**
  * Resolves a bridge token symbol (e.g. "USDT", "LBTC") to the actual on-chain address

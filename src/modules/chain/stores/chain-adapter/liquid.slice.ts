@@ -278,11 +278,6 @@ export const createLiquidChainAdapterSlice: ChainAdapterSlice<LiquidChainAdapter
     }
   },
 
-  getReceiveAddress: async index => {
-    const { confidential } = await get().getLiquidReceiveAddresses(index);
-    return confidential;
-  },
-
   getLiquidProvider: async (chainId, options) => {
     await get().internal_prepareLiquidGdk({
       connect: options?.connect ?? true,
@@ -301,15 +296,6 @@ export const createLiquidChainAdapterSlice: ChainAdapterSlice<LiquidChainAdapter
     set({ liquidStaleSinceBackground: true });
   },
 
-  checkLiquidProviderReady: async () => get().isLiquidSessionUsable(),
-
-  signLiquidMessage: async () => {
-    throw new LiquidError(
-      LiquidErrorCode.FunctionNotSupportedError,
-      'Liquid adapter store: Message signing is not yet implemented. GDK does not directly support message signing.',
-    );
-  },
-
   getUnspentOutputs: async params => {
     await get().internal_prepareLiquidGdk();
     const gdk = get().internal_getLiquidGdk();
@@ -323,7 +309,7 @@ export const createLiquidChainAdapterSlice: ChainAdapterSlice<LiquidChainAdapter
     return result.unspent_outputs;
   },
 
-  validateAddress: async (address, assetId, chainId) => {
+  validateLiquidAddress: async (address, assetId, chainId) => {
     await get().internal_prepareLiquidGdk();
     const result = await get()
       .internal_getLiquidGdk()
@@ -479,44 +465,14 @@ export const createLiquidChainAdapterSlice: ChainAdapterSlice<LiquidChainAdapter
       const feeRate = feeValues.length > 0 ? mean(feeValues) : DEFAULT_LIQUID_FEE_RATE;
 
       return {
-        gasLimit: '0',
-        gasPrice: '0',
         totalFee: feeRate.toString(),
         feeRate: feeRate.toString(),
       };
     } catch {
       return {
-        gasLimit: '0',
-        gasPrice: '0',
         totalFee: DEFAULT_LIQUID_FEE_RATE.toString(),
         feeRate: DEFAULT_LIQUID_FEE_RATE.toString(),
       };
-    }
-  },
-
-  getLiquidBalance: async (_address, chainId, index) => {
-    const subaccount = index ?? 0;
-    await get().internal_prepareLiquidGdk();
-
-    try {
-      const balance = await get().internal_getLiquidGdk().getBalance({
-        subaccount,
-        num_confs: 0,
-      });
-      const chainConfig = LIQUID_CHAINS[`${chainId}` as TLiquidChain];
-      const balances: Record<string, number> = {};
-
-      for (const currency of chainConfig?.supportCurrency ?? []) {
-        balances[currency.address] =
-          BigNumber(formatUnits(balance[currency.address] ?? 0, currency.decimals)).toNumber() || 0;
-      }
-
-      return balances;
-    } catch (error) {
-      throw new LiquidError(
-        LiquidErrorCode.GetBalanceError,
-        `Failed to get balance: ${toErrorMessage(error)}`,
-      );
     }
   },
 
@@ -545,12 +501,10 @@ export const createLiquidChainAdapterSlice: ChainAdapterSlice<LiquidChainAdapter
     }
   },
 
-  getLiquidBlockNumber: async () => 0,
-
   destroyLiquidSession: async () => {
     const gdk = get().liquidGdk;
 
-    // Flip the readiness flags synchronously so `checkLiquidProviderReady` returns false immediately.
+    // Flip the readiness flags synchronously so `isLiquidSessionUsable` returns false immediately.
     // The native teardown below is slow (delay + destroySession); without this, a quick navigation
     // back to Liquid right after a background-timeout destroy could slip through on stale flags and
     // skip re-verification.

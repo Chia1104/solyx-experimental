@@ -6,12 +6,8 @@ import QuickCrypto from 'react-native-quick-crypto';
 import { useLockRequest } from '@/modules/app/hooks/use-lock-request';
 import { useGlobalStore } from '@/modules/app/stores/global';
 import { useChainAdapterStore } from '@/modules/chain/stores/chain-adapter';
-import {
-  EIP155_CHAINS,
-  LIQUID_CHAINS,
-  TRON_CHAINS,
-} from '@/modules/chain/stores/chain-adapter/chains';
 import { ChainType } from '@/modules/chain/stores/chain-adapter/types';
+import { getInitialWalletBlockNumbers } from '@/modules/chain/stores/chain-adapter/utils';
 import { useMutationWalletAdd } from '@/modules/database/hooks/use-mutation-wallet-add';
 import { resolveWalletImage } from '@/modules/database/pipes/wallet.pipe';
 import { useMutationSetKeychainPhrase } from '@/modules/keychain/hooks/use-mutation-set-keychain-phrase';
@@ -45,19 +41,6 @@ const assertValidPhraseLength = (phrase: string) => {
   if (![12, 24].includes(wordCount)) {
     throw new Error('Invalid seed phrase');
   }
-};
-
-const getInitialBlockNumbers = () => {
-  const chains = [
-    ...Object.values(EIP155_CHAINS),
-    ...Object.values(TRON_CHAINS),
-    ...Object.values(LIQUID_CHAINS),
-  ];
-
-  return chains.reduce<Record<number, number>>((blockNumbers, chain) => {
-    blockNumbers[chain.chainId] = 0;
-    return blockNumbers;
-  }, {});
 };
 
 export const useMutationCreateWalletFromPhrase = (
@@ -136,7 +119,7 @@ export const useMutationCreateWalletFromPhrase = (
             advance();
 
             const wallet: WalletItem = {
-              blockNumbers: getInitialBlockNumbers(),
+              blockNumbers: getInitialWalletBlockNumbers(),
               chains: adapters.map(adapter => adapter.chainType),
               createTime: new Date().toISOString(),
               image: resolveWalletImage(1),

@@ -1,10 +1,9 @@
 import BigNumber from 'bignumber.js';
-import { isAddress as isEvmAddress } from 'ethers';
 import { useTranslation } from 'react-i18next';
-import { TronWeb } from 'tronweb';
 import * as z from 'zod';
 
 import { SupportedChainID } from '@/modules/chain/enums/supported-chain.enum';
+import { useChainAdapterStore } from '@/modules/chain/stores/chain-adapter';
 
 const isTronChain = (chainId: SupportedChainID) =>
   chainId === SupportedChainID.TronMainnet || chainId === SupportedChainID.TronShasta;
@@ -14,6 +13,8 @@ const isEvmChain = (chainId: SupportedChainID) =>
 
 export const useFormSchema = () => {
   const { t } = useTranslation(['defi']);
+  const isValidEvmAddress = useChainAdapterStore(state => state.isValidEvmAddress);
+  const isValidTronAddress = useChainAdapterStore(state => state.isValidTronAddress);
 
   return z
     .object({
@@ -43,7 +44,7 @@ export const useFormSchema = () => {
         });
       }
 
-      if (isEvmChain(data.toChainId) && !isEvmAddress(data.takerAddress)) {
+      if (isEvmChain(data.toChainId) && !isValidEvmAddress(data.takerAddress)) {
         ctx.addIssue({
           code: 'custom',
           path: ['takerAddress'],
@@ -51,7 +52,7 @@ export const useFormSchema = () => {
         });
       }
 
-      if (isTronChain(data.toChainId) && !TronWeb.isAddress(data.takerAddress)) {
+      if (isTronChain(data.toChainId) && !isValidTronAddress(data.takerAddress)) {
         ctx.addIssue({
           code: 'custom',
           path: ['takerAddress'],

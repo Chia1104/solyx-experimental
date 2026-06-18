@@ -1,28 +1,11 @@
 import { useCallback, useMemo } from 'react';
 
-import {
-  EIP155_CHAINS,
-  LIQUID_CHAINS,
-  TRON_CHAINS,
-} from '@/modules/chain/stores/chain-adapter/chains';
-import type { ChainConfigMap } from '@/modules/chain/stores/chain-adapter/types';
+import { getChainConfig } from '@/modules/chain/stores/chain-adapter/chains';
 import { ChainType } from '@/modules/chain/stores/chain-adapter/types';
 import { useQueryWallets } from '@/modules/database/hooks/use-query-wallets';
 import { formatDefiRecordChainId } from '@/modules/database/utils/defi-record-chain-id';
 import { useUserStore } from '@/modules/user/stores/user';
 import type { WalletItem } from '@/modules/user/stores/user/types';
-
-const chainConfigs: ChainConfigMap = {
-  ...EIP155_CHAINS,
-  ...TRON_CHAINS,
-  ...LIQUID_CHAINS,
-};
-
-export const getChainConfig = (chainId: number) =>
-  Object.values(chainConfigs).find(chain => chain.chainId === chainId);
-
-export const getChainConfigByChain = (chain: ChainType) =>
-  Object.values(chainConfigs).find(item => item.chainType === chain);
 
 export const getWalletAddress = (wallet: WalletItem | undefined, chainType: ChainType) => {
   if (!wallet) {
