@@ -14,10 +14,11 @@ import { useTransactionConfirmData } from '@/components/defi/transaction-confirm
 import { AddressDisplay } from '@/components/ui/address-display';
 import { CopyAction } from '@/components/ui/copy-action';
 import type { SupportedChainID } from '@/modules/chain/enums/supported-chain.enum';
+import { getChainConfig } from '@/modules/chain/stores/chain-adapter/chains';
 import { ChainType } from '@/modules/chain/stores/chain-adapter/types';
 import type { EvmGasMode } from '@/modules/chain/utils/evm-gas-settings';
 import type { TransactionConfirmParams } from '@/modules/chain/utils/transaction-confirm';
-import { getChainConfig, useDefiAccount } from '@/modules/defi/hooks/use-defi-account';
+import { useDefiAccount } from '@/modules/defi/hooks/use-defi-account';
 import { useMutationUpdateBridgePaymentTxHash } from '@/modules/defi/hooks/use-mutation-update-bridge-payment-tx-hash';
 import { resolveBridgeTokenAddress } from '@/modules/defi/utils/bridge-chain.utils';
 

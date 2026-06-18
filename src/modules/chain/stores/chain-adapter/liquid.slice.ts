@@ -323,7 +323,7 @@ export const createLiquidChainAdapterSlice: ChainAdapterSlice<LiquidChainAdapter
     return result.unspent_outputs;
   },
 
-  validateAddress: async (address, assetId, chainId) => {
+  validateLiquidAddress: async (address, assetId, chainId) => {
     await get().internal_prepareLiquidGdk();
     const result = await get()
       .internal_getLiquidGdk()

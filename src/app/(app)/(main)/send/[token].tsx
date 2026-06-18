@@ -1,7 +1,6 @@
 import { useCallback, useMemo } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { isAddress as isEvmAddress } from 'ethers';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Button, FieldError, Label, TextArea, TextField } from 'heroui-native';
 import { Controller, useForm } from 'react-hook-form';
@@ -13,7 +12,6 @@ import { Page } from '@/components/page';
 import { KeyboardAwareScrollView } from '@/components/ui/keyboard-aware-scroll-view';
 import { useClipboard } from '@/hooks/use-clipboard';
 import { useChainAdapterStore } from '@/modules/chain/stores/chain-adapter';
-import { ChainType } from '@/modules/chain/stores/chain-adapter/types';
 import { useDefiAccount } from '@/modules/defi/hooks/use-defi-account';
 
 interface SendToFormValues {
@@ -27,34 +25,12 @@ export default function SendTokenDetailScreen() {
   const { token } = useLocalSearchParams<{ token: string }>();
   const tokenAddress = token;
   const { chain, currentAddress, currentChainId } = useDefiAccount();
-  const isValidTronAddress = useChainAdapterStore(state => state.isValidTronAddress);
-  const validateLiquidAddress = useChainAdapterStore(state => state.validateAddress);
+  const validateAddress = useChainAdapterStore(state => state.validateAddress);
 
   const validateRecipientAddress = useCallback(
-    async (address: string) => {
-      if (!chain || !address) {
-        return false;
-      }
-
-      switch (chain.chainType) {
-        case ChainType.EVM:
-          return isEvmAddress(address);
-        case ChainType.TRON:
-          return isValidTronAddress(address);
-        case ChainType.LIQUID:
-          if (!tokenAddress) {
-            return false;
-          }
-          try {
-            return await validateLiquidAddress(address, tokenAddress, currentChainId);
-          } catch {
-            return false;
-          }
-        default:
-          return false;
-      }
-    },
-    [chain, currentChainId, isValidTronAddress, tokenAddress, validateLiquidAddress],
+    (address: string) =>
+      validateAddress({ chainId: currentChainId, address, assetId: tokenAddress }),
+    [validateAddress, currentChainId, tokenAddress],
   );
 
   const formSchema = useMemo(

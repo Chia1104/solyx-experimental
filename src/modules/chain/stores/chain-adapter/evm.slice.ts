@@ -1,4 +1,4 @@
-import { Contract, HDNodeWallet, JsonRpcProvider, Mnemonic, Wallet } from 'ethers';
+import { Contract, HDNodeWallet, JsonRpcProvider, Mnemonic, Wallet, isAddress } from 'ethers';
 import type { TransactionRequest } from 'ethers';
 import QuickCrypto from 'react-native-quick-crypto';
 
@@ -239,4 +239,6 @@ export const createEvmChainAdapterSlice: ChainAdapterSlice<EvmChainAdapterAction
   getEvmBlockNumber: async chainId => {
     return get().getEvmProvider(chainId).getBlockNumber();
   },
+
+  isValidEvmAddress: address => isAddress(address),
 });

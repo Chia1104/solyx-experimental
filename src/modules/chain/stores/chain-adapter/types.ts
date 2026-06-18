@@ -59,6 +59,16 @@ export interface TransactionParams {
   maxPriorityFeePerGas?: string;
   privateKey: string;
   feeLimit?: string;
+  /** TRON only: TRC20 contract address. When set, the transfer targets this token instead of TRX. */
+  tokenAddress?: string;
+  /** TRON only: TRC20 token decimals, used to convert the human-readable `value` to the smallest unit. */
+  tokenDecimals?: number;
+}
+
+export interface TronTransactionResult {
+  txID: string;
+  rawDataHex: string;
+  fromAddress: string;
 }
 
 export interface SignMessageParams {
@@ -184,7 +194,7 @@ export interface LiquidActions {
   getLiquidReceiveAddresses: (index: number) => Promise<LiquidReceiveAddresses>;
   getReceiveAddress: (index: number) => Promise<string>;
   getUnspentOutputs: (params: GetSubaccountReq) => Promise<GetUnspentOutputsRes>;
-  validateAddress: (address: string, assetId: string, chainId: number) => Promise<boolean>;
+  validateLiquidAddress: (address: string, assetId: string, chainId: number) => Promise<boolean>;
   createTransaction: (params: CreateTransactionReq) => Promise<UnsignedTransaction>;
   getTransactions: (params: GetTransactionsReq) => Promise<Transaction[]>;
   getTransactionDetails: (txHash: string) => Promise<TransactionDetails>;
@@ -215,6 +225,13 @@ export interface CoreChainAdapterState {
   liquidStaleSinceBackground: boolean;
 }
 
+export interface ValidateAddressParams {
+  chainId: number;
+  address: string;
+  /** Required for Liquid: the asset/token id the address must be valid for. */
+  assetId?: string;
+}
+
 export interface CoreChainAdapterActions {
   getChainType: (chainId: number) => ChainType;
   getAdapter: (chainType: ChainType) => ChainAdapter;
@@ -222,6 +239,8 @@ export interface CoreChainAdapterActions {
   getAllAdapters: () => ChainAdapter[];
   isChainTypeSupported: (chainType: ChainType) => boolean;
   isChainIdSupported: (chainId: number) => boolean;
+  /** Single entry point for recipient-address validation; dispatches by chain type internally. */
+  validateAddress: (params: ValidateAddressParams) => Promise<boolean>;
   clearCache: () => void;
   clearProviderCache: (chainType?: ChainType) => void;
 }
@@ -239,6 +258,7 @@ export interface EvmChainAdapterActions {
   getEvmBalance: (address: string, chainId: number) => Promise<string>;
   getEvmBalances: (address: string, chainId: number) => Promise<ChainTokenBalances>;
   getEvmBlockNumber: (chainId: number) => Promise<number>;
+  isValidEvmAddress: (address: string) => boolean;
 }
 
 export interface TronChainAdapterActions {
@@ -250,6 +270,11 @@ export interface TronChainAdapterActions {
   signTronMessage: (params: SignMessageParams) => Promise<string>;
   signTronTransaction: (params: TransactionParams) => Promise<string>;
   sendTronTransaction: (params: TransactionParams) => Promise<string>;
+  /**
+   * Builds, signs and broadcasts a TRX/TRC20 transfer, returning the data the activity log needs
+   * (`txID`, `rawDataHex`, derived `fromAddress`). The unified `sendTronTransaction` delegates here.
+   */
+  sendTronTransfer: (params: TransactionParams) => Promise<TronTransactionResult | null>;
   estimateTronGas: (params: TransactionParams) => Promise<GasEstimate>;
   getTronBalance: (address: string, chainId: number) => Promise<string>;
   getTronBalances: (address: string, chainId: number) => Promise<ChainTokenBalances>;

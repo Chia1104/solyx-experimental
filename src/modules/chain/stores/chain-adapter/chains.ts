@@ -310,3 +310,11 @@ export const LIQUID_CHAINS = {
   //   },
   // },
 } as const satisfies ChainConfigMap;
+
+const ALL_CHAINS = { ...EIP155_CHAINS, ...TRON_CHAINS, ...LIQUID_CHAINS };
+
+export const getChainConfig = (chainId: number) =>
+  Object.values(ALL_CHAINS).find(chain => chain.chainId === chainId);
+
+export const getChainConfigByChain = (chainType: ChainType) =>
+  Object.values(ALL_CHAINS).find(chain => chain.chainType === chainType);

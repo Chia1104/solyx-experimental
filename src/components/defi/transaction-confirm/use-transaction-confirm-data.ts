@@ -2,16 +2,12 @@ import { useMemo } from 'react';
 
 import BigNumber from 'bignumber.js';
 
+import { getChainConfig, getChainConfigByChain } from '@/modules/chain/stores/chain-adapter/chains';
 import { ChainType } from '@/modules/chain/stores/chain-adapter/types';
 import { compactAddress } from '@/modules/chain/utils/address-display';
 import type { TransactionConfirmParams } from '@/modules/chain/utils/transaction-confirm';
 import { formatDisplayValue } from '@/modules/chain/utils/transaction-confirm';
-import {
-  getChainConfig,
-  getChainConfigByChain,
-  getWalletAddress,
-  useDefiAccount,
-} from '@/modules/defi/hooks/use-defi-account';
+import { getWalletAddress, useDefiAccount } from '@/modules/defi/hooks/use-defi-account';
 import { useQueryAssets } from '@/modules/defi/hooks/use-query-assets';
 
 interface UseTransactionConfirmDataOptions {
