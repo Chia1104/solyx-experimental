@@ -6,7 +6,7 @@
       "@/*": ["./src/*"],
       "@/assets/*": ["./assets/*"]
     },
-    "types": ["vitest/globals"]
+    "types": ["vitest/globals", "expo/types"]
   },
   "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"]
 }
