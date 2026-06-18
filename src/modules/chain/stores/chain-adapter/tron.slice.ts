@@ -1,17 +1,15 @@
 import { parseUnits } from 'ethers';
-import tronweb, { TronWeb } from 'tronweb';
+import { TronWeb } from 'tronweb';
 
 import {
   TronTransactionNotReadyError,
   getTronTransactionResult,
   isTronRpcErrorResponse,
 } from '@/modules/chain/utils/transaction-confirm';
-import { delay } from '@/utils/delay';
 
 import { TRON_CHAINS, TRON_DERIVATION_PATH } from './chains';
 import type { TTRONChain } from './chains';
-import type { ChainAdapterSlice, TransactionParams, TronChainAdapterActions } from './types';
-import { DEFAULT_TRON_CHAIN_ID } from './utils';
+import type { ChainAdapterSlice, TronChainAdapterActions, TronTransactionParams } from './types';
 
 const DEFAULT_TRON_FEE_LIMIT = 100_000_000;
 
@@ -25,7 +23,7 @@ const createTronSigner = (base: TronWeb, privateKey: string) =>
 
 const buildSignedTronTransfer = async (
   wallet: TronWeb,
-  params: TransactionParams,
+  params: TronTransactionParams,
   from: string,
 ) => {
   const transaction = params.tokenAddress
@@ -134,33 +132,6 @@ export const createTronChainAdapterSlice: ChainAdapterSlice<TronChainAdapterActi
     return provider;
   },
 
-  checkTronProviderReady: async rpcUrl => {
-    try {
-      const provider = new tronweb.providers.HttpProvider(rpcUrl);
-      const tronWeb = new TronWeb({
-        fullNode: rpcUrl,
-        solidityNode: rpcUrl,
-        eventServer: rpcUrl,
-      });
-      const result = await Promise.race([
-        Promise.resolve(tronWeb.isValidProvider(provider)),
-        (async () => {
-          await delay(5000);
-          throw new Error('Provider timeout');
-        })(),
-      ]);
-      return !!result;
-    } catch {
-      return false;
-    }
-  },
-
-  signTronMessage: async params => {
-    const tronWeb = get().getTronProvider(params.chainId ?? DEFAULT_TRON_CHAIN_ID);
-    tronWeb.setPrivateKey(params.privateKey.replace(/^0x/, ''));
-    return tronWeb.trx.signMessageV2(params.message);
-  },
-
   signTronTransaction: async params => {
     const wallet = createTronSigner(get().getTronProvider(params.chainId), params.privateKey);
     const from = wallet.defaultAddress.base58 || params.from;
@@ -185,18 +156,6 @@ export const createTronChainAdapterSlice: ChainAdapterSlice<TronChainAdapterActi
 
     const parsed = getTronTransactionResult(result);
     return parsed ? { ...parsed, fromAddress } : null;
-  },
-
-  estimateTronGas: async params => {
-    const isTRC20 = !!params.data;
-
-    return {
-      gasLimit: '0',
-      gasPrice: '0',
-      totalFee: '0',
-      bandwidth: isTRC20 ? '345' : '265',
-      energy: isTRC20 ? '31000' : '0',
-    };
   },
 
   getTronBalance: async (address, chainId) => {
@@ -237,15 +196,6 @@ export const createTronChainAdapterSlice: ChainAdapterSlice<TronChainAdapterActi
 
     return balances;
   },
-
-  getTronBlockNumber: async chainId => {
-    const block = await get().getTronProvider(chainId).trx.getCurrentBlock();
-    return block.block_header.raw_data.number;
-  },
-
-  toSun: trx => TronWeb.toSun(Number(trx)).toString(),
-
-  fromSun: sun => TronWeb.fromSun(Number(sun)).toString(),
 
   isValidTronAddress: address => TronWeb.isAddress(address),
 });

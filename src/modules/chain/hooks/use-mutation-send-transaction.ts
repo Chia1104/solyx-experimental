@@ -3,10 +3,8 @@ import { useMutation } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 
 import { useLockRequest } from '@/modules/app/hooks/use-lock-request';
-import {
-  executeSendTransaction,
-  resolveTransactionPrivateKey,
-} from '@/modules/chain/services/send-transaction';
+import { resolveTransactionPrivateKey } from '@/modules/chain/services/resolve-transaction-private-key';
+import { executeSendTransaction } from '@/modules/chain/services/send-transaction';
 import type { SendTransactionVariables } from '@/modules/chain/services/send-transaction';
 import { useChainAdapterStore } from '@/modules/chain/stores/chain-adapter';
 

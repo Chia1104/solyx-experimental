@@ -6,7 +6,6 @@ import { TronWeb } from 'tronweb';
 
 import type { UnsignedTransaction } from '@roswell/react-native-gdk';
 
-import { SupportedNetwork } from '@/modules/chain/enums/supported-chain.enum';
 import { useChainAdapterStore } from '@/modules/chain/stores/chain-adapter';
 import type { ChainAdapter, ChainConfig } from '@/modules/chain/stores/chain-adapter/types';
 import { ChainType } from '@/modules/chain/stores/chain-adapter/types';
@@ -190,47 +189,6 @@ const insertPendingLiquidTransaction = async ({
     input: '',
     functionName: ActionKey.Sent,
     explorerUrl: '',
-  });
-};
-
-export interface ResolveTransactionPrivateKeyParams {
-  chainType: ChainType;
-  currentChainId: number;
-  reason: string;
-  requestLiquidUnlock: (options: {
-    chainId?: number;
-    isDismissible?: boolean;
-    reason?: string;
-  }) => Promise<boolean>;
-  requestPrivateKey: (options: {
-    isDismissible?: boolean;
-    network?: SupportedNetwork;
-    reason?: string;
-  }) => Promise<string>;
-}
-
-export const resolveTransactionPrivateKey = async ({
-  chainType,
-  currentChainId,
-  reason,
-  requestLiquidUnlock,
-  requestPrivateKey,
-}: ResolveTransactionPrivateKeyParams) => {
-  if (chainType === ChainType.LIQUID) {
-    await requestLiquidUnlock({
-      chainId: currentChainId,
-      isDismissible: true,
-      reason,
-    });
-    return '';
-  }
-
-  const network = chainType === ChainType.TRON ? SupportedNetwork.Tron : SupportedNetwork.Evm;
-
-  return requestPrivateKey({
-    isDismissible: true,
-    network,
-    reason,
   });
 };
 

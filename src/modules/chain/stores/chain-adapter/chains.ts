@@ -12,18 +12,6 @@ export const EVM_DERIVATION_PATH = "m/44'/60'/0'/0";
 export const TRON_DERIVATION_PATH = "m/44'/195'/0'/0";
 export const LIQUID_DERIVATION_PATH = '';
 
-export const JSON_RPC_METHODS = {
-  PERSONAL_SIGN: 'personal_sign',
-  ETH_SIGN: 'eth_sign',
-  ETH_SIGN_TYPED_DATA: 'eth_signTypedData',
-  ETH_SIGN_TYPED_DATA_V3: 'eth_signTypedData_v3',
-  ETH_SIGN_TYPED_DATA_V4: 'eth_signTypedData_v4',
-  TRON_SIGN_TRANSACTION: 'tron_signTransaction',
-  TRON_SIGN_MESSAGE: 'tron_signMessage',
-  LIQUID_SIGN_TRANSACTION: 'liquid_signTransaction',
-  LIQUID_SIGN_MESSAGE: 'liquid_signMessage',
-} as const;
-
 export const EIP155_CHAINS = {
   'eip155:1': {
     chainType: ChainType.EVM,

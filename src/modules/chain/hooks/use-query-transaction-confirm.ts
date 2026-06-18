@@ -9,10 +9,10 @@ import type { UnsignedTransaction } from '@roswell/react-native-gdk';
 import { useChainAdapterStore } from '@/modules/chain/stores/chain-adapter';
 import type {
   ChainConfig,
-  GasEstimate,
+  EvmGasEstimate,
+  EvmTransactionParams,
   LiquidChainAdapterActions,
 } from '@/modules/chain/stores/chain-adapter/types';
-import type { TransactionParams } from '@/modules/chain/stores/chain-adapter/types';
 import type {
   TransactionChainInfo,
   TransactionConfirmParams,
@@ -36,7 +36,7 @@ export interface LiquidPreparedTransaction {
 }
 
 interface EvmTransactionFeeDeps {
-  estimateEvmGas: (params: TransactionParams) => Promise<GasEstimate>;
+  estimateEvmGas: (params: EvmTransactionParams) => Promise<EvmGasEstimate>;
 }
 
 export interface QueryEvmTransactionFeeRequest extends EvmTransactionFeeDeps {
