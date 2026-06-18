@@ -11,6 +11,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Uniwind, useCSSVariable } from 'uniwind';
 
 import { AndroidBlurTargetView, BlurTargetProvider } from '@/components/ui/animated-blur-view';
+import { useOnlineManager } from '@/hooks/use-online-manager';
 import { persistOptions, queryClient } from '@/libs/request/query-client';
 import { LIQUID_CHAINS } from '@/modules/chain/stores/chain-adapter/chains';
 import { useUserStore } from '@/modules/user/stores/user';
@@ -27,6 +28,7 @@ const getChainTheme = (chainId: number) =>
 
 export const RootProvider = ({ children }: { children: React.ReactNode }) => {
   usePreventScreenCapture();
+  useOnlineManager();
   const currentChainId = useUserStore(state => state.wallet.currentChainId);
   const theme = useMemo(() => getChainTheme(currentChainId), [currentChainId]);
   const systemBackgroundColor =
